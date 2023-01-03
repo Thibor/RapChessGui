@@ -91,9 +91,9 @@ namespace RapChessGui
 		public static void TestStop()
 		{
 			if (testEngine.protocol == CProtocol.uci)
-				testProcess.WriteLine("stop");
+				testProcess.WriteLines("stop");
 			else
-				testProcess.WriteLine("?");
+				testProcess.WriteLines("?");
 		}
 
 		public static void TestRestart()
@@ -104,22 +104,22 @@ namespace RapChessGui
 
 		public static void TestUci(string command)
 		{
-			testProcess.WriteLine("uci");
-			testProcess.WriteLine("ucinewgame");
-			testProcess.WriteLine("isready");
-			testProcess.WriteLine("position startpos");
-			testProcess.WriteLine(command);
+			testProcess.WriteLines("uci",true);
+			testProcess.WriteLines("ucinewgame",true);
+			testProcess.WriteLines("isready",true);
+			testProcess.WriteLines("position startpos",true);
+			testProcess.WriteLines(command,true);
 		}
 
 		void TestXb(string command)
 		{
-			testProcess.WriteLine("new");
-			testProcess.WriteLine("post");
-			testProcess.WriteLine("force");
-			testProcess.WriteLine("g2g4");
-			testProcess.WriteLine("black");
-			testProcess.WriteLine(command);
-			testProcess.WriteLine("go");
+			testProcess.WriteLines("new",true);
+			testProcess.WriteLines("post",true);
+			testProcess.WriteLines("force",true);
+			testProcess.WriteLines("g2g4",true);
+			testProcess.WriteLines("black",true);
+			testProcess.WriteLines(command,true);
+			testProcess.WriteLines("go",true);
 		}
 
 		void ShowProtocol()
@@ -180,12 +180,12 @@ namespace RapChessGui
 				case 1:
 					tick = 40;
 					WriteLine("start test protocol");
-					testProcess.WriteLine("uci");
+					testProcess.WriteLines("uci",true);
 					break;
 				case 2:
 					ShowProtocol();
 					if (testEngine.protocol == CProtocol.winboard)
-						testProcess.WriteLine("xboard");
+						testProcess.WriteLines("xboard",true);
 					testEngine.modeTime = false;
 					testResult = true;
 					WriteLine("start test time 1");

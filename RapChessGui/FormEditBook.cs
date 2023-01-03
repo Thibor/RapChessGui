@@ -123,7 +123,7 @@ namespace RapChessGui
 		{
 			cbBookreaderList.Items.Clear();
 			cbBookreaderList.Sorted = true;
-			foreach (string book in CData.bookReader)
+			foreach (string book in CData.fileBookReader)
 				cbBookreaderList.Items.Add(book);
 			cbBookreaderList.Sorted = false;
 			cbBookreaderList.Items.Insert(0, Global.none);
@@ -186,6 +186,11 @@ namespace RapChessGui
 				formLogBook.Focus();
 			else
 				formLogBook.Show(this);
+		}
+
+		private void FormEditBook_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			CBookList.iniFile.Save();
 		}
 	}
 }

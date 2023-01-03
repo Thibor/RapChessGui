@@ -173,6 +173,11 @@ namespace RapChessGui
 			iniFile.Write("position>x", x);
 			iniFile.Write("position>y", y);
 			SplitSaveToIni();
+			iniFile.Save();
+			CBookList.iniFile.Save();
+			CEngineList.iniFile.Save();
+			CPlayerList.iniFile.Save();
+			CReaderList.iniFile.Save();
 		}
 
 		void SplitSaveToIni(SplitContainer sc)

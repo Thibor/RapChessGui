@@ -269,5 +269,9 @@ namespace RapChessGui
 			ClickSave();
 		}
 
+		private void FormEditPlayer_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			CPlayerList.iniFile.Save();
+		}
 	}
 }

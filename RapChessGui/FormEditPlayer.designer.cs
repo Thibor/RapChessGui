@@ -361,6 +361,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Players";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormEditPlayer_FormClosing);
 			this.Shown += new System.EventHandler(this.FormPlayer_Shown);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();

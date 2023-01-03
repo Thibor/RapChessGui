@@ -33,7 +33,7 @@ namespace RapChessGui
 			{
 				reset = false;
 				foreach (CReader r in this)
-					foreach (string fr in CData.bookReader)
+					foreach (string fr in CData.fileBookReader)
 					{
 						string ld = r.dir.ToLower();
 						string lf = fr.ToLower();
@@ -55,6 +55,7 @@ namespace RapChessGui
 			iniFile.Clear();
 			foreach (CReader db in this)
 				iniFile.Write(db.dir, db.bookReader);
+			iniFile.Save();
 		}
 
 	}

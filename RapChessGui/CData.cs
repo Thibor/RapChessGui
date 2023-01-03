@@ -67,7 +67,7 @@ namespace RapChessGui
 		public static string eco = String.Empty;
 		public static CGameState gameState = CGameState.normal;
 		public static CGameMode gameMode = CGameMode.game;
-		public static List<string> bookReader = new List<string>();
+		public static List<string> fileBookReader = new List<string>();
 		public static List<string> fileEngine = new List<string>();
 		public static List<string> fileEngineAuto = new List<string>();
 		public static void Clear()
@@ -144,12 +144,12 @@ namespace RapChessGui
 
 		public static void UpdateBookReader()
 		{
-			bookReader.Clear();
+			fileBookReader.Clear();
 			string[] arrBooks = Directory.GetFiles("Books", "*.exe");
 			for (int n = 0; n < arrBooks.Length; n++)
 			{
 				string fn = Path.GetFileName(arrBooks[n]);
-				bookReader.Add(fn);
+				fileBookReader.Add(fn);
 			}
 		}
 

@@ -268,11 +268,11 @@
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Name";
 			// 
-			// tbReaderName
+			// tbBookName
 			// 
 			this.tbBookName.Dock = System.Windows.Forms.DockStyle.Top;
 			this.tbBookName.Location = new System.Drawing.Point(3, 16);
-			this.tbBookName.Name = "tbReaderName";
+			this.tbBookName.Name = "tbBookName";
 			this.tbBookName.Size = new System.Drawing.Size(305, 20);
 			this.tbBookName.TabIndex = 0;
 			// 
@@ -317,6 +317,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Books";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormEditBook_FormClosing);
 			this.Shown += new System.EventHandler(this.FormBook_Shown);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();

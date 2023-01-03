@@ -354,6 +354,7 @@ namespace RapChessGui
 				else
 					p.SaveToIni();
 			}
+			iniFile.Save();
 		}
 
 		public void SaveToIni(CBook book)

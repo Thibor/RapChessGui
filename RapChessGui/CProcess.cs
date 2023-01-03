@@ -22,6 +22,16 @@ namespace RapChessGui
 			return process.Id;
 		}
 
+		private void OnErrorReceived(object sender, DataReceivedEventArgs e)
+		{
+			try
+			{
+				if (!String.IsNullOrEmpty(e.Data))
+					FormChess.log.Add(e.Data);
+			}
+			catch { }
+		}
+
 		public int SetProgram(string path, string param = "")
 		{
 			Terminate();
@@ -32,15 +42,18 @@ namespace RapChessGui
 				process.StartInfo.Arguments = param;
 				process.StartInfo.WorkingDirectory = Path.GetDirectoryName(path);
 				process.StartInfo.CreateNoWindow = true;
+				process.EnableRaisingEvents = true;
 				process.StartInfo.RedirectStandardInput = true;
 				process.StartInfo.RedirectStandardOutput = true;
 				process.StartInfo.RedirectStandardError = true;
 				process.StartInfo.UseShellExecute = false;
 				process.OutputDataReceived += dataR;
+				process.ErrorDataReceived += OnErrorReceived;
 				process.Start();
 				process.BeginOutputReadLine();
+				process.BeginErrorReadLine();
 				process.PriorityClass = FormOptions.priority;
-				//process.StandardInput.AutoFlush = true;
+				process.StandardInput.AutoFlush = true;
 				return process.Id;
 			}
 			return 0;
@@ -53,12 +66,12 @@ namespace RapChessGui
 
 		public void Stop()
 		{
-			WriteLine("stop");
+			WriteLines("stop");
 		}
 
 		public void Quit()
 		{
-			WriteLine("quit");
+			WriteLines("quit");
 		}
 
 		public void Close()
@@ -85,27 +98,12 @@ namespace RapChessGui
 			catch { }
 		}
 
-
-		public async void WriteLineAsync(string c)
+		public void WriteLines(string c,bool sleep=false)
 		{
 			if (process.StartInfo.FileName != String.Empty)
 			{
-				await process.StandardInput.WriteLineAsync(c);
-			}
-		}
-
-		public void WriteLine(string c)
-		{
-			if (process.StartInfo.FileName != String.Empty)
-			{
-				//process.StandardInput.WriteLine(c);
-				//process.StandardInput.WriteLineAsync();
-				//await process.StandardInput.WriteLineAsync(c);
-				//process.StandardInput.FlushAsync();
-				//process.StandardInput.
 				process.StandardInput.WriteLine(c);
-				//process.StandardInput.WriteLine();
-				//process.StandardInput.Flush();
+				if(sleep)
 				System.Threading.Thread.Sleep(8);
 			}
 		}

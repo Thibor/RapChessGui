@@ -366,6 +366,7 @@ namespace RapChessGui
 			iniFile.DeleteKey("engine");
 			foreach (CEngine e in this)
 				e.SaveToIni();
+			iniFile.Save();
 		}
 
 		public void SortElo()

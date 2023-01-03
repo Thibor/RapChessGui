@@ -190,7 +190,7 @@ namespace RapChessGui
 			locked = true;
 			richTextBox1.Clear();
 			foreach (string c in rtbCommand.Lines)
-				process.WriteLine(c);
+				process.WriteLines(c);
 		}
 
 		private void butClear_Click(object sender, EventArgs e)

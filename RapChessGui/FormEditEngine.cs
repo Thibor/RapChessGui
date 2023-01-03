@@ -120,7 +120,7 @@ namespace RapChessGui
 		{
 			if (processOptions.SetProgram($@"{AppDomain.CurrentDomain.BaseDirectory}Engines\{engine.file}", engine.parameters) > 0)
 			{
-				processOptions.WriteLine("uci");
+				processOptions.WriteLines("uci",true);
 				Task.Run(() =>
 				{
 					Thread.Sleep(500);
@@ -383,6 +383,7 @@ namespace RapChessGui
 		{
 			if (processOptions != null)
 				processOptions.Terminate();
+			CEngineList.iniFile.Save();
 		}
 
 		private void bRename_Click(object sender, EventArgs e)
