@@ -8,6 +8,7 @@ namespace RapChessGui
 
 	public class CGamer
 	{
+		bool bookOptionSend = false;
 		/// <summary>
 		/// Ceation of the protocol header has started.
 		/// </summary>
@@ -15,7 +16,7 @@ namespace RapChessGui
 		/// <summary>
 		/// Creation of the protocol header is complete.
 		/// </summary>
-		public bool isPrepareFinished = false;
+		public bool isPreparedUci = false;
 		/// <summary>
 		/// The position of the chess pieces has been sent to the winboard chess engine.
 		/// </summary>
@@ -39,7 +40,7 @@ namespace RapChessGui
 		/// <summary>
 		/// Phase of prepare uci engine.
 		/// </summary>
-		public int uciPhase = 0;
+		public int phaseUci = 0;
 		/// <summary>
 		/// Count moves maked by book.
 		/// </summary>
@@ -117,16 +118,28 @@ namespace RapChessGui
 			return msg;
 		}
 
-		public void UciNextPhase()
+		void OptionsToEngine()
 		{
-			switch (++uciPhase)
+			foreach (string op in engine.options)
+				SendMessageToEngine($"setoption {op}");
+		}
+
+		void OptionsToBook()
+		{
+			foreach (string op in book.options)
+				SendMessageToBook($"book setoption {op}");
+			bookOptionSend = true;
+		}
+
+		public void NextPhaseUci()
+		{
+			switch (++phaseUci)
 			{
 				case 1:
 					SendMessageToEngine("uci");
 					break;
 				case 2:
-					foreach (string op in engine.options)
-						SendMessageToEngine($"setoption {op}");
+					OptionsToEngine();
 					SendMessageToEngine("isready");
 					break;
 				case 3:
@@ -134,7 +147,7 @@ namespace RapChessGui
 					SendMessageToEngine("isready");
 					break;
 				case 4:
-					isPrepareFinished = true;
+					isPreparedUci = true;
 					break;
 			}
 		}
@@ -177,10 +190,11 @@ namespace RapChessGui
 			isBookFail = false;
 			isEngRunning = false;
 			isPrepareStarted = false;
-			isPrepareFinished = false;
+			isPreparedUci = false;
 			isPositionXb = false;
+			bookOptionSend = false;
 			hash = 0;
-			uciPhase = 0;
+			phaseUci = 0;
 			infMs = 0;
 			countMovesBook = 0;
 			countMovesEngine = 0;
@@ -288,6 +302,8 @@ namespace RapChessGui
 			if (player.IsComputer())
 				if ((book != null) && (!isBookFail))
 				{
+					if (!bookOptionSend)
+						OptionsToBook();
 					if (!isBookStarted)
 					{
 						SendMessageToBook(CHistory.GetPosition());
@@ -298,7 +314,7 @@ namespace RapChessGui
 				else if (engine != null)
 					if (!isPrepareStarted)
 						EngPrepare();
-					else if (isPrepareFinished && !isEngRunning)
+					else if (isPreparedUci && !isEngRunning)
 						EngMakeMove();
 		}
 
@@ -324,11 +340,11 @@ namespace RapChessGui
 			isPrepareStarted = true;
 			lastMove = String.Empty;
 			if (engine.protocol == CProtocol.uci)
-				UciNextPhase();
+				NextPhaseUci();
 			else
 			{
 				SendMessageToEngine("xboard");
-				isPrepareFinished = true;
+				isPreparedUci = true;
 				XbGo();
 			}
 		}
@@ -579,10 +595,10 @@ namespace RapChessGui
 
 		public void SetPlayer(CPlayer p)
 		{
-			SetPlayer(p,p.Book);
+			SetPlayer(p, p.Book);
 		}
 
-		public void SetPlayer(CPlayer p,string b)
+		public void SetPlayer(CPlayer p, string b)
 		{
 			player = p;
 			book = FormChess.bookList.GetBookByName(b);

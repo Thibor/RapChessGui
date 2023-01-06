@@ -231,7 +231,7 @@ namespace RapChessGui
 
 		#region main
 
-	void ShowFormBook(string bookName = "")
+		void ShowFormBook(string bookName = "")
 		{
 			FormEditBook.bookName = bookName;
 			formBook.ShowDialog(this);
@@ -677,7 +677,7 @@ namespace RapChessGui
 			{
 				case "uciok":
 				case "readyok":
-					g.UciNextPhase();
+					g.NextPhaseUci();
 					break;
 				case "enginemove":
 					g.isBookFail = true;
@@ -820,12 +820,12 @@ namespace RapChessGui
 					string s = msg.ToLower();
 					if (s.Contains("move"))
 					{
-						if (GetMoveXb(uci.Last(), out umo))
+						if (GetMoveXb(uci.GetValue("move"), out umo))
 							MakeMove(umo);
 					}
 					else if (s.Contains("resign") || s.Contains("illegal"))
 						SetGameState(CGameState.resignation, g);
-					else if (g.isPrepareFinished && Char.IsDigit(uci.tokens[0][0]) && (uci.tokens.Length > 4))
+					else if (g.isPreparedUci && Char.IsDigit(uci.tokens[0][0]) && (uci.tokens.Length > 4))
 					{
 						try
 						{
@@ -3078,7 +3078,7 @@ namespace RapChessGui
 		private void nudMove_ValueChanged(object sender, EventArgs e)
 		{
 			int wt = chess.WhiteTurn ? 0 : 1;
-			chess.halfMove = (((int)nudMove.Value-1) << 1) + wt;
+			chess.halfMove = (((int)nudMove.Value - 1) << 1) + wt;
 			EditGetFen();
 		}
 

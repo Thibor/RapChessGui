@@ -43,7 +43,7 @@ namespace RapChessGui
 			modeNodes = CEngineList.iniFile.ReadBool($"engine>{name}>modeTournament", modeNodes);
 			file = CEngineList.iniFile.Read($"engine>{name}>file", Global.none);
 			protocol = CData.StrToProtocol(CEngineList.iniFile.Read($"engine>{name}>protocol", "Uci"));
-			parameters = CEngineList.iniFile.Read($"engine>{name}>parameters", "");
+			parameters = CEngineList.iniFile.Read($"engine>{name}>parameters");
 			options = CEngineList.iniFile.ReadList($"engine>{name}>options");
 			elo = CEngineList.iniFile.Read($"engine>{name}>elo", elo);
 			hisElo.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>history"));
@@ -133,7 +133,7 @@ namespace RapChessGui
 			{
 				uci.SetMsg(o);
 				if (o.IndexOf($"name {name} value ") == 0)
-					return uci.Last();
+					return uci.GetValue("value");
 			}
 			return def;
 		}

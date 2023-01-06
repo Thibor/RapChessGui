@@ -1,9 +1,10 @@
 ﻿
+using NSUci;
+using RapIni;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using RapIni;
 
 namespace RapChessGui
 {
@@ -15,6 +16,7 @@ namespace RapChessGui
 		public string name = String.Empty;
 		public string file = String.Empty;
 		public string parameters = String.Empty;
+		public List<string> options = new List<string>();
 		public CHisElo hisElo = new CHisElo();
 
 		public CBook()
@@ -33,6 +35,18 @@ namespace RapChessGui
 			return File.Exists($@"Books\{file}");
 		}
 
+		public string GetOption(string name, string def = "")
+		{
+			CUci uci = new CUci();
+			foreach (string o in options)
+			{
+				uci.SetMsg(o);
+				if (o.IndexOf($"name {name} value ") == 0)
+					return uci.GetValue("value");
+			}
+			return def;
+		}
+
 		public bool IsPlayable()
 		{
 			return FileExists();
@@ -44,9 +58,12 @@ namespace RapChessGui
 			return File.Exists($@"Books\{tokens[0]}");
 		}
 
-		public bool ParametersExists(string p)
+		public bool ContainBP(string book)
 		{
-			return parameters.IndexOf(p) == 0;
+			foreach (string o in options)
+				if (o.Contains(book))
+					return true;
+			return parameters.Contains(book);
 		}
 
 		public string GetFileName()
@@ -67,6 +84,7 @@ namespace RapChessGui
 		{
 			file = CBookList.iniFile.Read($"book>{name}>exe");
 			parameters = CBookList.iniFile.Read($"book>{name}>parameters");
+			options = CBookList.iniFile.ReadList($"book>{name}>options");
 			elo = CBookList.iniFile.Read($"book>{name}>elo", elo);
 			hisElo.LoadFromStr(CBookList.iniFile.Read($"book>{name}>history"));
 			tournament = CBookList.iniFile.ReadInt($"book>{name}>tournament", tournament);
@@ -77,6 +95,7 @@ namespace RapChessGui
 			name = GetName();
 			CBookList.iniFile.Write($"book>{name}>exe", file);
 			CBookList.iniFile.Write($"book>{name}>parameters", parameters);
+			CBookList.iniFile.Write($"book>{name}>options", options);
 			CBookList.iniFile.Write($"book>{name}>elo", elo);
 			CBookList.iniFile.Write($"book>{name}>history", hisElo.SaveToStr());
 			CBookList.iniFile.Write($"book>{name}>tournament", tournament);
@@ -95,23 +114,30 @@ namespace RapChessGui
 			SaveToIni();
 		}
 
+		string GetBP()
+		{
+			foreach (string o in options)
+				if (o.IndexOf("name Book file value ") == 0)
+					return o.Substring(21);
+						return string.Empty;
+		}
+
 		public string CreateName()
 		{
 			string n = CData.MakeShort(Path.GetFileNameWithoutExtension(file));
-			string[] tokens = parameters.Split(' ');
-			if (tokens.Length > 0)
+			string bp = GetBP();
+			if (bp.Length > 0)
 			{
-				string p = tokens[0];
 				TextInfo ti = new CultureInfo("en-US", false).TextInfo;
-				p = Path.GetFileNameWithoutExtension(p);
-				return $"{n} {ti.ToTitleCase(p)}";
+				bp = Path.GetFileNameWithoutExtension(bp);
+				return $"{n} {ti.ToTitleCase(bp)}";
 			}
 			return n;
 		}
 
 		public string GetName()
 		{
-			if (name == "")
+			if (name == string.Empty)
 				return CreateName();
 			return name;
 		}
@@ -222,10 +248,10 @@ namespace RapChessGui
 			return b;
 		}
 
-		bool ParametersExists(string p)
+		bool ContainBP(string bp)
 		{
-			foreach (CBook book in this)
-				if (book.ParametersExists(p))
+			foreach (CBook b in this)
+				if (b.ContainBP(bp))
 					return true;
 			return false;
 		}
@@ -259,11 +285,12 @@ namespace RapChessGui
 
 		void TryAdd(string bf, string bp)
 		{
-			if ((bf != String.Empty) && !ParametersExists(bp))
+			if ((bf != String.Empty) && !ContainBP(bp))
 			{
+				string option = $@"name Book file value {bp}";
 				CBook b = new CBook();
 				b.file = bf;
-				b.parameters = bp;
+				b.options.Add(option);
 				b.name = b.GetName();
 				DeleteBook(b.name);
 				Add(b);

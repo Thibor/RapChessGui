@@ -66,12 +66,12 @@ namespace RapChessGui
 
 		public void Stop()
 		{
-			WriteLines("stop");
+			WriteLine("stop");
 		}
 
 		public void Quit()
 		{
-			WriteLines("quit");
+			WriteLine("quit");
 		}
 
 		public void Close()
@@ -98,13 +98,13 @@ namespace RapChessGui
 			catch { }
 		}
 
-		public void WriteLines(string c,bool sleep=false)
+		public void WriteLine(string c, bool sleep = false)
 		{
 			if (process.StartInfo.FileName != String.Empty)
 			{
 				process.StandardInput.WriteLine(c);
-				if(sleep)
-				System.Threading.Thread.Sleep(8);
+				if (sleep)
+					System.Threading.Thread.Sleep(8);
 			}
 		}
 

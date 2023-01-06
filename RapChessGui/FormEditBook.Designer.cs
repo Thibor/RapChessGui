@@ -28,10 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.bLog = new System.Windows.Forms.Button();
-			this.bConsole = new System.Windows.Forms.Button();
+			this.panOptions = new System.Windows.Forms.Panel();
 			this.bDelete = new System.Windows.Forms.Button();
 			this.bCreate = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
@@ -48,6 +46,10 @@
 			this.tbBookName = new System.Windows.Forms.TextBox();
 			this.gbBooks = new System.Windows.Forms.GroupBox();
 			this.listBox1 = new System.Windows.Forms.ListBox();
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.consoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.showLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.panel1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudTournament)).BeginInit();
@@ -57,16 +59,12 @@
 			this.groupBox4.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.gbBooks.SuspendLayout();
+			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// openFileDialog1
-			// 
-			this.openFileDialog1.FileName = "openFileDialog1";
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.Add(this.bLog);
-			this.panel1.Controls.Add(this.bConsole);
+			this.panel1.Controls.Add(this.panOptions);
 			this.panel1.Controls.Add(this.bDelete);
 			this.panel1.Controls.Add(this.bCreate);
 			this.panel1.Controls.Add(this.button1);
@@ -77,34 +75,21 @@
 			this.panel1.Controls.Add(this.groupBox4);
 			this.panel1.Controls.Add(this.groupBox1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panel1.Location = new System.Drawing.Point(489, 0);
+			this.panel1.Location = new System.Drawing.Point(489, 24);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(311, 591);
+			this.panel1.Size = new System.Drawing.Size(311, 567);
 			this.panel1.TabIndex = 0;
 			// 
-			// bLog
+			// panOptions
 			// 
-			this.bLog.AutoSize = true;
-			this.bLog.Dock = System.Windows.Forms.DockStyle.Top;
-			this.bLog.Location = new System.Drawing.Point(0, 316);
-			this.bLog.Name = "bLog";
-			this.bLog.Size = new System.Drawing.Size(311, 24);
-			this.bLog.TabIndex = 37;
-			this.bLog.Text = "Log";
-			this.bLog.UseVisualStyleBackColor = true;
-			this.bLog.Click += new System.EventHandler(this.bLog_Click);
-			// 
-			// bConsole
-			// 
-			this.bConsole.AutoSize = true;
-			this.bConsole.Dock = System.Windows.Forms.DockStyle.Top;
-			this.bConsole.Location = new System.Drawing.Point(0, 292);
-			this.bConsole.Name = "bConsole";
-			this.bConsole.Size = new System.Drawing.Size(311, 24);
-			this.bConsole.TabIndex = 36;
-			this.bConsole.Text = "Console";
-			this.bConsole.UseVisualStyleBackColor = true;
-			this.bConsole.Click += new System.EventHandler(this.bConsole_Click);
+			this.panOptions.AutoScroll = true;
+			this.panOptions.AutoSize = true;
+			this.panOptions.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panOptions.Location = new System.Drawing.Point(0, 292);
+			this.panOptions.Name = "panOptions";
+			this.panOptions.Size = new System.Drawing.Size(311, 275);
+			this.panOptions.TabIndex = 38;
 			// 
 			// bDelete
 			// 
@@ -281,9 +266,9 @@
 			this.gbBooks.AutoSize = true;
 			this.gbBooks.Controls.Add(this.listBox1);
 			this.gbBooks.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gbBooks.Location = new System.Drawing.Point(0, 0);
+			this.gbBooks.Location = new System.Drawing.Point(0, 24);
 			this.gbBooks.Name = "gbBooks";
-			this.gbBooks.Size = new System.Drawing.Size(489, 591);
+			this.gbBooks.Size = new System.Drawing.Size(489, 567);
 			this.gbBooks.TabIndex = 5;
 			this.gbBooks.TabStop = false;
 			this.gbBooks.Text = "Books List";
@@ -297,11 +282,44 @@
 			this.listBox1.FormattingEnabled = true;
 			this.listBox1.Location = new System.Drawing.Point(3, 16);
 			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(483, 572);
+			this.listBox1.Size = new System.Drawing.Size(483, 548);
 			this.listBox1.Sorted = true;
 			this.listBox1.TabIndex = 1;
 			this.listBox1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBox1_DrawItem);
 			this.listBox1.SelectedValueChanged += new System.EventHandler(this.ListBox1_SelectedValueChanged);
+			// 
+			// menuStrip1
+			// 
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.consoleToolStripMenuItem,
+            this.actionToolStripMenuItem});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+			this.menuStrip1.TabIndex = 6;
+			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// consoleToolStripMenuItem
+			// 
+			this.consoleToolStripMenuItem.Name = "consoleToolStripMenuItem";
+			this.consoleToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+			this.consoleToolStripMenuItem.Text = "Console";
+			this.consoleToolStripMenuItem.Click += new System.EventHandler(this.consoleToolStripMenuItem_Click);
+			// 
+			// actionToolStripMenuItem
+			// 
+			this.actionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showLogToolStripMenuItem});
+			this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
+			this.actionToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+			this.actionToolStripMenuItem.Text = "Action";
+			// 
+			// showLogToolStripMenuItem
+			// 
+			this.showLogToolStripMenuItem.Name = "showLogToolStripMenuItem";
+			this.showLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.showLogToolStripMenuItem.Text = "Show log";
+			this.showLogToolStripMenuItem.Click += new System.EventHandler(this.showLogToolStripMenuItem_Click);
 			// 
 			// FormEditBook
 			// 
@@ -311,7 +329,9 @@
 			this.ClientSize = new System.Drawing.Size(800, 591);
 			this.Controls.Add(this.gbBooks);
 			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.menuStrip1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.MainMenuStrip = this.menuStrip1;
 			this.MinimizeBox = false;
 			this.Name = "FormEditBook";
 			this.ShowInTaskbar = false;
@@ -331,13 +351,14 @@
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.gbBooks.ResumeLayout(false);
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
 		}
 
 		#endregion
-		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.TextBox tbBookName;
@@ -355,7 +376,10 @@
 		private System.Windows.Forms.GroupBox groupBox5;
 		private System.Windows.Forms.NumericUpDown nudTournament;
 		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Button bConsole;
-		private System.Windows.Forms.Button bLog;
+		private System.Windows.Forms.Panel panOptions;
+		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem consoleToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem showLogToolStripMenuItem;
 	}
 }

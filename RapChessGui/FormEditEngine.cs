@@ -56,15 +56,17 @@ namespace RapChessGui
 			CData.reset = true;
 		}
 
-		public void Uciok()
+		public void OptionFinish()
 		{
 			int y = 8;
 			panOptions.Controls.Clear();
 			optionList.Sort();
+			Label lab;
 			for (int n = 0; n < optionList.list.Count; n++)
 			{
-				string oName = $"optionN{n}";
-				string lName = $"optionN{n}";
+				string name = $"optionN{n}";
+				string oName = name;
+				string lName = name;
 				COption o = optionList.list[n];
 				switch (o.type)
 				{
@@ -77,20 +79,39 @@ namespace RapChessGui
 						nud.Location = new Point(3, y);
 						nud.TextAlign = HorizontalAlignment.Right;
 						panOptions.Controls.Add(nud);
-						var lab = new Label();
+						lab = new Label();
 						lab.Name = lName;
 						lab.Text = o.name;
 						lab.Location = new Point(128, y);
+						lab.Size = new Size(panOptions.Width - 160, lab.Height);
 						panOptions.Controls.Add(lab);
 						y += 24;
 						break;
 					case "check":
-						var check = new CheckBox();
+						CheckBox check = new CheckBox();
 						check.Name = oName;
 						check.Text = o.name;
 						check.Checked = Convert.ToBoolean(engine.GetOption(o.name, o.def));
 						check.Location = new Point(3, y);
+						check.Size = new Size(panOptions.Width - 32, check.Height);
 						panOptions.Controls.Add(check);
+						y += 24;
+						break;
+					case "string":
+						lab = new Label();
+						lab.Name = lName;
+						lab.Text = o.name;
+						lab.TextAlign = ContentAlignment.MiddleLeft;
+						lab.Location = new Point(3, y);
+						lab.Size = new Size(panOptions.Width - 32, lab.Height);
+						panOptions.Controls.Add(lab);
+						y += 24;
+						TextBox box = new TextBox();
+						box.Name = oName;
+						box.Text = o.def;
+						box.Location = new Point(3,y);
+						box.Size = new Size(panOptions.Width-32,box.Height);
+						panOptions.Controls.Add(box);
 						y += 24;
 						break;
 				}
@@ -100,7 +121,7 @@ namespace RapChessGui
 		public static void NewMessageOptions(string msg)
 		{
 			if (msg == "uciok")
-				This.Uciok();
+				This.OptionFinish();
 			else
 				optionList.Add(msg);
 		}
@@ -120,12 +141,8 @@ namespace RapChessGui
 		{
 			if (processOptions.SetProgram($@"{AppDomain.CurrentDomain.BaseDirectory}Engines\{engine.file}", engine.parameters) > 0)
 			{
-				processOptions.WriteLines("uci",true);
-				Task.Run(() =>
-				{
-					Thread.Sleep(500);
-					processOptions.Terminate();
-				});
+				processOptions.WriteLine("uci",true);
+				processOptions.WriteLine("quit");
 			}
 		}
 
@@ -165,7 +182,7 @@ namespace RapChessGui
 		void SelectEngine()
 		{
 			optionList.list.Clear();
-			Uciok();
+			OptionFinish();
 			EngineToSetings();
 			StartTestOptions();
 		}
@@ -244,14 +261,20 @@ namespace RapChessGui
 				switch (o.type)
 				{
 					case "spin":
-						NumericUpDown nud = (c[0]) as NumericUpDown;
+						NumericUpDown nud = c[0] as NumericUpDown;
 						value = nud.Value.ToString();
 						if (o.def != value)
 							list.Add($"name {o.name} value {value}");
 						break;
 					case "check":
-						CheckBox check = (c[0]) as CheckBox;
+						CheckBox check = c[0] as CheckBox;
 						value = check.Checked ? "true" : "false";
+						if (o.def != value)
+							list.Add($"name {o.name} value {value}");
+						break;
+					case "string":
+						TextBox tb = c[1] as TextBox;
+						value = tb.Text;
 						if (o.def != value)
 							list.Add($"name {o.name} value {value}");
 						break;
@@ -415,7 +438,7 @@ namespace RapChessGui
 		{
 			engine.options.Clear();
 			engine.SaveToIni();
-			Uciok();
+			OptionFinish();
 		}
 
 		private void clearTournamentHistoryToolStripMenuItem_Click(object sender, EventArgs e)

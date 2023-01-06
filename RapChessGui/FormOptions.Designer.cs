@@ -963,7 +963,7 @@
             0,
             0,
             0});
-			this.nudTourBRange.Location = new System.Drawing.Point(6, 69);
+			this.nudTourBRange.Location = new System.Drawing.Point(6, 71);
 			this.nudTourBRange.Maximum = new decimal(new int[] {
             3000,
             0,
@@ -1350,7 +1350,7 @@
             0,
             0,
             0});
-			this.nudTourPRange.Location = new System.Drawing.Point(6, 69);
+			this.nudTourPRange.Location = new System.Drawing.Point(6, 71);
 			this.nudTourPRange.Maximum = new decimal(new int[] {
             3000,
             0,

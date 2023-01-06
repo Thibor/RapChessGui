@@ -1,21 +1,125 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RapChessGui
 {
 	public partial class FormEditBook : Form
 	{
+		public static FormEditBook This;
 		readonly FormLogBook formLogBook = new FormLogBook();
 		public static string bookName = String.Empty;
 		public static CBook book = null;
+		public static CProcess processOptions = null;
+		readonly static COptionList optionList = new COptionList();
 
 		public FormEditBook()
 		{
+			This = this;
 			InitializeComponent();
+			processOptions = new CProcess(OnDataReceivedOptions);
 			FormOptions.SetFontSize(this);
+		}
+
+
+		delegate void DeleMessageOptions(string message);
+
+		readonly static DeleMessageOptions deleMessageOptions = new DeleMessageOptions(NewMessageOptions);
+
+		private void OnDataReceivedOptions(object sender, DataReceivedEventArgs e)
+		{
+			try
+			{
+				if (!String.IsNullOrEmpty(e.Data))
+				{
+					Invoke(deleMessageOptions, new object[] { e.Data.Trim() });
+				}
+			}
+			catch { }
+		}
+
+		public static void NewMessageOptions(string msg)
+		{
+			if (msg == "optionok")
+				This.OptionFinish();
+			else
+				optionList.Add(msg);
+		}
+
+		void StartTestOptions()
+		{
+			if (processOptions.SetProgram($@"{AppDomain.CurrentDomain.BaseDirectory}Books\{book.file}", book.parameters) > 0)
+			{
+				processOptions.WriteLine("book getoption", true);
+				processOptions.WriteLine("quit");
+			}
+		}
+
+		public void OptionFinish()
+		{
+			int y = 8;
+			panOptions.Controls.Clear();
+			optionList.Sort();
+			Label lab;
+			for (int n = 0; n < optionList.list.Count; n++)
+			{
+				string name = $"optionN{n}";
+				string oName = name;
+				string lName = name;
+				COption o = optionList.list[n];
+				switch (o.type)
+				{
+					case "spin":
+						var nud = new NumericUpDown();
+						nud.Name = oName;
+						nud.Minimum = Convert.ToInt32(o.min);
+						nud.Maximum = Convert.ToInt32(o.max);
+						nud.Value = Convert.ToInt32(book.GetOption(o.name, o.def));
+						nud.Location = new Point(3, y);
+						nud.TextAlign = HorizontalAlignment.Right;
+						panOptions.Controls.Add(nud);
+						lab = new Label();
+						lab.Name = lName;
+						lab.Text = o.name;
+						lab.Location = new Point(128, y);
+						lab.Size = new Size(panOptions.Width - 160, lab.Height);
+						panOptions.Controls.Add(lab);
+						y += 24;
+						break;
+					case "check":
+						CheckBox check = new CheckBox();
+						check.Name = oName;
+						check.Text = o.name;
+						check.Checked = Convert.ToBoolean(book.GetOption(o.name, o.def));
+						check.Location = new Point(3, y);
+						check.Size = new Size(panOptions.Width - 32, check.Height);
+						panOptions.Controls.Add(check);
+						y += 24;
+						break;
+					case "string":
+						lab = new Label();
+						lab.Name = lName;
+						lab.Text = o.name;
+						lab.TextAlign = ContentAlignment.MiddleLeft;
+						lab.Location = new Point(3, y);
+						lab.Size = new Size(panOptions.Width - 32, lab.Height);
+						panOptions.Controls.Add(lab);
+						y += 24;
+						TextBox box = new TextBox();
+						box.Name = oName;
+						box.Text = book.GetOption(o.name, o.def);
+						box.Location = new Point(3, y);
+						box.Size = new Size(panOptions.Width - 32, box.Height);
+						panOptions.Controls.Add(box);
+						y += 24;
+						break;
+				}
+			}
 		}
 
 		void ClickSave()
@@ -46,6 +150,14 @@ namespace RapChessGui
 
 		void SelectBook()
 		{
+			optionList.list.Clear();
+			OptionFinish();
+			BookToSetings();
+			StartTestOptions();
+		}
+
+		void BookToSetings()
+		{
 			tbBookName.Text = book.name;
 			cbBookreaderList.Text = book.file;
 			tbParameters.Text = book.parameters;
@@ -66,18 +178,55 @@ namespace RapChessGui
 			SelectBook(listBox1.SelectedItem.ToString());
 		}
 
-		void UpdateBook(CBook b)
+		void SetingsToBook(CBook b)
 		{
 			b.name = tbBookName.Text;
 			b.file = cbBookreaderList.Text;
 			b.parameters = tbParameters.Text;
 			b.elo = nudElo.Value.ToString();
 			b.tournament = (int)nudTournament.Value;
+			b.options = GetOptions();
+		}
+
+		List<string> GetOptions()
+		{
+			List<string> list = new List<string>();
+			for (int n = 0; n < optionList.list.Count; n++)
+			{
+				string oName = $"optionN{n}";
+				var c = panOptions.Controls.Find(oName, false);
+				if (c.Length == 0)
+					continue;
+				COption o = optionList.list[n];
+				string value;
+				switch (o.type)
+				{
+					case "spin":
+						NumericUpDown nud = c[0] as NumericUpDown;
+						value = nud.Value.ToString();
+						if (o.def != value)
+							list.Add($"name {o.name} value {value}");
+						break;
+					case "check":
+						CheckBox check = c[0] as CheckBox;
+						value = check.Checked ? "true" : "false";
+						if (o.def != value)
+							list.Add($"name {o.name} value {value}");
+						break;
+					case "string":
+						TextBox tb = c[1] as TextBox;
+						value = tb.Text;
+						if (o.def != value)
+							list.Add($"name {o.name} value {value}");
+						break;
+				}
+			}
+			return list;
 		}
 
 		void SaveToIni(CBook b)
 		{
-			UpdateBook(b);
+			SetingsToBook(b);
 			b.SaveToIni();
 			UpdateListBox();
 			int index = listBox1.FindString(b.name);
@@ -163,7 +312,7 @@ namespace RapChessGui
 		private void ButReaname_Click(object sender, EventArgs e)
 		{
 			CBook b = new CBook();
-			UpdateBook(b);
+			SetingsToBook(b);
 			string name = b.CreateName();
 			if (name != b.name)
 				name = FormChess.bookList.GetName(name);
@@ -171,26 +320,30 @@ namespace RapChessGui
 			ClickSave();
 		}
 
-		private void bConsole_Click(object sender, EventArgs e)
+		private void FormEditBook_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			if (processOptions != null)
+				processOptions.Terminate();
+			CBookList.iniFile.Save();
+		}
+
+		private void consoleToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			string bn = book.GetOption("Book file");
+			string arg = string.IsNullOrEmpty(bn) ? book.GetParameters() : $@"{bn} -info";
 			ProcessStartInfo psi = new ProcessStartInfo();
 			psi.FileName = book.GetFileName();
-			psi.Arguments = book.GetParameters();
+			psi.Arguments = arg;
 			psi.WorkingDirectory = Path.GetDirectoryName(psi.FileName);
 			Process.Start(psi);
 		}
 
-		private void bLog_Click(object sender, EventArgs e)
+		private void showLogToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (formLogBook.Visible)
 				formLogBook.Focus();
 			else
 				formLogBook.Show(this);
-		}
-
-		private void FormEditBook_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			CBookList.iniFile.Save();
 		}
 	}
 }
