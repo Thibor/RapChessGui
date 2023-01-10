@@ -54,9 +54,9 @@ namespace RapChessGui
 		readonly FormLogEngines formLogEngines = new FormLogEngines();
 		readonly FormLastGame formLastGame = new FormLastGame();
 		readonly FormOptions formOptions = new FormOptions();
-		readonly FormChartB formHisB = new FormChartB();
-		readonly FormChartP formHisP = new FormChartP();
-		readonly FormChartE formHisE = new FormChartE();
+		readonly FormChartB formChartB = new FormChartB();
+		readonly FormChartP formChartP = new FormChartP();
+		readonly FormChartE formChartE = new FormChartE();
 		readonly FormListB formListB = new FormListB();
 		readonly FormListE formListE = new FormListE();
 		readonly FormListP formListP = new FormListP();
@@ -1134,6 +1134,7 @@ namespace RapChessGui
 			lvTourBList.ListViewItemSorter = new ListViewComparer(1, SortOrder.Descending);
 			lvTourEList.ListViewItemSorter = new ListViewComparer(1, SortOrder.Descending);
 			lvTourPList.ListViewItemSorter = new ListViewComparer(1, SortOrder.Descending);
+			GameShow();
 			MatchShow();
 			TrainingShow();
 		}
@@ -1279,10 +1280,9 @@ namespace RapChessGui
 			int[] arrMaterial = { 0, 1, 3, 3, 5, 8, 0, 0 };
 			int material = 0;
 			for (int y = 0; y < 8; y++)
-			{
 				for (int x = 0; x < 8; x++)
 				{
-					int piece = chess.board[((y + 4) << 4) + x + 4];
+					int piece = chess.board[y *8 + x];
 					int rank = piece & 7;
 					if ((piece & CChess.colorWhite) > 0)
 					{
@@ -1295,7 +1295,6 @@ namespace RapChessGui
 						material -= arrMaterial[rank];
 					}
 				}
-			}
 			string w = "";
 			string b = "";
 			for (int n = 5; n > 0; n--)
@@ -1502,7 +1501,7 @@ namespace RapChessGui
 		{
 			if ((s < 0) || (d < 0) || (s > 63) || (d > 63))
 				return false;
-			string umo = CChess.IndexToUmo(s) + CChess.IndexToUmo(d);
+			string umo = CChess.IndexToSquare(s) + CChess.IndexToSquare(d);
 			if (chess.IsValidMove(umo, out _))
 			{
 				MakeMove(umo);
@@ -1530,12 +1529,8 @@ namespace RapChessGui
 		bool IsValid(int i)
 		{
 			foreach (int c in moves)
-			{
-				int x = i & 7;
-				int y = i >> 3;
-				int s = chess.MakeSquare(x, y);
-				if ((c & 0xff) == s) return true;
-			}
+				if ((c & 0xff) == i)
+					return true;
 			return false;
 		}
 
@@ -1543,15 +1538,9 @@ namespace RapChessGui
 		{
 			if (sou == des)
 				return true;
-			int sx = sou & 7;
-			int sy = sou >> 3;
-			int sa = chess.MakeSquare(sx, sy);
-			int dx = des & 7;
-			int dy = des >> 3;
-			int da = chess.MakeSquare(dx, dy);
-			int a = (da << 8) | sa;
+			int i = (des << 8) | sou;
 			foreach (int c in moves)
-				if ((c & 0xffff) == a)
+				if ((c & 0xffff) == i)
 					return true;
 			return false;
 		}
@@ -1561,24 +1550,17 @@ namespace RapChessGui
 			foreach (int c in moves)
 			{
 				int sou = c & 0xff;
-				int i = CChess.Con256To64(sou);
-				CBoard.arrField[i].color = Color.Yellow;
+				CBoard.arrField[sou].color = Color.Yellow;
 			}
 		}
 
 		void ShowValid(int index)
 		{
-			int max = index & 7;
-			int may = index >> 3;
-			int sa = chess.MakeSquare(max, may);
 			foreach (int c in moves)
-				if ((c & 0xff) == sa)
+				if ((c & 0xff) == index)
 				{
 					int des = (c >> 8) & 0xff;
-					int x = (des & 0xf) - 4;
-					int y = (des >> 4) - 4;
-					int i = y * 8 + x;
-					CBoard.arrField[i].color = Color.Yellow;
+					CBoard.arrField[des].color = Color.Yellow;
 				}
 		}
 
@@ -1789,34 +1771,16 @@ namespace RapChessGui
 
 		#region mode torunament B
 
-		void TournamentBEnd(CGamer gw, CGamer gl, bool isDraw)
+		void TournamentBUpdate(CBook b)
 		{
-			CBookList bookList = CModeTournamentB.bookList;
-			CBook bw = bookList.GetBookByName(gw.book.name);
-			CBook bl = bookList.GetBookByName(gl.book.name);
-			if ((bw == null) || (bl == null))
-				return;
-			CPlayer pw = GamerList.gamers[0].player;
-			CPlayer pb = GamerList.gamers[1].player;
-			CModeTournamentB.bookWin = bw;
-			CModeTournamentB.bookLoose = bl;
-			bookList.SortElo();
-			bookList.FillPosition();
-			int eloW = bw.Elo;
-			int eloL = bl.Elo;
-			bool f = CModeTournamentB.first == pw.Book;
-			CElo.EloRating(eloW, eloL, out int newW, out int newL, bw.hisElo.Count, bl.hisElo.Count, isDraw);
-			if (isDraw)
-				CModeTournamentB.tourList.Write(pw.Book, pb.Book, "d", f);
-			else
-			{
-				if (eloW <= eloL)
-					CModeTournamentB.repetition++;
-				string r = gw.player == pw ? "w" : "b";
-				CModeTournamentB.tourList.Write(pw.Book, pb.Book, r, f);
-			}
-			bw.NewElo(newW);
-			bl.NewElo(newL);
+			if (b != null)
+				foreach (ListViewItem lvi in lvTourBList.Items)
+					if (lvi.Text == b.name)
+					{
+						lvi.SubItems[1].Text = b.elo;
+						lvi.SubItems[2].Text = b.GetDeltaElo().ToString();
+						lvi.BackColor = b.hisElo.GetColor();
+					}
 		}
 
 		void TournamentBReset()
@@ -1950,21 +1914,52 @@ namespace RapChessGui
 			ComShow();
 		}
 
-		void TournamentBUpdate(CBook b)
+		void TournamentBEnd(CGamer gw, CGamer gl, bool isDraw)
 		{
-			if (b != null)
-				foreach (ListViewItem lvi in lvTourBList.Items)
-					if (lvi.Text == b.name)
-					{
-						lvi.SubItems[1].Text = b.elo;
-						lvi.SubItems[2].Text = b.GetDeltaElo().ToString();
-						lvi.BackColor = b.hisElo.GetColor();
-					}
+			CBookList bookList = CModeTournamentB.bookList;
+			CBook bw = bookList.GetBookByName(gw.book.name);
+			CBook bl = bookList.GetBookByName(gl.book.name);
+			if ((bw == null) || (bl == null))
+				return;
+			CPlayer pw = GamerList.gamers[0].player;
+			CPlayer pb = GamerList.gamers[1].player;
+			CModeTournamentB.bookWin = bw;
+			CModeTournamentB.bookLoose = bl;
+			bookList.SortElo();
+			bookList.FillPosition();
+			int eloW = bw.Elo;
+			int eloL = bl.Elo;
+			bool f = CModeTournamentB.first == pw.Book;
+			CElo.EloRating(eloW, eloL, out int newW, out int newL, bw.hisElo.Count, bl.hisElo.Count, isDraw);
+			if (isDraw)
+				CModeTournamentB.tourList.Write(pw.Book, pb.Book, "d", f);
+			else
+			{
+				if (eloW <= eloL)
+					CModeTournamentB.repetition++;
+				string r = gw.player == pw ? "w" : "b";
+				CModeTournamentB.tourList.Write(pw.Book, pb.Book, r, f);
+			}
+			bw.NewElo(newW);
+			bl.NewElo(newL);
+			formChartB.UpdateChart();
 		}
 
 		#endregion mode tournament B
 
 		#region mode tournament E
+
+		void TournamentEUpdate(CEngine e)
+		{
+			if (e != null)
+				foreach (ListViewItem lvi in lvTourEList.Items)
+					if (lvi.Text == e.name)
+					{
+						lvi.SubItems[1].Text = e.elo;
+						lvi.SubItems[2].Text = e.GetDeltaElo().ToString();
+						lvi.BackColor = e.hisElo.GetColor();
+					}
+		}
 
 		void TournamentEReset()
 		{
@@ -1979,18 +1974,6 @@ namespace RapChessGui
 			ListViewItem item = lvTourEList.FindItemWithText(CModeTournamentE.first);
 			if (item != null)
 				item.Selected = true;
-		}
-
-		void TournamentEUpdate(CEngine e)
-		{
-			if (e != null)
-				foreach (ListViewItem lvi in lvTourEList.Items)
-					if (lvi.Text == e.name)
-					{
-						lvi.SubItems[1].Text = e.elo;
-						lvi.SubItems[2].Text = e.GetDeltaElo().ToString();
-						lvi.BackColor = e.hisElo.GetColor();
-					}
 		}
 
 		void TournamentEShowHistory()
@@ -2133,12 +2116,24 @@ namespace RapChessGui
 			}
 			ew.NewElo(newW);
 			el.NewElo(newL);
+			formChartE.UpdateChart();
 		}
 
 		#endregion
 
 		#region mode touurnament P
 
+		void TournamentPUpdate(CPlayer p)
+		{
+			if (p != null)
+				foreach (ListViewItem lvi in lvTourPList.Items)
+					if (lvi.Text == p.name)
+					{
+						lvi.SubItems[1].Text = p.elo;
+						lvi.SubItems[2].Text = p.GetDeltaElo().ToString();
+						lvi.BackColor = p.hisElo.GetColor();
+					}
+		}
 		void TournamentPReset()
 		{
 			lvTourPList.Items.Clear();
@@ -2152,18 +2147,6 @@ namespace RapChessGui
 			ListViewItem item = lvTourPList.FindItemWithText(CModeTournamentP.first);
 			if (item != null)
 				item.Selected = true;
-		}
-
-		void TournamentPUpdate(CPlayer p)
-		{
-			if (p != null)
-				foreach (ListViewItem lvi in lvTourPList.Items)
-					if (lvi.Text == p.name)
-					{
-						lvi.SubItems[1].Text = p.elo;
-						lvi.SubItems[2].Text = p.GetDeltaElo().ToString();
-						lvi.BackColor = p.hisElo.GetColor();
-					}
 		}
 
 		void TournamentPShowHistory()
@@ -2290,6 +2273,7 @@ namespace RapChessGui
 			}
 			pw.NewElo(newW);
 			pl.NewElo(newL);
+			formChartP.UpdateChart();
 		}
 
 		#endregion
@@ -2471,26 +2455,26 @@ namespace RapChessGui
 
 		private void booksToolStripMenuItem2_Click(object sender, EventArgs e)
 		{
-			if (formHisB.Visible)
-				formHisB.Focus();
+			if (formChartB.Visible)
+				formChartB.Focus();
 			else
-				formHisB.Show(this);
+				formChartB.Show(this);
 		}
 
 		private void enginesToolStripMenuItem2_Click(object sender, EventArgs e)
 		{
-			if (formHisE.Visible)
-				formHisE.Focus();
+			if (formChartE.Visible)
+				formChartE.Focus();
 			else
-				formHisE.Show(this);
+				formChartE.Show(this);
 		}
 
 		private void playersToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (formHisP.Visible)
-				formHisP.Focus();
+			if (formChartP.Visible)
+				formChartP.Focus();
 			else
-				formHisP.Show(this);
+				formChartP.Show(this);
 		}
 
 		private void programLogToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2641,7 +2625,7 @@ namespace RapChessGui
 				return;
 			if (CData.gameMode == CGameMode.edit)
 			{
-				int i = CChess.arrField[CDrag.mouseIndex];
+				int i = CDrag.mouseIndex;
 				if (e.Button == MouseButtons.Left)
 					chess.board[i] = chess.CharToPiece(EditSelected[0]);
 				else
@@ -2693,8 +2677,7 @@ namespace RapChessGui
 		{
 			for (int n = 0; n < 64; n++)
 			{
-				int i = CChess.arrField[n];
-				chess.board[i] = CChess.colorEmpty;
+				chess.board[n] = CChess.colorEmpty;
 				CBoard.UpdateField(n);
 			}
 			RenderBoard(true);

@@ -13,6 +13,23 @@ namespace RapChessGui
 			InitializeComponent();
 		}
 
+		public void UpdateChart()
+		{
+			if (Visible == true)
+			{
+				chart1.Series.Clear();
+				CModeTournamentE.engineList.SortElo();
+				foreach (CEngine engine in CModeTournamentE.engineList)
+				{
+					string en = engine.name;
+					chart1.Series.Add(en);
+					chart1.Series[en].ChartType = SeriesChartType.Line;
+					chart1.Series[en].BorderWidth = 2;
+					CData.HisToPoints(engine.hisElo, chart1.Series[en].Points);
+				}
+			}
+		}
+
 		private void FormHisE_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (e.CloseReason != CloseReason.FormOwnerClosing)
@@ -24,19 +41,7 @@ namespace RapChessGui
 
 		private void FormHisE_VisibleChanged(object sender, EventArgs e)
 		{
-			if (Visible == true)
-			{
-				chart1.Series.Clear();
-				CModeTournamentE.engineList.SortElo();
-				foreach (CEngine engine in CModeTournamentE.engineList)
-					{
-						string en = engine.name;
-						chart1.Series.Add(en);
-						chart1.Series[en].ChartType = SeriesChartType.Line;
-						chart1.Series[en].BorderWidth = 2;
-						CData.HisToPoints(engine.hisElo, chart1.Series[en].Points);
-					}
-			}
+			UpdateChart();
 		}
 
 		private void chart1_MouseDown(object sender, MouseEventArgs e)

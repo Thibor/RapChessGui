@@ -138,29 +138,28 @@ namespace RapChessGui
 			return bstPlayer;
 		}
 
-		public static double EvaluateOpponent(int listCount, CPlayer first, CPlayer second)
+		public static double EvaluateOpponent(double listCount, CPlayer first, CPlayer second)
 		{
-			int fElo = first.Elo;
-			int sElo = second.Elo;
+			double fElo = first.Elo;
+			double sElo = second.Elo;
 			int allGames = tourList.CountGames(first.name);
 			int curGames = tourList.CountGames(second.name, first.name, out int rw, out int rl, out int rd);
-			double r = (rw * 2.0 + rd - curGames) / (curGames + 1.0);
-			double ar = Math.Abs(r);
-			double nElo = fElo;
-			if (rw < rl)
-				nElo -= ar * fElo;
-			if (rw > rl)
-				nElo += ar * (CElo.eloMax - fElo);
-			double ratioElo = curGames == 0 ? 0 : (Math.Abs(sElo - nElo) / CElo.eloRange) * (1.0 - ar);
+			double r = curGames == 0 ? 0 : (rw * 2.0 + rd - curGames) / curGames;
+			double eloDif = (CElo.eloRange - Math.Abs(fElo - sElo)) / CElo.eloRange;
+			double nElo = sElo;
+			if (r < 0)
+				nElo += r * sElo * eloDif;
+			if (r > 0)
+				nElo += r * (CElo.eloMax - sElo) * eloDif;
+			double ratioElo = (Math.Abs(sElo - nElo) / CElo.eloRange);
 			double avgCount = allGames / listCount;
 			double delCount = (avgCount * 2) / listCount + 1;
 			double maxCount = Math.Sqrt(allGames * 2) + 1;
 			double optCount = maxCount - second.position * delCount + 1;
-			double ratioCount = (optCount - curGames) / maxCount + 1;
-			double ratioDistance = (listCount - second.position) / listCount;
-			double ratioTrend = (first.hisElo.Last() >= first.hisElo.Penultimate()) == (second.Elo >= first.Elo) ? 1 : 0;
-			double ratioOrder = ((rw > rl) == (sElo < fElo)) || (sElo == fElo) ? 1 : 0;
-			return ratioCount + ratioDistance + ratioElo + ratioTrend + ratioOrder;
+			double ratioCount = allGames == 0 ? 0 : (optCount - curGames) / allGames;
+			double ratioDistance = (listCount - second.position) / (double)listCount;
+			double ratioOrder = allGames == 0 ? 0 : (rw == rl) ? 0.2 : (sElo == fElo) ? 0.5 : (rw > rl) == (sElo < fElo) ? 1 : 0;
+			return ratioCount + ratioDistance + ratioElo + ratioOrder;
 		}
 
 		public static void SetRepeition(CPlayer p, CPlayer o)

@@ -13,16 +13,7 @@ namespace RapChessGui
 			InitializeComponent();
 		}
 
-		private void FormHisB_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (e.CloseReason != CloseReason.FormOwnerClosing)
-			{
-				Hide();
-				e.Cancel = true;
-			}
-		}
-
-		private void FormHisB_VisibleChanged(object sender, EventArgs e)
+		public void UpdateChart()
 		{
 			if (Visible == true)
 			{
@@ -37,6 +28,20 @@ namespace RapChessGui
 					CData.HisToPoints(book.hisElo, chart1.Series[bn].Points);
 				}
 			}
+		}
+
+		private void FormHisB_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (e.CloseReason != CloseReason.FormOwnerClosing)
+			{
+				Hide();
+				e.Cancel = true;
+			}
+		}
+
+		private void FormHisB_VisibleChanged(object sender, EventArgs e)
+		{
+			UpdateChart();
 		}
 
 		private void chart1_MouseDown(object sender, MouseEventArgs e)

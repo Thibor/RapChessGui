@@ -128,6 +128,8 @@ namespace RapChessGui
 		{
 			foreach (string op in book.options)
 				SendMessageToBook($"book setoption {op}");
+			if (book.options.Count > 0)
+				SendMessageToBook("book optionend");
 			bookOptionSend = true;
 		}
 

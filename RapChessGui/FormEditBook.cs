@@ -45,7 +45,7 @@ namespace RapChessGui
 
 		public static void NewMessageOptions(string msg)
 		{
-			if (msg == "optionok")
+			if (msg == "optionend")
 				This.OptionFinish();
 			else
 				optionList.Add(msg);
