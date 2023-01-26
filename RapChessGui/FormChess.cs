@@ -1244,12 +1244,11 @@ namespace RapChessGui
 		{
 			if (CData.gameMode == CGameMode.game)
 			{
-				CGamer g = CGamers.GamerCur();
-				if (g.IsHuman())
-				{
-					rotateBoard = g.IsBlack();
-					rotateBoard ^= CData.rotateBoard;
-				}
+				CGamer gc = CGamers.GamerCur();
+				CGamer gs = CGamers.GamerSec();
+				CGamer gh = gc.IsHuman() ? gc : gs;
+				rotateBoard = gh.IsBlack();
+				rotateBoard ^= CData.rotateBoard;
 			}else
 				rotateBoard = CData.rotateBoard;
 		}
