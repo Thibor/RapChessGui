@@ -50,8 +50,8 @@ namespace RapChessGui
 		void SelectPlayer()
 		{
 			tbPlayerName.Text = player.name;
-			cbEngineList.Text = player.Engine;
-			cbBookList.Text = player.Book;
+			cbEngineList.Text = player.EngineName;
+			cbBookList.Text = player.BookName;
 			nudTournament.Value = player.tournament;
 			nudElo.Value = Convert.ToInt32(player.elo);
 			nudValue.Value = player.modeValue.GetValue();
@@ -96,8 +96,8 @@ namespace RapChessGui
 		void UpdatePlayer(CPlayer p)
 		{
 			p.name = tbPlayerName.Text;
-			p.Engine = cbEngineList.Text;
-			p.Book = cbBookList.Text;
+			p.EngineName = cbEngineList.Text;
+			p.BookName = cbBookList.Text;
 			p.SetTournament((int)nudTournament.Value);
 			p.elo = nudElo.Value.ToString();
 			p.modeValue.level = modeValue.level;
@@ -202,7 +202,7 @@ namespace RapChessGui
 				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State ^ DrawItemState.Selected, CBoard.colorMessage, CBoard.colorChartD);
 				b = Brushes.White;
 			}
-			else if (pla.Engine == Global.none)
+			else if (pla.EngineName == Global.none)
 			{
 				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.White, CBoard.colorRed);
 				b = Brushes.White;

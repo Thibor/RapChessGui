@@ -127,7 +127,7 @@ namespace RapChessGui
 			foreach (CPlayer p in playerList)
 				if (p != player)
 				{
-					double curScore = EvaluateOpponent(playerList.Count, player, p);
+					double curScore = player.EvaluateOpponent(p,playerList.Count,tourList);
 					if (bstScore < curScore)
 					{
 						bstScore = curScore;
@@ -136,30 +136,6 @@ namespace RapChessGui
 
 				}
 			return bstPlayer;
-		}
-
-		public static double EvaluateOpponent(double listCount, CPlayer first, CPlayer second)
-		{
-			double fElo = first.Elo;
-			double sElo = second.Elo;
-			int allGames = tourList.CountGames(first.name);
-			int curGames = tourList.CountGames(second.name, first.name, out int rw, out int rl, out int rd);
-			double r = curGames == 0 ? 0 : (rw * 2.0 + rd - curGames) / curGames;
-			double eloDif = (CElo.eloRange - Math.Abs(fElo - sElo)) / CElo.eloRange;
-			double nElo = sElo;
-			if (r < 0)
-				nElo += r * sElo * eloDif;
-			if (r > 0)
-				nElo += r * (CElo.eloMax - sElo) * eloDif;
-			double ratioElo = (Math.Abs(sElo - nElo) / CElo.eloRange);
-			double avgCount = allGames / listCount;
-			double delCount = (avgCount * 2) / listCount + 1;
-			double maxCount = Math.Sqrt(allGames * 2) + 1;
-			double optCount = maxCount - second.position * delCount + 1;
-			double ratioCount = allGames == 0 ? 0 : (optCount - curGames) / allGames;
-			double ratioDistance = (listCount - second.position) / (double)listCount;
-			double ratioOrder = allGames == 0 ? 0 : (rw == rl) ? 0.2 : (sElo == fElo) ? 0.5 : (rw > rl) == (sElo < fElo) ? 1 : 0;
-			return ratioCount + ratioDistance + ratioElo + ratioOrder;
 		}
 
 		public static void SetRepeition(CPlayer p, CPlayer o)

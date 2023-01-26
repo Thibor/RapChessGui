@@ -37,6 +37,7 @@
 			this.bRename = new System.Windows.Forms.Button();
 			this.bSave = new System.Windows.Forms.Button();
 			this.gbMode = new System.Windows.Forms.GroupBox();
+			this.cbModeNodes = new System.Windows.Forms.CheckBox();
 			this.cbModeTournament = new System.Windows.Forms.CheckBox();
 			this.cbModeDepth = new System.Windows.Forms.CheckBox();
 			this.cbModeTime = new System.Windows.Forms.CheckBox();
@@ -56,13 +57,15 @@
 			this.gbEngines = new System.Windows.Forms.GroupBox();
 			this.listBox1 = new System.Windows.Forms.ListBox();
 			this.timerPhase = new System.Windows.Forms.Timer(this.components);
-			this.cbModeNodes = new System.Windows.Forms.CheckBox();
 			this.menuStrip2 = new System.Windows.Forms.MenuStrip();
 			this.consoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.autodetectEngineProtocolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.resetEngineOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.clearTournamentHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.cbModeInfinite = new System.Windows.Forms.CheckBox();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.cbFolderList = new System.Windows.Forms.ComboBox();
 			this.panel1.SuspendLayout();
 			this.panButtons.SuspendLayout();
 			this.gbMode.SuspendLayout();
@@ -76,6 +79,7 @@
 			this.groupBox1.SuspendLayout();
 			this.gbEngines.SuspendLayout();
 			this.menuStrip2.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panel1
@@ -88,6 +92,7 @@
 			this.panel1.Controls.Add(this.groupBox3);
 			this.panel1.Controls.Add(this.groupBox7);
 			this.panel1.Controls.Add(this.groupBox4);
+			this.panel1.Controls.Add(this.groupBox2);
 			this.panel1.Controls.Add(this.groupBox1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
 			this.panel1.Location = new System.Drawing.Point(489, 24);
@@ -101,9 +106,9 @@
 			this.panOptions.AutoSize = true;
 			this.panOptions.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.panOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panOptions.Location = new System.Drawing.Point(0, 420);
+			this.panOptions.Location = new System.Drawing.Point(0, 460);
 			this.panOptions.Name = "panOptions";
-			this.panOptions.Size = new System.Drawing.Size(311, 360);
+			this.panOptions.Size = new System.Drawing.Size(311, 320);
 			this.panOptions.TabIndex = 36;
 			// 
 			// panButtons
@@ -114,7 +119,7 @@
 			this.panButtons.Controls.Add(this.bRename);
 			this.panButtons.Controls.Add(this.bSave);
 			this.panButtons.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panButtons.Location = new System.Drawing.Point(0, 324);
+			this.panButtons.Location = new System.Drawing.Point(0, 364);
 			this.panButtons.Name = "panButtons";
 			this.panButtons.Size = new System.Drawing.Size(311, 96);
 			this.panButtons.TabIndex = 39;
@@ -170,18 +175,29 @@
 			// gbMode
 			// 
 			this.gbMode.AutoSize = true;
+			this.gbMode.Controls.Add(this.cbModeInfinite);
 			this.gbMode.Controls.Add(this.cbModeNodes);
 			this.gbMode.Controls.Add(this.cbModeTournament);
 			this.gbMode.Controls.Add(this.cbModeDepth);
 			this.gbMode.Controls.Add(this.cbModeTime);
 			this.gbMode.Controls.Add(this.cbModeStandard);
 			this.gbMode.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gbMode.Location = new System.Drawing.Point(0, 236);
+			this.gbMode.Location = new System.Drawing.Point(0, 276);
 			this.gbMode.Name = "gbMode";
 			this.gbMode.Size = new System.Drawing.Size(311, 88);
 			this.gbMode.TabIndex = 31;
 			this.gbMode.TabStop = false;
 			this.gbMode.Text = "Mode";
+			// 
+			// cbModeNodes
+			// 
+			this.cbModeNodes.AutoSize = true;
+			this.cbModeNodes.Location = new System.Drawing.Point(3, 52);
+			this.cbModeNodes.Name = "cbModeNodes";
+			this.cbModeNodes.Size = new System.Drawing.Size(85, 17);
+			this.cbModeNodes.TabIndex = 5;
+			this.cbModeNodes.Text = "Mode nodes";
+			this.cbModeNodes.UseVisualStyleBackColor = true;
 			// 
 			// cbModeTournament
 			// 
@@ -228,7 +244,7 @@
 			this.groupBox5.AutoSize = true;
 			this.groupBox5.Controls.Add(this.nudTournament);
 			this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox5.Location = new System.Drawing.Point(0, 197);
+			this.groupBox5.Location = new System.Drawing.Point(0, 237);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(311, 39);
 			this.groupBox5.TabIndex = 33;
@@ -256,7 +272,7 @@
 			this.gbElo.AutoSize = true;
 			this.gbElo.Controls.Add(this.nudElo);
 			this.gbElo.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gbElo.Location = new System.Drawing.Point(0, 158);
+			this.gbElo.Location = new System.Drawing.Point(0, 198);
 			this.gbElo.Name = "gbElo";
 			this.gbElo.Size = new System.Drawing.Size(311, 39);
 			this.gbElo.TabIndex = 30;
@@ -288,7 +304,7 @@
 			this.groupBox3.AutoSize = true;
 			this.groupBox3.Controls.Add(this.tbParameters);
 			this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox3.Location = new System.Drawing.Point(0, 119);
+			this.groupBox3.Location = new System.Drawing.Point(0, 159);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(311, 39);
 			this.groupBox3.TabIndex = 15;
@@ -308,7 +324,7 @@
 			this.groupBox7.AutoSize = true;
 			this.groupBox7.Controls.Add(this.cbProtocol);
 			this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox7.Location = new System.Drawing.Point(0, 79);
+			this.groupBox7.Location = new System.Drawing.Point(0, 119);
 			this.groupBox7.Name = "groupBox7";
 			this.groupBox7.Size = new System.Drawing.Size(311, 40);
 			this.groupBox7.TabIndex = 28;
@@ -336,7 +352,7 @@
 			this.groupBox4.AutoSize = true;
 			this.groupBox4.Controls.Add(this.cbFileList);
 			this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox4.Location = new System.Drawing.Point(0, 39);
+			this.groupBox4.Location = new System.Drawing.Point(0, 79);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(311, 40);
 			this.groupBox4.TabIndex = 11;
@@ -348,8 +364,6 @@
 			this.cbFileList.Dock = System.Windows.Forms.DockStyle.Top;
 			this.cbFileList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbFileList.FormattingEnabled = true;
-			this.cbFileList.Items.AddRange(new object[] {
-            "Human"});
 			this.cbFileList.Location = new System.Drawing.Point(3, 16);
 			this.cbFileList.Name = "cbFileList";
 			this.cbFileList.Size = new System.Drawing.Size(305, 21);
@@ -405,16 +419,6 @@
 			this.listBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseMove);
 			this.listBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseUp);
 			// 
-			// cbModeNodes
-			// 
-			this.cbModeNodes.AutoSize = true;
-			this.cbModeNodes.Location = new System.Drawing.Point(3, 52);
-			this.cbModeNodes.Name = "cbModeNodes";
-			this.cbModeNodes.Size = new System.Drawing.Size(85, 17);
-			this.cbModeNodes.TabIndex = 5;
-			this.cbModeNodes.Text = "Mode nodes";
-			this.cbModeNodes.UseVisualStyleBackColor = true;
-			// 
 			// menuStrip2
 			// 
 			this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -464,6 +468,39 @@
 			this.clearTournamentHistoryToolStripMenuItem.Text = "Clear tournament history";
 			this.clearTournamentHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearTournamentHistoryToolStripMenuItem_Click);
 			// 
+			// cbModeInfinite
+			// 
+			this.cbModeInfinite.AutoSize = true;
+			this.cbModeInfinite.Location = new System.Drawing.Point(159, 52);
+			this.cbModeInfinite.Name = "cbModeInfinite";
+			this.cbModeInfinite.Size = new System.Drawing.Size(86, 17);
+			this.cbModeInfinite.TabIndex = 6;
+			this.cbModeInfinite.Text = "Mode infinite";
+			this.cbModeInfinite.UseVisualStyleBackColor = true;
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.AutoSize = true;
+			this.groupBox2.Controls.Add(this.cbFolderList);
+			this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+			this.groupBox2.Location = new System.Drawing.Point(0, 39);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(311, 40);
+			this.groupBox2.TabIndex = 40;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "Engine folder";
+			// 
+			// cbFolderList
+			// 
+			this.cbFolderList.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cbFolderList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbFolderList.FormattingEnabled = true;
+			this.cbFolderList.Location = new System.Drawing.Point(3, 16);
+			this.cbFolderList.Name = "cbFolderList";
+			this.cbFolderList.Size = new System.Drawing.Size(305, 21);
+			this.cbFolderList.TabIndex = 2;
+			this.cbFolderList.SelectedIndexChanged += new System.EventHandler(this.cbFolderList_SelectedIndexChanged);
+			// 
 			// FormEditEngine
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -501,6 +538,7 @@
 			this.gbEngines.ResumeLayout(false);
 			this.menuStrip2.ResumeLayout(false);
 			this.menuStrip2.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -541,5 +579,8 @@
 		private System.Windows.Forms.ToolStripMenuItem autodetectEngineProtocolToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem resetEngineOptionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem clearTournamentHistoryToolStripMenuItem;
+		private System.Windows.Forms.CheckBox cbModeInfinite;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.ComboBox cbFolderList;
 	}
 }

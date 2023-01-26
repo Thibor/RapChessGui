@@ -230,6 +230,7 @@
 			this.lastTournamentplayersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lastTrainingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+			this.lastAutodetectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lastErrorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.historyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.booksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2758,6 +2759,7 @@
             this.lastTournamentplayersToolStripMenuItem,
             this.lastTrainingToolStripMenuItem,
             this.toolStripMenuItem2,
+            this.lastAutodetectToolStripMenuItem,
             this.lastErrorToolStripMenuItem});
 			this.logToolStripMenuItem.Name = "logToolStripMenuItem";
 			this.logToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
@@ -2767,7 +2769,7 @@
 			// 
 			this.programLogToolStripMenuItem.Name = "programLogToolStripMenuItem";
 			this.programLogToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-			this.programLogToolStripMenuItem.Text = "Program log";
+			this.programLogToolStripMenuItem.Text = "Application log";
 			this.programLogToolStripMenuItem.Click += new System.EventHandler(this.programLogToolStripMenuItem_Click);
 			// 
 			// gamesToolStripMenuItem
@@ -2835,6 +2837,13 @@
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
 			this.toolStripMenuItem2.Size = new System.Drawing.Size(209, 6);
+			// 
+			// lastAutodetectToolStripMenuItem
+			// 
+			this.lastAutodetectToolStripMenuItem.Name = "lastAutodetectToolStripMenuItem";
+			this.lastAutodetectToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+			this.lastAutodetectToolStripMenuItem.Text = "Last autodetect";
+			this.lastAutodetectToolStripMenuItem.Click += new System.EventHandler(this.lastAutodetectToolStripMenuItem_Click);
 			// 
 			// lastErrorToolStripMenuItem
 			// 
@@ -4695,6 +4704,7 @@
 		private System.Windows.Forms.ToolStripMenuItem enginesToolStripMenuItem3;
 		private System.Windows.Forms.ToolStripMenuItem booksToolStripMenuItem2;
 		private System.Windows.Forms.ToolStripMenuItem playersToolStripMenuItem2;
+		private System.Windows.Forms.ToolStripMenuItem lastAutodetectToolStripMenuItem;
 	}
 }
 

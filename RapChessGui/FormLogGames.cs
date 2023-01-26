@@ -5,13 +5,23 @@ namespace RapChessGui
 {
 	public partial class FormLogGames : Form
 	{
-		public static FormLogGames This;
 
 		public FormLogGames()
 		{
-			This = this;
 			InitializeComponent();
+		}
+
+		public void UpdateLog()
+		{
 			FormOptions.SetFontSize(this);
+			string name = FormChess.mode;
+			string path = $@"History/{name}.pgn";
+			Text = $"Log {name}";
+			if (File.Exists(path))
+			{
+				textBox.Text = File.ReadAllText(path);
+				textBox.Select(0, 0);
+			}
 		}
 
 		private void FormPgn_FormClosing(object sender, FormClosingEventArgs e)
@@ -25,17 +35,8 @@ namespace RapChessGui
 
 		private void FormLogGames_VisibleChanged(object sender, System.EventArgs e)
 		{
-			if ((Visible == true) && (textBox1.Text == string.Empty))
-			{
-				string name = FormChess.mode;
-				string path = $@"History/{name}.pgn";
-				Text = $"Log {name}";
-				if (File.Exists(path))
-				{
-					textBox1.Text = File.ReadAllText(path);
-					textBox1.Select(0, 0);
-				}
-			}
+			if ((Visible == true) && (textBox.Text == string.Empty))
+				UpdateLog();
 		}
 	}
 }

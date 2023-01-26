@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace NSChess
 {
 
-	public enum CGameState { normal, mate, stalemate, repetition, move50, material, time, error, resignation }
+	public enum CGameState {wait, normal, mate, stalemate, repetition, move50, material, time, error, resignation }
 
 	struct SXY
 	{
@@ -139,9 +139,9 @@ namespace NSChess
 			boardCheck[3] = colorBlack | moveflagCastleQueen;
 			boardCheck[4] = colorBlack | maskCastle;
 			boardCheck[5] = colorBlack | moveflagCastleKing;
-			boardCheck[58] = colorWhite | moveflagCastleQueen;
-			boardCheck[59] = colorWhite | maskCastle;
-			boardCheck[60] = colorWhite | moveflagCastleKing;
+			boardCheck[59] = colorWhite | moveflagCastleQueen;
+			boardCheck[60] = colorWhite | maskCastle;
+			boardCheck[61] = colorWhite | moveflagCastleKing;
 		}
 		#endregion
 
@@ -840,7 +840,7 @@ namespace NSChess
 				return CGameState.material;
 			List<int> moves = GenerateValidMoves(out _);
 			if (moves.Count > 0)
-				return (int)CGameState.normal;
+				return CGameState.normal;
 			return check ? CGameState.mate : CGameState.stalemate;
 		}
 

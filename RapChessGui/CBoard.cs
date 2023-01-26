@@ -191,7 +191,7 @@ namespace RapChessGui
 				return;
 			width = w;
 			height = h;
-			rotate = FormChess.boardRotate;
+			rotate = FormChess.rotateBoard;
 			int min = Math.Min(w, h);
 			fieldSize = min / 9;
 			frameSize = fieldSize >> 1;
@@ -203,8 +203,8 @@ namespace RapChessGui
 
 		public Bitmap GetBitmap()
 		{
-			if (rotate != FormChess.boardRotate)
-				RenderBoard(width, height, FormChess.boardRotate);
+			if (rotate != FormChess.rotateBoard)
+				RenderBoard(width, height, FormChess.rotateBoard);
 			return board;
 		}
 
@@ -294,8 +294,8 @@ namespace RapChessGui
 
 		public Point GetMiddle(int x, int y)
 		{
-			int xr = FormChess.boardRotate ? 7 - x : x;
-			int yr = FormChess.boardRotate ? 7 - y : y;
+			int xr = FormChess.rotateBoard ? 7 - x : x;
+			int yr = FormChess.rotateBoard ? 7 - y : y;
 			x = background.frameSize + xr * CBackground.fieldSize + (CBackground.fieldSize >> 1);
 			y = background.frameSize + yr * CBackground.fieldSize + (CBackground.fieldSize >> 1);
 			return new Point(x, y);
@@ -367,88 +367,81 @@ namespace RapChessGui
 		public void RenderBoard()
 		{
 			boardBmp = new Bitmap(background.GetBitmap());
-			Graphics g = Graphics.FromImage(boardBmp);
-			Brush brushRed = new SolidBrush(Color.FromArgb(0x80, 0xff, 0x00, 0x00));
-			Brush brushYellow = new SolidBrush(Color.FromArgb(0xa0, 0xff, 0xff, 0xff));
-			Brush brushWhite = new SolidBrush(Color.White);
-			Brush brushBlack = new SolidBrush(Color.Black);
-			Font fontPiece = new Font(FormChess.pfc.Families[0], CBackground.fieldSize);
-			Pen penW = new Pen(Color.Black, 4);
-			Pen penB = new Pen(Color.White, 4);
-			GraphicsPath gpW = new GraphicsPath();
-			GraphicsPath gpB = new GraphicsPath();
-			StringFormat sf = new StringFormat();
-			sf.Alignment = StringAlignment.Center;
-			sf.LineAlignment = StringAlignment.Center;
-			g.SmoothingMode = SmoothingMode.HighQuality;
-			Rectangle rec = new Rectangle();
-			for (int y = 0; y < 8; y++)
+			using (Graphics g = Graphics.FromImage(boardBmp))
+			using (Brush brushRed = new SolidBrush(Color.FromArgb(0x80, 0xff, 0x00, 0x00)))
+			using (Brush brushYellow = new SolidBrush(Color.FromArgb(0xa0, 0xff, 0xff, 0xff)))
+			using (Brush brushWhite = new SolidBrush(Color.White))
+			using (Brush brushBlack = new SolidBrush(Color.Black))
+			using (Font fontPiece = new Font(FormChess.pfc.Families[0], CBackground.fieldSize))
+			using (Pen penW = new Pen(Color.Black, 4))
+			using (Pen penB = new Pen(Color.White, 4))
+			using (GraphicsPath gpW = new GraphicsPath())
+			using (GraphicsPath gpB = new GraphicsPath())
+			using (StringFormat sf = new StringFormat())
 			{
-				int yr = FormChess.boardRotate ? 7 - y : y;
-				int y2 = background.frameSize + yr * CBackground.fieldSize;
-				for (int x = 0; x < 8; x++)
+				Rectangle rec = new Rectangle();
+				sf.Alignment = StringAlignment.Center;
+				sf.LineAlignment = StringAlignment.Center;
+				g.SmoothingMode = SmoothingMode.HighQuality;
+				for (int y = 0; y < 8; y++)
 				{
-					int i = y * 8 + x;
-					int xr = FormChess.boardRotate ? 7 - x : x;
-					int x2 = background.frameSize + xr * CBackground.fieldSize;
-					rec.X = x2;
-					rec.Y = y2;
-					rec.Width = CBackground.fieldSize;
-					rec.Height = CBackground.fieldSize;
-					if ((i == CDrag.lastSou) || (i == CDrag.lastDes) || (arrField[i].color != Color.Empty))
-						g.FillRectangle(brushYellow, rec);
-					else if (arrField[i].attacked && (CData.gameMode != CGameMode.edit))
-						g.FillRectangle(brushRed, rec);
-					CPiece piece = arrField[i].piece;
-					if (piece == null)
-						continue;
-					if (piece.image < 0)
-						continue;
-					GraphicsPath gp1;
-					int image;
-					if (piece.desImage >= 0)
+					int yr = FormChess.rotateBoard ? 7 - y : y;
+					int y2 = background.frameSize + yr * CBackground.fieldSize;
+					for (int x = 0; x < 8; x++)
 					{
-						gp1 = piece.desImage > 5 ? gpB : gpW;
-						image = piece.desImage % 6;
+						int i = y * 8 + x;
+						int xr = FormChess.rotateBoard ? 7 - x : x;
+						int x2 = background.frameSize + xr * CBackground.fieldSize;
+						rec.X = x2;
+						rec.Y = y2;
+						rec.Width = CBackground.fieldSize;
+						rec.Height = CBackground.fieldSize;
+						if ((i == CDrag.lastSou) || (i == CDrag.lastDes) || (arrField[i].color != Color.Empty))
+							g.FillRectangle(brushYellow, rec);
+						else if (arrField[i].attacked && (CData.gameMode != CGameMode.edit))
+							g.FillRectangle(brushRed, rec);
+						CPiece piece = arrField[i].piece;
+						if (piece == null)
+							continue;
+						if (piece.image < 0)
+							continue;
+						GraphicsPath gp1;
+						int image;
+						if (piece.desImage >= 0)
+						{
+							gp1 = piece.desImage > 5 ? gpB : gpW;
+							image = piece.desImage % 6;
+							gp1.AddString("pnbrqk"[image].ToString(), fontPiece.FontFamily, (int)fontPiece.Style, fontPiece.Size, rec, sf);
+						}
+						arrField[i].x = x2;
+						arrField[i].y = y2;
+						piece.SetPositionAni(x2, y2);
+						if ((i == CDrag.lastDes) && CDrag.dragged)
+							piece.SetPositionSta(CDrag.mouseX - background.frameSize - background.bmpX, CDrag.mouseY - background.frameSize - background.bmpY);
+						rec.X = piece.curXY.X;
+						rec.Y = piece.curXY.Y;
+						gp1 = piece.image > 5 ? gpB : gpW;
+						image = piece.image % 6;
 						gp1.AddString("pnbrqk"[image].ToString(), fontPiece.FontFamily, (int)fontPiece.Style, fontPiece.Size, rec, sf);
 					}
-					arrField[i].x = x2;
-					arrField[i].y = y2;
-					piece.SetPositionAni(x2, y2);
-					if ((i == CDrag.lastDes) && CDrag.dragged)
-						piece.SetPositionSta(CDrag.mouseX - background.frameSize - background.bmpX, CDrag.mouseY - background.frameSize - background.bmpY);
-					rec.X = piece.curXY.X;
-					rec.Y = piece.curXY.Y;
-					gp1 = piece.image > 5 ? gpB : gpW;
-					image = piece.image % 6;
-					gp1.AddString("pnbrqk"[image].ToString(), fontPiece.FontFamily, (int)fontPiece.Style, fontPiece.Size, rec, sf);
+				}
+				if (FormChess.chess.WhiteTurn)
+				{
+					g.DrawPath(penB, gpB);
+					g.FillPath(brushBlack, gpB);
+					g.DrawPath(penW, gpW);
+					g.FillPath(brushWhite, gpW);
+
+				}
+				else
+				{
+					g.DrawPath(penW, gpW);
+					g.FillPath(brushWhite, gpW);
+					g.DrawPath(penB, gpB);
+					g.FillPath(brushBlack, gpB);
+
 				}
 			}
-			if (FormChess.chess.WhiteTurn)
-			{
-				g.DrawPath(penB, gpB);
-				g.FillPath(brushBlack, gpB);
-				g.DrawPath(penW, gpW);
-				g.FillPath(brushWhite, gpW);
-
-			}
-			else
-			{
-				g.DrawPath(penW, gpW);
-				g.FillPath(brushWhite, gpW);
-				g.DrawPath(penB, gpB);
-				g.FillPath(brushBlack, gpB);
-
-			}
-			sf.Dispose();
-			penW.Dispose();
-			penB.Dispose();
-			brushRed.Dispose();
-			brushYellow.Dispose();
-			brushWhite.Dispose();
-			brushBlack.Dispose();
-			fontPiece.Dispose();
-			g.Dispose();
 		}
 
 		public static void MakeMove(int sou, int des)
@@ -513,12 +506,12 @@ namespace RapChessGui
 		{
 			for (int y = 0; y < 8; y++)
 			{
-				int yr = FormChess.boardRotate ? 7 - y : y;
+				int yr = FormChess.rotateBoard ? 7 - y : y;
 				int y2 = background.frameSize + yr * CBackground.fieldSize;
 				for (int x = 0; x < 8; x++)
 				{
 					int i = y * 8 + x;
-					int xr = FormChess.boardRotate ? 7 - x : x;
+					int xr = FormChess.rotateBoard ? 7 - x : x;
 					int x2 = background.frameSize + xr * CBackground.fieldSize;
 					arrField[i].x = x2;
 					arrField[i].y = y2;

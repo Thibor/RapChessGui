@@ -189,9 +189,9 @@ namespace RapChessGui
 			nudTourPRec.Value = CModeTournamentP.records;
 			nudTourPAvg.Value = CModeTournamentP.eloAvg;
 			nudTourPRange.Value = CModeTournamentP.eloRange;
-			labTourB.Text = $"Fill {(CModeTournamentB.tourList.list.Count * 100) / CModeTournamentB.records}%";
-			labTourE.Text = $"Fill {(CModeTournamentE.tourList.list.Count * 100) / CModeTournamentE.records}%";
-			labTourP.Text = $"Fill {(CModeTournamentP.tourList.list.Count * 100) / CModeTournamentP.records}%";
+			labTourB.Text = $"Fill {(CModeTournamentB.tourList.Count * 100) / CModeTournamentB.records}%";
+			labTourE.Text = $"Fill {(CModeTournamentE.tourList.Count * 100) / CModeTournamentE.records}%";
+			labTourP.Text = $"Fill {(CModeTournamentP.tourList.Count * 100) / CModeTournamentP.records}%";
 		}
 
 		void FormSave()

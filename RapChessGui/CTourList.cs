@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace RapChessGui
 {
-	class CTour
+	public class CTour
 	{
 		public string w;
 		public string b;
@@ -43,10 +43,9 @@ namespace RapChessGui
 
 	}
 
-	class CTourList
+	public class CTourList : List<CTour>
 	{
 		readonly string path;
-		public List<CTour> list = new List<CTour>();
 
 		public CTourList(string name)
 		{
@@ -57,7 +56,7 @@ namespace RapChessGui
 		public int CountGames(string p)
 		{
 			int result = 0;
-			foreach (CTour t in list)
+			foreach (CTour t in this)
 				if ((t.w == p) || (t.b == p))
 					result++;
 			return result;
@@ -65,42 +64,42 @@ namespace RapChessGui
 
 		public int LastGame(string p)
 		{
-			int f = list.Count;
-			int s = list.Count;
+			int f = Count;
+			int s = Count;
 			int c = 0;
-			for (int n = list.Count - 1; n >= 0; n--)
+			for (int n = Count - 1; n >= 0; n--)
 			{
 				c++;
-				CTour t = list[n];
+				CTour t = this[n];
 				if (t.w == p)
 				{
 					if (t.first)
 					{
-						if (f == list.Count)
+						if (f == Count)
 						{
 							f = c;
-							if (s == list.Count)
+							if (s == Count)
 								s = c;
 						}
 					}
-					else if (s == list.Count)
+					else if (s == Count)
 						s = c;
 				}
 				if (t.b == p)
 				{
 					if (t.first)
 					{
-						if (s == list.Count)
+						if (s == Count)
 							s = c;
 					}
-					else if (f == list.Count)
+					else if (f == Count)
 					{
 						f = c;
-						if (s == list.Count)
+						if (s == Count)
 							s = c;
 					}
 				}
-				if ((f < list.Count) && (s < list.Count))
+				if ((f < Count) && (s < Count))
 					break;
 			}
 			return f + s >> 1;
@@ -111,7 +110,7 @@ namespace RapChessGui
 			gw = 0;
 			gl = 0;
 			gd = 0;
-			foreach (CTour t in list)
+			foreach (CTour t in this)
 			{
 				if ((t.w == p1) && (t.b == p2))
 				{
@@ -137,20 +136,20 @@ namespace RapChessGui
 
 		public int DeletePlayer(string p)
 		{
-			int c = list.Count;
-			for (int n = list.Count - 1; n >= 0; n--)
+			int c = Count;
+			for (int n = Count - 1; n >= 0; n--)
 			{
-				CTour t = list[n];
+				CTour t = this[n];
 				if ((t.w == p) || (t.b == p))
-					list.RemoveAt(n);
+					RemoveAt(n);
 			}
 			SaveToFile();
-			return c - list.Count;
+			return c - Count;
 		}
 
 		public void LoadFromFile()
 		{
-			list.Clear();
+			Clear();
 			if (File.Exists(path))
 				using (StreamReader file = new StreamReader(path))
 				{
@@ -158,17 +157,17 @@ namespace RapChessGui
 					while ((line = file.ReadLine()) != null)
 					{
 						CTour t = new CTour(line);
-						list.Add(t);
+						Add(t);
 					}
 				}
 		}
 
 		public void SetLimit(int limit)
 		{
-			if (list.Count > limit)
+			if (Count > limit)
 			{
-				int remove = Math.Max(0, list.Count - limit);
-				list.RemoveRange(0, remove);
+				int remove = Math.Max(0, Count - limit);
+				RemoveRange(0, remove);
 				SaveToFile();
 			}
 		}
@@ -177,7 +176,7 @@ namespace RapChessGui
 		{
 			using (StreamWriter file = new StreamWriter(path))
 			{
-				foreach (CTour t in list)
+				foreach (CTour t in this)
 					file.WriteLine(t.SaveToString());
 			}
 		}
@@ -185,16 +184,16 @@ namespace RapChessGui
 		public CEngine LastEngine()
 		{
 			string n = String.Empty;
-			if (list.Count > 0)
-				n = list[list.Count - 1].w;
+			if (Count > 0)
+				n = this[Count - 1].w;
 			return FormChess.engineList.GetEngineByName(n);
 		}
 
 		public CPlayer LastPlayer()
 		{
 			string n = String.Empty;
-			if (list.Count > 0)
-				n = list[list.Count - 1].w;
+			if (Count > 0)
+				n = this[Count - 1].w;
 			return FormChess.playerList.GetPlayerByName(n);
 		}
 
@@ -203,7 +202,7 @@ namespace RapChessGui
 			if (w == b)
 				return;
 			CTour t = new CTour(w, b, r, f);
-			list.Add(t);
+			Add(t);
 			using (StreamWriter file = new StreamWriter(path, true))
 				file.WriteLine(t.SaveToString());
 		}

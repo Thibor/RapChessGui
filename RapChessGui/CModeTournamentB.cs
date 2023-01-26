@@ -64,12 +64,6 @@ namespace RapChessGui
 			return null;
 		}
 
-		public static int CountGames()
-		{
-			return tourList.CountGames(first, opponent, out _, out _, out _);
-		}
-
-
 		public static void ListFill()
 		{
 			int avg = eloAvg;
@@ -133,7 +127,7 @@ namespace RapChessGui
 			for (int n = 0; n < bl.Count - 1; n++)
 			{
 				CBook b = bl[n];
-				double curScore = EvaluateOpponent(FormChess.bookList.Count, book, b);
+				double curScore = book.EvaluateOpponent(b,bookList.Count,tourList);
 				if (bstScore < curScore)
 				{
 					bstScore = curScore;
@@ -142,30 +136,6 @@ namespace RapChessGui
 
 			}
 			return bstBook;
-		}
-
-		public static double EvaluateOpponent(double listCount, CBook first, CBook second)
-		{
-			double fElo = first.Elo;
-			double sElo = second.Elo;
-			double allGames = tourList.CountGames(first.name);
-			double curGames = tourList.CountGames(second.name, first.name, out int rw, out int rl, out int rd);
-			double r = curGames == 0 ? 0 : (rw * 2.0 + rd - curGames) / curGames;
-			double eloDif = (CElo.eloRange - Math.Abs(fElo - sElo)) / CElo.eloRange;
-			double nElo = sElo;
-			if (r < 0)
-				nElo += r * sElo * eloDif;
-			if (r > 0)
-				nElo += r * (CElo.eloMax - sElo) * eloDif;
-			double ratioElo = (Math.Abs(sElo - nElo) / CElo.eloRange);
-			double avgCount = allGames / listCount;
-			double delCount = (avgCount * 2) / listCount + 1;
-			double maxCount = Math.Sqrt(allGames * 2) + 1;
-			double optCount = maxCount - second.position * delCount + 1;
-			double ratioCount = allGames == 0 ? 0 : (optCount - curGames) / allGames;
-			double ratioDistance = (listCount - second.position) / listCount;
-			double ratioOrder = allGames == 0 ? 0 : (rw == rl) ? 0.2 : (sElo == fElo) ? 0.5 : (rw > rl) == (sElo < fElo) ? 1 : 0;
-			return ratioCount + ratioDistance + ratioElo + ratioOrder;
 		}
 
 		public static CBook SelectLast()

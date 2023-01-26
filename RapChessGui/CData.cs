@@ -68,8 +68,8 @@ namespace RapChessGui
 		public static CGameState gameState = CGameState.normal;
 		public static CGameMode gameMode = CGameMode.game;
 		public static List<string> fileBookReader = new List<string>();
-		public static List<string> fileEngine = new List<string>();
-		public static List<string> fileEngineAuto = new List<string>();
+		public static List<string> folderEngine = new List<string>();
+
 		public static void Clear()
 		{
 			gamesPlayed = 0;
@@ -153,9 +153,9 @@ namespace RapChessGui
 			}
 		}
 
-		public static void UpdateFileEngine(string path, List<string> list)
+		public static List<string> ListExe(string path)
 		{
-			list.Clear();
+			List<string> list = new List<string>();
 			if (Directory.Exists(path))
 			{
 				string[] filePaths = Directory.GetFiles(path, "*.exe");
@@ -165,12 +165,30 @@ namespace RapChessGui
 					list.Add(fn);
 				}
 			}
+			return list;
 		}
 
-		public static void UpdateFileEngine()
+
+		public static void FillComboBox(ComboBox cb,List<string> list)
 		{
-			UpdateFileEngine("Engines", fileEngine);
-			UpdateFileEngine(@"Engines/Auto", fileEngineAuto);
+			cb.Items.Clear();
+			cb.Sorted = true;
+			foreach (string s in list)
+				cb.Items.Add(s);
+			cb.Sorted = false;
+			cb.Items.Insert(0, Global.none);
+			cb.SelectedIndex = 0;
+		}
+
+		public static void UpdateFolderEngine()
+		{
+			folderEngine.Clear();
+			string[] arr = Directory.GetDirectories("Engines");
+			for (int n = 0; n < arr.Length; n++)
+			{
+				string fn = Path.GetFileName(arr[n]);
+				folderEngine.Add(fn);
+			}
 		}
 
 	}
@@ -183,7 +201,7 @@ namespace RapChessGui
 
 		static double Probability(double rating1, double rating2)
 		{
-			return 1.0 / (1.0 + Math.Pow(10.0,(rating1 - rating2) / 400.0));
+			return 1.0 / (1.0 + Math.Pow(10.0, (rating1 - rating2) / 400.0));
 		}
 
 		public static void EloRating(double oldEloWin, double oldEloLoose, out double newEloWin, out double newEloLoose, int Ga, int Gb, bool draw)
@@ -405,6 +423,8 @@ namespace RapChessGui
 
 	public class CElement
 	{
+		public int position = 0;
+		public string name = string.Empty;
 		public string elo = Global.elo;
 
 		public int Elo
@@ -418,6 +438,41 @@ namespace RapChessGui
 				elo = value.ToString();
 			}
 		}
+
+		public double EvaluateOpponent(CElement second,double listCount, CTourList tourList)
+		{
+			double sElo = second.Elo;
+			double allGames = tourList.CountGames(name);
+			double curGames = tourList.CountGames(second.name, name, out int rw, out int rl, out int rd);
+			double r = curGames == 0 ? 0 : (rw * 2.0 + rd - curGames) / curGames;
+			double eloDif = (CElo.eloRange - Math.Abs(Elo - sElo)) / CElo.eloRange;
+			double nElo = sElo;
+			if (r < 0)
+			{
+				nElo += r * sElo * eloDif;
+				if (nElo < sElo)
+					nElo = sElo;
+			}
+			else if (r > 0)
+			{
+				nElo += r * (CElo.eloMax - sElo) * eloDif;
+				if (nElo > sElo)
+					nElo = sElo;
+			}
+			else
+				nElo += Elo;
+			double ratioElo = (Math.Abs(sElo - nElo) / CElo.eloRange);
+			double maxCount = Math.Sqrt(allGames * 2) + 1;
+			double maxRange = Math.Min(listCount + 1, maxCount);
+			double avgCount = allGames / maxRange;
+			double delCount = (avgCount * 2) / maxRange;
+			double optCount = maxCount - second.position * delCount + 1;
+			double ratioCount = allGames == 0 ? 0 : (optCount - curGames) / maxCount;
+			double ratioDistance = (listCount - second.position) / listCount;
+			double ratioOrder = allGames == 0 ? 0 : (rw == rl) ? 0.2 : (sElo == Elo) ? 0.5 : (rw > rl) == (sElo < Elo) ? 1 : 0;
+			return ratioCount + ratioDistance + ratioElo + ratioOrder;
+		}
+
 	}
 
 	public class ListViewComparer : System.Collections.IComparer

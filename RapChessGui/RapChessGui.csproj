@@ -128,7 +128,7 @@
     <Compile Include="CModeMatch.cs" />
     <Compile Include="CBoard.cs" />
     <Compile Include="CProcessBuf.cs" />
-    <Compile Include="CGamerList.cs" />
+    <Compile Include="CGamers.cs" />
     <Compile Include="CRapIni.cs" />
     <Compile Include="CModeTraining.cs" />
     <Compile Include="CPlayerList.cs" />
@@ -206,11 +206,11 @@
     <Compile Include="FormLogEngines.Designer.cs">
       <DependentUpon>FormLogEngines.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormLogProgram.cs">
+    <Compile Include="FormLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormLogProgram.Designer.cs">
-      <DependentUpon>FormLogProgram.cs</DependentUpon>
+    <Compile Include="FormLog.Designer.cs">
+      <DependentUpon>FormLog.cs</DependentUpon>
     </Compile>
     <Compile Include="FormOptions.cs">
       <SubType>Form</SubType>
@@ -274,8 +274,8 @@
     <EmbeddedResource Include="FormLogEngines.resx">
       <DependentUpon>FormLogEngines.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormLogProgram.resx">
-      <DependentUpon>FormLogProgram.cs</DependentUpon>
+    <EmbeddedResource Include="FormLog.resx">
+      <DependentUpon>FormLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>

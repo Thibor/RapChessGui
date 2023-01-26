@@ -5,17 +5,21 @@ namespace RapChessGui
 {
 	public class CHisMove
 	{
+		public int halfMove;
 		public int piece;
 		public int emo;
 		public string umo;
 		public string san;
+		public string score = string.Empty;
 
-		public CHisMove(int piece, int emo, string umo, string san)
+		public CHisMove(int halfMove, int piece, int emo, string umo, string san, string score)
 		{
+			this.halfMove = halfMove;
 			this.piece = piece;
 			this.emo = emo;
 			this.umo = umo;
 			this.san = san;
+			this.score = score;
 		}
 
 		public string GetNotation()
@@ -29,7 +33,7 @@ namespace RapChessGui
 		public string GetPiece()
 		{
 			string[] p = { "", "\u2659", "\u2658", "\u2657", "\u2656", "\u2655", "\u2654", "", "", "\u265F", "\u265E", "\u265D", "\u265C", "\u265B", "\u265A", "" };
-				return p[piece] + GetNotation();
+			return p[piece] + GetNotation();
 		}
 
 	}
@@ -40,9 +44,11 @@ namespace RapChessGui
 		public static string fen = CChess.defFen;
 		public static List<CHisMove> moveList = new List<CHisMove>();
 
-		public static void AddMove(int piece, int emo, string umo, string san)
+		public static CHisMove AddMove(int halfMove, int piece, int emo, string umo, string san, string score)
 		{
-			moveList.Add(new CHisMove(piece, emo, umo, san));
+			CHisMove hm = new CHisMove(halfMove, piece, emo, umo, san, score);
+			moveList.Add(hm);
+			return hm;
 		}
 
 		public static bool Back(int c)
@@ -88,8 +94,6 @@ namespace RapChessGui
 		{
 			return ((moveNumber + moveList.Count) & 1) == 1;
 		}
-
-
 		public static void SetFen(string f = CChess.defFen, int mn = 0)
 		{
 			fen = f;

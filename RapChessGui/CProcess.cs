@@ -8,7 +8,7 @@ namespace RapChessGui
 	public class CProcess
 	{
 		private readonly DataReceivedEventHandler dataR = null;
-		public Process process = new Process();
+		public Process process = null;
 
 		public CProcess(DataReceivedEventHandler drh)
 		{
@@ -17,9 +17,7 @@ namespace RapChessGui
 
 		public int GetPid()
 		{
-			if (process.StartInfo.FileName == String.Empty)
-				return 0;
-			return process.Id;
+			return process?.Id ?? 0;
 		}
 
 		private void OnErrorReceived(object sender, DataReceivedEventArgs e)
@@ -76,11 +74,11 @@ namespace RapChessGui
 
 		public void Close()
 		{
-			if (process.StartInfo.FileName != String.Empty)
+			if (process != null)
 			{
-				Quit();
 				process.OutputDataReceived -= dataR;
-				process.StartInfo.FileName = String.Empty;
+				Quit();
+				process = null;
 			}
 		}
 
@@ -88,11 +86,11 @@ namespace RapChessGui
 		{
 			try
 			{
-				if (process.StartInfo.FileName != String.Empty)
+				if (process != null)
 				{
 					process.OutputDataReceived -= dataR;
 					process.Kill();
-					process.StartInfo.FileName = String.Empty;
+					process = null;
 				}
 			}
 			catch { }
@@ -100,12 +98,9 @@ namespace RapChessGui
 
 		public void WriteLine(string c, bool sleep = false)
 		{
-			if (process.StartInfo.FileName != String.Empty)
-			{
-				process.StandardInput.WriteLine(c);
-				if (sleep)
-					System.Threading.Thread.Sleep(8);
-			}
+			process?.StandardInput.WriteLine(c);
+			if (sleep)
+				System.Threading.Thread.Sleep(8);
 		}
 
 	}

@@ -53,7 +53,7 @@ namespace RapChessGui
 
 		void StartTestOptions()
 		{
-			if (processOptions.SetProgram($@"{AppDomain.CurrentDomain.BaseDirectory}Books\{book.file}", book.parameters) > 0)
+			if (processOptions.SetProgram($@"{AppDomain.CurrentDomain.BaseDirectory}Books\{book.file}", book.arguments) > 0)
 			{
 				processOptions.WriteLine("book getoption", true);
 				processOptions.WriteLine("quit");
@@ -160,7 +160,7 @@ namespace RapChessGui
 		{
 			tbBookName.Text = book.name;
 			cbBookreaderList.Text = book.file;
-			tbParameters.Text = book.parameters;
+			tbParameters.Text = book.arguments;
 			nudElo.Value = Convert.ToInt32(book.elo);
 			nudTournament.Value = book.tournament;
 		}
@@ -182,7 +182,7 @@ namespace RapChessGui
 		{
 			b.name = tbBookName.Text;
 			b.file = cbBookreaderList.Text;
-			b.parameters = tbParameters.Text;
+			b.arguments = tbParameters.Text;
 			b.elo = nudElo.Value.ToString();
 			b.tournament = (int)nudTournament.Value;
 			b.options = GetOptions();
@@ -330,9 +330,9 @@ namespace RapChessGui
 		private void consoleToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			string bn = book.GetOption("Book file");
-			string arg = string.IsNullOrEmpty(bn) ? book.GetParameters() : $@"{bn} -info";
+			string arg = string.IsNullOrEmpty(bn) ? book.arguments : $@"{bn} -info";
 			ProcessStartInfo psi = new ProcessStartInfo();
-			psi.FileName = book.GetFileName();
+			psi.FileName = book.GetPath();
 			psi.Arguments = arg;
 			psi.WorkingDirectory = Path.GetDirectoryName(psi.FileName);
 			Process.Start(psi);

@@ -2,18 +2,24 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
-using System.Threading;
 
 namespace RapChessGui
 {
 
 	public class CProcessBuf
 	{
-		bool spamOff = true;
-		public Process process = new Process();
+		protected Process process = null;
 		readonly private object locker = new object();
 		private readonly List<string> list = new List<string>();
 
+		/// <summary>
+		/// Get memory usage
+		/// </summary>
+		public string GetMemory()
+		{
+			process?.Refresh();
+			return process?.PrivateMemorySize64.ToString("N0") ?? "Memory";
+		}
 
 		void SetMessage(string msg)
 		{
@@ -33,7 +39,7 @@ namespace RapChessGui
 					if (m.Contains("bestmove"))
 					{
 						stop = true;
-						if (spamOff)
+						if (FormOptions.spamOff)
 						{
 							list.Clear();
 							return m;
@@ -55,14 +61,6 @@ namespace RapChessGui
 			{
 				list.Clear();
 			}
-			process.StartInfo.FileName = String.Empty;
-		}
-
-		public int GetPid()
-		{
-			if (process.StartInfo.FileName == String.Empty)
-				return 0;
-			return process.Id;
 		}
 
 		private void OnDataReceived(object sender, DataReceivedEventArgs e)
@@ -78,10 +76,9 @@ namespace RapChessGui
 			catch { }
 		}
 
-		public int SetProgram(string path, string param = "", bool so = false)
+		public bool SetProgram(string path, string param = "")
 		{
 			Terminate();
-			spamOff = so;
 			if (File.Exists(path))
 			{
 				process = new Process();
@@ -97,9 +94,9 @@ namespace RapChessGui
 				process.Start();
 				process.BeginOutputReadLine();
 				process.PriorityClass = FormOptions.priority;
-				return process.Id;
+				return true;
 			}
-			return 0;
+			return false;
 		}
 
 		public void Restart()
@@ -119,11 +116,18 @@ namespace RapChessGui
 
 		public void Close()
 		{
-			if (process.StartInfo.FileName != String.Empty)
+			try
 			{
-				Quit();
-				process.OutputDataReceived -= OnDataReceived;
-				Clear();
+				if (process != null)
+				{
+					process.OutputDataReceived -= OnDataReceived;
+					Clear();
+					Quit();
+					process = null;
+				}
+			}
+			catch
+			{
 			}
 		}
 
@@ -131,22 +135,22 @@ namespace RapChessGui
 		{
 			try
 			{
-				if (process.StartInfo.FileName != String.Empty)
+				if (process != null)
 				{
 					process.OutputDataReceived -= OnDataReceived;
-					process.Kill();
 					Clear();
+					process.Kill();
+					process = null;
 				}
 			}
-			catch { }
+			catch
+			{
+			}
 		}
 
 		public void WriteLine(string c)
 		{
-			if (!process.HasExited)
-			{
-				process.StandardInput.WriteLine(c);
-			}
+			process?.StandardInput.WriteLine(c);
 		}
 
 	}

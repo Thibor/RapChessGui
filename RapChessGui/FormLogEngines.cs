@@ -72,26 +72,26 @@ namespace RapChessGui
 			This.richTextBox1.SaveFile(fn);
 		}
 
-		public static void SetMessage(CGamer gamer, string protocol, string msg)
+		public static void SetMessage(CGamer gamer, bool book, string msg)
 		{
-			string book = protocol == "Book" ? "book " : String.Empty;
-			Color col = gamer.isWhite ? Color.DimGray : Color.Black;
-			AppendTimeText($"{book}{gamer.player.name}", col);
+			string b = book ? "book " : String.Empty;
+			Color col = gamer.IsWhite() ? Color.DimGray : Color.Black;
+			AppendTimeText($"{b}{gamer.player.name}", col);
 			AppendText($" > {msg}\n", Color.DarkBlue);
 		}
 
 		public static void WriteHeaderGamer(CGamer g)
 		{
-			Color color = g.isWhite ? Color.DimGray : Color.Black;
-			string colorS = g.isWhite ? "White" : "Black";
+			Color color = g.IsWhite() ? Color.DimGray : Color.Black;
+			string colorS = g.IsWhite() ? "White" : "Black";
 			AppendTimeText($"{colorS}: {g.player.GetName()}\n", color);
 			if (g.engine == null)
 				return;
-			AppendTimeText($"Engine: {g.player.Engine}\n", color);
+			AppendTimeText($"Engine: {g.player.EngineName}\n", color);
 			AppendTimeText($"File: {g.engine.file}\n", color);
-			string parameters = g.engine.parameters;
+			string parameters = g.engine.arguments;
 			if (parameters != "")
-				AppendTimeText($"Parameters: {g.engine.parameters}\n", color);
+				AppendTimeText($"Parameters: {g.engine.arguments}\n", color);
 		}
 
 		public static void WriteHeader(CGamer gw, CGamer gb)
@@ -174,7 +174,7 @@ namespace RapChessGui
 			{
 				locked = true;
 				richTextBox1.Clear();
-				process.SetProgram($@"{AppDomain.CurrentDomain.BaseDirectory}Engines\{engine.file}", engine.parameters);
+				process.SetProgram($@"{AppDomain.CurrentDomain.BaseDirectory}Engines\{engine.file}", engine.arguments);
 			}
 		}
 

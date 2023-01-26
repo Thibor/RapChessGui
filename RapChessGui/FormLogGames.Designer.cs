@@ -28,32 +28,32 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.textBox = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
-			// textBox1
+			// textBox
 			// 
-			this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBox1.Location = new System.Drawing.Point(0, 0);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.ReadOnly = true;
-			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textBox1.Size = new System.Drawing.Size(800, 450);
-			this.textBox1.TabIndex = 0;
+			this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.textBox.Location = new System.Drawing.Point(0, 0);
+			this.textBox.Multiline = true;
+			this.textBox.Name = "textBox";
+			this.textBox.ReadOnly = true;
+			this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textBox.Size = new System.Drawing.Size(800, 450);
+			this.textBox.TabIndex = 0;
 			// 
 			// FormLogGames
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
-			this.Controls.Add(this.textBox1);
+			this.Controls.Add(this.textBox);
 			this.MinimizeBox = false;
 			this.Name = "FormLogGames";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Log book";
+			this.Text = "Log games";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPgn_FormClosing);
 			this.VisibleChanged += new System.EventHandler(this.FormLogGames_VisibleChanged);
 			this.ResumeLayout(false);
@@ -63,6 +63,6 @@
 
 		#endregion
 
-		public System.Windows.Forms.TextBox textBox1;
+		public System.Windows.Forms.TextBox textBox;
 	}
 }
