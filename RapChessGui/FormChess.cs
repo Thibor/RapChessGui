@@ -51,6 +51,7 @@ namespace RapChessGui
 		public static CBookList bookList = new CBookList();
 		public static CEngineList engineList = new CEngineList();
 		public static CPlayerList playerList = new CPlayerList();
+		readonly FormAbout formAbout = new FormAbout();
 		readonly FormLog formLog = new FormLog();
 		readonly FormLogGames formLogGames = new FormLogGames();
 		readonly FormLogEngines formLogEngines = new FormLogEngines();
@@ -3156,6 +3157,11 @@ namespace RapChessGui
 		private void lastAutodetectToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			ShowFormLog("Engine autodetection", FormAutodetect.path);
+		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			formAbout.ShowDialog(this);
 		}
 	}
 }

@@ -331,6 +331,8 @@
 			this.tlpBlack = new System.Windows.Forms.TableLayoutPanel();
 			this.timerAnimation = new System.Windows.Forms.Timer(this.components);
 			this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
+			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl1.SuspendLayout();
 			this.tabPageGame.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chartGame)).BeginInit();
@@ -2628,11 +2630,12 @@
             this.optionsToolStripMenuItem,
             this.logToolStripMenuItem,
             this.historyToolStripMenuItem,
-            this.listsToolStripMenuItem});
+            this.listsToolStripMenuItem,
+            this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 2);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.ShowItemToolTips = true;
-			this.menuStrip1.Size = new System.Drawing.Size(345, 24);
+			this.menuStrip1.Size = new System.Drawing.Size(509, 24);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -2652,27 +2655,27 @@
             this.pgnToolStripMenuItem1,
             this.uciToolStripMenuItem});
 			this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-			this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.loadToolStripMenuItem.Text = "Load";
 			// 
 			// fenToolStripMenuItem1
 			// 
 			this.fenToolStripMenuItem1.Name = "fenToolStripMenuItem1";
-			this.fenToolStripMenuItem1.Size = new System.Drawing.Size(95, 22);
+			this.fenToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
 			this.fenToolStripMenuItem1.Text = "Fen";
 			this.fenToolStripMenuItem1.Click += new System.EventHandler(this.menuClipboardLoadFen_Click);
 			// 
 			// pgnToolStripMenuItem1
 			// 
 			this.pgnToolStripMenuItem1.Name = "pgnToolStripMenuItem1";
-			this.pgnToolStripMenuItem1.Size = new System.Drawing.Size(95, 22);
+			this.pgnToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
 			this.pgnToolStripMenuItem1.Text = "Pgn";
 			this.pgnToolStripMenuItem1.Click += new System.EventHandler(this.pgnToolStripMenuItem1_Click);
 			// 
 			// uciToolStripMenuItem
 			// 
 			this.uciToolStripMenuItem.Name = "uciToolStripMenuItem";
-			this.uciToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+			this.uciToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.uciToolStripMenuItem.Text = "Uci";
 			this.uciToolStripMenuItem.Click += new System.EventHandler(this.uciToolStripMenuItem_Click);
 			// 
@@ -2683,27 +2686,27 @@
             this.pgnToolStripMenuItem2,
             this.uciToolStripMenuItem1});
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.saveToolStripMenuItem.Text = "Save";
 			// 
 			// fenToolStripMenuItem2
 			// 
 			this.fenToolStripMenuItem2.Name = "fenToolStripMenuItem2";
-			this.fenToolStripMenuItem2.Size = new System.Drawing.Size(95, 22);
+			this.fenToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.fenToolStripMenuItem2.Text = "Fen";
 			this.fenToolStripMenuItem2.Click += new System.EventHandler(this.fenToolStripMenuItem2_Click);
 			// 
 			// pgnToolStripMenuItem2
 			// 
 			this.pgnToolStripMenuItem2.Name = "pgnToolStripMenuItem2";
-			this.pgnToolStripMenuItem2.Size = new System.Drawing.Size(95, 22);
+			this.pgnToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
 			this.pgnToolStripMenuItem2.Text = "Pgn";
 			this.pgnToolStripMenuItem2.Click += new System.EventHandler(this.pgnToolStripMenuItem2_Click);
 			// 
 			// uciToolStripMenuItem1
 			// 
 			this.uciToolStripMenuItem1.Name = "uciToolStripMenuItem1";
-			this.uciToolStripMenuItem1.Size = new System.Drawing.Size(95, 22);
+			this.uciToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
 			this.uciToolStripMenuItem1.Text = "Uci";
 			this.uciToolStripMenuItem1.Click += new System.EventHandler(this.uciToolStripMenuItem1_Click);
 			// 
@@ -2945,9 +2948,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labEco.Cursor = System.Windows.Forms.Cursors.Default;
 			this.labEco.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.labEco.Location = new System.Drawing.Point(348, 4);
+			this.labEco.Location = new System.Drawing.Point(408, 4);
 			this.labEco.Name = "labEco";
-			this.labEco.Size = new System.Drawing.Size(695, 22);
+			this.labEco.Size = new System.Drawing.Size(635, 22);
 			this.labEco.TabIndex = 3;
 			this.labEco.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.toolTip1.SetToolTip(this.labEco, "Names of chess openings variations");
@@ -4300,6 +4303,21 @@
 			this.fileSystemWatcher1.Deleted += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
 			this.fileSystemWatcher1.Renamed += new System.IO.RenamedEventHandler(this.fileSystemWatcher1_Renamed);
 			// 
+			// helpToolStripMenuItem
+			// 
+			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Text = "Help";
+			// 
+			// aboutToolStripMenuItem
+			// 
+			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.aboutToolStripMenuItem.Text = "About";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+			// 
 			// FormChess
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4705,6 +4723,8 @@
 		private System.Windows.Forms.ToolStripMenuItem booksToolStripMenuItem2;
 		private System.Windows.Forms.ToolStripMenuItem playersToolStripMenuItem2;
 		private System.Windows.Forms.ToolStripMenuItem lastAutodetectToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 	}
 }
 

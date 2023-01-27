@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace NSChess
 {
 
-	public enum CGameState {wait, normal, mate, stalemate, repetition, move50, material, time, error, resignation }
+	public enum CGameState { wait, normal, mate, stalemate, repetition, move50, material, time, error, resignation }
 
 	struct SXY
 	{
@@ -57,7 +57,7 @@ namespace NSChess
 		const int maskColor = colorBlack | colorWhite;
 		public int castleRighs = 0xf;
 		ulong hash = 0;
-		protected int passing = 0;
+		protected int passing = -1;
 		public int move50 = 0;
 		public int halfMove = 0;
 		public bool inCheck = false;
@@ -232,9 +232,9 @@ namespace NSChess
 					int piece = board[f] & 7;
 					if ((piece == pieceFr) && ((m & 0xff00) == (emo & 0xff00)))
 					{
-						if ((m & 0xf0) != (emo & 0xf0))
+						if ((f / 8) != (fr / 8))
 							showRank = true;
-						if ((m & 0xf) != (emo & 0xf))
+						if ((f % 8) != (fr % 8))
 							showFile = true;
 					}
 				}
@@ -246,8 +246,8 @@ namespace NSChess
 			string faf = showFile ? umo.Substring(0, 1) : String.Empty;
 			string far = showRank ? umo.Substring(1, 1) : String.Empty;
 			string fb = umo.Substring(2, 2);
-			string attack = isAttack ? "x" : "";
-			string promo = "";
+			string attack = isAttack ? "x" : String.Empty;
+			string promo = String.Empty;
 			if ((flags & moveflagPromoteKnight) > 0)
 				promo = "=N";
 			if ((flags & moveflagPromoteBishop) > 0)
@@ -256,7 +256,7 @@ namespace NSChess
 				promo = "=R";
 			if ((flags & moveflagPromoteQueen) > 0)
 				promo = "=Q";
-			string fin = check ? "+" : "";
+			string fin = check ? "+" : String.Empty;
 			if (gs == CGameState.mate)
 				fin = "#";
 			return $"{arrPiece[pieceFr]}{faf}{far}{attack}{fb}{promo}{fin}";
@@ -269,14 +269,15 @@ namespace NSChess
 		public string SanToUmo(string san)
 		{
 			char[] charsToTrim = { '+', '#' };
-			san = san.Trim(charsToTrim);
+			san = san.Trim(charsToTrim).ToLower();
 			List<int> moves = GenerateValidMoves(out _);
-			foreach (int imo in moves)
+			foreach (int emo in moves)
 			{
-				string umo = EmoToUmo(imo);
-				if (umo == san)
+				string umo = EmoToUmo(emo);
+				int i = san.IndexOf(umo);
+				if ((i == 0) || (i == 1))
 					return umo;
-				if (UmoToSan(umo).Trim(charsToTrim) == san)
+				if (UmoToSan(umo).Trim(charsToTrim).ToLower() == san)
 					return umo;
 			}
 			return String.Empty;
@@ -688,7 +689,7 @@ namespace NSChess
 			}
 			undo.captured = captured;
 			hash ^= hashBoard[fr, piece];
-			passing = 0;
+			passing = -1;
 			if ((captured & 0xf) > 0)
 				move50 = 0;
 			else if ((piece & 7) == piecePawn)
