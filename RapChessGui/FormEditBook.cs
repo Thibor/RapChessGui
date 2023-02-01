@@ -345,5 +345,16 @@ namespace RapChessGui
 			else
 				formLogBook.Show(this);
 		}
+
+		private void clearTournamentHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (book != null)
+			{
+				book.hisElo.Clear();
+				book.SaveToIni();
+				int count = CModeTournamentB.tourList.DeletePlayer(book.name);
+				MessageBox.Show($"{count} records have been deleted");
+			}
+		}
 	}
 }

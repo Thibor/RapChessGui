@@ -25,6 +25,7 @@ namespace RapChessGui
 				textBox.Text = File.ReadAllText(path);
 				textBox.Select(0, 0);
 			}
+			else textBox.Clear();
 		}
 	}
 }

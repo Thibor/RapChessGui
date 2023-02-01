@@ -13,7 +13,7 @@ namespace RapChessGui
 		public static bool showAttack = false;
 		public static bool showPonder = true;
 		public static bool showTips = true;
-		public static bool spamOff = true;
+		public static volatile bool spamOff = true;
 		public static bool soundOn = true;
 		public static int animationSpeed = 200;
 		public static int fontSize = 10;

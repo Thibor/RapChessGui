@@ -131,7 +131,7 @@ namespace RapChessGui
 			CEngine e = new CEngine();
 			SettingsToEngine(e);
 			string name = e.CreateName();
-			if (name != e.name)
+			if (name.ToLower() != e.name.ToLower())
 				name = FormChess.engineList.GetName(name);
 			tbEngineName.Text = name;
 			ClickSave();

@@ -543,8 +543,8 @@ namespace RapChessGui
 		public string GetTime(out bool low)
 		{
 			low = false;
-			double ms = timer.Elapsed.TotalMilliseconds;
-			DateTime dt = new DateTime();
+			TimeSpan ts = timer.Elapsed;
+			double ms = ts.TotalMilliseconds;
 			CLevel level = CLevel.standard;
 			int value = 0;
 			if (player != null)
@@ -556,17 +556,16 @@ namespace RapChessGui
 			{
 				double v = Convert.ToDouble(value);
 				double t = v - ms;
-				if ((t < -FormOptions.marginStandard) && (FormOptions.marginStandard >= 0) && timer.IsRunning)
+				ts = TimeSpan.FromMilliseconds(t);
+				if ((ts.TotalMilliseconds < -FormOptions.marginStandard) && (FormOptions.marginStandard >= 0) && timer.IsRunning)
 				{
 					FormChess.This.SetGameState(CGameState.time);
 					return "Time out";
 				}
-				if (t > 0)
-					dt = dt.AddMilliseconds(t);
-				if (t < 10000)
+				if (ts.Seconds < 10)
 				{
 					low = true;
-					return dt.ToString("ss.ff");
+					return ts.ToString(@"ss\.ff");
 				}
 			}
 			else if (level == CLevel.time)
@@ -577,13 +576,11 @@ namespace RapChessGui
 					FormChess.This.SetGameState(CGameState.time);
 					return "Time out";
 				}
-				if (ms > 0)
-					dt = dt.AddMilliseconds(ms);
+				ts.Add(TimeSpan.FromMilliseconds(ms));
 			}
 			else
-				if (ms > 0)
-				dt = dt.AddMilliseconds(ms);
-			return dt.ToString("HH:mm:ss");
+				ts.Add(TimeSpan.FromMilliseconds(ms));
+			return ts.ToString(@"hh\:mm\:ss");
 		}
 
 		public string GetElo()
@@ -639,7 +636,7 @@ namespace RapChessGui
 			if (book == null)
 				gamerBook.Terminate();
 			else
-				gamerBook.SetProgram(book.GetPath(), book.arguments);
+				gamerBook.SetProgram(book.GetPath(), book.GetArguments());
 		}
 
 		public void SetEngine(string e)
@@ -648,7 +645,7 @@ namespace RapChessGui
 			if (engine == null)
 				gamerEngine.Terminate();
 			else
-				gamerEngine.SetProgram(engine.GetPath(), engine.arguments);
+				gamerEngine.SetProgram(engine.GetPath(), engine.arguments, FormOptions.spamOff);
 		}
 
 	}
@@ -817,17 +814,17 @@ namespace RapChessGui
 				if (bb != null)
 					bb.GetBFFromOption(out bfb);
 				if ((bw != null) && (bfw != string.Empty))
-					bookSta.SetProgram(pw.book.GetPath(), pw.book.arguments, pw.BookName);
+					bookSta.SetProgram(pw.book.GetPath(), pw.book.GetArguments(), pw.BookName);
 				else if ((bb != null) && (bfb != string.Empty))
-					bookSta.SetProgram(pb.book.GetPath(), pb.book.arguments, pb.BookName);
+					bookSta.SetProgram(pb.book.GetPath(), pb.book.GetArguments(), pb.BookName);
 			}
 			foreach (CGamer g in gamers)
 				g.gamerBook = new CGamerBook();
-			if (pw.BookName == bookSta.name)
+			if (!string.IsNullOrEmpty(bookSta.name) && (pw.BookName == bookSta.name))
 				gamers[0].SetPlayer(pw, bookSta);
 			else
 				gamers[0].SetPlayer(pw);
-			if (pb.BookName == bookSta.name)
+			if (!string.IsNullOrEmpty(bookSta.name) && (pb.BookName == bookSta.name))
 				gamers[1].SetPlayer(pb, bookSta);
 			else
 				gamers[1].SetPlayer(pb);

@@ -148,17 +148,6 @@ namespace RapChessGui
 			}
 		}
 
-		private void butClearHistory_Click(object sender, EventArgs e)
-		{
-			if (player != null)
-			{
-				player.hisElo.Clear();
-				player.SaveToIni();
-				int count = CModeTournamentP.tourList.DeletePlayer(player.name);
-				MessageBox.Show($"{count} records have been deleted");
-			}
-		}
-
 		private void FormPlayer_Shown(object sender, EventArgs e)
 		{
 			cbEngineList.Items.Clear();
@@ -272,6 +261,17 @@ namespace RapChessGui
 		private void FormEditPlayer_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			CPlayerList.iniFile.Save();
+		}
+
+		private void clearTournamentHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (player != null)
+			{
+				player.hisElo.Clear();
+				player.SaveToIni();
+				int count = CModeTournamentP.tourList.DeletePlayer(player.name);
+				MessageBox.Show($"{count} records have been deleted");
+			}
 		}
 	}
 }

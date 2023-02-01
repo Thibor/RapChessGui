@@ -50,6 +50,7 @@
 			this.consoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.showLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.clearTournamentHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.panel1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudTournament)).BeginInit();
@@ -309,7 +310,8 @@
 			// actionToolStripMenuItem
 			// 
 			this.actionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showLogToolStripMenuItem});
+            this.showLogToolStripMenuItem,
+            this.clearTournamentHistoryToolStripMenuItem});
 			this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
 			this.actionToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
 			this.actionToolStripMenuItem.Text = "Action";
@@ -317,9 +319,16 @@
 			// showLogToolStripMenuItem
 			// 
 			this.showLogToolStripMenuItem.Name = "showLogToolStripMenuItem";
-			this.showLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.showLogToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
 			this.showLogToolStripMenuItem.Text = "Show log";
 			this.showLogToolStripMenuItem.Click += new System.EventHandler(this.showLogToolStripMenuItem_Click);
+			// 
+			// clearTournamentHistoryToolStripMenuItem
+			// 
+			this.clearTournamentHistoryToolStripMenuItem.Name = "clearTournamentHistoryToolStripMenuItem";
+			this.clearTournamentHistoryToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+			this.clearTournamentHistoryToolStripMenuItem.Text = "Clear tournament history";
+			this.clearTournamentHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearTournamentHistoryToolStripMenuItem_Click);
 			// 
 			// FormEditBook
 			// 
@@ -381,5 +390,6 @@
 		private System.Windows.Forms.ToolStripMenuItem consoleToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem showLogToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem clearTournamentHistoryToolStripMenuItem;
 	}
 }

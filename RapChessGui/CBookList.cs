@@ -64,6 +64,11 @@ namespace RapChessGui
 			return arguments.Contains(book);
 		}
 
+		public string GetArguments()
+		{
+			return arguments.Replace("[engines]", $@"{AppDomain.CurrentDomain.BaseDirectory}Engines\");
+		}
+
 		public string GetPath()
 		{
 			return $@"{AppDomain.CurrentDomain.BaseDirectory}Books\{file}";
@@ -275,18 +280,23 @@ namespace RapChessGui
 			});
 		}
 
-		void TryAdd(string bf, string bp)
+		void TryAdd(string bf, string dir, string fn)
 		{
-			if ((bf != String.Empty) && !ContainBF(bp))
-			{
-				string option = $@"name Book file value {bp}";
-				CBook b = new CBook();
-				b.file = bf;
-				b.options.Add(option);
-				b.name = b.GetName();
-				DeleteBook(b.name);
-				Add(b);
-			}
+			string bp = $@"{dir}\{fn}";
+			FileInfo fi = new FileInfo(bp);
+			if (string.IsNullOrEmpty(bf))
+				return;
+			if (ContainBF(bp))
+				return;
+			if (!string.Equals(fi.Extension, $".{dir}", StringComparison.OrdinalIgnoreCase))
+				return;
+			string option = $@"name Book file value {bp}";
+			CBook b = new CBook();
+			b.file = bf;
+			b.options.Add(option);
+			b.name = b.GetName();
+			DeleteBook(b.name);
+			Add(b);
 		}
 
 		void TryDel(string dir)
@@ -306,10 +316,7 @@ namespace RapChessGui
 			string path = $@"Books\{dir}";
 			string[] arrBooks = Directory.GetFiles(path);
 			foreach (string b in arrBooks)
-			{
-				string fn = Path.GetFileName(b);
-				TryAdd(br, $@"{dir}\{fn}");
-			}
+				TryAdd(br, dir, Path.GetFileName(b));
 		}
 
 		public void Update()

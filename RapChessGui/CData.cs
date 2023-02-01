@@ -56,27 +56,40 @@ namespace RapChessGui
 		public static string elo = "1500";
 	}
 
+	public static class CGames
+	{
+		public static int played = 0;
+		public static int draw = 0;
+		public static int time = 0;
+		public static int error = 0;
+
+		public static void Reset()
+		{
+			played = 0;
+			draw = 0;
+			time = 0;
+			error = 0;
+		}
+
+		public static string Text
+		{
+			get
+			{
+				return $"RapChessGui Games {played} Draws {draw} Time out {time} Errors {error}";
+			}
+		}
+
+	}
+
 	public static class CData
 	{
 		public static bool reset = true;
 		public static bool rotateBoard = false;
-		public static int gamesPlayed = 0;
-		public static int gamesDraw = 0;
-		public static int gamesTime = 0;
-		public static int gamesError = 0;
 		public static string eco = String.Empty;
 		public static CGameState gameState = CGameState.normal;
 		public static CGameMode gameMode = CGameMode.game;
 		public static List<string> fileBookReader = new List<string>();
 		public static List<string> folderEngine = new List<string>();
-
-		public static void Clear()
-		{
-			gamesPlayed = 0;
-			gamesDraw = 0;
-			gamesTime = 0;
-			gamesError = 0;
-		}
 
 		public static string ProtocolToStr(CProtocol p)
 		{

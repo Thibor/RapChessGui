@@ -8,6 +8,7 @@ namespace RapChessGui
 
 	public class CProcessBuf
 	{
+		bool spamOff = false;
 		protected Process process = null;
 		readonly private object locker = new object();
 		private readonly List<string> list = new List<string>();
@@ -39,7 +40,7 @@ namespace RapChessGui
 					if (m.Contains("bestmove"))
 					{
 						stop = true;
-						if (FormOptions.spamOff)
+						if (spamOff)
 						{
 							list.Clear();
 							return m;
@@ -76,8 +77,9 @@ namespace RapChessGui
 			catch { }
 		}
 
-		public bool SetProgram(string path, string param = "")
+		public bool SetProgram(string path, string param = "",bool spamOff = false)
 		{
+			this.spamOff = spamOff;
 			Terminate();
 			if (File.Exists(path))
 			{

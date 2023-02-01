@@ -129,7 +129,7 @@ namespace RapChessGui
 		public string CreateName()
 		{
 			TextInfo ti = new CultureInfo("en-US", false).TextInfo;
-			string p = Path.GetFileNameWithoutExtension(file);
+			string p = Path.GetFileNameWithoutExtension(file).Replace('_',' ').Trim();
 			return ti.ToTitleCase(p);
 		}
 
@@ -314,16 +314,11 @@ namespace RapChessGui
 			List<string> list = CData.ListExe(@"Engines\Auto");
 			foreach (string file in list)
 			{
-				string name = Path.GetFileNameWithoutExtension(file);
 				CEngine engine = GetEngineByFile(file);
 				if (engine == null)
 				{
-					engine = GetEngineByName(name);
-					if (engine == null)
-					{
-						engine = new CEngine(name);
-						Add(engine);
-					}
+					engine = new CEngine();
+					Add(engine);
 					engine.file = file;
 					engine.folder = "Auto";
 					engine.name = engine.GetName();
@@ -351,6 +346,7 @@ namespace RapChessGui
 							int n = i * 10;
 							CEngine engine = new CEngine($"{CEngineList.def} {n}");
 							engine.protocol = CProtocol.uci;
+							engine.folder = e.folder;
 							engine.file = e.file;
 							engine.elo = (n * 20).ToString();
 							engine.options.Add($"name Skill level value {n}");

@@ -12,10 +12,11 @@ namespace RapChessGui
 {
 	public partial class FormAbout : Form
 	{
+
 		public FormAbout()
 		{
 			InitializeComponent();
 		}
 
-    }
+	}
 }
