@@ -60,14 +60,14 @@ namespace RapChessGui
 		{
 			int y = 8;
 			panOptions.Controls.Clear();
-			optionList.Sort();
+			optionList.SortTypeName();
 			Label lab;
-			for (int n = 0; n < optionList.list.Count; n++)
+			for (int n = 0; n < optionList.Count; n++)
 			{
 				string name = $"optionN{n}";
 				string oName = name;
 				string lName = name;
-				COption o = optionList.list[n];
+				COption o = optionList[n];
 				switch (o.type)
 				{
 					case "spin":
@@ -81,7 +81,7 @@ namespace RapChessGui
 						panOptions.Controls.Add(nud);
 						lab = new Label();
 						lab.Name = lName;
-						lab.Text = o.name;
+						lab.Text = o.Text();
 						lab.Location = new Point(128, y);
 						lab.Size = new Size(panOptions.Width - 160, lab.Height);
 						panOptions.Controls.Add(lab);
@@ -90,7 +90,7 @@ namespace RapChessGui
 					case "check":
 						CheckBox check = new CheckBox();
 						check.Name = oName;
-						check.Text = o.name;
+						check.Text = o.Text();
 						check.Checked = Convert.ToBoolean(engine.GetOption(o.name, o.def));
 						check.Location = new Point(3, y);
 						check.Size = new Size(panOptions.Width - 32, check.Height);
@@ -100,7 +100,7 @@ namespace RapChessGui
 					case "string":
 						lab = new Label();
 						lab.Name = lName;
-						lab.Text = o.name;
+						lab.Text = o.Text();
 						lab.TextAlign = ContentAlignment.MiddleLeft;
 						lab.Location = new Point(3, y);
 						lab.Size = new Size(panOptions.Width - 32, lab.Height);
@@ -182,7 +182,7 @@ namespace RapChessGui
 
 		void SelectEngine()
 		{
-			optionList.list.Clear();
+			optionList.Clear();
 			OptionFinish();
 			EngineToSettings();
 			StartTestOptions();
@@ -254,13 +254,13 @@ namespace RapChessGui
 		List<string> GetOptions()
 		{
 			List<string> list = new List<string>();
-			for (int n = 0; n < optionList.list.Count; n++)
+			for (int n = 0; n < optionList.Count; n++)
 			{
 				string oName = $"optionN{n}";
 				var c = panOptions.Controls.Find(oName, false);
 				if (c.Length == 0)
 					continue;
-				COption o = optionList.list[n];
+				COption o = optionList[n];
 				string value;
 				switch (o.type)
 				{

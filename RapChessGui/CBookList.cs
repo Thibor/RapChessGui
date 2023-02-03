@@ -143,7 +143,7 @@ namespace RapChessGui
 
 	public class CBookList : List<CBook>
 	{
-		public static string def = "BRE Bigest";
+		public static string def = "BRM Bigmem";
 		public static CRapIni iniFile = new CRapIni(@"Ini\books.ini");
 
 		public void AddBook(CBook b)

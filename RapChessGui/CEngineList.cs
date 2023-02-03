@@ -128,9 +128,7 @@ namespace RapChessGui
 
 		public string CreateName()
 		{
-			TextInfo ti = new CultureInfo("en-US", false).TextInfo;
-			string p = Path.GetFileNameWithoutExtension(file).Replace('_',' ').Trim();
-			return ti.ToTitleCase(p);
+			return CData.TextBeauty(Path.GetFileNameWithoutExtension(file));
 		}
 
 		public string GetOption(string name, string def)

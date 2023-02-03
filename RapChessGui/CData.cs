@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Globalization;
 
 namespace RapChessGui
 {
@@ -104,6 +105,13 @@ namespace RapChessGui
 					return "Unknown";
 
 			}
+		}
+
+		public static string TextBeauty(string text)
+		{
+				TextInfo ti = new CultureInfo("en-US", false).TextInfo;
+				string p = text.Replace('_', ' ').Trim();
+				return ti.ToTitleCase(p);
 		}
 
 		public static void ComboSelect(ComboBox cb, string n)

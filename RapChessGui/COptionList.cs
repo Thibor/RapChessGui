@@ -12,16 +12,20 @@ namespace RapChessGui
 		public string def = "";
 		public string min = "";
 		public string max = "";
+
+		public string Text()
+		{
+			return CData.TextBeauty(name);
+		}
 	}
 
-	class COptionList
+	class COptionList : List<COption>
 	{
 		readonly CUci uci = new CUci();
-		public List<COption> list = new List<COption>();
 
 		public COption GetOption(string name)
 		{
-			foreach (COption o in list)
+			foreach (COption o in this)
 				if (o.name == name)
 					return o;
 			return null;
@@ -40,14 +44,14 @@ namespace RapChessGui
 					uci.GetValue("default", out op.def);
 					uci.GetValue("min", out op.min);
 					uci.GetValue("max", out op.max);
-					list.Add(op);
+					Add(op);
 				}
 			}
 		}
 
-		public void Sort()
+		public void SortTypeName()
 		{
-			list.Sort(delegate (COption o1, COption o2)
+			Sort(delegate (COption o1, COption o2)
 			{
 				return String.Compare($"{o1.type} {o1.name}", $"{o2.type} {o2.name}");
 			});

@@ -64,14 +64,14 @@ namespace RapChessGui
 		{
 			int y = 8;
 			panOptions.Controls.Clear();
-			optionList.Sort();
+			optionList.SortTypeName();
 			Label lab;
-			for (int n = 0; n < optionList.list.Count; n++)
+			for (int n = 0; n < optionList.Count; n++)
 			{
 				string name = $"optionN{n}";
 				string oName = name;
 				string lName = name;
-				COption o = optionList.list[n];
+				COption o = optionList[n];
 				switch (o.type)
 				{
 					case "spin":
@@ -150,7 +150,7 @@ namespace RapChessGui
 
 		void SelectBook()
 		{
-			optionList.list.Clear();
+			optionList.Clear();
 			OptionFinish();
 			BookToSetings();
 			StartTestOptions();
@@ -191,13 +191,13 @@ namespace RapChessGui
 		List<string> GetOptions()
 		{
 			List<string> list = new List<string>();
-			for (int n = 0; n < optionList.list.Count; n++)
+			for (int n = 0; n < optionList.Count; n++)
 			{
 				string oName = $"optionN{n}";
 				var c = panOptions.Controls.Find(oName, false);
 				if (c.Length == 0)
 					continue;
-				COption o = optionList.list[n];
+				COption o = optionList[n];
 				string value;
 				switch (o.type)
 				{
