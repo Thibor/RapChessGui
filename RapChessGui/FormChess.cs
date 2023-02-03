@@ -1029,6 +1029,7 @@ namespace RapChessGui
 			int ne = hu.hisElo.Last();
 			ShowInfo($"Yours new elo is {ne} ({ne - oe})", Color.Red);
 			CModeGame.newElo = 0;
+			CModeGame.rotate = !CModeGame.rotate;
 			CModeGame.SaveToIni();
 			return true;
 		}
@@ -1633,7 +1634,6 @@ namespace RapChessGui
 			CModeGame.modeValue.SetLevel(cbMode.Text);
 			CModeGame.modeValue.SetValue((int)nudValue.Value);
 			CModeGame.ranked = IsGameRanked();
-			CModeGame.rotate = !CModeGame.rotate;
 			if (cbColor.Text == "White")
 				CModeGame.rotate = false;
 			if (cbColor.Text == "Black")
@@ -1682,7 +1682,6 @@ namespace RapChessGui
 			ComClear();
 			SettingsToGameMode();
 			GameModeToGamers();
-			ShowLastGame();
 			if (!gamers.Check(out string msg))
 			{
 				MessageBox.Show(msg);
@@ -1697,6 +1696,7 @@ namespace RapChessGui
 		void GameShow()
 		{
 			GameModeToSettings();
+			ShowLastGame();
 			GameStart();
 		}
 
@@ -1705,9 +1705,12 @@ namespace RapChessGui
 			if (CModeGame.ranked && IsGameRanked())
 			{
 				CElo.EloRating(pw.Elo, pl.Elo, out int newW, out int newL, pw.hisElo.Count, pl.hisElo.Count, isDraw);
-				pw.NewElo(newW);
-				pl.NewElo(newL);
+				if (pw.IsHuman())
+					pw.NewElo(newW);
+				if (pl.IsHuman())
+					pl.NewElo(newL);
 				CModeGame.newElo = 0;
+				CModeGame.rotate = !CModeGame.rotate;
 				CModeGame.SaveToIni();
 			}
 		}
@@ -3057,7 +3060,6 @@ namespace RapChessGui
 
 		private void FormChes_Shown(object sender, EventArgs e)
 		{
-			UpdateEngineList();
 		}
 
 		private void cbComputer_SelectedIndexChanged(object sender, EventArgs e)
@@ -3183,6 +3185,7 @@ namespace RapChessGui
 		{
 			formAbout.ShowDialog(this);
 		}
+
 	}
 }
 

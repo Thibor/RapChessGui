@@ -102,15 +102,20 @@ namespace RapChessGui
 		public static void TestStop()
 		{
 			if (testEngine.protocol == CProtocol.uci)
-				testProcess.WriteLine("stop");
+				testProcess?.WriteLine("stop");
 			else
-				testProcess.WriteLine("?");
+				testProcess?.WriteLine("?");
+		}
+
+		public static void TestQuit()
+		{
+			testProcess?.WriteLine("quit");
 		}
 
 		public static void TestRestart()
 		{
 			tick = 40;
-			testProcess.Restart();
+			testProcess?.Restart();
 		}
 
 		public static void TestUci(string command)
@@ -383,6 +388,7 @@ namespace RapChessGui
 						NextPhase();
 					break;
 				case 19:
+					TestQuit();
 					WriteLine($"engine {testEngine.name}");
 					ShowProtocol();
 					ShowTime();
@@ -434,8 +440,8 @@ namespace RapChessGui
 
 		private void FormAutodetect_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (testProcess != null)
-				testProcess.Terminate();
+			testTimer.Stop();
+			testProcess?.Terminate();
 		}
 
 	}
