@@ -9,6 +9,7 @@ namespace RapChessGui
 	{
 		public static bool autoElo = true;
 		public static bool isSan = true;
+		public static bool rotateBoard = false;
 		public static bool showArrow = true;
 		public static bool showAttack = false;
 		public static bool showPonder = true;
@@ -233,7 +234,7 @@ namespace RapChessGui
 
 		private void CbRotateBoard_CheckedChanged(object sender, EventArgs e)
 		{
-			CData.rotateBoard = cbRotateBoard.Checked;
+			rotateBoard = cbRotateBoard.Checked;
 		}
 
 		private void butColor_Click(object sender, EventArgs e)

@@ -84,7 +84,6 @@ namespace RapChessGui
 	public static class CData
 	{
 		public static bool reset = true;
-		public static bool rotateBoard = false;
 		public static string eco = String.Empty;
 		public static CGameState gameState = CGameState.normal;
 		public static CGameMode gameMode = CGameMode.game;

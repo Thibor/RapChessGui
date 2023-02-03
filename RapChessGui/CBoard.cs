@@ -183,7 +183,7 @@ namespace RapChessGui
 			}
 		}
 
-		public void Resize(int w,int h)
+		public void Resize(int w,int h,bool rotateBoard)
 		{
 			if (w < 0xf) w = 0xf;
 			if (h < 0xf) h = 0xf;
@@ -191,7 +191,7 @@ namespace RapChessGui
 				return;
 			width = w;
 			height = h;
-			rotate = FormChess.rotateBoard;
+			rotate = rotateBoard;
 			int min = Math.Min(w, h);
 			fieldSize = min / 9;
 			frameSize = fieldSize >> 1;
@@ -201,10 +201,10 @@ namespace RapChessGui
 			RenderBoard(width, height, rotate);
 		}
 
-		public Bitmap GetBitmap()
+		public Bitmap GetBitmap(bool rotateBoard)
 		{
-			if (rotate != FormChess.rotateBoard)
-				RenderBoard(width, height, FormChess.rotateBoard);
+			if (rotate != rotateBoard)
+				RenderBoard(width, height, rotateBoard);
 			return board;
 		}
 
@@ -221,9 +221,10 @@ namespace RapChessGui
 		public static Color colorListB;
 		public static Color colorLabelW;
 		public static Color colorLabelB;
-		public static bool animated = false;
-		public static bool finished = true;
-		public static CField[] arrField = new CField[64];
+		public bool animated = false;
+		public bool finished = true;
+		public bool rotateBoard = false;
+		public CField[] arrField = new CField[64];
 		public Bitmap boardBmp;
 		public CArrowList arrowCur = new CArrowList(Color.FromArgb(0x90, 0x10, 0xff, 0x10));
 		public CArrowList arrowEco = new CArrowList(Color.FromArgb(0x90, 0xff, 0x10, 0x10));
@@ -242,7 +243,7 @@ namespace RapChessGui
 			ClearCircles();
 		}
 
-		public static void ClearAttack()
+		public void ClearAttack()
 		{
 			foreach (CField f in arrField)
 				f.attacked = false;
@@ -294,8 +295,8 @@ namespace RapChessGui
 
 		public Point GetMiddle(int x, int y)
 		{
-			int xr = FormChess.rotateBoard ? 7 - x : x;
-			int yr = FormChess.rotateBoard ? 7 - y : y;
+			int xr = rotateBoard ? 7 - x : x;
+			int yr = rotateBoard ? 7 - y : y;
 			x = background.frameSize + xr * CBackground.fieldSize + (CBackground.fieldSize >> 1);
 			y = background.frameSize + yr * CBackground.fieldSize + (CBackground.fieldSize >> 1);
 			return new Point(x, y);
@@ -335,7 +336,7 @@ namespace RapChessGui
 		}
 
 
-		public static void UpdateField(int index)
+		public void UpdateField(int index)
 		{
 			int rank = FormChess.chess.board[index] &7;
 			if (rank == 0)
@@ -359,14 +360,14 @@ namespace RapChessGui
 
 		public void Resize(int w, int h)
 		{
-			background.Resize(w,h);
+			background.Resize(w,h,rotateBoard);
 			SetPosition();
 			RenderBoard();
 		}
 
 		public void RenderBoard()
 		{
-			boardBmp = new Bitmap(background.GetBitmap());
+			boardBmp = new Bitmap(background.GetBitmap(rotateBoard));
 			using (Graphics g = Graphics.FromImage(boardBmp))
 			using (Brush brushRed = new SolidBrush(Color.FromArgb(0x80, 0xff, 0x00, 0x00)))
 			using (Brush brushYellow = new SolidBrush(Color.FromArgb(0xa0, 0xff, 0xff, 0xff)))
@@ -385,12 +386,12 @@ namespace RapChessGui
 				g.SmoothingMode = SmoothingMode.HighQuality;
 				for (int y = 0; y < 8; y++)
 				{
-					int yr = FormChess.rotateBoard ? 7 - y : y;
+					int yr = rotateBoard ? 7 - y : y;
 					int y2 = background.frameSize + yr * CBackground.fieldSize;
 					for (int x = 0; x < 8; x++)
 					{
 						int i = y * 8 + x;
-						int xr = FormChess.rotateBoard ? 7 - x : x;
+						int xr = rotateBoard ? 7 - x : x;
 						int x2 = background.frameSize + xr * CBackground.fieldSize;
 						rec.X = x2;
 						rec.Y = y2;
@@ -444,7 +445,7 @@ namespace RapChessGui
 			}
 		}
 
-		public static void MakeMove(int sou, int des)
+		public void MakeMove(int sou, int des)
 		{
 			arrField[des].piece = arrField[sou].piece;
 			arrField[sou].piece = null;
@@ -477,7 +478,7 @@ namespace RapChessGui
 			ClearColors();
 		}
 
-		public static void SetColor()
+		public void SetColor()
 		{
 			CRapColor.SetColor(FormOptions.colorBoard);
 			colorLabelB = CRapColor.GetColor(CRapColor.H, 0.4, 0.2);
@@ -490,7 +491,7 @@ namespace RapChessGui
 			colorChartL = CRapColor.GetColor(CRapColor.H, 0.8, 0.5);
 		}
 
-		public static void UpdatePosition()
+		public void UpdatePosition()
 		{
 			animated = false;
 			foreach (CField f in arrField)
@@ -506,12 +507,12 @@ namespace RapChessGui
 		{
 			for (int y = 0; y < 8; y++)
 			{
-				int yr = FormChess.rotateBoard ? 7 - y : y;
+				int yr = rotateBoard ? 7 - y : y;
 				int y2 = background.frameSize + yr * CBackground.fieldSize;
 				for (int x = 0; x < 8; x++)
 				{
 					int i = y * 8 + x;
-					int xr = FormChess.rotateBoard ? 7 - x : x;
+					int xr = rotateBoard ? 7 - x : x;
 					int x2 = background.frameSize + xr * CBackground.fieldSize;
 					arrField[i].x = x2;
 					arrField[i].y = y2;
@@ -523,7 +524,7 @@ namespace RapChessGui
 			}
 		}
 
-		public static void SetImage()
+		public void SetImage()
 		{
 			for (int n = 0; n < 64; n++)
 			{
@@ -535,7 +536,7 @@ namespace RapChessGui
 			}
 		}
 
-		public static void ShowAttack(bool show, bool white)
+		public void ShowAttack(bool show, bool white)
 		{
 			List<int> ml = FormChess.chess.GenerateAllMoves(white, false);
 			foreach (int m in ml)
@@ -548,7 +549,7 @@ namespace RapChessGui
 			}
 		}
 
-		public static void ShowAttack(bool show)
+		public void ShowAttack(bool show)
 		{
 			ClearAttack();
 			if (show)
