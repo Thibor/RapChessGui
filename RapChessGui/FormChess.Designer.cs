@@ -332,7 +332,7 @@
 			this.columnHeader22 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.tlpBlack = new System.Windows.Forms.TableLayoutPanel();
 			this.timerAnimation = new System.Windows.Forms.Timer(this.components);
-			this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
+			this.fileSystemWatcher = new System.IO.FileSystemWatcher();
 			this.tabControl1.SuspendLayout();
 			this.tabPageGame.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chartGame)).BeginInit();
@@ -426,7 +426,7 @@
 			this.splitContainerMoves.SuspendLayout();
 			this.tlpWhite.SuspendLayout();
 			this.tlpBlack.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -4308,15 +4308,15 @@
 			this.timerAnimation.Interval = 1;
 			this.timerAnimation.Tick += new System.EventHandler(this.timerAnimation_Tick);
 			// 
-			// fileSystemWatcher1
+			// fileSystemWatcher
 			// 
-			this.fileSystemWatcher1.EnableRaisingEvents = true;
-			this.fileSystemWatcher1.IncludeSubdirectories = true;
-			this.fileSystemWatcher1.Path = "Engines";
-			this.fileSystemWatcher1.SynchronizingObject = this;
-			this.fileSystemWatcher1.Created += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
-			this.fileSystemWatcher1.Deleted += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
-			this.fileSystemWatcher1.Renamed += new System.IO.RenamedEventHandler(this.fileSystemWatcher1_Renamed);
+			this.fileSystemWatcher.EnableRaisingEvents = true;
+			this.fileSystemWatcher.IncludeSubdirectories = true;
+			this.fileSystemWatcher.Path = "Engines";
+			this.fileSystemWatcher.SynchronizingObject = this;
+			this.fileSystemWatcher.Created += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
+			this.fileSystemWatcher.Deleted += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
+			this.fileSystemWatcher.Renamed += new System.IO.RenamedEventHandler(this.fileSystemWatcher1_Renamed);
 			// 
 			// FormChess
 			// 
@@ -4435,7 +4435,7 @@
 			this.splitContainerMoves.ResumeLayout(false);
 			this.tlpWhite.ResumeLayout(false);
 			this.tlpBlack.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -4665,7 +4665,7 @@
 		private System.Windows.Forms.ColumnHeader columnHeader30;
 		private System.Windows.Forms.ColumnHeader columnHeader31;
 		private System.Windows.Forms.Timer timerAnimation;
-		private System.IO.FileSystemWatcher fileSystemWatcher1;
+		private System.IO.FileSystemWatcher fileSystemWatcher;
 		private System.Windows.Forms.TabPage tabPageTourB;
 		private System.Windows.Forms.SplitContainer splitContainerTourB;
 		private System.Windows.Forms.SplitContainer splitContainer2;

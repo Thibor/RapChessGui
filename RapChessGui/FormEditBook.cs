@@ -72,20 +72,20 @@ namespace RapChessGui
 				string oName = name;
 				string lName = name;
 				COption o = optionList[n];
-				switch (o.type)
+				switch (o.Type)
 				{
 					case "spin":
 						var nud = new NumericUpDown();
 						nud.Name = oName;
-						nud.Minimum = Convert.ToInt32(o.min);
-						nud.Maximum = Convert.ToInt32(o.max);
-						nud.Value = Convert.ToInt32(book.GetOption(o.name, o.def));
+						nud.Minimum = Convert.ToInt32(o.Min);
+						nud.Maximum = Convert.ToInt32(o.Max);
+						nud.Value = Convert.ToInt32(book.GetOption(o.Name, o.Default));
 						nud.Location = new Point(3, y);
 						nud.TextAlign = HorizontalAlignment.Right;
 						panOptions.Controls.Add(nud);
 						lab = new Label();
 						lab.Name = lName;
-						lab.Text = o.name;
+						lab.Text = o.Name;
 						lab.Location = new Point(128, y);
 						lab.Size = new Size(panOptions.Width - 160, lab.Height);
 						panOptions.Controls.Add(lab);
@@ -94,8 +94,8 @@ namespace RapChessGui
 					case "check":
 						CheckBox check = new CheckBox();
 						check.Name = oName;
-						check.Text = o.name;
-						check.Checked = Convert.ToBoolean(book.GetOption(o.name, o.def));
+						check.Text = o.Name;
+						check.Checked = Convert.ToBoolean(book.GetOption(o.Name, o.Default));
 						check.Location = new Point(3, y);
 						check.Size = new Size(panOptions.Width - 32, check.Height);
 						panOptions.Controls.Add(check);
@@ -104,7 +104,7 @@ namespace RapChessGui
 					case "string":
 						lab = new Label();
 						lab.Name = lName;
-						lab.Text = o.name;
+						lab.Text = o.Name;
 						lab.TextAlign = ContentAlignment.MiddleLeft;
 						lab.Location = new Point(3, y);
 						lab.Size = new Size(panOptions.Width - 32, lab.Height);
@@ -112,7 +112,7 @@ namespace RapChessGui
 						y += 24;
 						TextBox box = new TextBox();
 						box.Name = oName;
-						box.Text = book.GetOption(o.name, o.def);
+						box.Text = book.GetOption(o.Name, o.Default);
 						box.Location = new Point(3, y);
 						box.Size = new Size(panOptions.Width - 32, box.Height);
 						panOptions.Controls.Add(box);
@@ -199,25 +199,25 @@ namespace RapChessGui
 					continue;
 				COption o = optionList[n];
 				string value;
-				switch (o.type)
+				switch (o.Type)
 				{
 					case "spin":
 						NumericUpDown nud = c[0] as NumericUpDown;
 						value = nud.Value.ToString();
-						if (o.def != value)
-							list.Add($"name {o.name} value {value}");
+						if (o.Default != value)
+							list.Add($"name {o.Name} value {value}");
 						break;
 					case "check":
 						CheckBox check = c[0] as CheckBox;
 						value = check.Checked ? "true" : "false";
-						if (o.def != value)
-							list.Add($"name {o.name} value {value}");
+						if (o.Default != value)
+							list.Add($"name {o.Name} value {value}");
 						break;
 					case "string":
 						TextBox tb = c[1] as TextBox;
 						value = tb.Text;
-						if (o.def != value)
-							list.Add($"name {o.name} value {value}");
+						if (o.Default != value)
+							list.Add($"name {o.Name} value {value}");
 						break;
 				}
 			}

@@ -90,7 +90,7 @@ namespace RapChessGui
 			AppendTimeText($"Engine: {g.player.EngineName}\n", color);
 			AppendTimeText($"File: {g.engine.file}\n", color);
 			string parameters = g.engine.arguments;
-			if (parameters != "")
+			if (parameters != string.Empty)
 				AppendTimeText($"Parameters: {g.engine.arguments}\n", color);
 		}
 
@@ -163,8 +163,6 @@ namespace RapChessGui
 			process.Terminate();
 		}
 
-		#endregion
-
 		private void cbEngineList_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			CEngine engine = FormChess.engineList.GetEngineByName(cbEngineList.Text);
@@ -196,6 +194,10 @@ namespace RapChessGui
 			locked = false;
 			richTextBox1.Clear();
 		}
+
 	}
+
+	#endregion
+
 }
 

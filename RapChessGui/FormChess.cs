@@ -62,7 +62,7 @@ namespace RapChessGui
 		readonly FormListB formListB = new FormListB();
 		readonly FormListE formListE = new FormListE();
 		readonly FormListP formListP = new FormListP();
-		public readonly FormEditEngine formEngine = new FormEditEngine();
+		public readonly FormEditEngine formEditEngine = new FormEditEngine();
 		readonly FormEditBook formBook = new FormEditBook();
 		readonly FormEditPlayer formPlayer = new FormEditPlayer();
 		readonly CGamers gamers = new CGamers();
@@ -275,7 +275,7 @@ namespace RapChessGui
 		void ShowFormEngine(string engineName = "")
 		{
 			FormEditEngine.engineName = engineName;
-			formEngine.ShowDialog(this);
+			formEditEngine.ShowDialog(this);
 			Reset();
 		}
 
@@ -1045,8 +1045,11 @@ namespace RapChessGui
 
 		void UpdateEngineList()
 		{
-			engineList.AutoUpdate();
-			Reset();
+			if (!formEditEngine.formAutodetect.Visible)
+			{
+				engineList.AutoUpdate();
+				Reset();
+			}
 		}
 
 		void ResetListEngine()

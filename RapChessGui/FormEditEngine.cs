@@ -68,14 +68,14 @@ namespace RapChessGui
 				string oName = name;
 				string lName = name;
 				COption o = optionList[n];
-				switch (o.type)
+				switch (o.Type)
 				{
 					case "spin":
 						var nud = new NumericUpDown();
 						nud.Name = oName;
-						nud.Minimum = Convert.ToInt32(o.min);
-						nud.Maximum = Convert.ToInt32(o.max);
-						nud.Value = Convert.ToInt32(engine.GetOption(o.name, o.def));
+						nud.Minimum = Convert.ToInt32(o.Min);
+						nud.Maximum = Convert.ToInt32(o.Max);
+						nud.Value = Convert.ToInt32(engine.GetOption(o.Name, o.Default));
 						nud.Location = new Point(3, y);
 						nud.TextAlign = HorizontalAlignment.Right;
 						panOptions.Controls.Add(nud);
@@ -91,7 +91,7 @@ namespace RapChessGui
 						CheckBox check = new CheckBox();
 						check.Name = oName;
 						check.Text = o.Text();
-						check.Checked = Convert.ToBoolean(engine.GetOption(o.name, o.def));
+						check.Checked = Convert.ToBoolean(engine.GetOption(o.Name, o.Default));
 						check.Location = new Point(3, y);
 						check.Size = new Size(panOptions.Width - 32, check.Height);
 						panOptions.Controls.Add(check);
@@ -108,10 +108,30 @@ namespace RapChessGui
 						y += 24;
 						TextBox box = new TextBox();
 						box.Name = oName;
-						box.Text = o.def;
-						box.Location = new Point(3,y);
-						box.Size = new Size(panOptions.Width-32,box.Height);
+						box.Text = o.Default;
+						box.Location = new Point(3, y);
+						box.Size = new Size(panOptions.Width - 32, box.Height);
 						panOptions.Controls.Add(box);
+						y += 24;
+						break;
+					case "combo":
+						lab = new Label();
+						lab.Name = lName;
+						lab.Text = o.Text();
+						lab.TextAlign = ContentAlignment.MiddleLeft;
+						lab.Location = new Point(3, y);
+						lab.Size = new Size(panOptions.Width - 32, lab.Height);
+						panOptions.Controls.Add(lab);
+						y += 24;
+						ComboBox cb = new ComboBox();
+						cb.Name = oName;
+						cb.DropDownStyle = ComboBoxStyle.DropDownList;
+						foreach (string s in o.Combo)
+							cb.Items.Add(s);
+						cb.Text = engine.GetOption(o.Name, o.Default);
+						cb.Location = new Point(3, y);
+						cb.Size = new Size(panOptions.Width - 32, cb.Height);
+						panOptions.Controls.Add(cb);
 						y += 24;
 						break;
 				}
@@ -141,7 +161,7 @@ namespace RapChessGui
 		{
 			if (processOptions.SetProgram(engine.GetPath(), engine.arguments) > 0)
 			{
-				processOptions.WriteLine("uci",true);
+				processOptions.WriteLine("uci", true);
 				processOptions.WriteLine("quit");
 			}
 		}
@@ -262,25 +282,31 @@ namespace RapChessGui
 					continue;
 				COption o = optionList[n];
 				string value;
-				switch (o.type)
+				switch (o.Type)
 				{
 					case "spin":
 						NumericUpDown nud = c[0] as NumericUpDown;
 						value = nud.Value.ToString();
-						if (o.def != value)
-							list.Add($"name {o.name} value {value}");
+						if (o.Default != value)
+							list.Add($"name {o.Name} value {value}");
 						break;
 					case "check":
 						CheckBox check = c[0] as CheckBox;
 						value = check.Checked ? "true" : "false";
-						if (o.def != value)
-							list.Add($"name {o.name} value {value}");
+						if (o.Default != value)
+							list.Add($"name {o.Name} value {value}");
 						break;
 					case "string":
 						TextBox tb = c[1] as TextBox;
 						value = tb.Text;
-						if (o.def != value)
-							list.Add($"name {o.name} value {value}");
+						if (o.Default != value)
+							list.Add($"name {o.Name} value {value}");
+						break;
+					case "combo":
+						ComboBox cb = c[1] as ComboBox;
+						value = cb.Text;
+						if (o.Default != value)
+							list.Add($"name {o.Name} value {value}");
 						break;
 				}
 			}
@@ -310,7 +336,7 @@ namespace RapChessGui
 		private void bDelete_Click(object sender, EventArgs e)
 		{
 			string name = tbEngineName.Text;
-			var dr = MessageBox.Show($"Are you sure that you would like to delete {name}?","Delete engine",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+			var dr = MessageBox.Show($"Are you sure that you would like to delete {name}?", "Delete engine", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (dr == DialogResult.Yes)
 			{
 				FormChess.engineList.DeleteEngine(name);
@@ -327,7 +353,7 @@ namespace RapChessGui
 			foreach (string folder in CData.folderEngine)
 				cbFolderList.Items.Add(folder);
 			cbFolderList.Sorted = false;
-			cbFolderList.Items.Insert(0,Global.none);
+			cbFolderList.Items.Insert(0, Global.none);
 			cbFolderList.SelectedIndex = 0;
 			UpdateListBox();
 			listBox1.SelectedIndex = listBox1.FindString(engineName);
@@ -457,7 +483,7 @@ namespace RapChessGui
 		private void cbFolderList_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			List<string> list = CData.ListExe($@"Engines\{cbFolderList.Text}");
-			CData.FillComboBox(cbFileList,list);
+			CData.FillComboBox(cbFileList, list);
 		}
 
 	}

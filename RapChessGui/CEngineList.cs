@@ -368,8 +368,8 @@ namespace RapChessGui
 			}
 			if (GetEngineAuto() != null)
 			{
-				FormChess.This.formEngine.formAutodetect.StartTestAuto();
-				FormChess.This.formEngine.formAutodetect.ShowDialog(FormChess.This);
+				FormChess.This.formEditEngine.formAutodetect.StartTestAuto();
+				FormChess.This.formEditEngine.formAutodetect.ShowDialog(FormChess.This);
 			}
 		}
 
