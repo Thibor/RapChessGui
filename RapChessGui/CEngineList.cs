@@ -15,6 +15,7 @@ namespace RapChessGui
 		public bool modeTournament = true;
 		public bool modeNodes = true;
 		public bool modeInfinite = true;
+		public bool modeElo = true;
 		public int tournament = 1;
 		public string file = Global.none;
 		public string folder = Global.none;
@@ -36,6 +37,7 @@ namespace RapChessGui
 		public void LoadFromIni()
 		{
 			tournament = CEngineList.iniFile.ReadInt($"engine>{name}>tournament", tournament);
+			modeElo = CEngineList.iniFile.ReadBool($"engine>{name}>modeElo", modeElo);
 			modeStandard = CEngineList.iniFile.ReadBool($"engine>{name}>modeStandard", modeStandard);
 			modeTime = CEngineList.iniFile.ReadBool($"engine>{name}>modeTime", modeTime);
 			modeDepth = CEngineList.iniFile.ReadBool($"engine>{name}>modeDepth", modeDepth);
@@ -60,6 +62,7 @@ namespace RapChessGui
 				hisElo.AddValue(Elo);
 			}
 			CEngineList.iniFile.Write($"engine>{name}>tournament", tournament);
+			CEngineList.iniFile.Write($"engine>{name}>modeElo", modeElo);
 			CEngineList.iniFile.Write($"engine>{name}>modeStandard", modeStandard);
 			CEngineList.iniFile.Write($"engine>{name}>modeTime", modeTime);
 			CEngineList.iniFile.Write($"engine>{name}>modeDepth", modeDepth);
@@ -338,24 +341,12 @@ namespace RapChessGui
 					e.protocol = CProtocol.uci;
 					e.elo = "2000";
 					e.SaveToIni();
-					if (e != null)
-						for (int i = 1; i < 10; i++)
-						{
-							int n = i * 10;
-							CEngine engine = new CEngine($"{CEngineList.def} {n}");
-							engine.protocol = CProtocol.uci;
-							engine.folder = e.folder;
-							engine.file = e.file;
-							engine.elo = (n * 20).ToString();
-							engine.options.Add($"name Skill level value {n}");
-							engine.SaveToIni();
-							Add(engine);
-						}
 				}
 				e = GetEngineByName("RapSimpleCs");
 				if (e != null)
 				{
 					e.protocol = CProtocol.uci;
+					e.modeElo = false;
 					e.SaveToIni();
 				}
 				e = GetEngineByName("RapShortCs");
@@ -363,6 +354,7 @@ namespace RapChessGui
 				{
 					e.protocol = CProtocol.uci;
 					e.elo = "1000";
+					e.modeElo = false;
 					e.SaveToIni();
 				}
 			}

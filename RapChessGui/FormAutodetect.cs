@@ -51,6 +51,8 @@ namespace RapChessGui
 
 		public static void NewMessageTest(string msg)
 		{
+			if (string.IsNullOrEmpty(msg))
+				return;
 			uci.SetMsg(msg);
 			string bst = testEngine.protocol == CProtocol.uci ? uci.GetStr("bestmove") : uci.GetStr("move");
 			bool con = !string.IsNullOrEmpty(bst);
@@ -60,8 +62,12 @@ namespace RapChessGui
 			WriteLine(msg);
 			switch (testMode)
 			{
-				case 0:
 				case 1:
+					if(msg.IndexOf("option name UCI_Elo type spin") == 0)
+					{
+						testEngine.modeElo = true;
+						testEngine.elo = uci.GetStr("max");
+					}
 					if (msg == "uciok")
 						testEngine.protocol = CProtocol.uci;
 					break;
@@ -194,6 +200,14 @@ namespace RapChessGui
 				WriteLine("mode infinite fail");
 		}
 
+		void ShowElo()
+		{
+			if (testEngine.modeElo)
+				WriteLine("mode elo ok");
+			else
+				WriteLine("mode elo fail");
+		}
+
 		void NextPhase()
 		{
 			tick = 20;
@@ -217,6 +231,7 @@ namespace RapChessGui
 						WriteLine($"engine {testEngine.name} file not exist");
 						testEngine.protocol = CProtocol.unknow;
 						testEngine.SaveToIni();
+						CEngineList.iniFile.Save();
 						tick = 0;
 						testMode = -1;
 					}
@@ -224,6 +239,8 @@ namespace RapChessGui
 					{
 						WriteLine($"engine {testEngine.name} ready");
 						tick = 0;
+						testEngine.protocol = CProtocol.winboard;
+						testEngine.modeElo = false;
 						testProcess.SetProgram(testEngine.GetPath(), testEngine.arguments);
 						testTimer.Start();
 					}
@@ -397,6 +414,7 @@ namespace RapChessGui
 					ShowTournament();
 					ShowNodes();
 					ShowInfinite();
+					ShowElo();
 					WriteLine();
 					if (!testEngine.IsPlayableMode())
 						testEngine.protocol = CProtocol.unknow;

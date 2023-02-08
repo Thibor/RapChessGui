@@ -66,6 +66,7 @@
 			this.autodetectEngineProtocolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.resetEngineOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.clearTournamentHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.cbModeElo = new System.Windows.Forms.CheckBox();
 			this.panel1.SuspendLayout();
 			this.panButtons.SuspendLayout();
 			this.gbMode.SuspendLayout();
@@ -106,9 +107,9 @@
 			this.panOptions.AutoSize = true;
 			this.panOptions.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.panOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panOptions.Location = new System.Drawing.Point(0, 460);
+			this.panOptions.Location = new System.Drawing.Point(0, 470);
 			this.panOptions.Name = "panOptions";
-			this.panOptions.Size = new System.Drawing.Size(311, 320);
+			this.panOptions.Size = new System.Drawing.Size(311, 310);
 			this.panOptions.TabIndex = 36;
 			// 
 			// panButtons
@@ -119,7 +120,7 @@
 			this.panButtons.Controls.Add(this.bRename);
 			this.panButtons.Controls.Add(this.bSave);
 			this.panButtons.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panButtons.Location = new System.Drawing.Point(0, 364);
+			this.panButtons.Location = new System.Drawing.Point(0, 374);
 			this.panButtons.Name = "panButtons";
 			this.panButtons.Size = new System.Drawing.Size(311, 96);
 			this.panButtons.TabIndex = 39;
@@ -175,6 +176,7 @@
 			// gbMode
 			// 
 			this.gbMode.AutoSize = true;
+			this.gbMode.Controls.Add(this.cbModeElo);
 			this.gbMode.Controls.Add(this.cbModeInfinite);
 			this.gbMode.Controls.Add(this.cbModeNodes);
 			this.gbMode.Controls.Add(this.cbModeTournament);
@@ -184,7 +186,7 @@
 			this.gbMode.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gbMode.Location = new System.Drawing.Point(0, 276);
 			this.gbMode.Name = "gbMode";
-			this.gbMode.Size = new System.Drawing.Size(311, 88);
+			this.gbMode.Size = new System.Drawing.Size(311, 98);
 			this.gbMode.TabIndex = 31;
 			this.gbMode.TabStop = false;
 			this.gbMode.Text = "Mode";
@@ -192,51 +194,51 @@
 			// cbModeInfinite
 			// 
 			this.cbModeInfinite.AutoSize = true;
-			this.cbModeInfinite.Location = new System.Drawing.Point(159, 52);
+			this.cbModeInfinite.Location = new System.Drawing.Point(216, 39);
 			this.cbModeInfinite.Name = "cbModeInfinite";
-			this.cbModeInfinite.Size = new System.Drawing.Size(86, 17);
+			this.cbModeInfinite.Size = new System.Drawing.Size(57, 17);
 			this.cbModeInfinite.TabIndex = 6;
-			this.cbModeInfinite.Text = "Mode infinite";
+			this.cbModeInfinite.Text = "Infinite";
 			this.cbModeInfinite.UseVisualStyleBackColor = true;
 			// 
 			// cbModeNodes
 			// 
 			this.cbModeNodes.AutoSize = true;
-			this.cbModeNodes.Location = new System.Drawing.Point(3, 52);
+			this.cbModeNodes.Location = new System.Drawing.Point(3, 39);
 			this.cbModeNodes.Name = "cbModeNodes";
-			this.cbModeNodes.Size = new System.Drawing.Size(85, 17);
+			this.cbModeNodes.Size = new System.Drawing.Size(57, 17);
 			this.cbModeNodes.TabIndex = 5;
-			this.cbModeNodes.Text = "Mode nodes";
+			this.cbModeNodes.Text = "Nodes";
 			this.cbModeNodes.UseVisualStyleBackColor = true;
 			// 
 			// cbModeTournament
 			// 
 			this.cbModeTournament.AutoSize = true;
-			this.cbModeTournament.Location = new System.Drawing.Point(159, 33);
+			this.cbModeTournament.Location = new System.Drawing.Point(116, 39);
 			this.cbModeTournament.Name = "cbModeTournament";
-			this.cbModeTournament.Size = new System.Drawing.Size(109, 17);
+			this.cbModeTournament.Size = new System.Drawing.Size(83, 17);
 			this.cbModeTournament.TabIndex = 4;
-			this.cbModeTournament.Text = "Mode tournament";
+			this.cbModeTournament.Text = "Tournament";
 			this.cbModeTournament.UseVisualStyleBackColor = true;
 			// 
 			// cbModeDepth
 			// 
 			this.cbModeDepth.AutoSize = true;
-			this.cbModeDepth.Location = new System.Drawing.Point(159, 16);
+			this.cbModeDepth.Location = new System.Drawing.Point(216, 16);
 			this.cbModeDepth.Name = "cbModeDepth";
-			this.cbModeDepth.Size = new System.Drawing.Size(83, 17);
+			this.cbModeDepth.Size = new System.Drawing.Size(55, 17);
 			this.cbModeDepth.TabIndex = 3;
-			this.cbModeDepth.Text = "Mode depth";
+			this.cbModeDepth.Text = "Depth";
 			this.cbModeDepth.UseVisualStyleBackColor = true;
 			// 
 			// cbModeTime
 			// 
 			this.cbModeTime.AutoSize = true;
-			this.cbModeTime.Location = new System.Drawing.Point(3, 33);
+			this.cbModeTime.Location = new System.Drawing.Point(116, 16);
 			this.cbModeTime.Name = "cbModeTime";
-			this.cbModeTime.Size = new System.Drawing.Size(75, 17);
+			this.cbModeTime.Size = new System.Drawing.Size(49, 17);
 			this.cbModeTime.TabIndex = 2;
-			this.cbModeTime.Text = "Mode time";
+			this.cbModeTime.Text = "Time";
 			this.cbModeTime.UseVisualStyleBackColor = true;
 			// 
 			// cbModeStandard
@@ -244,9 +246,9 @@
 			this.cbModeStandard.AutoSize = true;
 			this.cbModeStandard.Location = new System.Drawing.Point(3, 16);
 			this.cbModeStandard.Name = "cbModeStandard";
-			this.cbModeStandard.Size = new System.Drawing.Size(97, 17);
+			this.cbModeStandard.Size = new System.Drawing.Size(69, 17);
 			this.cbModeStandard.TabIndex = 1;
-			this.cbModeStandard.Text = "Mode standard";
+			this.cbModeStandard.Text = "Standard";
 			this.cbModeStandard.UseVisualStyleBackColor = true;
 			// 
 			// groupBox5
@@ -501,6 +503,16 @@
 			this.clearTournamentHistoryToolStripMenuItem.Text = "Clear tournament history";
 			this.clearTournamentHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearTournamentHistoryToolStripMenuItem_Click);
 			// 
+			// cbModeElo
+			// 
+			this.cbModeElo.AutoSize = true;
+			this.cbModeElo.Location = new System.Drawing.Point(3, 62);
+			this.cbModeElo.Name = "cbModeElo";
+			this.cbModeElo.Size = new System.Drawing.Size(41, 17);
+			this.cbModeElo.TabIndex = 7;
+			this.cbModeElo.Text = "Elo";
+			this.cbModeElo.UseVisualStyleBackColor = true;
+			// 
 			// FormEditEngine
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -582,5 +594,6 @@
 		private System.Windows.Forms.CheckBox cbModeInfinite;
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.ComboBox cbFolderList;
+		private System.Windows.Forms.CheckBox cbModeElo;
 	}
 }

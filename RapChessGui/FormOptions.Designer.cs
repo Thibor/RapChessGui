@@ -119,6 +119,8 @@
 			this.labTourP = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.nudTourPRec = new System.Windows.Forms.NumericUpDown();
+			this.groupBox12 = new System.Windows.Forms.GroupBox();
+			this.cbGameEngine = new System.Windows.Forms.ComboBox();
 			this.gbInterface.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudFontSize)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudHistory)).BeginInit();
@@ -161,6 +163,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.nudTourPRange)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudTourPAvg)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudTourPRec)).BeginInit();
+			this.groupBox12.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// butDefault
@@ -662,7 +665,7 @@
 			this.groupBox2.Controls.Add(this.label12);
 			this.groupBox2.Controls.Add(this.nudTraining);
 			this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox2.Location = new System.Drawing.Point(0, 146);
+			this.groupBox2.Location = new System.Drawing.Point(0, 207);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(365, 48);
 			this.groupBox2.TabIndex = 14;
@@ -704,7 +707,7 @@
 			this.gbMatch.Controls.Add(this.label7);
 			this.gbMatch.Controls.Add(this.nudBreak);
 			this.gbMatch.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gbMatch.Location = new System.Drawing.Point(0, 98);
+			this.gbMatch.Location = new System.Drawing.Point(0, 159);
 			this.gbMatch.Name = "gbMatch";
 			this.gbMatch.Size = new System.Drawing.Size(365, 48);
 			this.gbMatch.TabIndex = 15;
@@ -749,12 +752,13 @@
 			// gbGame
 			// 
 			this.gbGame.Controls.Add(this.groupBox5);
+			this.gbGame.Controls.Add(this.groupBox12);
 			this.gbGame.Controls.Add(this.cbRotateBoard);
 			this.gbGame.Controls.Add(this.cbGameAutoElo);
 			this.gbGame.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gbGame.Location = new System.Drawing.Point(0, 0);
 			this.gbGame.Name = "gbGame";
-			this.gbGame.Size = new System.Drawing.Size(365, 98);
+			this.gbGame.Size = new System.Drawing.Size(365, 159);
 			this.gbGame.TabIndex = 7;
 			this.gbGame.TabStop = false;
 			this.gbGame.Text = "Game";
@@ -763,7 +767,7 @@
 			// 
 			this.groupBox5.Controls.Add(this.cbGameBook);
 			this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox5.Location = new System.Drawing.Point(3, 50);
+			this.groupBox5.Location = new System.Drawing.Point(3, 94);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(359, 44);
 			this.groupBox5.TabIndex = 31;
@@ -1173,7 +1177,7 @@
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(168, 78);
+			this.label8.Location = new System.Drawing.Point(168, 76);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(39, 13);
 			this.label8.TabIndex = 15;
@@ -1428,6 +1432,29 @@
             0,
             0});
 			// 
+			// groupBox12
+			// 
+			this.groupBox12.Controls.Add(this.cbGameEngine);
+			this.groupBox12.Dock = System.Windows.Forms.DockStyle.Top;
+			this.groupBox12.Location = new System.Drawing.Point(3, 50);
+			this.groupBox12.Name = "groupBox12";
+			this.groupBox12.Size = new System.Drawing.Size(359, 44);
+			this.groupBox12.TabIndex = 32;
+			this.groupBox12.TabStop = false;
+			this.groupBox12.Text = "Engine";
+			// 
+			// cbGameEngine
+			// 
+			this.cbGameEngine.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.cbGameEngine.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cbGameEngine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbGameEngine.FormattingEnabled = true;
+			this.cbGameEngine.Location = new System.Drawing.Point(3, 16);
+			this.cbGameEngine.Name = "cbGameEngine";
+			this.cbGameEngine.Size = new System.Drawing.Size(353, 21);
+			this.cbGameEngine.TabIndex = 51;
+			this.cbGameEngine.SelectedIndexChanged += new System.EventHandler(this.cbGameEngine_SelectedIndexChanged);
+			// 
 			// FormOptions
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1443,6 +1470,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Options";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormOptions_FormClosing);
+			this.Load += new System.EventHandler(this.FormOptions_Load);
 			this.Shown += new System.EventHandler(this.FormOptions_Shown);
 			this.gbInterface.ResumeLayout(false);
 			this.gbInterface.PerformLayout();
@@ -1496,6 +1524,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.nudTourPRange)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudTourPAvg)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudTourPRec)).EndInit();
+			this.groupBox12.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -1592,5 +1621,7 @@
 		private System.Windows.Forms.GroupBox groupBox11;
 		private System.Windows.Forms.NumericUpDown nudTourB;
 		private System.Windows.Forms.ComboBox cbTourBMode;
+		private System.Windows.Forms.GroupBox groupBox12;
+		private System.Windows.Forms.ComboBox cbGameEngine;
 	}
 }

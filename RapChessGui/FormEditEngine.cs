@@ -173,6 +173,7 @@ namespace RapChessGui
 			cbFolderList.Text = engine.folder;
 			cbFileList.Text = engine.file;
 			cbProtocol.Text = CData.ProtocolToStr(engine.protocol);
+			cbModeElo.Checked = engine.modeElo;
 			cbModeStandard.Checked = engine.modeStandard;
 			cbModeTime.Checked = engine.modeTime;
 			cbModeDepth.Checked = engine.modeDepth;
@@ -250,6 +251,7 @@ namespace RapChessGui
 			e.file = cbFileList.Text;
 			e.protocol = CData.StrToProtocol(cbProtocol.Text);
 			e.arguments = tbParameters.Text;
+			e.modeElo = cbModeElo.Checked;
 			e.modeStandard = cbModeStandard.Checked;
 			e.modeTime = cbModeTime.Checked;
 			e.modeDepth = cbModeDepth.Checked;

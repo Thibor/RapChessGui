@@ -151,8 +151,14 @@ namespace RapChessGui
 
 		void OptionsToEngine()
 		{
-			foreach (string op in engine.options)
-				SendMessageToEngine($"setoption {op}");
+			if (player.humanElo)
+			{
+				SendMessageToEngine("setoption name UCI_LimitStrength value true");
+				SendMessageToEngine($"setoption name UCI_Elo value {CPlayerList.humanPlayer.elo}");
+			}
+			else
+				foreach (string op in engine.options)
+					SendMessageToEngine($"setoption {op}");
 		}
 
 		void OptionsToBook()
@@ -636,7 +642,7 @@ namespace RapChessGui
 			if (book == null)
 				gamerBook.Terminate();
 			else
-				gamerBook.SetProgram(book.GetPath(), book.GetArguments());
+				gamerBook.SetProgram(book.GetPath(), book.arguments);
 		}
 
 		public void SetEngine(string e)
@@ -814,9 +820,9 @@ namespace RapChessGui
 				if (bb != null)
 					bb.GetBFFromOption(out bfb);
 				if ((bw != null) && (bfw != string.Empty))
-					bookSta.SetProgram(pw.book.GetPath(), pw.book.GetArguments(), pw.BookName);
+					bookSta.SetProgram(pw.book.GetPath(), pw.book.arguments, pw.BookName);
 				else if ((bb != null) && (bfb != string.Empty))
-					bookSta.SetProgram(pb.book.GetPath(), pb.book.GetArguments(), pb.BookName);
+					bookSta.SetProgram(pb.book.GetPath(), pb.book.arguments, pb.BookName);
 			}
 			foreach (CGamer g in gamers)
 				g.gamerBook = new CGamerBook();

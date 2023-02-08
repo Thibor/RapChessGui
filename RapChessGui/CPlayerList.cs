@@ -7,6 +7,7 @@ namespace RapChessGui
 
 	public class CPlayer : CElement
 	{
+		public bool humanElo = false;
 		public CBook book = null;
 		public CEngine engine = null;
 		public int tournament = 1;
@@ -52,10 +53,30 @@ namespace RapChessGui
 
 		public void NewElo(int e)
 		{
+			if (e < CElo.eloMin)
+				e = CElo.eloMin;
+			if (e > CElo.eloMax)
+				e = CElo.eloMax;
 			hisElo.AddValue(e);
 			elo = e.ToString();
 			if (IsComputer())
 				SaveToIni();
+		}
+
+		public int GetEloLess()
+		{
+			int result = Convert.ToInt32(Math.Round(Elo / 50.0)) * 50 - 50;
+			if (result < CElo.eloMin)
+				result = CElo.eloMin;
+			return result;
+		}
+
+		public int GetEloMore()
+		{
+			int result = Convert.ToInt32(Math.Round(Elo / 50.0)) * 50 + 50;
+			if (result > CElo.eloMax)
+				result = CElo.eloMax;
+			return result;
 		}
 
 		public string Check()
@@ -79,30 +100,6 @@ namespace RapChessGui
 		{
 			msg = Check();
 			return msg == String.Empty;
-		}
-
-		public int GetEloLess()
-		{
-			if (FormChess.playerList.Count == 0)
-				return 0;
-			int levelDif = 2000 / FormChess.playerList.Count;
-			if (levelDif < 10)
-				levelDif = 10;
-			int result = Convert.ToInt32(elo) - levelDif;
-			if (result < CElo.eloMin)
-				result = CElo.eloMin;
-			return result;
-		}
-
-		public int GetEloMore()
-		{
-			int levelDif = 2000 / FormChess.playerList.Count;
-			if (levelDif < 10)
-				levelDif = 10;
-			int result = Convert.ToInt32(elo) + levelDif;
-			if (result > CElo.eloMax)
-				result = CElo.eloMax;
-			return result;
 		}
 
 		public int GetDeltaElo()

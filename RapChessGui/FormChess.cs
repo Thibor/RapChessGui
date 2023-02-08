@@ -109,7 +109,6 @@ namespace RapChessGui
 			Marshal.FreeCoTaskMem(data);
 			InitializeComponent();
 			IniLoad();
-			bookList.Update();
 			Reset(true);
 			Font fontChess = new Font(pfc.Families[0], 16);
 			Font fontChessPromo = new Font(pfc.Families[0], 32);
@@ -179,8 +178,10 @@ namespace RapChessGui
 			SplitLoadFromIni();
 			readerList.LoadFromIni();
 			bookList.LoadFromIni();
+			bookList.Update();
 			engineList.LoadFromIni();
 			playerList.LoadFromIni();
+			formOptions.LoadFromIni();
 			CModeGame.LoadFromIni();
 			CModeMatch.LoadFromIni();
 			CModeTournamentB.LoadFromIni();
@@ -948,7 +949,7 @@ namespace RapChessGui
 
 		bool IsGameLong()
 		{
-			return CModeGame.newElo > 0;
+			return !CModeGame.finished;
 		}
 
 		bool IsGameProgress()
@@ -1021,14 +1022,14 @@ namespace RapChessGui
 
 		bool ShowLastGame()
 		{
-			if (CModeGame.newElo == 0)
+			if (CModeGame.finished)
 				return false;
 			CPlayer hu = CPlayerList.humanPlayer;
-			hu.NewElo(CModeGame.newElo);
+			hu.NewElo(hu.GetEloLess());
 			int oe = hu.hisElo.Penultimate();
 			int ne = hu.hisElo.Last();
 			ShowInfo($"Yours new elo is {ne} ({ne - oe})", Color.Red);
-			CModeGame.newElo = 0;
+			CModeGame.finished = true;
 			CModeGame.rotate = !CModeGame.rotate;
 			CModeGame.SaveToIni();
 			return true;
@@ -1173,8 +1174,7 @@ namespace RapChessGui
 			{
 				if (IsGameRanked() && CModeGame.ranked && ((chess.halfMove >> 1) == 4))
 				{
-					CGamer gs = CGamers.GamerSec();
-					CElo.EloRating(gs.player.Elo, gc.player.Elo, out _, out CModeGame.newElo, gs.player.hisElo.Count, gc.player.hisElo.Count, false);
+					CModeGame.finished = false;
 					CModeGame.SaveToIni();
 				}
 			}
@@ -1668,6 +1668,16 @@ namespace RapChessGui
 				pc.BookName = cbBook.Text;
 				pc.modeValue.level = CModeGame.modeValue.level;
 				pc.modeValue.value = CModeGame.modeValue.value;
+				pc.elo = CPlayerList.humanPlayer.elo;
+			}
+			else if (FormOptions.gameEngine != Global.none)
+			{
+				pc.EngineName = FormOptions.gameEngine;
+				pc.BookName = FormOptions.gameBook;
+				pc.modeValue.level = CLevel.time;
+				pc.modeValue.value = 10;
+				pc.elo = CPlayerList.humanPlayer.elo;
+				pc.humanElo = true;
 			}
 			else
 			{
@@ -1707,12 +1717,14 @@ namespace RapChessGui
 		{
 			if (CModeGame.ranked && IsGameRanked())
 			{
-				CElo.EloRating(pw.Elo, pl.Elo, out int newW, out int newL, pw.hisElo.Count, pl.hisElo.Count, isDraw);
-				if (pw.IsHuman())
-					pw.NewElo(newW);
-				if (pl.IsHuman())
-					pl.NewElo(newL);
-				CModeGame.newElo = 0;
+				if (!isDraw)
+				{
+					if (pw.IsHuman())
+						pw.NewElo(pw.GetEloMore());
+					if (pl.IsHuman())
+						pl.NewElo(pw.GetEloLess());
+				}
+				CModeGame.finished = true;
 				CModeGame.rotate = !CModeGame.rotate;
 				CModeGame.SaveToIni();
 			}

@@ -52,7 +52,7 @@
 			this.labVersion.Name = "labVersion";
 			this.labVersion.Size = new System.Drawing.Size(370, 30);
 			this.labVersion.TabIndex = 1;
-			this.labVersion.Text = "2023-01-27";
+			this.labVersion.Text = "2023-02-04";
 			this.labVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label1

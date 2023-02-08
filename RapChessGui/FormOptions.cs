@@ -25,7 +25,8 @@ namespace RapChessGui
 		public static int winLimit = 1;
 		public static int tourBValue = 100;
 		public static int tourEValue = 100;
-		public static string gameBook = Global.none;
+		public static string gameBook = CBookList.def;
+		public static string gameEngine = CEngineList.def;
 		public static string tourBEngine = Global.none;
 		public static string tourBMode = "Time";
 		public static string tourBSelected = Global.none;
@@ -40,14 +41,13 @@ namespace RapChessGui
 		public FormOptions()
 		{
 			InitializeComponent();
-			LoadFromIni();
-			listBox1.SelectedIndex = 0;
 		}
 
 		public void LoadFromIni()
 		{
 			string color = ColorTranslator.ToHtml(Color.Yellow);
-			gameBook = FormChess.iniFile.Read("options>mode>game>book", tourEBook);
+			gameBook = FormChess.iniFile.Read("options>mode>game>book", gameBook);
+			gameEngine = FormChess.iniFile.Read("options>mode>game>engine", gameEngine);
 			nudBreak.Value = FormChess.iniFile.ReadDecimal("options>mode>game>break", nudBreak.Value);
 			tourBSelected = FormChess.iniFile.Read("options>mode>tourB>selected", tourBSelected);
 			tourBEngine = FormChess.iniFile.Read("options>mode>tourB>engine", tourBEngine);
@@ -85,6 +85,7 @@ namespace RapChessGui
 		{
 			string color = ColorTranslator.ToHtml(colorDialog1.Color);
 			FormChess.iniFile.Write("options>mode>game>book", gameBook);
+			FormChess.iniFile.Write("options>mode>game>engine", gameEngine);
 			FormChess.iniFile.Write("options>mode>game>break", nudBreak.Value);
 			FormChess.iniFile.Write("options>mode>tourB>selected", tourBSelected);
 			FormChess.iniFile.Write("options>mode>tourB>engine", tourBEngine);
@@ -114,7 +115,7 @@ namespace RapChessGui
 			FormChess.iniFile.Write("options>priority", combPriority.SelectedIndex);
 		}
 
-		void FormLoad()
+		public void FormLoad()
 		{
 			lvBooks.Items.Clear();
 			foreach (CReader db in FormChess.readerList)
@@ -145,25 +146,26 @@ namespace RapChessGui
 			cbGameBook.Items.Insert(0, Global.none);
 			cbTourBSelected.Items.Insert(0, Global.none);
 			cbTourEBook.Items.Insert(0,Global.none);
-			cbGameBook.SelectedIndex = 0;
-			cbTourBSelected.SelectedIndex = 0;
-			cbTourEBook.SelectedIndex = 0;
 
+			cbGameEngine.Items.Clear();
 			cbTourBEngine.Items.Clear();
 			cbTourESelected.Items.Clear();
+			cbGameEngine.Sorted = true;
 			cbTourBEngine.Sorted = true;
 			cbTourESelected.Sorted = true;
 			foreach (CEngine e in FormChess.engineList)
 			{
 				cbTourBEngine.Items.Add(e.name);
 				cbTourESelected.Items.Add(e.name);
+				if (e.modeElo)
+					cbGameEngine.Items.Add(e.name);
 			}
+			cbGameEngine.Sorted = false;
 			cbTourBEngine.Sorted = false;
 			cbTourESelected.Sorted = false;
+			cbGameEngine.Items.Insert(0, Global.none);
 			cbTourBEngine.Items.Insert(0, Global.none);
 			cbTourESelected.Items.Insert(0, Global.none);
-			cbTourBEngine.SelectedIndex = 0;
-			cbTourESelected.SelectedIndex = 0;
 
 			cbTourPSelected.Items.Clear();
 			cbTourPSelected.Sorted = true;
@@ -175,6 +177,7 @@ namespace RapChessGui
 
 			LoadFromIni();
 
+			CData.ComboSelect(cbGameEngine, gameEngine);
 			CData.ComboSelect(cbGameBook, gameBook);
 			CData.ComboSelect(cbTourBSelected, tourBSelected);
 			CData.ComboSelect(cbTourESelected, tourESelected);
@@ -274,8 +277,7 @@ namespace RapChessGui
 
 		private void FormOptions_Shown(object sender, EventArgs e)
 		{
-			FormLoad();
-			listBox1.SelectedIndex = page;
+			
 		}
 
 		private void cbPriority_SelectedIndexChanged(object sender, EventArgs e)
@@ -434,11 +436,6 @@ namespace RapChessGui
 			tourEValue = (int)nudTourE.Value;
 		}
 
-		private void cbGameBook_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			gameBook = cbGameBook.Text;
-		}
-
 		private void cbTourBMode_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			CModeTournamentB.modeValue.SetLevel((sender as ComboBox).Text);
@@ -456,6 +453,22 @@ namespace RapChessGui
 		private void nudTourB_ValueChanged(object sender, EventArgs e)
 		{
 			tourBValue = (int)nudTourB.Value;
+		}
+
+		private void cbGameBook_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			gameBook = cbGameBook.Text;
+		}
+
+		private void cbGameEngine_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			gameEngine = cbGameEngine.Text;
+		}
+
+		private void FormOptions_Load(object sender, EventArgs e)
+		{
+			FormLoad();
+			listBox1.SelectedIndex = page;
 		}
 	}
 }

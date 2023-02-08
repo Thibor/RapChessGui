@@ -64,11 +64,6 @@ namespace RapChessGui
 			return arguments.Contains(book);
 		}
 
-		public string GetArguments()
-		{
-			return arguments.Replace("[engines]", $@"{AppDomain.CurrentDomain.BaseDirectory}Engines\");
-		}
-
 		public string GetPath()
 		{
 			return $@"{AppDomain.CurrentDomain.BaseDirectory}Books\{file}";
@@ -112,7 +107,7 @@ namespace RapChessGui
 		{
 			bf = string.Empty;
 			foreach (string o in options)
-				if (o.IndexOf("name Book file value ") == 0)
+				if (o.IndexOf("name book_file value ") == 0)
 				{
 					bf = o.Substring(21);
 					return true;
@@ -290,7 +285,7 @@ namespace RapChessGui
 				return;
 			if (!string.Equals(fi.Extension, $".{dir}", StringComparison.OrdinalIgnoreCase))
 				return;
-			string option = $@"name Book file value {bp}";
+			string option = $@"name book_file value {bp}";
 			CBook b = new CBook();
 			b.file = bf;
 			b.options.Add(option);

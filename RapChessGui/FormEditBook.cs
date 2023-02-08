@@ -4,8 +4,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace RapChessGui
 {
@@ -85,7 +83,7 @@ namespace RapChessGui
 						panOptions.Controls.Add(nud);
 						lab = new Label();
 						lab.Name = lName;
-						lab.Text = o.Name;
+						lab.Text = o.Text();
 						lab.Location = new Point(128, y);
 						lab.Size = new Size(panOptions.Width - 160, lab.Height);
 						panOptions.Controls.Add(lab);
@@ -94,7 +92,7 @@ namespace RapChessGui
 					case "check":
 						CheckBox check = new CheckBox();
 						check.Name = oName;
-						check.Text = o.Name;
+						check.Text = o.Text();
 						check.Checked = Convert.ToBoolean(book.GetOption(o.Name, o.Default));
 						check.Location = new Point(3, y);
 						check.Size = new Size(panOptions.Width - 32, check.Height);
@@ -104,7 +102,7 @@ namespace RapChessGui
 					case "string":
 						lab = new Label();
 						lab.Name = lName;
-						lab.Text = o.Name;
+						lab.Text = o.Text();
 						lab.TextAlign = ContentAlignment.MiddleLeft;
 						lab.Location = new Point(3, y);
 						lab.Size = new Size(panOptions.Width - 32, lab.Height);
@@ -329,7 +327,7 @@ namespace RapChessGui
 
 		private void consoleToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			string bn = book.GetOption("Book file");
+			string bn = book.GetOption("book_file");
 			string arg = string.IsNullOrEmpty(bn) ? book.arguments : $@"{bn} -info";
 			ProcessStartInfo psi = new ProcessStartInfo();
 			psi.FileName = book.GetPath();
