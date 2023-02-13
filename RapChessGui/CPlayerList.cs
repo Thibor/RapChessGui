@@ -51,6 +51,11 @@ namespace RapChessGui
 			name = n;
 		}
 
+		public void NewElo()
+		{
+			NewElo(Elo);
+		}
+
 		public void NewElo(int e)
 		{
 			if (e < CElo.eloMin)

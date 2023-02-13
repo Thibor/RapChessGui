@@ -18,8 +18,12 @@ namespace RapChessGui
 		/// </summary>
 		public string GetMemory()
 		{
-			process?.Refresh();
-			return process?.PrivateMemorySize64.ToString("N0") ?? "Memory";
+			if (process == null)
+				return "Memory";
+			process.Refresh();
+			if (process.HasExited)
+				return "Memory";
+			return process.PrivateMemorySize64.ToString("N0");
 		}
 
 		void SetMessage(string msg)

@@ -2,7 +2,6 @@
 using RapIni;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 
 namespace RapChessGui
@@ -357,11 +356,6 @@ namespace RapChessGui
 					e.modeElo = false;
 					e.SaveToIni();
 				}
-			}
-			if (GetEngineAuto() != null)
-			{
-				FormChess.This.formEditEngine.formAutodetect.StartTestAuto();
-				FormChess.This.formEditEngine.formAutodetect.ShowDialog(FormChess.This);
 			}
 		}
 

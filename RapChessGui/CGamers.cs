@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Diagnostics;
+using System.IO;
 using NSChess;
+using System.Windows.Forms;
 
 namespace RapChessGui
 {
@@ -108,6 +110,41 @@ namespace RapChessGui
 		public CGamer()
 		{
 			InitNewGame();
+		}
+
+		public Bitmap GetBitmap(int height,out int width)
+		{
+			Bitmap bmp = GetBitmap();
+			double ratio = bmp.Width / bmp.Height;
+			width = Convert.ToInt32(height * ratio);
+			return bmp;
+		}
+
+
+		public Bitmap GetBitmap()
+		{
+			Bitmap bmp =    FormChess.This.Icon.ToBitmap();
+			if (engine == null)
+				return bmp;
+			string path = engine.GetFileName();
+			if (!File.Exists(path))
+				return bmp;
+			string dir = Path.GetDirectoryName(path);
+			string name = Path.GetFileNameWithoutExtension(path);
+			string p = $@"{dir}\{name}.bmp";
+			if (File.Exists(p))
+				return new Bitmap(p);
+			string[] an = engine.GetName().Split();
+			if (an.Length > 0)
+			{
+				p = $@"{dir}\{an[0]}.bmp";
+				if (File.Exists(p))
+					return new Bitmap(p);
+			}
+			string[] filePaths = Directory.GetFiles(dir, "*.bmp");
+			if (filePaths.Length == 1)
+				return new Bitmap(filePaths[0]);
+			return Icon.ExtractAssociatedIcon(path).ToBitmap();
 		}
 
 		public string GetMessage(out bool book)

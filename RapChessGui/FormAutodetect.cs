@@ -357,7 +357,7 @@ namespace RapChessGui
 					TestRestart();
 					break;
 				case 14:
-					ShowStandard();
+					ShowTournament();
 					testEngine.modeNodes = false;
 					testResult = true;
 					WriteLine("start test nodes 1");
@@ -380,7 +380,7 @@ namespace RapChessGui
 					TestRestart();
 					break;
 				case 17:
-					ShowStandard();
+					ShowNodes();
 					testResult = false;
 					WriteLine("start test infinite 1");
 					if (testEngine.protocol == CProtocol.uci)

@@ -40,9 +40,7 @@ namespace RapLog
 		{
 			if (!enabled)
 				return;
-			List<string> list = new List<string>();
-			if (File.Exists(path))
-				list = File.ReadAllLines(path).ToList();
+			List<string> list = List();
 			if (addDate)
 				list.Insert(0, $"{DateTime.Now} {m}");
 			else
@@ -51,6 +49,21 @@ namespace RapLog
 			if ((count > 0) && (max > 0))
 				list.RemoveRange(max, count);
 			File.WriteAllLines(path, list);
+		}
+
+		public void Add(bool v)
+		{
+			Add(v.ToString());
+		}
+
+		public void Add(int v)
+		{
+			Add(v.ToString());
+		}
+
+		public void Add(double v)
+		{
+			Add(v.ToString());
 		}
 
 		public List<string> List()

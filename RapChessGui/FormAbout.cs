@@ -18,5 +18,10 @@ namespace RapChessGui
 			InitializeComponent();
 		}
 
+
+		private void FormAbout_Shown(object sender, EventArgs e)
+		{
+			pictureBox.Image = FormChess.This.Icon.ToBitmap();
+		}
 	}
 }

@@ -53,7 +53,7 @@
     <NoWarn>IDE1006,IDE0017</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\q.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\rapchessgui.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>RapChessGui.Program</StartupObject>
@@ -322,7 +322,7 @@
     <None Include="Resources\ChessPiece.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\q.ico" />
+    <Content Include="Resources\rapchessgui.ico" />
     <Content Include="Resources\Sounds\Capture.wav" />
     <Content Include="Resources\Sounds\Castling.wav" />
     <Content Include="Resources\Sounds\Check.wav" />

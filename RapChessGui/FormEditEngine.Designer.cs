@@ -37,6 +37,7 @@
 			this.bRename = new System.Windows.Forms.Button();
 			this.bSave = new System.Windows.Forms.Button();
 			this.gbMode = new System.Windows.Forms.GroupBox();
+			this.cbModeElo = new System.Windows.Forms.CheckBox();
 			this.cbModeInfinite = new System.Windows.Forms.CheckBox();
 			this.cbModeNodes = new System.Windows.Forms.CheckBox();
 			this.cbModeTournament = new System.Windows.Forms.CheckBox();
@@ -66,7 +67,7 @@
 			this.autodetectEngineProtocolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.resetEngineOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.clearTournamentHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.cbModeElo = new System.Windows.Forms.CheckBox();
+			this.autodetectAllEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.panel1.SuspendLayout();
 			this.panButtons.SuspendLayout();
 			this.gbMode.SuspendLayout();
@@ -190,6 +191,16 @@
 			this.gbMode.TabIndex = 31;
 			this.gbMode.TabStop = false;
 			this.gbMode.Text = "Mode";
+			// 
+			// cbModeElo
+			// 
+			this.cbModeElo.AutoSize = true;
+			this.cbModeElo.Location = new System.Drawing.Point(3, 62);
+			this.cbModeElo.Name = "cbModeElo";
+			this.cbModeElo.Size = new System.Drawing.Size(41, 17);
+			this.cbModeElo.TabIndex = 7;
+			this.cbModeElo.Text = "Elo";
+			this.cbModeElo.UseVisualStyleBackColor = true;
 			// 
 			// cbModeInfinite
 			// 
@@ -475,9 +486,10 @@
 			// actionToolStripMenuItem
 			// 
 			this.actionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autodetectAllEnginesToolStripMenuItem,
             this.autodetectEngineProtocolToolStripMenuItem,
-            this.resetEngineOptionsToolStripMenuItem,
-            this.clearTournamentHistoryToolStripMenuItem});
+            this.clearTournamentHistoryToolStripMenuItem,
+            this.resetEngineOptionsToolStripMenuItem});
 			this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
 			this.actionToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
 			this.actionToolStripMenuItem.Text = "Action";
@@ -485,33 +497,30 @@
 			// autodetectEngineProtocolToolStripMenuItem
 			// 
 			this.autodetectEngineProtocolToolStripMenuItem.Name = "autodetectEngineProtocolToolStripMenuItem";
-			this.autodetectEngineProtocolToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-			this.autodetectEngineProtocolToolStripMenuItem.Text = "Autodetect engine protocol";
+			this.autodetectEngineProtocolToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+			this.autodetectEngineProtocolToolStripMenuItem.Text = "Autodetect current engine";
 			this.autodetectEngineProtocolToolStripMenuItem.Click += new System.EventHandler(this.autodetectEngineProtocolToolStripMenuItem_Click);
 			// 
 			// resetEngineOptionsToolStripMenuItem
 			// 
 			this.resetEngineOptionsToolStripMenuItem.Name = "resetEngineOptionsToolStripMenuItem";
-			this.resetEngineOptionsToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+			this.resetEngineOptionsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
 			this.resetEngineOptionsToolStripMenuItem.Text = "Reset engine options";
 			this.resetEngineOptionsToolStripMenuItem.Click += new System.EventHandler(this.resetEngineOptionsToolStripMenuItem_Click);
 			// 
 			// clearTournamentHistoryToolStripMenuItem
 			// 
 			this.clearTournamentHistoryToolStripMenuItem.Name = "clearTournamentHistoryToolStripMenuItem";
-			this.clearTournamentHistoryToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+			this.clearTournamentHistoryToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
 			this.clearTournamentHistoryToolStripMenuItem.Text = "Clear tournament history";
 			this.clearTournamentHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearTournamentHistoryToolStripMenuItem_Click);
 			// 
-			// cbModeElo
+			// autodetectAllEnginesToolStripMenuItem
 			// 
-			this.cbModeElo.AutoSize = true;
-			this.cbModeElo.Location = new System.Drawing.Point(3, 62);
-			this.cbModeElo.Name = "cbModeElo";
-			this.cbModeElo.Size = new System.Drawing.Size(41, 17);
-			this.cbModeElo.TabIndex = 7;
-			this.cbModeElo.Text = "Elo";
-			this.cbModeElo.UseVisualStyleBackColor = true;
+			this.autodetectAllEnginesToolStripMenuItem.Name = "autodetectAllEnginesToolStripMenuItem";
+			this.autodetectAllEnginesToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+			this.autodetectAllEnginesToolStripMenuItem.Text = "Autodetect all engines";
+			this.autodetectAllEnginesToolStripMenuItem.Click += new System.EventHandler(this.autodetectAllEnginesToolStripMenuItem_Click);
 			// 
 			// FormEditEngine
 			// 
@@ -595,5 +604,6 @@
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.ComboBox cbFolderList;
 		private System.Windows.Forms.CheckBox cbModeElo;
+		private System.Windows.Forms.ToolStripMenuItem autodetectAllEnginesToolStripMenuItem;
 	}
 }

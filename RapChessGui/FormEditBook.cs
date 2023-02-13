@@ -348,6 +348,7 @@ namespace RapChessGui
 		{
 			if (book != null)
 			{
+				book.elo = Global.elo;
 				book.hisElo.Clear();
 				book.SaveToIni();
 				int count = CModeTournamentB.tourList.DeletePlayer(book.name);

@@ -119,8 +119,10 @@ namespace RapIni
 			return s.Split(sepearator, StringSplitOptions.RemoveEmptyEntries);
 		}
 
-		public string Read(string key, string def = "")
+		public string Read(string key, string def = "",bool restore = false)
 		{
+			if (restore)
+				return def;
 				string[] ak = key.Split(new[] { '>' }, StringSplitOptions.RemoveEmptyEntries);
 				foreach (string e in this)
 				{
@@ -136,29 +138,37 @@ namespace RapIni
 			return def;
 		}
 
-		public decimal ReadDecimal(string key, decimal def = 0)
+		public decimal ReadDecimal(string key, decimal def = 0,bool restore = false)
 		{
+			if (restore)
+				return def;
 			string s = Read(key, Convert.ToString(def));
 			decimal.TryParse(s, out decimal result);
 			return result;
 		}
 
-		public double ReadDouble(string key, double def = 0)
+		public double ReadDouble(string key, double def = 0,bool restore = false)
 		{
+			if (restore)
+				return def;
 			string s = Read(key, Convert.ToString(def, CultureInfo.InvariantCulture.NumberFormat));
 			double.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture.NumberFormat, out double result);
 			return result;
 		}
 
-		public int ReadInt(string key, int def = 0)
+		public int ReadInt(string key, int def = 0,bool restore = false)
 		{
+			if (restore)
+				return def;
 			string s = Read(key, Convert.ToString(def));
 			int.TryParse(s, out int result);
 			return result;
 		}
 
-		public bool ReadBool(string key, bool def = false)
+		public bool ReadBool(string key, bool def = false,bool restore = false)
 		{
+			if (restore)
+				return def;
 			string s = Read(key, Convert.ToString(def));
 			bool.TryParse(s, out bool result);
 			return result;

@@ -3,8 +3,6 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Threading;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace RapChessGui
@@ -237,9 +235,13 @@ namespace RapChessGui
 			gbEngines.Text = $"Engines {listBox1.Items.Count}";
 		}
 
-		void ShowAutodetect()
+		void ShowAutodetect(bool one = true)
 		{
-			engine.protocol = CProtocol.auto;
+			if (one)
+				engine.protocol = CProtocol.auto;
+			else
+				foreach (CEngine e in FormChess.engineList)
+					e.protocol = CProtocol.auto;
 			formAutodetect.StartTestAuto();
 			formAutodetect.ShowDialog(this);
 		}
@@ -475,6 +477,7 @@ namespace RapChessGui
 		{
 			if (engine != null)
 			{
+				engine.elo = Global.elo;
 				engine.hisElo.Clear();
 				engine.SaveToIni();
 				int count = CModeTournamentE.tourList.DeletePlayer(engine.name);
@@ -488,5 +491,9 @@ namespace RapChessGui
 			CData.FillComboBox(cbFileList, list);
 		}
 
+		private void autodetectAllEnginesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ShowAutodetect(false);
+		}
 	}
 }

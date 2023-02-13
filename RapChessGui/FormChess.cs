@@ -94,7 +94,7 @@ namespace RapChessGui
 			This = this;
 			CreateDir("Books");
 			CreateDir("Engines");
-			CreateDir(@"Engines/Auto");
+			CreateDir(@"Engines\Auto");
 			CreateDir("History");
 			CreateDir("Ini");
 			CData.UpdateBookReader();
@@ -476,6 +476,12 @@ namespace RapChessGui
 			labMemoryB.Text = gb.gamerEngine.GetMemory();
 			splitContainerMoves.Panel1Collapsed = gw.player.IsHuman();
 			splitContainerMoves.Panel2Collapsed = gb.player.IsHuman();
+			Bitmap bmpW = gw.GetBitmap(panWhite.Height,out int ww);
+			Bitmap bmpB = gb.GetBitmap(panBlack.Height, out int wb);
+			pictureBoxW.Width = ww;
+			pictureBoxB.Width = wb;
+			pictureBoxW.Image = bmpW;
+			pictureBoxB.Image = bmpB;
 		}
 
 		void ShowInfo(CGamer g)
@@ -1131,6 +1137,11 @@ namespace RapChessGui
 
 		void Reset(bool forced = false)
 		{
+			if (engineList.GetEngineAuto() != null)
+			{
+				formEditEngine.formAutodetect.StartTestAuto();
+				formEditEngine.formAutodetect.ShowDialog(this);
+			}
 			board.SetColor();
 			BackColor = CBoard.colorChartD;
 			if (!forced && !CData.reset)
@@ -1715,19 +1726,21 @@ namespace RapChessGui
 
 		void GameEnd(CPlayer pw, CPlayer pl, bool isDraw)
 		{
-			if (CModeGame.ranked && IsGameRanked())
-			{
-				if (!isDraw)
-				{
-					if (pw.IsHuman())
-						pw.NewElo(pw.GetEloMore());
-					if (pl.IsHuman())
-						pl.NewElo(pw.GetEloLess());
-				}
-				CModeGame.finished = true;
-				CModeGame.rotate = !CModeGame.rotate;
-				CModeGame.SaveToIni();
-			}
+			if (!CModeGame.ranked || !IsGameRanked())
+				return;
+			if (pw.IsHuman())
+				if (isDraw)
+					pw.NewElo();
+				else
+					pw.NewElo(pw.GetEloMore());
+			if (pl.IsHuman())
+				if (isDraw)
+					pl.NewElo();
+				else
+					pl.NewElo(pl.GetEloLess());
+			CModeGame.finished = true;
+			CModeGame.rotate = !CModeGame.rotate;
+			CModeGame.SaveToIni();
 		}
 
 		#endregion
@@ -2638,7 +2651,7 @@ namespace RapChessGui
 
 		private void ButStart_Click(object sender, EventArgs e)
 		{
-			GameStart();
+			GameShow();
 		}
 
 		private void ButStop_Click(object sender, EventArgs e)
@@ -2648,7 +2661,30 @@ namespace RapChessGui
 
 		private void OptionsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			FormOptions.page = Convert.ToInt32(tabControl1.SelectedTab.Tag);
+			switch (CData.gameMode)
+			{
+				case CGameMode.game:
+					formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Game");
+					break;
+				case CGameMode.match:
+					formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Match");
+					break;
+				case CGameMode.tourB:
+					formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Tournament books");
+					break;
+				case CGameMode.tourE:
+					formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Tournament engines");
+					break;
+				case CGameMode.tourP:
+					formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Tournament players");
+					break;
+				case CGameMode.training:
+					formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Training");
+					break;
+				case CGameMode.edit:
+					formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Interface");
+					break;
+			}
 			formOptions.ShowDialog(this);
 			toolTip1.Active = FormOptions.showTips;
 			board.SetColor();

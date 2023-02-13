@@ -187,8 +187,6 @@ namespace RapChessGui
 		{
 			if (w < 0xf) w = 0xf;
 			if (h < 0xf) h = 0xf;
-			if ((width == w) && (height == h))
-				return;
 			width = w;
 			height = h;
 			rotate = rotateBoard;
