@@ -41,9 +41,9 @@ namespace RapChessGui
 			MinMax(out int min, out int max);
 			double q = (max - min) / 10;
 			if (elo > max - q)
-				return CBoard.colorListB;
+				return Colors.listB;
 			if (elo < min + q)
-				return CBoard.colorListW;
+				return Colors.listW;
 			return Color.White;
 		}
 

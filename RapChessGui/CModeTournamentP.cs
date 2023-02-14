@@ -20,18 +20,18 @@ namespace RapChessGui
 
 		public static void SaveToIni()
 		{
-			FormChess.iniFile.Write("mode>tournamentP>player", first);
-			FormChess.iniFile.Write("mode>tournamentP>records", records);
-			FormChess.iniFile.Write("mode>tournamentP>eloAvg", eloAvg);
-			FormChess.iniFile.Write("mode>tournamentP>eloRange", eloRange);
+			FormChess.ini.Write("mode>tournamentP>player", first);
+			FormChess.ini.Write("mode>tournamentP>records", records);
+			FormChess.ini.Write("mode>tournamentP>eloAvg", eloAvg);
+			FormChess.ini.Write("mode>tournamentP>eloRange", eloRange);
 		}
 
 		public static void LoadFromIni()
 		{
-			first = FormChess.iniFile.Read("mode>tournamentP>player", first);
-			records = FormChess.iniFile.ReadInt("mode>tournamentP>records", records);
-			eloAvg = FormChess.iniFile.ReadInt("mode>tournamentP>eloAvg", eloAvg);
-			eloRange = FormChess.iniFile.ReadInt("mode>tournamentP>eloRange", eloRange);
+			first = FormChess.ini.Read("mode>tournamentP>player", first);
+			records = FormChess.ini.ReadInt("mode>tournamentP>records", records);
+			eloAvg = FormChess.ini.ReadInt("mode>tournamentP>eloAvg", eloAvg);
+			eloRange = FormChess.ini.ReadInt("mode>tournamentP>eloRange", eloRange);
 			tourList.SetLimit(records);
 		}
 

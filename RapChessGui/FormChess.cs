@@ -30,14 +30,15 @@ namespace RapChessGui
 		private static extern bool ShowScrollBar(IntPtr hwnd, int wBar, [MarshalAs(UnmanagedType.Bool)] bool bShow);
 
 		public const int WM_GAME_NEXT = 1024;
+		string editFen = CChess.defFen;
 		public static IntPtr handle;
 		public static FormChess This;
 		public static string mode = "Game";
 		string continuations = String.Empty;
 		List<int> moves = new List<int>();
-		public static CRapIni iniFile = new CRapIni(@"Ini\options.ini");
+		public static CRapIni ini = new CRapIni(@"Ini\options.ini");
 		public static CReaderList readerList = new CReaderList();
-		readonly CBoard board = new CBoard();
+		public CBoard board = new CBoard();
 		readonly CEcoList ecoList = new CEcoList();
 		readonly CUci uci = new CUci();
 		public static CChess chess = new CChess();
@@ -121,7 +122,8 @@ namespace RapChessGui
 			toolTip1.Active = FormOptions.showTips;
 			CWinMessage.winHandle = Handle;
 			BoardPrepare();
-			combMainMode.SelectedIndex = 0;
+			cbApply.SelectedIndex = 0;
+			cbGameMode.SelectedIndex = 0;
 			timerAnimation.Enabled = true;
 			EditSelected = "P";
 		}
@@ -157,23 +159,49 @@ namespace RapChessGui
 			if (!Directory.Exists(dir))
 				Directory.CreateDirectory(dir);
 		}
+		void IniSave()
+		{
+			bool maximized = WindowState == FormWindowState.Maximized;
+			int width = maximized ? RestoreBounds.Width : Width;
+			int height = maximized ? RestoreBounds.Height : Height;
+			int x = maximized ? RestoreBounds.X : Location.X;
+			int y = maximized ? RestoreBounds.Y : Location.Y;
+			ini.Write("position>maximized", maximized);
+			ini.Write("position>width", width);
+			ini.Write("position>height", height);
+			ini.Write("position>x", x);
+			ini.Write("position>y", y);
+			ini.Write("edit>fen", editFen);
+			SplitSaveToIni();
+			CBookList.iniFile.Save();
+			CEngineList.iniFile.Save();
+			CPlayerList.iniFile.Save();
+			CReaderList.iniFile.Save();
+			CModeGame.SaveToIni();
+			CModeMatch.SaveToIni();
+			CModeTournamentB.SaveToIni();
+			CModeTournamentE.SaveToIni();
+			CModeTournamentP.SaveToIni();
+			ini.Save();
+		}
 
 		void IniLoad()
 		{
-			Width = iniFile.ReadInt("position>width", Width);
-			Height = iniFile.ReadInt("position>height", Height);
+			editFen = ini.Read("edit>fen",editFen);
+			Width = ini.ReadInt("position>width", Width);
+			Height = ini.ReadInt("position>height", Height);
 			if (Width < 600)
 				Width = 600;
 			if (Height < 600)
 				Height = 600;
-			int x = iniFile.ReadInt("position>x", Location.X);
-			int y = iniFile.ReadInt("position>y", Location.Y);
+			int x = ini.ReadInt("position>x", Location.X);
+			int y = ini.ReadInt("position>y", Location.Y);
 			if (x < 0)
 				x = 0;
 			if (y < 0)
 				y = 0;
 			Location = new Point(x, y);
-			if (iniFile.ReadBool("position>maximized", false))
+			if (ini.ReadBool("position>maximized", false))
 				WindowState = FormWindowState.Maximized;
 			SplitLoadFromIni();
 			readerList.LoadFromIni();
@@ -190,43 +218,18 @@ namespace RapChessGui
 			CModeTraining.LoadFromIni();
 		}
 
-		void IniSave()
-		{
-			bool maximized = WindowState == FormWindowState.Maximized;
-			int width = maximized ? RestoreBounds.Width : Width;
-			int height = maximized ? RestoreBounds.Height : Height;
-			int x = maximized ? RestoreBounds.X : Location.X;
-			int y = maximized ? RestoreBounds.Y : Location.Y;
-			iniFile.Write("position>maximized", maximized);
-			iniFile.Write("position>width", width);
-			iniFile.Write("position>height", height);
-			iniFile.Write("position>x", x);
-			iniFile.Write("position>y", y);
-			SplitSaveToIni();
-			CBookList.iniFile.Save();
-			CEngineList.iniFile.Save();
-			CPlayerList.iniFile.Save();
-			CReaderList.iniFile.Save();
-			CModeGame.SaveToIni();
-			CModeMatch.SaveToIni();
-			CModeTournamentB.SaveToIni();
-			CModeTournamentE.SaveToIni();
-			CModeTournamentP.SaveToIni();
-			iniFile.Save();
-		}
-
 		void SplitSaveToIni(SplitContainer sc)
 		{
 			int size = sc.Orientation == Orientation.Horizontal ? sc.Size.Height : sc.Size.Width;
 			double p = (double)sc.SplitterDistance / size;
-			iniFile.Write($"position>split>{sc.Name}", p);
+			ini.Write($"position>split>{sc.Name}", p);
 		}
 
 		void SplitLoadFromIni(SplitContainer sc)
 		{
 			int size = sc.Orientation == Orientation.Horizontal ? sc.Size.Height : sc.Size.Width;
 			double o = (double)sc.SplitterDistance / size;
-			double p = iniFile.ReadDouble($"position>split>{sc.Name}", o);
+			double p = ini.ReadDouble($"position>split>{sc.Name}", o);
 			if (p > 1)
 				p = 1;
 			int d = Convert.ToInt32(p * size);
@@ -359,7 +362,7 @@ namespace RapChessGui
 			lvMoves.Items.Clear();
 			lvMovesW.Items.Clear();
 			lvMovesB.Items.Clear();
-			PrepareFen();
+			PrepareFen(cbGameMode.Text==cbApply.Text ? editFen:CChess.defFen);
 			gamers.InitNewGame();
 			gamers.Terminate();
 		}
@@ -380,43 +383,42 @@ namespace RapChessGui
 
 		public void SetColor()
 		{
-			board.SetColor();
-			labPlayerW.BackColor = CBoard.colorLabelB;
-			labPlayerB.BackColor = CBoard.colorLabelB;
-			labEngineW.BackColor = CBoard.colorLabelB;
-			labEngineB.BackColor = CBoard.colorLabelB;
-			labBookNW.BackColor = CBoard.colorLabelB;
-			labBookNB.BackColor = CBoard.colorLabelB;
-			labModeW.BackColor = CBoard.colorLabelB;
-			labModeB.BackColor = CBoard.colorLabelB;
-			labProtocolW.BackColor = CBoard.colorLabelB;
-			labProtocolB.BackColor = CBoard.colorLabelB;
-			labMemoryW.BackColor = CBoard.colorLabelB;
-			labMemoryB.BackColor = CBoard.colorLabelB;
-			labScoreW.BackColor = CBoard.colorLabelW;
-			labScoreB.BackColor = CBoard.colorLabelW;
-			labDepthW.BackColor = CBoard.colorLabelW;
-			labDepthB.BackColor = CBoard.colorLabelW;
-			labNodesW.BackColor = CBoard.colorLabelW;
-			labNodesB.BackColor = CBoard.colorLabelW;
-			labNpsW.BackColor = CBoard.colorLabelW;
-			labNpsB.BackColor = CBoard.colorLabelW;
-			labBookCW.BackColor = CBoard.colorLabelW;
-			labBookCB.BackColor = CBoard.colorLabelW;
-			chartMain.PaletteCustomColors[0] = CBoard.colorChartM;
-			chartMain.PaletteCustomColors[1] = CBoard.colorChartD;
-			chartGame.PaletteCustomColors[0] = CBoard.colorChartD;
-			chartMatch.PaletteCustomColors[0] = CBoard.colorChartD;
-			chartTournamentB.PaletteCustomColors[0] = CBoard.colorChartM;
-			chartTournamentB.PaletteCustomColors[1] = CBoard.colorChartD;
-			chartTournamentB.PaletteCustomColors[2] = CBoard.colorChartL;
-			chartTournamentE.PaletteCustomColors[0] = CBoard.colorChartM;
-			chartTournamentE.PaletteCustomColors[1] = CBoard.colorChartD;
-			chartTournamentE.PaletteCustomColors[2] = CBoard.colorChartL;
-			chartTournamentP.PaletteCustomColors[0] = CBoard.colorChartM;
-			chartTournamentP.PaletteCustomColors[1] = CBoard.colorChartD;
-			chartTournamentP.PaletteCustomColors[2] = CBoard.colorChartL;
-			BackColor = CBoard.colorChartD;
+			labPlayerW.BackColor = Colors.labelB;
+			labPlayerB.BackColor = Colors.labelB;
+			labEngineW.BackColor = Colors.labelB;
+			labEngineB.BackColor = Colors.labelB;
+			labBookNW.BackColor = Colors.labelB;
+			labBookNB.BackColor = Colors.labelB;
+			labModeW.BackColor = Colors.labelB;
+			labModeB.BackColor = Colors.labelB;
+			labProtocolW.BackColor = Colors.labelB;
+			labProtocolB.BackColor = Colors.labelB;
+			labMemoryW.BackColor = Colors.labelB;
+			labMemoryB.BackColor = Colors.labelB;
+			labScoreW.BackColor = Colors.labelW;
+			labScoreB.BackColor = Colors.labelW;
+			labDepthW.BackColor = Colors.labelW;
+			labDepthB.BackColor = Colors.labelW;
+			labNodesW.BackColor = Colors.labelW;
+			labNodesB.BackColor = Colors.labelW;
+			labNpsW.BackColor = Colors.labelW;
+			labNpsB.BackColor = Colors.labelW;
+			labBookCW.BackColor = Colors.labelW;
+			labBookCB.BackColor = Colors.labelW;
+			chartMain.PaletteCustomColors[0] = Colors.chartM;
+			chartMain.PaletteCustomColors[1] = Colors.chartD;
+			chartGame.PaletteCustomColors[0] = Colors.chartD;
+			chartMatch.PaletteCustomColors[0] = Colors.chartD;
+			chartTournamentB.PaletteCustomColors[0] = Colors.chartM;
+			chartTournamentB.PaletteCustomColors[1] = Colors.chartD;
+			chartTournamentB.PaletteCustomColors[2] = Colors.chartL;
+			chartTournamentE.PaletteCustomColors[0] = Colors.chartM;
+			chartTournamentE.PaletteCustomColors[1] = Colors.chartD;
+			chartTournamentE.PaletteCustomColors[2] = Colors.chartL;
+			chartTournamentP.PaletteCustomColors[0] = Colors.chartM;
+			chartTournamentP.PaletteCustomColors[1] = Colors.chartD;
+			chartTournamentP.PaletteCustomColors[2] = Colors.chartL;
+			BackColor = Colors.chartD;
 			chartGame.Invalidate();
 			chartMatch.Invalidate();
 			ShowAutoElo();
@@ -513,8 +515,8 @@ namespace RapChessGui
 					labTimeD.Text = g.GetTime(out bool low);
 					if ((g.timer.IsRunning) || (CData.gameState != CGameState.normal))
 					{
-						labTimeD.BackColor = low ? CBoard.colorRed : CBoard.colorLabelB;
-						labTimeD.ForeColor = CBoard.colorMessage;
+						labTimeD.BackColor = low ? Colors.red : Colors.labelB;
+						labTimeD.ForeColor = Colors.message;
 					}
 					else
 					{
@@ -531,8 +533,8 @@ namespace RapChessGui
 					labTimeT.Text = g.GetTime(out bool low);
 					if ((g.timer.IsRunning) || (CData.gameState != CGameState.normal))
 					{
-						labTimeT.BackColor = low ? CBoard.colorRed : CBoard.colorLabelB;
-						labTimeT.ForeColor = CBoard.colorMessage;
+						labTimeT.BackColor = low ? Colors.red : Colors.labelB;
+						labTimeT.ForeColor = Colors.message;
 					}
 					else
 					{
@@ -616,6 +618,7 @@ namespace RapChessGui
 			}
 			CGamer gWhi = CGamers.GamerWhite();
 			CGamer gBla = CGamers.GamerBlack();
+			FormLogEngines.AppendTimeText($" Fen {chess.GetFen()}\n", Color.Olive);
 			FormLogEngines.AppendTimeText($" White: {gWhi.player.name}\n", Color.DimGray);
 			FormLogEngines.AppendTimeText($" Engine: {gWhi.GetEngineName()}\n", Color.DimGray);
 			FormLogEngines.AppendTimeText($" Clock: {gWhi.GetTime(out _)} Book: {gWhi.countMovesBook} Engine: {gWhi.countMovesEngine}\n", Color.DimGray);
@@ -680,7 +683,7 @@ namespace RapChessGui
 			ListViewItem lvi = new ListViewItem(new[] { ts.ToString(@"mm\:ss\.ff"), g.strScore, g.strDepth, g.nodes.ToString("N0"), g.nps.ToString("N0"), g.pv });
 			ListView lv = g.IsWhite() ? lvMovesW : lvMovesB;
 			if ((lv.Items.Count & 1) > 0)
-				lvi.BackColor = CBoard.colorMessage;
+				lvi.BackColor = Colors.message;
 			lv.Items.Insert(0, lvi);
 		}
 
@@ -881,7 +884,7 @@ namespace RapChessGui
 
 		void CreateRtf()
 		{
-			CreateRtf(combMainMode.Text);
+			CreateRtf(cbGameMode.Text);
 			if (CData.gameState == CGameState.time)
 				CreateRtf("Time");
 			if (CData.gameState == CGameState.error)
@@ -906,7 +909,7 @@ namespace RapChessGui
 					result = "0-1";
 			list.Add("");
 			list.Add("[Site \"RapChessGui\"]");
-			list.Add($"[Event \"{combMainMode.Text}\"]");
+			list.Add($"[Event \"{cbGameMode.Text}\"]");
 			list.Add($"[Date \"{DateTime.Now:yyyy.MM.dd}\"]");
 			list.Add($"[Round \"{CGames.played}\"]");
 			list.Add($"[White \"{CGamers.GamerWhite().player.name}\"]");
@@ -919,7 +922,7 @@ namespace RapChessGui
 			foreach (String s in list)
 				formLogGames.textBox.Text += $"{s}\r\n";
 			formLogGames.textBox.Select(0, 0);
-			CreatePgn(combMainMode.Text);
+			CreatePgn(cbGameMode.Text);
 			if (CData.gameState == CGameState.time)
 				CreatePgn("Time");
 			if (CData.gameState == CGameState.error)
@@ -928,7 +931,6 @@ namespace RapChessGui
 
 		void SetMode(CGameMode mode)
 		{
-			string fen = chess.GetFen();
 			ComClear();
 			CData.gameMode = mode;
 			switch (mode)
@@ -947,7 +949,7 @@ namespace RapChessGui
 					TrainingShow();
 					break;
 				case CGameMode.edit:
-					FenToInter(fen);
+					FenToInter(editFen);
 					break;
 			}
 			ComShow(mode != CGameMode.game);
@@ -1015,13 +1017,13 @@ namespace RapChessGui
 			{
 				if (GamerD().player.IsHuman())
 				{
-					labEloD.BackColor = CBoard.colorLabelB;
-					labEloD.ForeColor = CBoard.colorMessage;
+					labEloD.BackColor = Colors.labelB;
+					labEloD.ForeColor = Colors.message;
 				}
 				if (GamerT().player.IsHuman())
 				{
-					labEloT.BackColor = CBoard.colorLabelB;
-					labEloT.ForeColor = CBoard.colorMessage;
+					labEloT.BackColor = Colors.labelB;
+					labEloT.ForeColor = Colors.message;
 				}
 			}
 		}
@@ -1138,12 +1140,8 @@ namespace RapChessGui
 		void Reset(bool forced = false)
 		{
 			if (engineList.GetEngineAuto() != null)
-			{
-				formEditEngine.formAutodetect.StartTestAuto();
 				formEditEngine.formAutodetect.ShowDialog(this);
-			}
-			board.SetColor();
-			BackColor = CBoard.colorChartD;
+			BackColor = Colors.chartD;
 			if (!forced && !CData.reset)
 				return;
 			CData.reset = false;
@@ -1301,7 +1299,7 @@ namespace RapChessGui
 				labMaterialD.ForeColor = Color.White;
 			}
 			if (board.animated || CDrag.dragged || forced)
-				board.RenderBoard();
+				board.Render();
 			if (board.animated)
 				board.finished = false;
 			board.UpdatePosition();
@@ -1373,7 +1371,7 @@ namespace RapChessGui
 
 		void LoadFen(string fen)
 		{
-			combMainMode.SelectedIndex = 0;
+			cbGameMode.SelectedIndex = 0;
 			SetMode(CGameMode.game);
 			if (!chess.SetFen(fen))
 			{
@@ -1438,7 +1436,7 @@ namespace RapChessGui
 
 		void LoadPgn(string pgn)
 		{
-			combMainMode.SelectedIndex = 0;
+			cbGameMode.SelectedIndex = 0;
 			SetMode(CGameMode.game);
 			string[] ml = pgn.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 			chess.SetFen();
@@ -1560,7 +1558,7 @@ namespace RapChessGui
 				CPromotion.sou = s;
 				CPromotion.des = d;
 				board.MakeMove(s, d);
-				board.RenderBoard();
+				board.Render();
 				RenderBoard();
 				tlpPromotion.Dock = board.rotateBoard ^ chess.WhiteTurn ? DockStyle.Bottom : DockStyle.Top;
 				tlpPromotion.BackColor = chess.WhiteTurn ? Color.Black : Color.White;
@@ -1765,6 +1763,7 @@ namespace RapChessGui
 			CModeMatch.modeValue2.SetLevel(cbMode2.Text);
 			CModeMatch.modeValue1.SetValue((int)nudValue1.Value);
 			CModeMatch.modeValue2.SetValue((int)nudValue2.Value);
+			CModeMatch.SaveToIni();
 		}
 
 		void MatchToSettings()
@@ -1817,13 +1816,11 @@ namespace RapChessGui
 			p1.BookName = CModeMatch.book1;
 			p1.modeValue.level = CModeMatch.modeValue1.level;
 			p1.modeValue.value = CModeMatch.modeValue1.value;
-			p1.elo = p1.engine.elo;
 			CPlayer p2 = new CPlayer("Player 2");
 			p2.EngineName = CModeMatch.engine2;
 			p2.BookName = CModeMatch.book2;
 			p2.modeValue.level = CModeMatch.modeValue2.level;
 			p2.modeValue.value = CModeMatch.modeValue2.value;
-			p2.elo = p2.engine.elo;
 			CGamers.GamerWhite().SetPlayer(p1);
 			CGamers.GamerBlack().SetPlayer(p2);
 			if (!gamers.Check(out string msg))
@@ -1831,6 +1828,8 @@ namespace RapChessGui
 				MessageBox.Show(msg);
 				return;
 			}
+			p1.elo = p1.engine.elo;
+			p2.elo = p2.engine.elo;
 			gamers.SetPlayers(p1, p2);
 			if (CModeMatch.Rotate)
 				gamers.Rotate();
@@ -1914,9 +1913,9 @@ namespace RapChessGui
 					int del = book.Elo - b.Elo;
 					ListViewItem lvi = new ListViewItem(new[] { b.name, del.ToString(), count.ToString(), pro.ToString() });
 					if (del > 0)
-						lvi.BackColor = CBoard.colorListW;
+						lvi.BackColor = Colors.listW;
 					if (del < 0)
-						lvi.BackColor = CBoard.colorListB;
+						lvi.BackColor = Colors.listB;
 					if (del == 0)
 						lvi.BackColor = Color.White;
 					lvTourBSel.Items.Add(lvi);
@@ -2075,9 +2074,9 @@ namespace RapChessGui
 					int del = engine.Elo - e.Elo;
 					ListViewItem lvi = new ListViewItem(new[] { e.name, del.ToString(), count.ToString(), pro.ToString() });
 					if (del > 0)
-						lvi.BackColor = CBoard.colorListW;
+						lvi.BackColor = Colors.listW;
 					if (del < 0)
-						lvi.BackColor = CBoard.colorListB;
+						lvi.BackColor = Colors.listB;
 					if (del == 0)
 						lvi.BackColor = Color.White;
 					lvTourESel.Items.Add(lvi);
@@ -2250,9 +2249,9 @@ namespace RapChessGui
 						int del = Convert.ToInt32(player.elo) - Convert.ToInt32(p.elo);
 						ListViewItem lvi = new ListViewItem(new[] { p.name, del.ToString(), count.ToString(), pro.ToString() });
 						if (del > 0)
-							lvi.BackColor = CBoard.colorListW;
+							lvi.BackColor = Colors.listW;
 						if (del < 0)
-							lvi.BackColor = CBoard.colorListB;
+							lvi.BackColor = Colors.listB;
 						if (del == 0)
 							lvi.BackColor = Color.White;
 						lvTourPSel.Items.Add(lvi);
@@ -2395,6 +2394,7 @@ namespace RapChessGui
 			CModeTraining.trainedBook = cbTrainedBook.Text;
 			CModeTraining.modeValueTrainer.SetValue((int)nudTrainer.Value);
 			CModeTraining.modeValueTrained.SetValue((int)nudTrained.Value);
+			CModeTraining.SaveToIni();
 		}
 
 		void TrainingToSettings()
@@ -2508,7 +2508,8 @@ namespace RapChessGui
 
 		void EditGetFen()
 		{
-			tbFen.Text = chess.GetFen();
+			editFen = chess.GetFen();
+			tbFen.Text = editFen;
 		}
 
 
@@ -2649,11 +2650,6 @@ namespace RapChessGui
 			KillChildrens(Process.GetCurrentProcess().Id);
 		}
 
-		private void ButStart_Click(object sender, EventArgs e)
-		{
-			GameShow();
-		}
-
 		private void ButStop_Click(object sender, EventArgs e)
 		{
 			CGamers.GamerCur().EngineStop();
@@ -2687,7 +2683,6 @@ namespace RapChessGui
 			}
 			formOptions.ShowDialog(this);
 			toolTip1.Active = FormOptions.showTips;
-			board.SetColor();
 			board.ClearAttack();
 			board.animated = true;
 			board.arrowCur.Clear();
@@ -2697,19 +2692,6 @@ namespace RapChessGui
 			LvMovesUpdateNotation();
 			BoardPrepare();
 			RenderBoard();
-		}
-
-		private void bStartTraining_Click(object sender, EventArgs e)
-		{
-			CModeTraining.SaveToIni();
-			TrainingStart();
-		}
-
-		private void bStartMatch_Click(object sender, EventArgs e)
-		{
-
-			CModeMatch.SaveToIni();
-			MatchStart();
 		}
 
 		private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -2927,13 +2909,13 @@ namespace RapChessGui
 
 		private void cbMainMode_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			mode = combMainMode.Text;
+			mode = cbGameMode.Text;
 			CGames.Reset();
 			formLogGames.textBox.Text = String.Empty;
-			tabControl1.SelectedIndex = combMainMode.SelectedIndex;
+			tabControl1.SelectedIndex = cbGameMode.SelectedIndex;
 			board.Fill();
 			RenderBoard();
-			SetMode((CGameMode)combMainMode.SelectedIndex);
+			SetMode((CGameMode)cbGameMode.SelectedIndex);
 		}
 
 		private void butResignation_Click(object sender, EventArgs e)
@@ -2941,24 +2923,6 @@ namespace RapChessGui
 			if (!IsGameRanked() || !IsGameLong() || !IsGameProgress() || !IsGameComputer())
 				CModeGame.ranked = false;
 			SetGameState(CGameState.resignation);
-		}
-
-		private void butStartTournamentB_Click(object sender, EventArgs e)
-		{
-			CModeTournamentB.NewGame();
-			TournamentBStart();
-		}
-
-		private void butStartTournamentE_Click(object sender, EventArgs e)
-		{
-			CModeTournamentE.NewGame();
-			TournamentEStart();
-		}
-
-		private void butStartTournamentP_Click(object sender, EventArgs e)
-		{
-			CModeTournamentP.NewGame();
-			TournamentPStart();
 		}
 
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -3031,7 +2995,6 @@ namespace RapChessGui
 
 		private void butEditStart_Click(object sender, EventArgs e)
 		{
-			LoadFen(chess.GetFen());
 		}
 
 		private void labEngine_Click(object sender, EventArgs e)
@@ -3235,6 +3198,42 @@ namespace RapChessGui
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			formAbout.ShowDialog(this);
+		}
+
+		private void bStartGame_Click(object sender, EventArgs e)
+		{
+			SettingsToGameMode();
+			GameShow();
+		}
+
+		private void bStartMatch_Click(object sender, EventArgs e)
+		{
+			SettingsToMatch();
+			MatchStart();
+		}
+
+		private void bStartTraining_Click(object sender, EventArgs e)
+		{
+			SettingsToTraining();
+			TrainingStart();
+		}
+
+		private void butStartTournamentB_Click(object sender, EventArgs e)
+		{
+			CModeTournamentB.NewGame();
+			TournamentBStart();
+		}
+
+		private void butStartTournamentE_Click(object sender, EventArgs e)
+		{
+			CModeTournamentE.NewGame();
+			TournamentEStart();
+		}
+
+		private void butStartTournamentP_Click(object sender, EventArgs e)
+		{
+			CModeTournamentP.NewGame();
+			TournamentPStart();
 		}
 
 	}

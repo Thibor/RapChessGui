@@ -195,12 +195,12 @@
 			this.nudReversible = new System.Windows.Forms.NumericUpDown();
 			this.groupBox15 = new System.Windows.Forms.GroupBox();
 			this.cbPassant = new System.Windows.Forms.ComboBox();
-			this.groupBox7 = new System.Windows.Forms.GroupBox();
-			this.clbCastling = new System.Windows.Forms.CheckedListBox();
+			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.gbToMove = new System.Windows.Forms.GroupBox();
 			this.rbBlack = new System.Windows.Forms.RadioButton();
 			this.rbWhite = new System.Windows.Forms.RadioButton();
-			this.butEditStart = new System.Windows.Forms.Button();
+			this.groupBox8 = new System.Windows.Forms.GroupBox();
+			this.clbCastling = new System.Windows.Forms.CheckedListBox();
 			this.butDefault = new System.Windows.Forms.Button();
 			this.butClearBoard = new System.Windows.Forms.Button();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -259,7 +259,7 @@
 			this.labMaterialT = new System.Windows.Forms.Label();
 			this.labMaterialD = new System.Windows.Forms.Label();
 			this.labTakenD = new System.Windows.Forms.Label();
-			this.combMainMode = new System.Windows.Forms.ComboBox();
+			this.cbGameMode = new System.Windows.Forms.ComboBox();
 			this.chartMain = new System.Windows.Forms.DataVisualization.Charting.Chart();
 			this.labPromoB = new System.Windows.Forms.Label();
 			this.labPromoN = new System.Windows.Forms.Label();
@@ -337,6 +337,8 @@
 			this.pictureBoxB = new System.Windows.Forms.PictureBox();
 			this.timerAnimation = new System.Windows.Forms.Timer(this.components);
 			this.fileSystemWatcher = new System.IO.FileSystemWatcher();
+			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.cbApply = new System.Windows.Forms.ComboBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPageGame.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chartGame)).BeginInit();
@@ -395,8 +397,9 @@
 			this.groupBox14.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudReversible)).BeginInit();
 			this.groupBox15.SuspendLayout();
-			this.groupBox7.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
 			this.gbToMove.SuspendLayout();
+			this.groupBox8.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.panMenu.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chartMain)).BeginInit();
@@ -435,6 +438,7 @@
 			this.tlpBlack.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxB)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher)).BeginInit();
+			this.groupBox7.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -581,7 +585,7 @@
 			this.butNewGame.Text = "New game";
 			this.toolTip1.SetToolTip(this.butNewGame, "Start new game");
 			this.butNewGame.UseVisualStyleBackColor = true;
-			this.butNewGame.Click += new System.EventHandler(this.ButStart_Click);
+			this.butNewGame.Click += new System.EventHandler(this.bStartGame_Click);
 			// 
 			// groupBox2
 			// 
@@ -2207,13 +2211,12 @@
 			// 
 			this.tabPageEdit.BackColor = System.Drawing.Color.Transparent;
 			this.tabPageEdit.Controls.Add(this.tlpEdit);
+			this.tabPageEdit.Controls.Add(this.groupBox7);
 			this.tabPageEdit.Controls.Add(this.groupBox12);
 			this.tabPageEdit.Controls.Add(this.groupBox13);
 			this.tabPageEdit.Controls.Add(this.groupBox14);
 			this.tabPageEdit.Controls.Add(this.groupBox15);
-			this.tabPageEdit.Controls.Add(this.groupBox7);
-			this.tabPageEdit.Controls.Add(this.gbToMove);
-			this.tabPageEdit.Controls.Add(this.butEditStart);
+			this.tabPageEdit.Controls.Add(this.tableLayoutPanel1);
 			this.tabPageEdit.Controls.Add(this.butDefault);
 			this.tabPageEdit.Controls.Add(this.butClearBoard);
 			this.tabPageEdit.Location = new System.Drawing.Point(4, 5);
@@ -2244,7 +2247,7 @@
 			this.tlpEdit.Controls.Add(this.label17, 1, 0);
 			this.tlpEdit.Controls.Add(this.label1, 0, 0);
 			this.tlpEdit.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tlpEdit.Location = new System.Drawing.Point(0, 419);
+			this.tlpEdit.Location = new System.Drawing.Point(0, 399);
 			this.tlpEdit.Name = "tlpEdit";
 			this.tlpEdit.RowCount = 2;
 			this.tlpEdit.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -2254,16 +2257,16 @@
 			this.tlpEdit.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tlpEdit.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tlpEdit.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tlpEdit.Size = new System.Drawing.Size(337, 43);
+			this.tlpEdit.Size = new System.Drawing.Size(337, 63);
 			this.tlpEdit.TabIndex = 12;
 			// 
 			// label31
 			// 
 			this.label31.AutoSize = true;
 			this.label31.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label31.Location = new System.Drawing.Point(283, 21);
+			this.label31.Location = new System.Drawing.Point(283, 31);
 			this.label31.Name = "label31";
-			this.label31.Size = new System.Drawing.Size(51, 22);
+			this.label31.Size = new System.Drawing.Size(51, 32);
 			this.label31.TabIndex = 11;
 			this.label31.Text = "k";
 			this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2273,9 +2276,9 @@
 			// 
 			this.label30.AutoSize = true;
 			this.label30.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label30.Location = new System.Drawing.Point(227, 21);
+			this.label30.Location = new System.Drawing.Point(227, 31);
 			this.label30.Name = "label30";
-			this.label30.Size = new System.Drawing.Size(50, 22);
+			this.label30.Size = new System.Drawing.Size(50, 32);
 			this.label30.TabIndex = 10;
 			this.label30.Text = "q";
 			this.label30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2285,9 +2288,9 @@
 			// 
 			this.label25.AutoSize = true;
 			this.label25.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label25.Location = new System.Drawing.Point(171, 21);
+			this.label25.Location = new System.Drawing.Point(171, 31);
 			this.label25.Name = "label25";
-			this.label25.Size = new System.Drawing.Size(50, 22);
+			this.label25.Size = new System.Drawing.Size(50, 32);
 			this.label25.TabIndex = 9;
 			this.label25.Text = "r";
 			this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2297,9 +2300,9 @@
 			// 
 			this.label24.AutoSize = true;
 			this.label24.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label24.Location = new System.Drawing.Point(115, 21);
+			this.label24.Location = new System.Drawing.Point(115, 31);
 			this.label24.Name = "label24";
-			this.label24.Size = new System.Drawing.Size(50, 22);
+			this.label24.Size = new System.Drawing.Size(50, 32);
 			this.label24.TabIndex = 8;
 			this.label24.Text = "b";
 			this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2309,9 +2312,9 @@
 			// 
 			this.label23.AutoSize = true;
 			this.label23.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label23.Location = new System.Drawing.Point(59, 21);
+			this.label23.Location = new System.Drawing.Point(59, 31);
 			this.label23.Name = "label23";
-			this.label23.Size = new System.Drawing.Size(50, 22);
+			this.label23.Size = new System.Drawing.Size(50, 32);
 			this.label23.TabIndex = 7;
 			this.label23.Text = "n";
 			this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2321,9 +2324,9 @@
 			// 
 			this.label22.AutoSize = true;
 			this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label22.Location = new System.Drawing.Point(3, 21);
+			this.label22.Location = new System.Drawing.Point(3, 31);
 			this.label22.Name = "label22";
-			this.label22.Size = new System.Drawing.Size(50, 22);
+			this.label22.Size = new System.Drawing.Size(50, 32);
 			this.label22.TabIndex = 6;
 			this.label22.Text = "p";
 			this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2335,7 +2338,7 @@
 			this.label21.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.label21.Location = new System.Drawing.Point(283, 0);
 			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(51, 21);
+			this.label21.Size = new System.Drawing.Size(51, 31);
 			this.label21.TabIndex = 5;
 			this.label21.Text = "K";
 			this.label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2347,7 +2350,7 @@
 			this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.label20.Location = new System.Drawing.Point(227, 0);
 			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(50, 21);
+			this.label20.Size = new System.Drawing.Size(50, 31);
 			this.label20.TabIndex = 4;
 			this.label20.Text = "Q";
 			this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2359,7 +2362,7 @@
 			this.label19.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.label19.Location = new System.Drawing.Point(171, 0);
 			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(50, 21);
+			this.label19.Size = new System.Drawing.Size(50, 31);
 			this.label19.TabIndex = 3;
 			this.label19.Text = "R";
 			this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2371,7 +2374,7 @@
 			this.label18.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.label18.Location = new System.Drawing.Point(115, 0);
 			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(50, 21);
+			this.label18.Size = new System.Drawing.Size(50, 31);
 			this.label18.TabIndex = 2;
 			this.label18.Text = "B";
 			this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2383,7 +2386,7 @@
 			this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.label17.Location = new System.Drawing.Point(59, 0);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(50, 21);
+			this.label17.Size = new System.Drawing.Size(50, 31);
 			this.label17.TabIndex = 1;
 			this.label17.Text = "N";
 			this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2395,7 +2398,7 @@
 			this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.label1.Location = new System.Drawing.Point(3, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(50, 21);
+			this.label1.Size = new System.Drawing.Size(50, 31);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "P";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2406,7 +2409,7 @@
 			this.groupBox12.Controls.Add(this.button2);
 			this.groupBox12.Controls.Add(this.tbFen);
 			this.groupBox12.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox12.Location = new System.Drawing.Point(0, 353);
+			this.groupBox12.Location = new System.Drawing.Point(0, 286);
 			this.groupBox12.Name = "groupBox12";
 			this.groupBox12.Size = new System.Drawing.Size(337, 66);
 			this.groupBox12.TabIndex = 6;
@@ -2437,7 +2440,7 @@
 			// 
 			this.groupBox13.Controls.Add(this.nudMove);
 			this.groupBox13.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox13.Location = new System.Drawing.Point(0, 306);
+			this.groupBox13.Location = new System.Drawing.Point(0, 239);
 			this.groupBox13.Name = "groupBox13";
 			this.groupBox13.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.groupBox13.Size = new System.Drawing.Size(337, 47);
@@ -2468,7 +2471,7 @@
 			// 
 			this.groupBox14.Controls.Add(this.nudReversible);
 			this.groupBox14.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox14.Location = new System.Drawing.Point(0, 259);
+			this.groupBox14.Location = new System.Drawing.Point(0, 192);
 			this.groupBox14.Name = "groupBox14";
 			this.groupBox14.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.groupBox14.Size = new System.Drawing.Size(337, 47);
@@ -2489,7 +2492,7 @@
 			// 
 			this.groupBox15.Controls.Add(this.cbPassant);
 			this.groupBox15.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox15.Location = new System.Drawing.Point(0, 212);
+			this.groupBox15.Location = new System.Drawing.Point(0, 145);
 			this.groupBox15.Name = "groupBox15";
 			this.groupBox15.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.groupBox15.Size = new System.Drawing.Size(337, 47);
@@ -2529,16 +2532,69 @@
 			this.toolTip1.SetToolTip(this.cbPassant, "Select en passant square");
 			this.cbPassant.SelectedIndexChanged += new System.EventHandler(this.cbPassant_SelectedIndexChanged);
 			// 
-			// groupBox7
+			// tableLayoutPanel1
 			// 
-			this.groupBox7.Controls.Add(this.clbCastling);
-			this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox7.Location = new System.Drawing.Point(0, 128);
-			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(337, 84);
-			this.groupBox7.TabIndex = 2;
-			this.groupBox7.TabStop = false;
-			this.groupBox7.Text = "Castling possibilities";
+			this.tableLayoutPanel1.ColumnCount = 2;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel1.Controls.Add(this.gbToMove, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.groupBox8, 0, 0);
+			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 50);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 1;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 95F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(337, 95);
+			this.tableLayoutPanel1.TabIndex = 13;
+			// 
+			// gbToMove
+			// 
+			this.gbToMove.Controls.Add(this.rbBlack);
+			this.gbToMove.Controls.Add(this.rbWhite);
+			this.gbToMove.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gbToMove.Location = new System.Drawing.Point(171, 3);
+			this.gbToMove.Name = "gbToMove";
+			this.gbToMove.Size = new System.Drawing.Size(163, 89);
+			this.gbToMove.TabIndex = 4;
+			this.gbToMove.TabStop = false;
+			this.gbToMove.Text = "To move";
+			// 
+			// rbBlack
+			// 
+			this.rbBlack.AutoSize = true;
+			this.rbBlack.Dock = System.Windows.Forms.DockStyle.Top;
+			this.rbBlack.Location = new System.Drawing.Point(3, 33);
+			this.rbBlack.Name = "rbBlack";
+			this.rbBlack.Size = new System.Drawing.Size(157, 17);
+			this.rbBlack.TabIndex = 1;
+			this.rbBlack.Text = "Black";
+			this.rbBlack.UseVisualStyleBackColor = true;
+			// 
+			// rbWhite
+			// 
+			this.rbWhite.AutoSize = true;
+			this.rbWhite.Checked = true;
+			this.rbWhite.Dock = System.Windows.Forms.DockStyle.Top;
+			this.rbWhite.Location = new System.Drawing.Point(3, 16);
+			this.rbWhite.Name = "rbWhite";
+			this.rbWhite.Size = new System.Drawing.Size(157, 17);
+			this.rbWhite.TabIndex = 0;
+			this.rbWhite.TabStop = true;
+			this.rbWhite.Text = "White";
+			this.rbWhite.UseVisualStyleBackColor = true;
+			this.rbWhite.CheckedChanged += new System.EventHandler(this.rbColorChanged);
+			// 
+			// groupBox8
+			// 
+			this.groupBox8.Controls.Add(this.clbCastling);
+			this.groupBox8.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.groupBox8.Location = new System.Drawing.Point(3, 3);
+			this.groupBox8.Name = "groupBox8";
+			this.groupBox8.Size = new System.Drawing.Size(162, 89);
+			this.groupBox8.TabIndex = 3;
+			this.groupBox8.TabStop = false;
+			this.groupBox8.Text = "Castling possibilities";
 			// 
 			// clbCastling
 			// 
@@ -2551,58 +2607,9 @@
             "Black Long"});
 			this.clbCastling.Location = new System.Drawing.Point(3, 16);
 			this.clbCastling.Name = "clbCastling";
-			this.clbCastling.Size = new System.Drawing.Size(331, 65);
+			this.clbCastling.Size = new System.Drawing.Size(156, 70);
 			this.clbCastling.TabIndex = 0;
 			this.clbCastling.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbCastling_ItemCheck);
-			// 
-			// gbToMove
-			// 
-			this.gbToMove.Controls.Add(this.rbBlack);
-			this.gbToMove.Controls.Add(this.rbWhite);
-			this.gbToMove.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gbToMove.Location = new System.Drawing.Point(0, 75);
-			this.gbToMove.Name = "gbToMove";
-			this.gbToMove.Size = new System.Drawing.Size(337, 53);
-			this.gbToMove.TabIndex = 1;
-			this.gbToMove.TabStop = false;
-			this.gbToMove.Text = "To move";
-			// 
-			// rbBlack
-			// 
-			this.rbBlack.AutoSize = true;
-			this.rbBlack.Dock = System.Windows.Forms.DockStyle.Top;
-			this.rbBlack.Location = new System.Drawing.Point(3, 33);
-			this.rbBlack.Name = "rbBlack";
-			this.rbBlack.Size = new System.Drawing.Size(331, 17);
-			this.rbBlack.TabIndex = 1;
-			this.rbBlack.Text = "Black";
-			this.rbBlack.UseVisualStyleBackColor = true;
-			// 
-			// rbWhite
-			// 
-			this.rbWhite.AutoSize = true;
-			this.rbWhite.Checked = true;
-			this.rbWhite.Dock = System.Windows.Forms.DockStyle.Top;
-			this.rbWhite.Location = new System.Drawing.Point(3, 16);
-			this.rbWhite.Name = "rbWhite";
-			this.rbWhite.Size = new System.Drawing.Size(331, 17);
-			this.rbWhite.TabIndex = 0;
-			this.rbWhite.TabStop = true;
-			this.rbWhite.Text = "White";
-			this.rbWhite.UseVisualStyleBackColor = true;
-			this.rbWhite.CheckedChanged += new System.EventHandler(this.rbColorChanged);
-			// 
-			// butEditStart
-			// 
-			this.butEditStart.Dock = System.Windows.Forms.DockStyle.Top;
-			this.butEditStart.Location = new System.Drawing.Point(0, 50);
-			this.butEditStart.Name = "butEditStart";
-			this.butEditStart.Size = new System.Drawing.Size(337, 25);
-			this.butEditStart.TabIndex = 4;
-			this.butEditStart.Text = "Start";
-			this.toolTip1.SetToolTip(this.butEditStart, "Start new game from current position");
-			this.butEditStart.UseVisualStyleBackColor = true;
-			this.butEditStart.Click += new System.EventHandler(this.butEditStart_Click);
 			// 
 			// butDefault
 			// 
@@ -3203,14 +3210,14 @@
 			this.labTakenD.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.toolTip1.SetToolTip(this.labTakenD, "Taken pieces");
 			// 
-			// combMainMode
+			// cbGameMode
 			// 
-			this.combMainMode.BackColor = System.Drawing.SystemColors.Window;
-			this.combMainMode.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.combMainMode.Dock = System.Windows.Forms.DockStyle.Top;
-			this.combMainMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.combMainMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.combMainMode.Items.AddRange(new object[] {
+			this.cbGameMode.BackColor = System.Drawing.SystemColors.Window;
+			this.cbGameMode.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.cbGameMode.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cbGameMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbGameMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.cbGameMode.Items.AddRange(new object[] {
             "Game",
             "Match",
             "Tournament-books",
@@ -3218,12 +3225,12 @@
             "Tournament-players",
             "Training",
             "Edit"});
-			this.combMainMode.Location = new System.Drawing.Point(8, 8);
-			this.combMainMode.Name = "combMainMode";
-			this.combMainMode.Size = new System.Drawing.Size(329, 24);
-			this.combMainMode.TabIndex = 11;
-			this.toolTip1.SetToolTip(this.combMainMode, "Select game mode");
-			this.combMainMode.SelectedIndexChanged += new System.EventHandler(this.cbMainMode_SelectedIndexChanged);
+			this.cbGameMode.Location = new System.Drawing.Point(8, 8);
+			this.cbGameMode.Name = "cbGameMode";
+			this.cbGameMode.Size = new System.Drawing.Size(329, 24);
+			this.cbGameMode.TabIndex = 11;
+			this.toolTip1.SetToolTip(this.cbGameMode, "Select game mode");
+			this.cbGameMode.SelectedIndexChanged += new System.EventHandler(this.cbMainMode_SelectedIndexChanged);
 			// 
 			// chartMain
 			// 
@@ -4075,7 +4082,7 @@
 			// 
 			// panel1
 			// 
-			this.panel1.Controls.Add(this.combMainMode);
+			this.panel1.Controls.Add(this.cbGameMode);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Name = "panel1";
@@ -4368,6 +4375,39 @@
 			this.fileSystemWatcher.Deleted += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
 			this.fileSystemWatcher.Renamed += new System.IO.RenamedEventHandler(this.fileSystemWatcher1_Renamed);
 			// 
+			// groupBox7
+			// 
+			this.groupBox7.Controls.Add(this.cbApply);
+			this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
+			this.groupBox7.Location = new System.Drawing.Point(0, 352);
+			this.groupBox7.Name = "groupBox7";
+			this.groupBox7.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.groupBox7.Size = new System.Drawing.Size(337, 47);
+			this.groupBox7.TabIndex = 15;
+			this.groupBox7.TabStop = false;
+			this.groupBox7.Text = "Apply";
+			// 
+			// cbApply
+			// 
+			this.cbApply.BackColor = System.Drawing.SystemColors.Window;
+			this.cbApply.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.cbApply.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cbApply.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.cbApply.Items.AddRange(new object[] {
+            "None",
+            "Game",
+            "Match",
+            "Tournament books",
+            "Tournament engines",
+            "Tournament players",
+            "Training"});
+			this.cbApply.Location = new System.Drawing.Point(3, 16);
+			this.cbApply.Name = "cbApply";
+			this.cbApply.Size = new System.Drawing.Size(331, 24);
+			this.cbApply.TabIndex = 12;
+			this.toolTip1.SetToolTip(this.cbApply, "The mode in which to apply edited posiiton ");
+			// 
 			// FormChess
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4446,9 +4486,10 @@
 			this.groupBox14.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.nudReversible)).EndInit();
 			this.groupBox15.ResumeLayout(false);
-			this.groupBox7.ResumeLayout(false);
+			this.tableLayoutPanel1.ResumeLayout(false);
 			this.gbToMove.ResumeLayout(false);
 			this.gbToMove.PerformLayout();
+			this.groupBox8.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.panMenu.ResumeLayout(false);
@@ -4490,6 +4531,7 @@
 			this.tlpBlack.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxB)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher)).EndInit();
+			this.groupBox7.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -4553,13 +4595,8 @@
 		private System.Windows.Forms.Button butStartTournament;
 		private System.Windows.Forms.TabPage tabPageEdit;
 		private System.Windows.Forms.Button butClearBoard;
-		private System.Windows.Forms.GroupBox gbToMove;
-		private System.Windows.Forms.RadioButton rbBlack;
-		private System.Windows.Forms.RadioButton rbWhite;
 		private System.Windows.Forms.Button butStop;
 		private System.Windows.Forms.Button butContinueGame;
-		private System.Windows.Forms.GroupBox groupBox7;
-		private System.Windows.Forms.CheckedListBox clbCastling;
 		private System.Windows.Forms.Button butDefault;
 		private System.Windows.Forms.ComboBox cbMatchBook1;
 		private System.Windows.Forms.ComboBox cbMode1;
@@ -4678,7 +4715,6 @@
 		private System.Windows.Forms.ToolStripMenuItem programLogToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem lastGameToolStripMenuItem;
-		private System.Windows.Forms.Button butEditStart;
 		private System.Windows.Forms.Label labResult;
 		private System.Windows.Forms.Label labError;
 		private System.Windows.Forms.ToolStripMenuItem lastErrorToolStripMenuItem;
@@ -4727,7 +4763,7 @@
 		private System.Windows.Forms.NumericUpDown nudMove;
 		private System.Windows.Forms.GroupBox groupBox15;
 		private System.Windows.Forms.ComboBox cbPassant;
-		private System.Windows.Forms.ComboBox combMainMode;
+		private System.Windows.Forms.ComboBox cbGameMode;
 		private System.Windows.Forms.TableLayoutPanel tlpEdit;
 		private System.Windows.Forms.Label label31;
 		private System.Windows.Forms.Label label30;
@@ -4782,6 +4818,14 @@
 		private System.Windows.Forms.Label labEngineB;
 		private System.Windows.Forms.ProgressBar pbHashB;
 		private System.Windows.Forms.PictureBox pictureBoxB;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.GroupBox groupBox8;
+		private System.Windows.Forms.CheckedListBox clbCastling;
+		private System.Windows.Forms.GroupBox gbToMove;
+		private System.Windows.Forms.RadioButton rbBlack;
+		private System.Windows.Forms.RadioButton rbWhite;
+		private System.Windows.Forms.GroupBox groupBox7;
+		private System.Windows.Forms.ComboBox cbApply;
 	}
 }
 

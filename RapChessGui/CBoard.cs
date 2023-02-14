@@ -8,7 +8,36 @@ using NSRapColor;
 
 namespace RapChessGui
 {
-	class CPiece
+
+	static class Colors
+	{
+		public static Color red = Color.FromArgb(0x80, 0x00, 0x00);
+		public static Color chartM;
+		public static Color chartD;
+		public static Color chartL;
+		public static Color message;
+		public static Color listW;
+		public static Color listB;
+		public static Color labelW;
+		public static Color labelB;
+		public static Color board;
+
+		public static void SetColor()
+		{
+			CRapColor.SetColor(FormOptions.color);
+			labelB = CRapColor.GetColor(CRapColor.H, 0.4, 0.2);
+			labelW = CRapColor.GetColor(CRapColor.H, 0.4, 0.8);
+			listB = CRapColor.GetColor(CRapColor.H, 0.2, 0.8);
+			listW = CRapColor.GetColor(CRapColor.H, 0.2, 0.9);
+			message = CRapColor.GetColor(CRapColor.H, 0.3, 0.9);
+			chartD = CRapColor.GetColor(CRapColor.H, 0.8, 0.3);
+			chartM = CRapColor.GetColor(CRapColor.H, 0.8, 0.4);
+			chartL = CRapColor.GetColor(CRapColor.H, 0.8, 0.5);
+			board = CRapColor.GetColor(CRapColor.H, 0.2, 0.3);
+		}
+	}
+
+	public class CPiece
 	{
 		public int desImage = -1;
 		public int image = -1;
@@ -68,7 +97,7 @@ namespace RapChessGui
 
 	}
 
-	class CField
+	public class CField
 	{
 		public bool attacked = false;
 		public bool circle = false;
@@ -76,60 +105,60 @@ namespace RapChessGui
 		public int y;
 		public Color color = Color.Empty;
 		public CPiece piece = null;
+		readonly CBackground background;
+
+		public CField(CBackground b)
+		{
+			background = b;
+		}
 
 		public Rectangle GetRect()
 		{
 			Rectangle rec = new Rectangle();
 			rec.X = x;
 			rec.Y = y;
-			rec.Width = CBackground.fieldSize;
-			rec.Height = CBackground.fieldSize;
+			rec.Width = background.fieldSize;
+			rec.Height = background.fieldSize;
 			return rec;
 		}
 
 	}
 
-	class CBackground
+	public class CBackground
 	{
 		bool rotate = false;
-		int width = 10;
-		int height = 10;
-		public static int fieldSize = 10;
+		public int fieldSize = 10;
 		public int frameSize = 10;
 		public int bmpX = 0;
 		public int bmpY = 0;
-		Bitmap board = new Bitmap(10,10);
+		public int size = 10;
+		public int sizem1 = 9;
+		int width = 10;
+		int height = 10;
+		Bitmap board = new Bitmap(10, 10);
 
-		void RenderBoard(int w, int h, bool r)
+		public void Resize(int w, int h)
 		{
-			width = w;
-			height = h;
-			rotate = r;
 			if (w < 0xf) w = 0xf;
 			if (h < 0xf) h = 0xf;
-			int min = Math.Min(w, h);
-			fieldSize = min / 9;
+			if ((w == width) && (h == height))
+				return;
+			width = w;
+			height = h;
+			fieldSize = Math.Min(w, h) / 9;
 			frameSize = fieldSize >> 1;
-			int bmpSize = 8 * fieldSize + 2 * frameSize;
-			bmpX = (w - bmpSize) >> 1;
-			bmpY = (h - bmpSize) >> 1;
-			string abc = "ABCDEFGH";
-			Rectangle rec = new Rectangle();
-			board = new Bitmap(bmpSize, bmpSize);
-			using (Graphics graphics = Graphics.FromImage(board))
+			size = 8 * fieldSize + 2 * frameSize;
+			sizem1 = size - 1;
+			bmpX = (w - size) >> 1;
+			bmpY = (h - size) >> 1;
+			Render();
+		}
+
+		void RenderFields(Graphics g)
+		{
+			using (SolidBrush brushB = new SolidBrush(Color.FromArgb(76, 0x00, 0x00, 0x00)))
+			using (SolidBrush brushW = new SolidBrush(Color.FromArgb(76, 0xff, 0xff, 0xff)))
 			{
-				SolidBrush brush1 = new SolidBrush(CBoard.colorLabelB);
-				SolidBrush brush2 = new SolidBrush(Color.FromArgb(0x60, 0x00, 0x00, 0x00));
-				SolidBrush brush3 = new SolidBrush(Color.FromArgb(0x60, 0xff, 0xff, 0xff));
-				Font font = new Font(FontFamily.GenericSansSerif, 16, FontStyle.Bold);
-				GraphicsPath gp = new GraphicsPath();
-				StringFormat sf = new StringFormat();
-				Brush foreBrush = new SolidBrush(Color.White);
-				Pen outline = new Pen(Color.Black, 4);
-				sf.Alignment = StringAlignment.Center;
-				sf.LineAlignment = StringAlignment.Center;
-				graphics.SmoothingMode = SmoothingMode.HighQuality;
-				graphics.FillRectangle(brush1, 0, 0, bmpSize, bmpSize);
 				for (int y = 0; y < 8; y++)
 				{
 					int y2 = frameSize + y * fieldSize;
@@ -138,15 +167,43 @@ namespace RapChessGui
 						int x2 = frameSize + x * fieldSize;
 						bool bgColor = ((y ^ x) & 1) == 1;
 						if (bgColor)
-						{
-							graphics.FillRectangle(brush2, x2, y2, fieldSize, fieldSize);
-						}
+							g.FillRectangle(brushB, x2, y2, fieldSize, fieldSize);
 						else
-						{
-							graphics.FillRectangle(brush3, x2, y2, fieldSize, fieldSize);
-						}
+							g.FillRectangle(brushW, x2, y2, fieldSize, fieldSize);
 					}
 				}
+			}
+		}
+
+		void RenderGrid(Graphics g)
+		{
+			using (Pen penW = new Pen(Color.White, 1))
+			using (Pen penB = new Pen(Color.Black, 1))
+			{
+				int e = frameSize + 8 * fieldSize;
+				for (int n = 0; n < 9; n++)
+				{
+					int n2 = frameSize + n * fieldSize;
+					g.DrawLine(penB, frameSize, n2, e, n2);
+					g.DrawLine(penB, n2, frameSize, n2, e);
+				}
+				g.DrawLine(penW, 0, 0, sizem1, 0);
+				g.DrawLine(penW, 0, 0, 0, sizem1);
+				g.DrawLine(penB, 1, sizem1, sizem1, sizem1);
+				g.DrawLine(penB, sizem1, 1, sizem1, sizem1);
+			}
+		}
+
+		void RenderNotation(Graphics g)
+		{
+			using (GraphicsPath gp = new GraphicsPath())
+			using (StringFormat sf = new StringFormat() { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
+			using (Font font = new Font(FontFamily.GenericSansSerif, 16, FontStyle.Bold))
+			using (Brush foreBrush = new SolidBrush(Color.White))
+			using (Pen outline = new Pen(Color.Black, 4))
+			{
+				string abc = "ABCDEFGH";
+				Rectangle rec = new Rectangle();
 				for (int n = 0; n < 8; n++)
 				{
 					int xr = rotate ? 7 - n : n;
@@ -170,55 +227,38 @@ namespace RapChessGui
 					rec.Y = board.Height - frameSize;
 					gp.AddString(letter, font.FontFamily, (int)font.Style, font.Size, rec, sf);
 				}
-				graphics.DrawPath(outline, gp);
-				graphics.FillPath(foreBrush, gp);
-				brush1.Dispose();
-				brush2.Dispose();
-				brush3.Dispose();
-				gp.Dispose();
-				sf.Dispose();
-				font.Dispose();
-				foreBrush.Dispose();
-				outline.Dispose();
+				g.DrawPath(outline, gp);
+				g.FillPath(foreBrush, gp);
 			}
 		}
 
-		public void Resize(int w,int h,bool rotateBoard)
+		public void Render()
 		{
-			if (w < 0xf) w = 0xf;
-			if (h < 0xf) h = 0xf;
-			width = w;
-			height = h;
-			rotate = rotateBoard;
-			int min = Math.Min(w, h);
-			fieldSize = min / 9;
-			frameSize = fieldSize >> 1;
-			int bmpSize = 8 * fieldSize + 2 * frameSize;
-			bmpX = (w - bmpSize) >> 1;
-			bmpY = (h - bmpSize) >> 1;
-			RenderBoard(width, height, rotate);
+			board = new Bitmap(size, size);
+			using (Graphics graphics = Graphics.FromImage(board))
+			using (SolidBrush brush = new SolidBrush(Colors.board))
+			{
+				graphics.SmoothingMode = SmoothingMode.HighQuality;
+				graphics.FillRectangle(brush, 0, 0, size, size);
+				RenderFields(graphics);
+				RenderGrid(graphics);
+				RenderNotation(graphics);
+			}
 		}
 
 		public Bitmap GetBitmap(bool rotateBoard)
 		{
-			if (rotate != rotateBoard)
-				RenderBoard(width, height, rotateBoard);
+			if (rotate == rotateBoard)
+				return board;
+			rotate = rotateBoard;
+			Render();
 			return board;
 		}
 
 	}
 
-	class CBoard
+	public class CBoard
 	{
-		public static Color colorRed = Color.FromArgb(0x80, 0x00, 0x00);
-		public static Color colorChartM;
-		public static Color colorChartD;
-		public static Color colorChartL;
-		public static Color colorMessage;
-		public static Color colorListW;
-		public static Color colorListB;
-		public static Color colorLabelW;
-		public static Color colorLabelB;
 		public bool animated = false;
 		public bool finished = true;
 		public bool rotateBoard = false;
@@ -226,12 +266,12 @@ namespace RapChessGui
 		public Bitmap boardBmp;
 		public CArrowList arrowCur = new CArrowList(Color.FromArgb(0x90, 0x10, 0xff, 0x10));
 		public CArrowList arrowEco = new CArrowList(Color.FromArgb(0x90, 0xff, 0x10, 0x10));
-		readonly CBackground background = new CBackground();
+		public CBackground background = new CBackground();
 
 		public CBoard()
 		{
 			for (int n = 0; n < 64; n++)
-				arrField[n] = new CField();
+				arrField[n] = new CField(background);
 		}
 
 		public void ClearArrows()
@@ -295,15 +335,15 @@ namespace RapChessGui
 		{
 			int xr = rotateBoard ? 7 - x : x;
 			int yr = rotateBoard ? 7 - y : y;
-			x = background.frameSize + xr * CBackground.fieldSize + (CBackground.fieldSize >> 1);
-			y = background.frameSize + yr * CBackground.fieldSize + (CBackground.fieldSize >> 1);
+			x = background.frameSize + xr * background.fieldSize + (background.fieldSize >> 1);
+			y = background.frameSize + yr * background.fieldSize + (background.fieldSize >> 1);
 			return new Point(x, y);
 		}
 
 		public void GetFieldXY(int x, int y, out int ox, out int oy)
 		{
-			ox = (x - background.frameSize - background.bmpX) / CBackground.fieldSize;
-			oy = (y - background.frameSize - background.bmpY) / CBackground.fieldSize;
+			ox = (x - background.frameSize - background.bmpX) / background.fieldSize;
+			oy = (y - background.frameSize - background.bmpY) / background.fieldSize;
 			if (ox < 0)
 				ox = 0;
 			if (oy < 0)
@@ -336,7 +376,7 @@ namespace RapChessGui
 
 		public void UpdateField(int index)
 		{
-			int rank = FormChess.chess.board[index] &7;
+			int rank = FormChess.chess.board[index] & 7;
 			if (rank == 0)
 				arrField[index].piece = null;
 			else
@@ -353,17 +393,17 @@ namespace RapChessGui
 				UpdateField(n);
 			SetPosition();
 			ShowAttack(FormOptions.showAttack);
-			RenderBoard();
+			Render();
 		}
 
 		public void Resize(int w, int h)
 		{
-			background.Resize(w,h,rotateBoard);
+			background.Resize(w, h);
 			SetPosition();
-			RenderBoard();
+			Render();
 		}
 
-		public void RenderBoard()
+		public void Render()
 		{
 			boardBmp = new Bitmap(background.GetBitmap(rotateBoard));
 			using (Graphics g = Graphics.FromImage(boardBmp))
@@ -371,9 +411,9 @@ namespace RapChessGui
 			using (Brush brushYellow = new SolidBrush(Color.FromArgb(0xa0, 0xff, 0xff, 0xff)))
 			using (Brush brushWhite = new SolidBrush(Color.White))
 			using (Brush brushBlack = new SolidBrush(Color.Black))
-			using (Font fontPiece = new Font(FormChess.pfc.Families[0], CBackground.fieldSize))
-			using (Pen penW = new Pen(Color.Black, 4))
-			using (Pen penB = new Pen(Color.White, 4))
+			using (Font fontPiece = new Font(FormChess.pfc.Families[0], background.fieldSize))
+			using (Pen penBlack = new Pen(Color.Black, 4))
+			using (Pen penWhite = new Pen(Color.White, 4))
 			using (GraphicsPath gpW = new GraphicsPath())
 			using (GraphicsPath gpB = new GraphicsPath())
 			using (StringFormat sf = new StringFormat())
@@ -385,16 +425,16 @@ namespace RapChessGui
 				for (int y = 0; y < 8; y++)
 				{
 					int yr = rotateBoard ? 7 - y : y;
-					int y2 = background.frameSize + yr * CBackground.fieldSize;
+					int y2 = background.frameSize + yr * background.fieldSize;
 					for (int x = 0; x < 8; x++)
 					{
 						int i = y * 8 + x;
 						int xr = rotateBoard ? 7 - x : x;
-						int x2 = background.frameSize + xr * CBackground.fieldSize;
+						int x2 = background.frameSize + xr * background.fieldSize;
 						rec.X = x2;
 						rec.Y = y2;
-						rec.Width = CBackground.fieldSize;
-						rec.Height = CBackground.fieldSize;
+						rec.Width = background.fieldSize;
+						rec.Height = background.fieldSize;
 						if ((i == CDrag.lastSou) || (i == CDrag.lastDes) || (arrField[i].color != Color.Empty))
 							g.FillRectangle(brushYellow, rec);
 						else if (arrField[i].attacked && (CData.gameMode != CGameMode.edit))
@@ -426,17 +466,17 @@ namespace RapChessGui
 				}
 				if (FormChess.chess.WhiteTurn)
 				{
-					g.DrawPath(penB, gpB);
+					g.DrawPath(penWhite, gpB);
 					g.FillPath(brushBlack, gpB);
-					g.DrawPath(penW, gpW);
+					g.DrawPath(penBlack, gpW);
 					g.FillPath(brushWhite, gpW);
 
 				}
 				else
 				{
-					g.DrawPath(penW, gpW);
+					g.DrawPath(penBlack, gpW);
 					g.FillPath(brushWhite, gpW);
-					g.DrawPath(penB, gpB);
+					g.DrawPath(penWhite, gpB);
 					g.FillPath(brushBlack, gpB);
 
 				}
@@ -476,19 +516,6 @@ namespace RapChessGui
 			ClearColors();
 		}
 
-		public void SetColor()
-		{
-			CRapColor.SetColor(FormOptions.colorBoard);
-			colorLabelB = CRapColor.GetColor(CRapColor.H, 0.4, 0.2);
-			colorLabelW = CRapColor.GetColor(CRapColor.H, 0.4, 0.8);
-			colorListB = CRapColor.GetColor(CRapColor.H, 0.2, 0.8);
-			colorListW = CRapColor.GetColor(CRapColor.H, 0.2, 0.9);
-			colorMessage = CRapColor.GetColor(CRapColor.H, 0.3, 0.9);
-			colorChartD = CRapColor.GetColor(CRapColor.H, 0.8, 0.3);
-			colorChartM = CRapColor.GetColor(CRapColor.H, 0.8, 0.4);
-			colorChartL = CRapColor.GetColor(CRapColor.H, 0.8, 0.5);
-		}
-
 		public void UpdatePosition()
 		{
 			animated = false;
@@ -506,12 +533,12 @@ namespace RapChessGui
 			for (int y = 0; y < 8; y++)
 			{
 				int yr = rotateBoard ? 7 - y : y;
-				int y2 = background.frameSize + yr * CBackground.fieldSize;
+				int y2 = background.frameSize + yr * background.fieldSize;
 				for (int x = 0; x < 8; x++)
 				{
 					int i = y * 8 + x;
 					int xr = rotateBoard ? 7 - x : x;
-					int x2 = background.frameSize + xr * CBackground.fieldSize;
+					int x2 = background.frameSize + xr * background.fieldSize;
 					arrField[i].x = x2;
 					arrField[i].y = y2;
 					CPiece piece = arrField[i].piece;
@@ -526,8 +553,8 @@ namespace RapChessGui
 		{
 			for (int n = 0; n < 64; n++)
 			{
-				int rank = FormChess.chess.board[n] &7;
-				if (rank==0)
+				int rank = FormChess.chess.board[n] & 7;
+				if (rank == 0)
 					arrField[n].piece = null;
 				else
 					arrField[n].piece.SetImage(n);

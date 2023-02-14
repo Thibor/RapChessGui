@@ -32,6 +32,7 @@
 			this.tbConsole = new System.Windows.Forms.TextBox();
 			this.testTimer = new System.Windows.Forms.Timer(this.components);
 			this.progressBar = new System.Windows.Forms.ProgressBar();
+			this.lName = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// tbConsole
@@ -40,12 +41,12 @@
 			this.tbConsole.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tbConsole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.tbConsole.ForeColor = System.Drawing.Color.White;
-			this.tbConsole.Location = new System.Drawing.Point(0, 23);
+			this.tbConsole.Location = new System.Drawing.Point(0, 43);
 			this.tbConsole.Multiline = true;
 			this.tbConsole.Name = "tbConsole";
 			this.tbConsole.ReadOnly = true;
 			this.tbConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.tbConsole.Size = new System.Drawing.Size(800, 427);
+			this.tbConsole.Size = new System.Drawing.Size(800, 407);
 			this.tbConsole.TabIndex = 0;
 			// 
 			// testTimer
@@ -55,10 +56,20 @@
 			// progressBar
 			// 
 			this.progressBar.Dock = System.Windows.Forms.DockStyle.Top;
-			this.progressBar.Location = new System.Drawing.Point(0, 0);
+			this.progressBar.Location = new System.Drawing.Point(0, 20);
 			this.progressBar.Name = "progressBar";
 			this.progressBar.Size = new System.Drawing.Size(800, 23);
 			this.progressBar.TabIndex = 1;
+			// 
+			// lName
+			// 
+			this.lName.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lName.Location = new System.Drawing.Point(0, 0);
+			this.lName.Name = "lName";
+			this.lName.Size = new System.Drawing.Size(800, 20);
+			this.lName.TabIndex = 2;
+			this.lName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// FormAutodetect
 			// 
@@ -67,6 +78,7 @@
 			this.ClientSize = new System.Drawing.Size(800, 450);
 			this.Controls.Add(this.tbConsole);
 			this.Controls.Add(this.progressBar);
+			this.Controls.Add(this.lName);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -76,6 +88,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Autodetect";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAutodetect_FormClosing);
+			this.Shown += new System.EventHandler(this.FormAutodetect_Shown);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -86,5 +99,6 @@
 		private System.Windows.Forms.TextBox tbConsole;
 		private System.Windows.Forms.Timer testTimer;
 		private System.Windows.Forms.ProgressBar progressBar;
+		private System.Windows.Forms.Label lName;
 	}
 }

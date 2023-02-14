@@ -5,7 +5,7 @@ using NSChess;
 namespace RapChessGui
 {
 
-	class CArrow
+	public class CArrow
 	{
 		public Point a;
 		public Point b;
@@ -30,7 +30,7 @@ namespace RapChessGui
 
 	}
 
-	class CArrowList
+	public class CArrowList
 	{
 		readonly Color color;
 		public List<CArrow> list = new List<CArrow>();

@@ -49,7 +49,7 @@ namespace RapChessGui
 			if (engine == null)
 				return;
 			CEngineList.iniFile.DeleteKey($"engine>{engine.name}");
-			SaveToIni(engine);
+			EngineSave(engine);
 			MessageBox.Show($"Chess {engine.name} has been modified");
 			CData.reset = true;
 		}
@@ -164,7 +164,7 @@ namespace RapChessGui
 			}
 		}
 
-		void EngineToSettings()
+		void EngineToSettings(CEngine engine)
 		{
 			tbEngineName.Text = engine.name;
 			tbParameters.Text = engine.arguments;
@@ -203,7 +203,7 @@ namespace RapChessGui
 		{
 			optionList.Clear();
 			OptionFinish();
-			EngineToSettings();
+			EngineToSettings(engine);
 			StartTestOptions();
 		}
 
@@ -235,17 +235,6 @@ namespace RapChessGui
 			gbEngines.Text = $"Engines {listBox1.Items.Count}";
 		}
 
-		void ShowAutodetect(bool one = true)
-		{
-			if (one)
-				engine.protocol = CProtocol.auto;
-			else
-				foreach (CEngine e in FormChess.engineList)
-					e.protocol = CProtocol.auto;
-			formAutodetect.StartTestAuto();
-			formAutodetect.ShowDialog(this);
-		}
-
 		void SettingsToEngine(CEngine e)
 		{
 			e.name = tbEngineName.Text;
@@ -263,9 +252,11 @@ namespace RapChessGui
 			e.elo = nudElo.Value.ToString();
 			e.tournament = (int)nudTournament.Value;
 			e.options = GetOptions();
+			if (e.protocol == CProtocol.auto)
+				e.elo = Global.elo;
 		}
 
-		void SaveToIni(CEngine e)
+		void EngineSave(CEngine e)
 		{
 			SettingsToEngine(e);
 			e.SaveToIni();
@@ -326,8 +317,11 @@ namespace RapChessGui
 				return;
 			}
 			CEngine engine = new CEngine(name);
+			SettingsToEngine(engine);
 			FormChess.engineList.Add(engine);
-			SaveToIni(engine);
+			formAutodetect.ShowDialog(this);
+			EngineToSettings(engine);
+			EngineSave(engine);
 			MessageBox.Show($"Chess {engine.name} has been created");
 			CData.reset = true;
 		}
@@ -375,17 +369,17 @@ namespace RapChessGui
 			Brush b = Brushes.Black;
 			if (selected)
 			{
-				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State ^ DrawItemState.Selected, CBoard.colorMessage, CBoard.colorChartD);
+				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State ^ DrawItemState.Selected, Colors.message, Colors.chartD);
 				b = Brushes.White;
 			}
 			else if (!eng.FileExists())
 			{
-				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.White, CBoard.colorRed);
+				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.White, Colors.red);
 				b = Brushes.White;
 			}
 			else if (eng.tournament > 0)
 			{
-				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, CBoard.colorMessage);
+				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Colors.message);
 			}
 			e.DrawBackground();
 			e.Graphics.DrawString(name, e.Font, b, e.Bounds, StringFormat.GenericDefault);
@@ -460,12 +454,6 @@ namespace RapChessGui
 			Process.Start(psi);
 		}
 
-		private void autodetectEngineProtocolToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			ShowAutodetect();
-			EngineToSettings();
-		}
-
 		private void resetEngineOptionsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			engine.options.Clear();
@@ -491,9 +479,19 @@ namespace RapChessGui
 			CData.FillComboBox(cbFileList, list);
 		}
 
+		private void autodetectEngineProtocolToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			engine.protocol = CProtocol.auto;
+			formAutodetect.ShowDialog(this);
+			EngineToSettings(engine);
+		}
+
 		private void autodetectAllEnginesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ShowAutodetect(false);
+			foreach (CEngine engine in FormChess.engineList)
+					engine.protocol = CProtocol.auto;
+			formAutodetect.ShowDialog(this);
+			EngineToSettings(engine);
 		}
 	}
 }

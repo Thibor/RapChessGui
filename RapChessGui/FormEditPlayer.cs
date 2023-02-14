@@ -188,17 +188,17 @@ namespace RapChessGui
 			Brush b = Brushes.Black;
 			if (selected)
 			{
-				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State ^ DrawItemState.Selected, CBoard.colorMessage, CBoard.colorChartD);
+				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State ^ DrawItemState.Selected, Colors.message, Colors.chartD);
 				b = Brushes.White;
 			}
 			else if (pla.EngineName == Global.none)
 			{
-				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.White, CBoard.colorRed);
+				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.White, Colors.red);
 				b = Brushes.White;
 			}
 			else if (pla.tournament > 0)
 			{
-				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, CBoard.colorMessage);
+				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Colors.message);
 			}
 			e.DrawBackground();
 			e.Graphics.DrawString(name, e.Font, b, e.Bounds, StringFormat.GenericDefault);

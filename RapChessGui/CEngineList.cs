@@ -130,7 +130,12 @@ namespace RapChessGui
 
 		public string CreateName()
 		{
-			return CData.TextBeauty(Path.GetFileNameWithoutExtension(file));
+			string name = CData.TextBeauty(Path.GetFileNameWithoutExtension(file));
+			string result = name;
+			int i = 1;
+			while (FormChess.engineList.GetEngineByName(result) != null)
+				result = $"{name} ({++i})";
+			return result;
 		}
 
 		public string GetOption(string name, string def)

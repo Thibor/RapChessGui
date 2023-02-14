@@ -237,6 +237,7 @@ namespace RapChessGui
 					}
 					else
 					{
+						lName.Text = testEngine.name;
 						WriteLine($"engine {testEngine.name} ready");
 						tick = 0;
 						testEngine.protocol = CProtocol.winboard;
@@ -432,7 +433,7 @@ namespace RapChessGui
 				NextPhase();
 		}
 
-		public void StartTestAuto()
+		void StartTestAuto()
 		{
 			countDone = 0;
 			countAuto = FormChess.engineList.CountAuto();
@@ -462,5 +463,9 @@ namespace RapChessGui
 			testProcess?.Terminate();
 		}
 
+		private void FormAutodetect_Shown(object sender, EventArgs e)
+		{
+			StartTestAuto();
+		}
 	}
 }

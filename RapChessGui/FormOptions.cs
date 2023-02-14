@@ -39,7 +39,7 @@ namespace RapChessGui
 		public static string tourEBook = Global.none;
 		public static string tourEMode = "Time";
 		public static ProcessPriorityClass priority = ProcessPriorityClass.Normal;
-		public static Color colorBoard = Color.Yellow;
+		public static Color color = Color.Yellow;
 
 		[ComImport]
 		[Guid("00021401-0000-0000-C000-000000000046")]
@@ -107,71 +107,72 @@ namespace RapChessGui
 
 		public void LoadFromIni(bool def = false)
 		{
-			gameBook = FormChess.iniFile.Read("options>mode>game>book", gameBook,def);
-			gameEngine = FormChess.iniFile.Read("options>mode>game>engine", gameEngine,def);
-			nudBreak.Value = FormChess.iniFile.ReadDecimal("options>mode>game>break",8,def);
-			tourBSelected = FormChess.iniFile.Read("options>mode>tourB>selected", tourBSelected,def);
-			tourBEngine = FormChess.iniFile.Read("options>mode>tourB>engine", tourBEngine,def);
-			cbTourBMode.Text = FormChess.iniFile.Read("options>mode>tourB>mode", tourBMode,def);
-			nudTourB.Value = FormChess.iniFile.ReadDecimal("options>mode>tourB>value", tourBValue,def);
-			tourESelected = FormChess.iniFile.Read("options>mode>tourE>selected", tourESelected,def);
-			tourEBook = FormChess.iniFile.Read("options>mode>tourE>book", tourEBook,def);
-			nudTourE.Value = FormChess.iniFile.ReadDecimal("options>mode>tourE>value", tourEValue);
-			cbTourEMode.Text = FormChess.iniFile.Read("options>mode>tourE>mode", tourEMode,def);
-			tourPSelected = FormChess.iniFile.Read("options>mode>tourP>selected", tourPSelected,def);
-			colorBoard = ColorTranslator.FromHtml(FormChess.iniFile.Read("options>interface>color", ColorTranslator.ToHtml(Color.Yellow), def));
-			rbSan.Checked = FormChess.iniFile.ReadBool("options>interface>san", rbSan.Checked);
-			cbShowPonder.Checked = FormChess.iniFile.ReadBool("options>interface>showponder", true,def);
-			cbRotateBoard.Checked = FormChess.iniFile.ReadBool("options>interface>rotate", false,def);
-			cbAttack.Checked = FormChess.iniFile.ReadBool("options>interface>attack", false,def);
-			cbArrow.Checked = FormChess.iniFile.ReadBool("options>interface>arrow", true,def);
-			cbTips.Checked = FormChess.iniFile.ReadBool("options>interface>tips", true,def);
-			cbSound.Checked = FormChess.iniFile.ReadBool("options>interface>sound", true,def);
-			cbSpam.Checked = FormChess.iniFile.ReadBool("options>interface>spam", true,def);
-			nudTraining.Value = FormChess.iniFile.ReadDecimal("options>mode>training>strength", 1,def);
-			nudHistory.Value = FormChess.iniFile.ReadDecimal("options>interface>history", 100,def);
-			nudSpeed.Value = FormChess.iniFile.ReadDecimal("options>interface>speed", 200,def);
-			nudFontSize.Value = FormChess.iniFile.ReadDecimal("options>interface>font", 10,def);
-			cbGameRanked.Checked = FormChess.iniFile.ReadBool("options>game>ranked", true,def);
-			combModeStandard.SelectedIndex = FormChess.iniFile.ReadInt("options>margin>standard", 1,def);
-			combModeTime.SelectedIndex = FormChess.iniFile.ReadInt("options>margin>time", 0,def);
-			combPriority.SelectedIndex = FormChess.iniFile.ReadInt("options>priority", 2,def);
+			gameBook = FormChess.ini.Read("options>mode>game>book", gameBook,def);
+			gameEngine = FormChess.ini.Read("options>mode>game>engine", gameEngine,def);
+			nudBreak.Value = FormChess.ini.ReadDecimal("options>mode>game>break",8,def);
+			tourBSelected = FormChess.ini.Read("options>mode>tourB>selected", tourBSelected,def);
+			tourBEngine = FormChess.ini.Read("options>mode>tourB>engine", tourBEngine,def);
+			cbTourBMode.Text = FormChess.ini.Read("options>mode>tourB>mode", tourBMode,def);
+			nudTourB.Value = FormChess.ini.ReadDecimal("options>mode>tourB>value", tourBValue,def);
+			tourESelected = FormChess.ini.Read("options>mode>tourE>selected", tourESelected,def);
+			tourEBook = FormChess.ini.Read("options>mode>tourE>book", tourEBook,def);
+			nudTourE.Value = FormChess.ini.ReadDecimal("options>mode>tourE>value", tourEValue);
+			cbTourEMode.Text = FormChess.ini.Read("options>mode>tourE>mode", tourEMode,def);
+			tourPSelected = FormChess.ini.Read("options>mode>tourP>selected", tourPSelected,def);
+			color = ColorTranslator.FromHtml(FormChess.ini.Read("options>interface>color", ColorTranslator.ToHtml(Color.Yellow), def));
+			rbSan.Checked = FormChess.ini.ReadBool("options>interface>san", rbSan.Checked);
+			cbShowPonder.Checked = FormChess.ini.ReadBool("options>interface>showponder", true,def);
+			cbRotateBoard.Checked = FormChess.ini.ReadBool("options>interface>rotate", false,def);
+			cbAttack.Checked = FormChess.ini.ReadBool("options>interface>attack", false,def);
+			cbArrow.Checked = FormChess.ini.ReadBool("options>interface>arrow", true,def);
+			cbTips.Checked = FormChess.ini.ReadBool("options>interface>tips", true,def);
+			cbSound.Checked = FormChess.ini.ReadBool("options>interface>sound", true,def);
+			cbSpam.Checked = FormChess.ini.ReadBool("options>interface>spam", true,def);
+			nudTraining.Value = FormChess.ini.ReadDecimal("options>mode>training>strength", 1,def);
+			nudHistory.Value = FormChess.ini.ReadDecimal("options>interface>history", 100,def);
+			nudSpeed.Value = FormChess.ini.ReadDecimal("options>interface>speed", 200,def);
+			nudFontSize.Value = FormChess.ini.ReadDecimal("options>interface>font", 10,def);
+			cbGameRanked.Checked = FormChess.ini.ReadBool("options>game>ranked", true,def);
+			combModeStandard.SelectedIndex = FormChess.ini.ReadInt("options>margin>standard", 1,def);
+			combModeTime.SelectedIndex = FormChess.ini.ReadInt("options>margin>time", 0,def);
+			combPriority.SelectedIndex = FormChess.ini.ReadInt("options>priority", 2,def);
 			cbLink.Checked = IsLink();
 			if (!rbSan.Checked)
 				rbUci.Checked = true;
+			Colors.SetColor();
 		}
 
 		public void SaveToIni()
 		{
-			FormChess.iniFile.Write("options>mode>game>book", gameBook);
-			FormChess.iniFile.Write("options>mode>game>engine", gameEngine);
-			FormChess.iniFile.Write("options>mode>game>break", nudBreak.Value);
-			FormChess.iniFile.Write("options>mode>tourB>selected", tourBSelected);
-			FormChess.iniFile.Write("options>mode>tourB>engine", tourBEngine);
-			FormChess.iniFile.Write("options>mode>tourB>mode", cbTourBMode.Text);
-			FormChess.iniFile.Write("options>mode>tourB>value", nudTourB.Value);
-			FormChess.iniFile.Write("options>mode>tourE>selected", tourESelected);
-			FormChess.iniFile.Write("options>mode>tourE>book", tourEBook);
-			FormChess.iniFile.Write("options>mode>tourE>value", nudTourE.Value);
-			FormChess.iniFile.Write("options>mode>tourE>mode", cbTourEMode.Text);
-			FormChess.iniFile.Write("options>mode>tourP>selected", tourPSelected);
-			FormChess.iniFile.Write("options>interface>color", ColorTranslator.ToHtml(colorBoard));
-			FormChess.iniFile.Write("options>interface>san", rbSan.Checked);
-			FormChess.iniFile.Write("options>interface>showponder", cbShowPonder.Checked);
-			FormChess.iniFile.Write("options>interface>rotate", cbRotateBoard.Checked);
-			FormChess.iniFile.Write("options>interface>attack", cbAttack.Checked);
-			FormChess.iniFile.Write("options>interface>arrow", cbArrow.Checked);
-			FormChess.iniFile.Write("options>interface>tips", cbTips.Checked);
-			FormChess.iniFile.Write("options>interface>sound", cbSound.Checked);
-			FormChess.iniFile.Write("options>interface>spam", cbSpam.Checked);
-			FormChess.iniFile.Write("options>mode>training>strength", nudTraining.Value);
-			FormChess.iniFile.Write("options>interface>history", nudHistory.Value);
-			FormChess.iniFile.Write("options>interface>speed", nudSpeed.Value);
-			FormChess.iniFile.Write("options>interface>font", nudFontSize.Value);
-			FormChess.iniFile.Write("options>game>ranked", cbGameRanked.Checked);
-			FormChess.iniFile.Write("options>margin>standard", combModeStandard.SelectedIndex);
-			FormChess.iniFile.Write("options>margin>time", combModeTime.SelectedIndex);
-			FormChess.iniFile.Write("options>priority", combPriority.SelectedIndex);
+			FormChess.ini.Write("options>mode>game>book", gameBook);
+			FormChess.ini.Write("options>mode>game>engine", gameEngine);
+			FormChess.ini.Write("options>mode>game>break", nudBreak.Value);
+			FormChess.ini.Write("options>mode>tourB>selected", tourBSelected);
+			FormChess.ini.Write("options>mode>tourB>engine", tourBEngine);
+			FormChess.ini.Write("options>mode>tourB>mode", cbTourBMode.Text);
+			FormChess.ini.Write("options>mode>tourB>value", nudTourB.Value);
+			FormChess.ini.Write("options>mode>tourE>selected", tourESelected);
+			FormChess.ini.Write("options>mode>tourE>book", tourEBook);
+			FormChess.ini.Write("options>mode>tourE>value", nudTourE.Value);
+			FormChess.ini.Write("options>mode>tourE>mode", cbTourEMode.Text);
+			FormChess.ini.Write("options>mode>tourP>selected", tourPSelected);
+			FormChess.ini.Write("options>interface>color", ColorTranslator.ToHtml(color));
+			FormChess.ini.Write("options>interface>san", rbSan.Checked);
+			FormChess.ini.Write("options>interface>showponder", cbShowPonder.Checked);
+			FormChess.ini.Write("options>interface>rotate", cbRotateBoard.Checked);
+			FormChess.ini.Write("options>interface>attack", cbAttack.Checked);
+			FormChess.ini.Write("options>interface>arrow", cbArrow.Checked);
+			FormChess.ini.Write("options>interface>tips", cbTips.Checked);
+			FormChess.ini.Write("options>interface>sound", cbSound.Checked);
+			FormChess.ini.Write("options>interface>spam", cbSpam.Checked);
+			FormChess.ini.Write("options>mode>training>strength", nudTraining.Value);
+			FormChess.ini.Write("options>interface>history", nudHistory.Value);
+			FormChess.ini.Write("options>interface>speed", nudSpeed.Value);
+			FormChess.ini.Write("options>interface>font", nudFontSize.Value);
+			FormChess.ini.Write("options>game>ranked", cbGameRanked.Checked);
+			FormChess.ini.Write("options>margin>standard", combModeStandard.SelectedIndex);
+			FormChess.ini.Write("options>margin>time", combModeTime.SelectedIndex);
+			FormChess.ini.Write("options>priority", combPriority.SelectedIndex);
 		}
 
 		public void FormLoad()
@@ -301,10 +302,12 @@ namespace RapChessGui
 
 		private void butColor_Click(object sender, EventArgs e)
 		{
-			colorDialog1.Color = colorBoard;
+			colorDialog1.Color = color;
 			if (colorDialog1.ShowDialog() != DialogResult.Cancel)
 			{
-				colorBoard = colorDialog1.Color;
+				color = colorDialog1.Color;
+				Colors.SetColor();
+				(Owner as FormChess).board.background.Render();
 				(Owner as FormChess).BoardPrepare();
 			}
 		}
@@ -312,6 +315,7 @@ namespace RapChessGui
 		private void butDefault_Click(object sender, EventArgs e)
 		{
 			LoadFromIni(true);
+			(Owner as FormChess).board.background.Render();
 			(Owner as FormChess).BoardPrepare();
 		}
 

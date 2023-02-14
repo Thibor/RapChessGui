@@ -21,31 +21,31 @@ namespace RapChessGui
 				humanPlayer.hisElo.AddValue(humanPlayer.Elo);
 				humanPlayer.hisElo.AddValue(humanPlayer.Elo);
 			}
-			FormChess.iniFile.Write("mode>game>finished", finished);
-			FormChess.iniFile.Write("mode>game>rotate", rotate);
-			FormChess.iniFile.Write("mode>game>color", color);
-			FormChess.iniFile.Write("mode>game>computer",computer);
-			FormChess.iniFile.Write("mode>game>engine", engine);
-			FormChess.iniFile.Write("mode>game>book", book);
-			FormChess.iniFile.Write("mode>game>mode", modeValue.GetLevel());
-			FormChess.iniFile.Write("mode>game>value", modeValue.value);
-			FormChess.iniFile.Write("mode>game>player>elo", humanPlayer.elo);
-			FormChess.iniFile.Write("mode>game>player>history", humanPlayer.hisElo.SaveToStr());
+			FormChess.ini.Write("mode>game>finished", finished);
+			FormChess.ini.Write("mode>game>rotate", rotate);
+			FormChess.ini.Write("mode>game>color", color);
+			FormChess.ini.Write("mode>game>computer",computer);
+			FormChess.ini.Write("mode>game>engine", engine);
+			FormChess.ini.Write("mode>game>book", book);
+			FormChess.ini.Write("mode>game>mode", modeValue.GetLevel());
+			FormChess.ini.Write("mode>game>value", modeValue.value);
+			FormChess.ini.Write("mode>game>player>elo", humanPlayer.elo);
+			FormChess.ini.Write("mode>game>player>history", humanPlayer.hisElo.SaveToStr());
 		}
 
 		public static void LoadFromIni()
 		{
 			CPlayer humanPlayer = CPlayerList.humanPlayer;
-			finished = FormChess.iniFile.ReadBool("mode>game>finished",finished);
-			rotate = FormChess.iniFile.ReadBool("mode>game>rotate");
-			color = FormChess.iniFile.Read("mode>game>color", color);
-			computer = FormChess.iniFile.Read("mode>game>computer", computer);
-			engine = FormChess.iniFile.Read("mode>game>engine", engine);
-			book = FormChess.iniFile.Read("mode>game>book", book);
-			modeValue.SetLevel(FormChess.iniFile.Read("mode>game>mode",modeValue.GetLevel()));
-			modeValue.value = FormChess.iniFile.ReadInt("mode>game>value", modeValue.value);
-			humanPlayer.elo = FormChess.iniFile.Read("mode>game>player>elo", "500");
-			humanPlayer.hisElo.LoadFromStr(FormChess.iniFile.Read("mode>game>player>history"));
+			finished = FormChess.ini.ReadBool("mode>game>finished",finished);
+			rotate = FormChess.ini.ReadBool("mode>game>rotate");
+			color = FormChess.ini.Read("mode>game>color", color);
+			computer = FormChess.ini.Read("mode>game>computer", computer);
+			engine = FormChess.ini.Read("mode>game>engine", engine);
+			book = FormChess.ini.Read("mode>game>book", book);
+			modeValue.SetLevel(FormChess.ini.Read("mode>game>mode",modeValue.GetLevel()));
+			modeValue.value = FormChess.ini.ReadInt("mode>game>value", modeValue.value);
+			humanPlayer.elo = FormChess.ini.Read("mode>game>player>elo", "500");
+			humanPlayer.hisElo.LoadFromStr(FormChess.ini.Read("mode>game>player>history"));
 			humanPlayer.name = Global.human;
 			humanPlayer.modeValue.level = CLevel.infinite;
 		}
