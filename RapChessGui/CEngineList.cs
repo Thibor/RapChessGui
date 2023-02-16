@@ -130,12 +130,7 @@ namespace RapChessGui
 
 		public string CreateName()
 		{
-			string name = CData.TextBeauty(Path.GetFileNameWithoutExtension(file));
-			string result = name;
-			int i = 1;
-			while (FormChess.engineList.GetEngineByName(result) != null)
-				result = $"{name} ({++i})";
-			return result;
+			return CData.TextBeauty(Path.GetFileNameWithoutExtension(file));
 		}
 
 		public string GetOption(string name, string def)
@@ -194,8 +189,8 @@ namespace RapChessGui
 
 		public string GetName()
 		{
-			if (name == String.Empty)
-				return CreateName();
+			if (!FormChess.engineList.IsUniqueName(this,name))
+				return FormChess.engineList.CreateUniqueName(this);
 			return name;
 		}
 
@@ -435,6 +430,26 @@ namespace RapChessGui
 		{
 			for (int n = 0; n < Count; n++)
 				this[n].position = n;
+		}
+
+		public bool IsUniqueName(CEngine engine,string name)
+		{
+			if (string.IsNullOrEmpty(name))
+				return true;
+			foreach (CEngine e in this)
+				if ((e != engine) && (e.name == name))
+					return false;
+			return true;
+		}
+
+		public string CreateUniqueName(CEngine engine)
+		{
+			string name = engine.CreateName();
+			string result = name;
+			int i = 1;
+			while (!IsUniqueName(engine,result))
+				result = $"{name} ({++i})";
+			return result;
 		}
 
 	}

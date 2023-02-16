@@ -59,15 +59,16 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.tbEngineName = new System.Windows.Forms.TextBox();
 			this.gbEngines = new System.Windows.Forms.GroupBox();
-			this.listBox1 = new System.Windows.Forms.ListBox();
+			this.listBoxEngines = new System.Windows.Forms.ListBox();
 			this.timerPhase = new System.Windows.Forms.Timer(this.components);
 			this.menuStrip2 = new System.Windows.Forms.MenuStrip();
 			this.consoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.autodetectEngineProtocolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.resetEngineOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.clearTournamentHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.autodetectAllEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.autodetectEngineProtocolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.clearTournamentHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.resetEngineOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.bClear = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.panButtons.SuspendLayout();
 			this.gbMode.SuspendLayout();
@@ -108,29 +109,30 @@
 			this.panOptions.AutoSize = true;
 			this.panOptions.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.panOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panOptions.Location = new System.Drawing.Point(0, 470);
+			this.panOptions.Location = new System.Drawing.Point(0, 494);
 			this.panOptions.Name = "panOptions";
-			this.panOptions.Size = new System.Drawing.Size(311, 310);
+			this.panOptions.Size = new System.Drawing.Size(311, 286);
 			this.panOptions.TabIndex = 36;
 			// 
 			// panButtons
 			// 
 			this.panButtons.AutoSize = true;
 			this.panButtons.Controls.Add(this.bDelete);
+			this.panButtons.Controls.Add(this.bClear);
 			this.panButtons.Controls.Add(this.bCreate);
 			this.panButtons.Controls.Add(this.bRename);
 			this.panButtons.Controls.Add(this.bSave);
 			this.panButtons.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panButtons.Location = new System.Drawing.Point(0, 374);
 			this.panButtons.Name = "panButtons";
-			this.panButtons.Size = new System.Drawing.Size(311, 96);
+			this.panButtons.Size = new System.Drawing.Size(311, 120);
 			this.panButtons.TabIndex = 39;
 			// 
 			// bDelete
 			// 
 			this.bDelete.AutoSize = true;
 			this.bDelete.Dock = System.Windows.Forms.DockStyle.Top;
-			this.bDelete.Location = new System.Drawing.Point(0, 72);
+			this.bDelete.Location = new System.Drawing.Point(0, 96);
 			this.bDelete.Name = "bDelete";
 			this.bDelete.Size = new System.Drawing.Size(311, 24);
 			this.bDelete.TabIndex = 38;
@@ -438,7 +440,7 @@
 			// gbEngines
 			// 
 			this.gbEngines.AutoSize = true;
-			this.gbEngines.Controls.Add(this.listBox1);
+			this.gbEngines.Controls.Add(this.listBoxEngines);
 			this.gbEngines.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gbEngines.Location = new System.Drawing.Point(0, 24);
 			this.gbEngines.Name = "gbEngines";
@@ -447,23 +449,23 @@
 			this.gbEngines.TabStop = false;
 			this.gbEngines.Text = "Engines List";
 			// 
-			// listBox1
+			// listBoxEngines
 			// 
-			this.listBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.listBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.listBox1.FormattingEnabled = true;
-			this.listBox1.Location = new System.Drawing.Point(3, 16);
-			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(483, 761);
-			this.listBox1.Sorted = true;
-			this.listBox1.TabIndex = 1;
-			this.listBox1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBox1_DrawItem);
-			this.listBox1.SelectedValueChanged += new System.EventHandler(this.ListBox1_SelectedValueChanged);
-			this.listBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseDown);
-			this.listBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseMove);
-			this.listBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseUp);
+			this.listBoxEngines.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.listBoxEngines.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listBoxEngines.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.listBoxEngines.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.listBoxEngines.FormattingEnabled = true;
+			this.listBoxEngines.Location = new System.Drawing.Point(3, 16);
+			this.listBoxEngines.Name = "listBoxEngines";
+			this.listBoxEngines.Size = new System.Drawing.Size(483, 761);
+			this.listBoxEngines.Sorted = true;
+			this.listBoxEngines.TabIndex = 1;
+			this.listBoxEngines.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBox1_DrawItem);
+			this.listBoxEngines.SelectedValueChanged += new System.EventHandler(this.ListBox1_SelectedValueChanged);
+			this.listBoxEngines.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseDown);
+			this.listBoxEngines.MouseMove += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseMove);
+			this.listBoxEngines.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseUp);
 			// 
 			// menuStrip2
 			// 
@@ -494,19 +496,19 @@
 			this.actionToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
 			this.actionToolStripMenuItem.Text = "Action";
 			// 
+			// autodetectAllEnginesToolStripMenuItem
+			// 
+			this.autodetectAllEnginesToolStripMenuItem.Name = "autodetectAllEnginesToolStripMenuItem";
+			this.autodetectAllEnginesToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+			this.autodetectAllEnginesToolStripMenuItem.Text = "Autodetect all engines";
+			this.autodetectAllEnginesToolStripMenuItem.Click += new System.EventHandler(this.autodetectAllEnginesToolStripMenuItem_Click);
+			// 
 			// autodetectEngineProtocolToolStripMenuItem
 			// 
 			this.autodetectEngineProtocolToolStripMenuItem.Name = "autodetectEngineProtocolToolStripMenuItem";
 			this.autodetectEngineProtocolToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
 			this.autodetectEngineProtocolToolStripMenuItem.Text = "Autodetect current engine";
 			this.autodetectEngineProtocolToolStripMenuItem.Click += new System.EventHandler(this.autodetectEngineProtocolToolStripMenuItem_Click);
-			// 
-			// resetEngineOptionsToolStripMenuItem
-			// 
-			this.resetEngineOptionsToolStripMenuItem.Name = "resetEngineOptionsToolStripMenuItem";
-			this.resetEngineOptionsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
-			this.resetEngineOptionsToolStripMenuItem.Text = "Reset engine options";
-			this.resetEngineOptionsToolStripMenuItem.Click += new System.EventHandler(this.resetEngineOptionsToolStripMenuItem_Click);
 			// 
 			// clearTournamentHistoryToolStripMenuItem
 			// 
@@ -515,12 +517,24 @@
 			this.clearTournamentHistoryToolStripMenuItem.Text = "Clear tournament history";
 			this.clearTournamentHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearTournamentHistoryToolStripMenuItem_Click);
 			// 
-			// autodetectAllEnginesToolStripMenuItem
+			// resetEngineOptionsToolStripMenuItem
 			// 
-			this.autodetectAllEnginesToolStripMenuItem.Name = "autodetectAllEnginesToolStripMenuItem";
-			this.autodetectAllEnginesToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
-			this.autodetectAllEnginesToolStripMenuItem.Text = "Autodetect all engines";
-			this.autodetectAllEnginesToolStripMenuItem.Click += new System.EventHandler(this.autodetectAllEnginesToolStripMenuItem_Click);
+			this.resetEngineOptionsToolStripMenuItem.Name = "resetEngineOptionsToolStripMenuItem";
+			this.resetEngineOptionsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+			this.resetEngineOptionsToolStripMenuItem.Text = "Reset engine options";
+			this.resetEngineOptionsToolStripMenuItem.Click += new System.EventHandler(this.resetEngineOptionsToolStripMenuItem_Click);
+			// 
+			// bClear
+			// 
+			this.bClear.AutoSize = true;
+			this.bClear.Dock = System.Windows.Forms.DockStyle.Top;
+			this.bClear.Location = new System.Drawing.Point(0, 72);
+			this.bClear.Name = "bClear";
+			this.bClear.Size = new System.Drawing.Size(311, 24);
+			this.bClear.TabIndex = 42;
+			this.bClear.Text = "Clear";
+			this.bClear.UseVisualStyleBackColor = true;
+			this.bClear.Click += new System.EventHandler(this.bClear_Click);
 			// 
 			// FormEditEngine
 			// 
@@ -570,7 +584,7 @@
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.TextBox tbEngineName;
 		private System.Windows.Forms.GroupBox gbEngines;
-		public System.Windows.Forms.ListBox listBox1;
+		public System.Windows.Forms.ListBox listBoxEngines;
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.ComboBox cbFileList;
 		private System.Windows.Forms.GroupBox groupBox7;
@@ -605,5 +619,6 @@
 		private System.Windows.Forms.ComboBox cbFolderList;
 		private System.Windows.Forms.CheckBox cbModeElo;
 		private System.Windows.Forms.ToolStripMenuItem autodetectAllEnginesToolStripMenuItem;
+		private System.Windows.Forms.Button bClear;
 	}
 }

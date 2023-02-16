@@ -120,7 +120,7 @@ namespace RapChessGui
 			WriteLine("quit");
 		}
 
-		public void Close()
+		public void Close(bool wait)
 		{
 			try
 			{
@@ -129,6 +129,12 @@ namespace RapChessGui
 					process.OutputDataReceived -= OnDataReceived;
 					Clear();
 					Quit();
+					if (wait)
+					{
+						process.WaitForExit(100);
+						if (!process.HasExited)
+							process.Kill();
+					}
 					process = null;
 				}
 			}

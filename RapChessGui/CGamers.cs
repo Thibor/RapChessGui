@@ -112,7 +112,7 @@ namespace RapChessGui
 			InitNewGame();
 		}
 
-		public Bitmap GetBitmap(int height,out int width)
+		public Bitmap GetBitmap(int height, out int width)
 		{
 			Bitmap bmp = GetBitmap();
 			double ratio = bmp.Width / bmp.Height;
@@ -123,7 +123,7 @@ namespace RapChessGui
 
 		public Bitmap GetBitmap()
 		{
-			Bitmap bmp =    FormChess.This.Icon.ToBitmap();
+			Bitmap bmp = FormChess.This.Icon.ToBitmap();
 			if (engine == null)
 				return bmp;
 			string path = engine.GetFileName();
@@ -132,18 +132,32 @@ namespace RapChessGui
 			string dir = Path.GetDirectoryName(path);
 			string name = Path.GetFileNameWithoutExtension(path);
 			string p = $@"{dir}\{name}.bmp";
-			if (File.Exists(p))
-				return new Bitmap(p);
-			string[] an = engine.GetName().Split();
-			if (an.Length > 0)
+			try
 			{
-				p = $@"{dir}\{an[0]}.bmp";
 				if (File.Exists(p))
 					return new Bitmap(p);
+				string[] an = engine.GetName().Split();
+				if (an.Length > 0)
+				{
+					p = $@"{dir}\{an[0]}.bmp";
+					if (File.Exists(p))
+						return new Bitmap(p);
+				}
+				string[] filePaths = Directory.GetFiles(dir, "*.bmp");
+				if (filePaths.Length == 1)
+					return new Bitmap(filePaths[0]);
+				filePaths = Directory.GetFiles(dir);
+				foreach (string fp in filePaths)
+				{
+					string ext = Path.GetExtension(fp);
+					if ((ext == ".bmp") || (ext == ".jpg") || (ext == ".jpeg") || (ext == ".png"))
+						return new Bitmap(Image.FromFile(fp));
+				}
 			}
-			string[] filePaths = Directory.GetFiles(dir, "*.bmp");
-			if (filePaths.Length == 1)
-				return new Bitmap(filePaths[0]);
+			catch (Exception ex)
+			{
+				FormChess.log.Add(ex.Message);
+			}
 			return Icon.ExtractAssociatedIcon(path).ToBitmap();
 		}
 
@@ -253,7 +267,7 @@ namespace RapChessGui
 			gamerEngine.Terminate();
 		}
 
-		public void EngineClose()
+		public void EngineQuit()
 		{
 			SendMessageToEngine("quit");
 		}
@@ -822,9 +836,9 @@ namespace RapChessGui
 			foreach (CGamer g in gamers)
 			{
 				g.timer.Stop();
-				g.gamerEngine.Terminate();
+				g.gamerEngine.Close(true);
 				if (g.gamerBook != CGamers.bookSta)
-					g.gamerBook.Close();
+					g.gamerBook.Close(false);
 			}
 		}
 

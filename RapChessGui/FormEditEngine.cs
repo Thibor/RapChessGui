@@ -43,15 +43,59 @@ namespace RapChessGui
 			catch { }
 		}
 
+		bool EngineSave(CEngine e)
+		{
+			if (e == null)
+				return false;
+			if (!FormChess.engineList.IsUniqueName(e, tbEngineName.Text))
+			{
+				MessageBox.Show("This name already exists");
+				return false;
+			}
+			SettingsToEngine(e);
+			e.name = FormChess.engineList.CreateUniqueName(e);
+			if(e.protocol == CProtocol.auto)
+			formAutodetect.ShowDialog(this);
+			EngineToSettings(e);
+			e.SaveToIni();
+			UpdateListBox();
+			int index = listBoxEngines.FindString(e.name);
+			if (index >=0 )
+			listBoxEngines.SetSelected(index, true);
+			return true;
+		}
+
+		void ClickCreate()
+		{
+			CEngine engine = new CEngine();
+			if (!EngineSave(engine))
+				return;
+			FormChess.engineList.Add(engine);
+			MessageBox.Show($"Chess {engine.name} has been created");
+			CData.reset = true;
+		}
 
 		void ClickSave()
 		{
-			if (engine == null)
+			if (!EngineSave(engine))
 				return;
-			CEngineList.iniFile.DeleteKey($"engine>{engine.name}");
-			EngineSave(engine);
 			MessageBox.Show($"Chess {engine.name} has been modified");
 			CData.reset = true;
+		}
+
+		void ClickClear()
+		{
+			listBoxEngines.SelectedIndex = -1;
+			EngineToSettings(new CEngine());
+			optionList.Clear();
+			panOptions.Controls.Clear();
+		}
+
+		void ClickRename()
+		{
+
+			tbEngineName.Text = FormChess.engineList.CreateUniqueName(engine);
+			ClickSave();
 		}
 
 		public void OptionFinish()
@@ -144,17 +188,6 @@ namespace RapChessGui
 				optionList.Add(msg);
 		}
 
-		void ClickRename()
-		{
-			CEngine e = new CEngine();
-			SettingsToEngine(e);
-			string name = e.CreateName();
-			if (name.ToLower() != e.name.ToLower())
-				name = FormChess.engineList.GetName(name);
-			tbEngineName.Text = name;
-			ClickSave();
-		}
-
 		void StartTestOptions()
 		{
 			if (processOptions.SetProgram(engine.GetPath(), engine.arguments) > 0)
@@ -185,15 +218,15 @@ namespace RapChessGui
 
 		void SelectEngine(string name)
 		{
-			engine = FormChess.engineList.GetEngineByName(name);
+			engine = null;
 			engineName = String.Empty;
-			if (engine == null)
-				return;
-			SelectEngine(engine);
+			SelectEngine(FormChess.engineList.GetEngineByName(name));
 		}
 
 		void SelectEngine(CEngine e)
 		{
+			if (e == null)
+				return;
 			engine = e;
 			engineName = e.name;
 			SelectEngine();
@@ -214,7 +247,7 @@ namespace RapChessGui
 			bool r = false;
 			for (int n = f; n <= l; n++)
 			{
-				var item = listBox1.Items[n];
+				var item = listBoxEngines.Items[n];
 				string name = item.ToString();
 				CEngine eng = FormChess.engineList.GetEngineByName(name);
 				if (eng.SetTournament(t))
@@ -222,17 +255,17 @@ namespace RapChessGui
 			}
 			if (r)
 			{
-				listBox1.Refresh();
+				listBoxEngines.Refresh();
 				SelectEngine();
 			}
 		}
 
 		void UpdateListBox()
 		{
-			listBox1.Items.Clear();
+			listBoxEngines.Items.Clear();
 			foreach (CEngine e in FormChess.engineList)
-				listBox1.Items.Add(e.name);
-			gbEngines.Text = $"Engines {listBox1.Items.Count}";
+				listBoxEngines.Items.Add(e.name);
+			gbEngines.Text = $"Engines {listBoxEngines.Items.Count}";
 		}
 
 		void SettingsToEngine(CEngine e)
@@ -252,18 +285,6 @@ namespace RapChessGui
 			e.elo = nudElo.Value.ToString();
 			e.tournament = (int)nudTournament.Value;
 			e.options = GetOptions();
-			if (e.protocol == CProtocol.auto)
-				e.elo = Global.elo;
-		}
-
-		void EngineSave(CEngine e)
-		{
-			SettingsToEngine(e);
-			e.SaveToIni();
-			UpdateListBox();
-			int index = listBox1.FindString(e.name);
-			if (index == -1) return;
-			listBox1.SetSelected(index, true);
 		}
 
 		List<string> GetOptions()
@@ -310,20 +331,7 @@ namespace RapChessGui
 
 		private void bCreate_Click(object sender, EventArgs e)
 		{
-			string name = tbEngineName.Text;
-			if (FormChess.engineList.GetEngineByName(name) != null)
-			{
-				MessageBox.Show("This name already exists");
-				return;
-			}
-			CEngine engine = new CEngine(name);
-			SettingsToEngine(engine);
-			FormChess.engineList.Add(engine);
-			formAutodetect.ShowDialog(this);
-			EngineToSettings(engine);
-			EngineSave(engine);
-			MessageBox.Show($"Chess {engine.name} has been created");
-			CData.reset = true;
+			ClickCreate();
 		}
 
 		private void bSave_Click(object sender, EventArgs e)
@@ -354,16 +362,16 @@ namespace RapChessGui
 			cbFolderList.Items.Insert(0, Global.none);
 			cbFolderList.SelectedIndex = 0;
 			UpdateListBox();
-			listBox1.SelectedIndex = listBox1.FindString(engineName);
-			if ((listBox1.SelectedIndex < 0) && (listBox1.Items.Count > 0))
-				listBox1.SelectedIndex = 0;
+			listBoxEngines.SelectedIndex = listBoxEngines.FindString(engineName);
+			if ((listBoxEngines.SelectedIndex < 0) && (listBoxEngines.Items.Count > 0))
+				listBoxEngines.SelectedIndex = 0;
 		}
 
 		private void listBox1_DrawItem(object sender, DrawItemEventArgs e)
 		{
 			if (e.Index < 0)
 				return;
-			string name = listBox1.Items[e.Index].ToString();
+			string name = listBoxEngines.Items[e.Index].ToString();
 			CEngine eng = FormChess.engineList.GetEngineByName(name);
 			bool selected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
 			Brush b = Brushes.Black;
@@ -392,18 +400,18 @@ namespace RapChessGui
 			{
 				indexFirst = -1;
 				tournament = -1;
-				listBox1.Capture = true;
-				int index = listBox1.IndexFromPoint(e.Location);
-				if ((index >= 0) && (index < listBox1.Items.Count))
+				listBoxEngines.Capture = true;
+				int index = listBoxEngines.IndexFromPoint(e.Location);
+				if ((index >= 0) && (index < listBoxEngines.Items.Count))
 				{
-					var item = listBox1.Items[index];
+					var item = listBoxEngines.Items[index];
 					string name = item.ToString();
 					CEngine eng = FormChess.engineList.GetEngineByName(name);
 					indexFirst = index;
 					tournament = eng.tournament > 0 ? 0 : 1;
 					if (eng.SetTournament(tournament == 1))
 					{
-						listBox1.Refresh();
+						listBoxEngines.Refresh();
 						if (engine == eng)
 							SelectEngine();
 					}
@@ -415,15 +423,15 @@ namespace RapChessGui
 		private void listBox1_MouseUp(object sender, MouseEventArgs e)
 		{
 			tournament = -1;
-			listBox1.Capture = false;
+			listBoxEngines.Capture = false;
 		}
 
 		private void listBox1_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right)
 			{
-				int index = listBox1.IndexFromPoint(e.Location);
-				if ((index >= 0) && (index < listBox1.Items.Count) && (tournament >= 0))
+				int index = listBoxEngines.IndexFromPoint(e.Location);
+				if ((index >= 0) && (index < listBoxEngines.Items.Count) && (tournament >= 0))
 					SelectEngines(indexFirst, index, tournament > 0);
 			}
 		}
@@ -442,7 +450,8 @@ namespace RapChessGui
 
 		private void ListBox1_SelectedValueChanged(object sender, EventArgs e)
 		{
-			SelectEngine(listBox1.SelectedItem.ToString());
+			if(listBoxEngines.SelectedItem != null)
+				SelectEngine(listBoxEngines.SelectedItem.ToString());
 		}
 
 		private void consoleToolStripMenuItem_Click(object sender, EventArgs e)
@@ -477,6 +486,7 @@ namespace RapChessGui
 		{
 			List<string> list = CData.ListExe($@"Engines\{cbFolderList.Text}");
 			CData.FillComboBox(cbFileList, list);
+			cbFileList.SelectedIndex = cbFileList.Items.Count - 1;
 		}
 
 		private void autodetectEngineProtocolToolStripMenuItem_Click(object sender, EventArgs e)
@@ -493,5 +503,11 @@ namespace RapChessGui
 			formAutodetect.ShowDialog(this);
 			EngineToSettings(engine);
 		}
+
+		private void bClear_Click(object sender, EventArgs e)
+		{
+			ClickClear();
+		}
+
 	}
 }

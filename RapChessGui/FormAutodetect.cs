@@ -129,7 +129,7 @@ namespace RapChessGui
 			testProcess.WriteLine("uci", true);
 			testProcess.WriteLine("ucinewgame", true);
 			testProcess.WriteLine("isready", true);
-			testProcess.WriteLine("position startpos", true);
+			testProcess.WriteLine("position startpos moves b1a3 b8a6", true);
 			testProcess.WriteLine(command, true);
 		}
 
@@ -138,8 +138,9 @@ namespace RapChessGui
 			testProcess.WriteLine("new", true);
 			testProcess.WriteLine("post", true);
 			testProcess.WriteLine("force", true);
-			testProcess.WriteLine("g2g4", true);
-			testProcess.WriteLine("black", true);
+			testProcess.WriteLine("b1a3", true);
+			testProcess.WriteLine("b8a6", true);
+			testProcess.WriteLine("white", true);
 			testProcess.WriteLine(command, true);
 			testProcess.WriteLine("go", true);
 		}
