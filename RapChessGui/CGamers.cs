@@ -115,7 +115,7 @@ namespace RapChessGui
 		public Bitmap GetBitmap(int height, out int width)
 		{
 			Bitmap bmp = GetBitmap();
-			double ratio = bmp.Width / bmp.Height;
+			double ratio = (double)bmp.Width / bmp.Height;
 			width = Convert.ToInt32(height * ratio);
 			return bmp;
 		}

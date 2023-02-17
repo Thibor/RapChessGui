@@ -123,12 +123,12 @@ namespace RapIni
 		{
 			if (restore)
 				return def;
-				string[] ak = key.Split(new[] { '>' }, StringSplitOptions.RemoveEmptyEntries);
+				string[] ak = key.Split('>');
 				foreach (string e in this)
 				{
 					if (e.IndexOf($"{key}>") == 0)
 					{
-						string[] ae = e.Split(new[] { '>' }, StringSplitOptions.RemoveEmptyEntries);
+						string[] ae = e.Split('>');
 						if (ae.Length > ak.Length)
 							return ae[ak.Length];
 						else
@@ -183,12 +183,12 @@ namespace RapIni
 		public List<string> ReadKeyList(string key)
 		{
 			List<string> result = new List<string>();
-			string[] ak = key.Split(new[] { '>' }, StringSplitOptions.RemoveEmptyEntries);
+			string[] ak = key.Split('>');
 			foreach (string e in this)
 			{
 				if (e.IndexOf($"{key}>") == 0)
 				{
-					string[] ae = e.Split(new[] { '>' }, StringSplitOptions.RemoveEmptyEntries);
+					string[] ae = e.Split('>');
 					string s = String.Empty;
 					if (ae.Length > ak.Length)
 						s = ae[ak.Length];

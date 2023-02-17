@@ -1902,13 +1902,11 @@ namespace RapChessGui
 			bookList.SortElo();
 			bookList.FillPosition();
 			int countGames = 0;
-			int opponents = 0;
 			foreach (CBook b in bookList)
 			{
 				int count = CModeTournamentB.tourList.CountGames(name, b.name, out int gw, out int gl, out int gd);
 				if (count > 0)
 				{
-					opponents++;
 					int pro = (gw * 200 + gd * 100) / count - 100;
 					int del = book.Elo - b.Elo;
 					ListViewItem lvi = new ListViewItem(new[] { b.name, del.ToString(), count.ToString(), pro.ToString() });
@@ -1928,7 +1926,7 @@ namespace RapChessGui
 			}
 			string rep = book.name == CModeTournamentB.first ? $"{CModeTournamentB.repetition}/{CModeTournamentB.games}" : book.tournament.ToString();
 			labBook.BackColor = book.hisElo.GetColor();
-			labBook.Text = $"{book.name} games {countGames} opponents {opponents}/{bookList.Count} repetitions {rep}";
+			labBook.Text = $"{book.name} games {countGames} players {bookList.Count} repetitions {rep}";
 			if (top2 != null)
 				lvTourBSel.TopItem = top2;
 			CData.HisToPoints(book.hisElo, chartTournamentB.Series[1].Points);
@@ -2063,13 +2061,11 @@ namespace RapChessGui
 			engineList.SortElo();
 			engineList.FillPosition();
 			int countGames = 0;
-			int opponents = 0;
 			foreach (CEngine e in engineList)
 			{
 				int count = CModeTournamentE.tourList.CountGames(name, e.name, out int gw, out int gl, out int gd);
 				if (count > 0)
 				{
-					opponents++;
 					int pro = (gw * 200 + gd * 100) / count - 100;
 					int del = engine.Elo - e.Elo;
 					ListViewItem lvi = new ListViewItem(new[] { e.name, del.ToString(), count.ToString(), pro.ToString() });
@@ -2089,7 +2085,7 @@ namespace RapChessGui
 			}
 			string rep = engine.name == CModeTournamentE.first ? $"{CModeTournamentE.repetition}/{CModeTournamentE.games}" : engine.tournament.ToString();
 			labEngine.BackColor = engine.hisElo.GetColor();
-			labEngine.Text = $"{engine.name} games {countGames} opponents {opponents}/{engineList.Count} repetitions {rep}";
+			labEngine.Text = $"{engine.name} games {countGames} players {engineList.Count} repetitions {rep}";
 			if (top2 != null)
 				lvTourESel.TopItem = top2;
 			CData.HisToPoints(engine.hisElo, chartTournamentE.Series[1].Points);
@@ -2237,14 +2233,12 @@ namespace RapChessGui
 			playerList.SortElo();
 			playerList.FillPosition();
 			int countGames = 0;
-			int opponents = 0;
 			foreach (CPlayer p in playerList)
 				if (p.EngineName != Global.none)
 				{
 					int count = CModeTournamentP.tourList.CountGames(name, p.name, out int gw, out int gl, out int gd);
 					if (count > 0)
 					{
-						opponents++;
 						int pro = (gw * 200 + gd * 100) / count - 100;
 						int del = Convert.ToInt32(player.elo) - Convert.ToInt32(p.elo);
 						ListViewItem lvi = new ListViewItem(new[] { p.name, del.ToString(), count.ToString(), pro.ToString() });
@@ -2264,7 +2258,7 @@ namespace RapChessGui
 				}
 			string rep = player.name == CModeTournamentP.first ? $"{CModeTournamentP.repetition}/{CModeTournamentP.games}" : player.tournament.ToString();
 			labPlayer.BackColor = player.hisElo.GetColor();
-			labPlayer.Text = $"{player.name} games {countGames} opponents {opponents}/{playerList.Count} repetitions {rep}";
+			labPlayer.Text = $"{player.name} games {countGames} players {playerList.Count} repetitions {rep}";
 			if (top2 != null)
 				lvTourPSel.TopItem = top2;
 			CData.HisToPoints(player.hisElo, chartTournamentP.Series[1].Points);

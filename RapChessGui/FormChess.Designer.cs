@@ -186,6 +186,8 @@
 			this.label18 = new System.Windows.Forms.Label();
 			this.label17 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
+			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.cbApply = new System.Windows.Forms.ComboBox();
 			this.groupBox12 = new System.Windows.Forms.GroupBox();
 			this.button2 = new System.Windows.Forms.Button();
 			this.tbFen = new System.Windows.Forms.TextBox();
@@ -337,8 +339,6 @@
 			this.pictureBoxB = new System.Windows.Forms.PictureBox();
 			this.timerAnimation = new System.Windows.Forms.Timer(this.components);
 			this.fileSystemWatcher = new System.IO.FileSystemWatcher();
-			this.groupBox7 = new System.Windows.Forms.GroupBox();
-			this.cbApply = new System.Windows.Forms.ComboBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPageGame.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.chartGame)).BeginInit();
@@ -391,6 +391,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.nudTrained)).BeginInit();
 			this.tabPageEdit.SuspendLayout();
 			this.tlpEdit.SuspendLayout();
+			this.groupBox7.SuspendLayout();
 			this.groupBox12.SuspendLayout();
 			this.groupBox13.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudMove)).BeginInit();
@@ -438,7 +439,6 @@
 			this.tlpBlack.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxB)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher)).BeginInit();
-			this.groupBox7.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -2404,6 +2404,39 @@
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.label1.Click += new System.EventHandler(this.editLabel_Click);
 			// 
+			// groupBox7
+			// 
+			this.groupBox7.Controls.Add(this.cbApply);
+			this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
+			this.groupBox7.Location = new System.Drawing.Point(0, 352);
+			this.groupBox7.Name = "groupBox7";
+			this.groupBox7.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.groupBox7.Size = new System.Drawing.Size(337, 47);
+			this.groupBox7.TabIndex = 15;
+			this.groupBox7.TabStop = false;
+			this.groupBox7.Text = "Apply";
+			// 
+			// cbApply
+			// 
+			this.cbApply.BackColor = System.Drawing.SystemColors.Window;
+			this.cbApply.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.cbApply.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cbApply.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.cbApply.Items.AddRange(new object[] {
+            "None",
+            "Game",
+            "Match",
+            "Tournament books",
+            "Tournament engines",
+            "Tournament players",
+            "Training"});
+			this.cbApply.Location = new System.Drawing.Point(3, 16);
+			this.cbApply.Name = "cbApply";
+			this.cbApply.Size = new System.Drawing.Size(331, 24);
+			this.cbApply.TabIndex = 12;
+			this.toolTip1.SetToolTip(this.cbApply, "The mode in which to apply edited posiiton ");
+			// 
 			// groupBox12
 			// 
 			this.groupBox12.Controls.Add(this.button2);
@@ -4238,6 +4271,7 @@
 			// 
 			// pictureBoxW
 			// 
+			this.pictureBoxW.BackColor = System.Drawing.Color.White;
 			this.pictureBoxW.Dock = System.Windows.Forms.DockStyle.Left;
 			this.pictureBoxW.Location = new System.Drawing.Point(0, 0);
 			this.pictureBoxW.Name = "pictureBoxW";
@@ -4351,6 +4385,7 @@
 			// 
 			// pictureBoxB
 			// 
+			this.pictureBoxB.BackColor = System.Drawing.Color.White;
 			this.pictureBoxB.Dock = System.Windows.Forms.DockStyle.Left;
 			this.pictureBoxB.Location = new System.Drawing.Point(0, 0);
 			this.pictureBoxB.Name = "pictureBoxB";
@@ -4374,39 +4409,6 @@
 			this.fileSystemWatcher.Created += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
 			this.fileSystemWatcher.Deleted += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
 			this.fileSystemWatcher.Renamed += new System.IO.RenamedEventHandler(this.fileSystemWatcher1_Renamed);
-			// 
-			// groupBox7
-			// 
-			this.groupBox7.Controls.Add(this.cbApply);
-			this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox7.Location = new System.Drawing.Point(0, 352);
-			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.groupBox7.Size = new System.Drawing.Size(337, 47);
-			this.groupBox7.TabIndex = 15;
-			this.groupBox7.TabStop = false;
-			this.groupBox7.Text = "Apply";
-			// 
-			// cbApply
-			// 
-			this.cbApply.BackColor = System.Drawing.SystemColors.Window;
-			this.cbApply.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.cbApply.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbApply.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.cbApply.Items.AddRange(new object[] {
-            "None",
-            "Game",
-            "Match",
-            "Tournament books",
-            "Tournament engines",
-            "Tournament players",
-            "Training"});
-			this.cbApply.Location = new System.Drawing.Point(3, 16);
-			this.cbApply.Name = "cbApply";
-			this.cbApply.Size = new System.Drawing.Size(331, 24);
-			this.cbApply.TabIndex = 12;
-			this.toolTip1.SetToolTip(this.cbApply, "The mode in which to apply edited posiiton ");
 			// 
 			// FormChess
 			// 
@@ -4479,6 +4481,7 @@
 			this.tabPageEdit.ResumeLayout(false);
 			this.tlpEdit.ResumeLayout(false);
 			this.tlpEdit.PerformLayout();
+			this.groupBox7.ResumeLayout(false);
 			this.groupBox12.ResumeLayout(false);
 			this.groupBox12.PerformLayout();
 			this.groupBox13.ResumeLayout(false);
@@ -4531,7 +4534,6 @@
 			this.tlpBlack.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxB)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher)).EndInit();
-			this.groupBox7.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

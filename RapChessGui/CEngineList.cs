@@ -367,6 +367,11 @@ namespace RapChessGui
 			{
 				CEngine engine = new CEngine(name);
 				engine.LoadFromIni();
+				if (string.IsNullOrEmpty(engine.name))
+				{
+					engine.name = CreateUniqueName(engine);
+					engine.SaveToIni();
+				}
 				Add(engine);
 			}
 			AutoUpdate();
@@ -431,6 +436,7 @@ namespace RapChessGui
 			for (int n = 0; n < Count; n++)
 				this[n].position = n;
 		}
+
 
 		public bool IsUniqueName(CEngine engine,string name)
 		{

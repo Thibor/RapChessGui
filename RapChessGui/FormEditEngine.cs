@@ -43,41 +43,59 @@ namespace RapChessGui
 			catch { }
 		}
 
-		bool EngineSave(CEngine e)
+		CEngine EngineSave(CEngine e = null)
 		{
-			if (e == null)
-				return false;
 			if (!FormChess.engineList.IsUniqueName(e, tbEngineName.Text))
 			{
 				MessageBox.Show("This name already exists");
-				return false;
+				return null;
 			}
+			if (e == null)
+				e = new CEngine();
+			else
+				FormChess.engineList.DeleteEngine(e.name);
 			SettingsToEngine(e);
-			e.name = FormChess.engineList.CreateUniqueName(e);
-			if(e.protocol == CProtocol.auto)
-			formAutodetect.ShowDialog(this);
+			if (string.IsNullOrEmpty(e.name))
+				e.name = FormChess.engineList.CreateUniqueName(e);
+			FormChess.engineList.AddEngine(e);
+			if (e.protocol == CProtocol.auto)
+				formAutodetect.ShowDialog(this);
 			EngineToSettings(e);
 			e.SaveToIni();
 			UpdateListBox();
 			int index = listBoxEngines.FindString(e.name);
-			if (index >=0 )
-			listBoxEngines.SetSelected(index, true);
-			return true;
+			if (index >= 0)
+				listBoxEngines.SetSelected(index, true);
+			return e;
+		}
+
+		void ClickDelete()
+		{
+			if (engine == null)
+				return;
+			string name = engine.name;
+			var dr = MessageBox.Show($"Are you sure that you would like to delete {name}?", "Delete engine", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			if (dr == DialogResult.Yes)
+			{
+				FormChess.engineList.DeleteEngine(name);
+				UpdateListBox();
+				CData.reset = true;
+			}
 		}
 
 		void ClickCreate()
 		{
-			CEngine engine = new CEngine();
-			if (!EngineSave(engine))
+			engine = EngineSave();
+			if (engine == null)
 				return;
-			FormChess.engineList.Add(engine);
 			MessageBox.Show($"Chess {engine.name} has been created");
 			CData.reset = true;
 		}
 
 		void ClickSave()
 		{
-			if (!EngineSave(engine))
+			engine = EngineSave(engine);
+			if (engine == null)
 				return;
 			MessageBox.Show($"Chess {engine.name} has been modified");
 			CData.reset = true;
@@ -270,7 +288,7 @@ namespace RapChessGui
 
 		void SettingsToEngine(CEngine e)
 		{
-			e.name = tbEngineName.Text;
+			e.name = tbEngineName.Text.Trim();
 			e.folder = cbFolderList.Text;
 			e.file = cbFileList.Text;
 			e.protocol = CData.StrToProtocol(cbProtocol.Text);
@@ -341,14 +359,7 @@ namespace RapChessGui
 
 		private void bDelete_Click(object sender, EventArgs e)
 		{
-			string name = tbEngineName.Text;
-			var dr = MessageBox.Show($"Are you sure that you would like to delete {name}?", "Delete engine", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-			if (dr == DialogResult.Yes)
-			{
-				FormChess.engineList.DeleteEngine(name);
-				UpdateListBox();
-				CData.reset = true;
-			}
+			ClickDelete();
 		}
 
 		private void FormEngine_Shown(object sender, EventArgs e)
@@ -450,7 +461,7 @@ namespace RapChessGui
 
 		private void ListBox1_SelectedValueChanged(object sender, EventArgs e)
 		{
-			if(listBoxEngines.SelectedItem != null)
+			if (listBoxEngines.SelectedItem != null)
 				SelectEngine(listBoxEngines.SelectedItem.ToString());
 		}
 
@@ -499,7 +510,7 @@ namespace RapChessGui
 		private void autodetectAllEnginesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			foreach (CEngine engine in FormChess.engineList)
-					engine.protocol = CProtocol.auto;
+				engine.protocol = CProtocol.auto;
 			formAutodetect.ShowDialog(this);
 			EngineToSettings(engine);
 		}
