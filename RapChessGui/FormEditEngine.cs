@@ -45,7 +45,7 @@ namespace RapChessGui
 
 		CEngine EngineSave(CEngine e = null)
 		{
-			if (!FormChess.engineList.IsUniqueName(e, tbEngineName.Text))
+			if (FormChess.engineList.NameExists(e, tbEngineName.Text))
 			{
 				MessageBox.Show("This name already exists");
 				return null;

@@ -136,7 +136,7 @@ namespace RapChessGui
 			{
 				if (File.Exists(p))
 					return new Bitmap(p);
-				string[] an = engine.GetName().Split();
+				string[] an = engine.name.Split();
 				if (an.Length > 0)
 				{
 					p = $@"{dir}\{an[0]}.bmp";
@@ -150,7 +150,7 @@ namespace RapChessGui
 				foreach (string fp in filePaths)
 				{
 					string ext = Path.GetExtension(fp);
-					if ((ext == ".bmp") || (ext == ".jpg") || (ext == ".jpeg") || (ext == ".png"))
+					if ((ext == ".bmp") || (ext == ".jpg") || (ext == ".jpeg") || (ext == ".png") || (ext == ".gif"))
 						return new Bitmap(Image.FromFile(fp));
 				}
 			}
@@ -619,7 +619,7 @@ namespace RapChessGui
 					FormChess.This.SetGameState(CGameState.time);
 					return "Time out";
 				}
-				if (ts.Seconds < 10)
+				if (ts.TotalSeconds < 10)
 				{
 					low = true;
 					return ts.ToString(@"ss\.ff");

@@ -36,7 +36,8 @@ namespace RapChessGui
 		public static string tourBSelected = Global.none;
 		public static string tourESelected = Global.none;
 		public static string tourPSelected = Global.none;
-		public static string tourEBook = Global.none;
+		public static string tourEBookF = Global.none;
+		public static string tourEBookS = Global.none;
 		public static string tourEMode = "Time";
 		public static ProcessPriorityClass priority = ProcessPriorityClass.Normal;
 		public static Color color = Color.Yellow;
@@ -115,7 +116,8 @@ namespace RapChessGui
 			cbTourBMode.Text = FormChess.ini.Read("options>mode>tourB>mode", tourBMode,def);
 			nudTourB.Value = FormChess.ini.ReadDecimal("options>mode>tourB>value", tourBValue,def);
 			tourESelected = FormChess.ini.Read("options>mode>tourE>selected", tourESelected,def);
-			tourEBook = FormChess.ini.Read("options>mode>tourE>book", tourEBook,def);
+			tourEBookF = FormChess.ini.Read("options>mode>tourE>bookF", tourEBookF,def);
+			tourEBookS = FormChess.ini.Read("options>mode>tourE>bookS", tourEBookS, def);
 			nudTourE.Value = FormChess.ini.ReadDecimal("options>mode>tourE>value", tourEValue);
 			cbTourEMode.Text = FormChess.ini.Read("options>mode>tourE>mode", tourEMode,def);
 			tourPSelected = FormChess.ini.Read("options>mode>tourP>selected", tourPSelected,def);
@@ -152,7 +154,8 @@ namespace RapChessGui
 			FormChess.ini.Write("options>mode>tourB>mode", cbTourBMode.Text);
 			FormChess.ini.Write("options>mode>tourB>value", nudTourB.Value);
 			FormChess.ini.Write("options>mode>tourE>selected", tourESelected);
-			FormChess.ini.Write("options>mode>tourE>book", tourEBook);
+			FormChess.ini.Write("options>mode>tourE>bookF", tourEBookF);
+			FormChess.ini.Write("options>mode>tourE>bookS", tourEBookS);
 			FormChess.ini.Write("options>mode>tourE>value", nudTourE.Value);
 			FormChess.ini.Write("options>mode>tourE>mode", cbTourEMode.Text);
 			FormChess.ini.Write("options>mode>tourP>selected", tourPSelected);
@@ -190,22 +193,27 @@ namespace RapChessGui
 			cbBookReader.SelectedIndex = 0;
 			cbGameBook.Items.Clear();
 			cbTourBSelected.Items.Clear();
-			cbTourEBook.Items.Clear();
+			cbTourEBookF.Items.Clear();
+			cbTourEBookS.Items.Clear();
 			cbGameBook.Sorted = true;
 			cbTourBSelected.Sorted = true;
-			cbTourEBook.Sorted = true;
+			cbTourEBookF.Sorted = true;
+			cbTourEBookS.Sorted = true;
 			foreach (CBook b in FormChess.bookList)
 			{
 				cbGameBook.Items.Add(b.name);
 				cbTourBSelected.Items.Add(b.name);
-				cbTourEBook.Items.Add(b.name);
+				cbTourEBookF.Items.Add(b.name);
+				cbTourEBookS.Items.Add(b.name);
 			}
 			cbGameBook.Sorted = false;
 			cbTourBSelected.Sorted = false;
-			cbTourEBook.Sorted = false;
+			cbTourEBookF.Sorted = false;
+			cbTourEBookS.Sorted = false;
 			cbGameBook.Items.Insert(0, Global.none);
 			cbTourBSelected.Items.Insert(0, Global.none);
-			cbTourEBook.Items.Insert(0,Global.none);
+			cbTourEBookF.Items.Insert(0,Global.none);
+			cbTourEBookS.Items.Insert(0, Global.none);
 
 			cbGameEngine.Items.Clear();
 			cbTourBEngine.Items.Clear();
@@ -242,7 +250,8 @@ namespace RapChessGui
 			CData.ComboSelect(cbTourBSelected, tourBSelected);
 			CData.ComboSelect(cbTourESelected, tourESelected);
 			CData.ComboSelect(cbTourBEngine, tourBEngine);
-			CData.ComboSelect(cbTourEBook, tourEBook);
+			CData.ComboSelect(cbTourEBookF, tourEBookF);
+			CData.ComboSelect(cbTourEBookS, tourEBookS);
 			CData.ComboSelect(cbTourPSelected, tourPSelected);
 			nudTourBRec.Value = CModeTournamentB.records;
 			nudTourBAvg.Value = CModeTournamentB.eloAvg;
@@ -458,7 +467,7 @@ namespace RapChessGui
 
 		private void cbTourEBook_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			tourEBook = cbTourEBook.Text;
+			tourEBookF = cbTourEBookF.Text;
 		}
 
 		private void cbTourEMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -516,5 +525,11 @@ namespace RapChessGui
 			else
 				DeleteLink();
 		}
+
+		private void cbTourEBookS_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			tourEBookS = cbTourEBookS.Text;
+		}
+
 	}
 }

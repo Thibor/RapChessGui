@@ -13,7 +13,6 @@ namespace RapChessGui
 		public static int eloRange = 0;
 		public static string first = String.Empty;
 		public static string opponent = String.Empty;
-		public static string book = "BRU Eco";
 		static CLevel level = CLevel.standard;
 		public static CTourList tourList = new CTourList("Tour-engines");
 		public static CModeValue modeValue = new CModeValue();
@@ -23,7 +22,6 @@ namespace RapChessGui
 
 		public static void SaveToIni()
 		{
-			FormChess.ini.Write("mode>tournamentE>book", book);
 			FormChess.ini.Write("mode>tournamentE>engine", first);
 			FormChess.ini.Write("mode>tournamentE>mode", modeValue.GetLevel());
 			FormChess.ini.Write("mode>tournamentE>value", modeValue.value);
@@ -34,7 +32,6 @@ namespace RapChessGui
 
 		public static void LoadFromIni()
 		{
-			book = FormChess.ini.Read("mode>tournamentE>book", book);
 			first = FormChess.ini.Read("mode>tournamentE>engine", first);
 			modeValue.SetLevel(FormChess.ini.Read("mode>tournamentE>mode", modeValue.GetLevel()));
 			modeValue.value = FormChess.ini.ReadInt("mode>tournamentE>value", modeValue.value);

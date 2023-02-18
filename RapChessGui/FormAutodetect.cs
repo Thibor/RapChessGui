@@ -238,6 +238,7 @@ namespace RapChessGui
 					}
 					else
 					{
+						testEngine.SetUniqueName();
 						lName.Text = testEngine.name;
 						WriteLine($"engine {testEngine.name} ready");
 						tick = 0;

@@ -187,7 +187,7 @@ namespace RapChessGui
 
 		void IniLoad()
 		{
-			editFen = ini.Read("edit>fen",editFen);
+			editFen = ini.Read("edit>fen", editFen);
 			Width = ini.ReadInt("position>width", Width);
 			Height = ini.ReadInt("position>height", Height);
 			if (Width < 600)
@@ -362,7 +362,7 @@ namespace RapChessGui
 			lvMoves.Items.Clear();
 			lvMovesW.Items.Clear();
 			lvMovesB.Items.Clear();
-			PrepareFen(cbGameMode.Text==cbApply.Text ? editFen:CChess.defFen);
+			PrepareFen(cbGameMode.Text == cbApply.Text ? editFen : CChess.defFen);
 			gamers.InitNewGame();
 			gamers.Terminate();
 		}
@@ -478,7 +478,7 @@ namespace RapChessGui
 			labMemoryB.Text = gb.gamerEngine.GetMemory();
 			splitContainerMoves.Panel1Collapsed = gw.player.IsHuman();
 			splitContainerMoves.Panel2Collapsed = gb.player.IsHuman();
-			Bitmap bmpW = gw.GetBitmap(panWhite.Height,out int ww);
+			Bitmap bmpW = gw.GetBitmap(panWhite.Height, out int ww);
 			Bitmap bmpB = gb.GetBitmap(panBlack.Height, out int wb);
 			pictureBoxW.Width = ww;
 			pictureBoxB.Width = wb;
@@ -2132,7 +2132,6 @@ namespace RapChessGui
 			TournamentEUpdate(CModeTournamentE.engLoose);
 			CModeTournamentE.modeValue.SetLevel(FormOptions.tourEMode);
 			CModeTournamentE.modeValue.SetValue(FormOptions.tourEValue);
-			CModeTournamentE.book = FormOptions.tourEBook;
 			CModeTournamentE.SaveToIni();
 			SetMode(CGameMode.tourE);
 			CEngine e1 = CModeTournamentE.SelectFirst();
@@ -2143,12 +2142,14 @@ namespace RapChessGui
 			p2.EngineName = e2.name;
 			p1.elo = e1.elo;
 			p2.elo = e2.elo;
-			p1.BookName = CModeTournamentE.book;
+			p1.BookName = FormOptions.tourEBookF;
 			p1.modeValue.level = CModeTournamentE.modeValue.level;
 			p1.modeValue.value = CModeTournamentE.modeValue.value;
-			p2.BookName = CModeTournamentE.book;
+			p2.BookName = FormOptions.tourEBookS;
 			p2.modeValue.level = CModeTournamentE.modeValue.level;
 			p2.modeValue.value = CModeTournamentE.modeValue.value;
+			if (((CGames.played >> 1) & 1) > 0)
+				(p1.BookName, p2.BookName) = (p2.BookName, p1.BookName);
 			CModeTournamentE.SetRepeition(e1, e2);
 			gamers.SetPlayers(p1, p2);
 			if (CModeTournamentE.rotate)

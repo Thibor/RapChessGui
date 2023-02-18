@@ -54,7 +54,7 @@ namespace RapChessGui
 
 		public void SaveToIni()
 		{
-			name = GetName();
+			SetUniqueName();
 			if (hisElo.Count == 0)
 			{
 				hisElo.AddValue(Elo);
@@ -187,11 +187,10 @@ namespace RapChessGui
 			return $@"{AppDomain.CurrentDomain.BaseDirectory}{GetFileName()}";
 		}
 
-		public string GetName()
+		public void SetUniqueName()
 		{
-			if (!FormChess.engineList.IsUniqueName(this,name))
-				return FormChess.engineList.CreateUniqueName(this);
-			return name;
+			if (FormChess.engineList.NameExists(this, name) || string.IsNullOrEmpty(name))
+				name = FormChess.engineList.CreateUniqueName(this);
 		}
 
 		public bool SetTournament(bool tb)
@@ -217,7 +216,7 @@ namespace RapChessGui
 
 		public void AddEngine(CEngine e)
 		{
-			e.name = e.GetName();
+			e.SetUniqueName();
 			int index = GetIndex(e.name);
 			if (index >= 0)
 				this[index] = e;
@@ -321,7 +320,6 @@ namespace RapChessGui
 					Add(engine);
 					engine.file = file;
 					engine.folder = "Auto";
-					engine.name = engine.GetName();
 					engine.SaveToIni();
 				}
 			}
@@ -437,15 +435,14 @@ namespace RapChessGui
 				this[n].position = n;
 		}
 
-
-		public bool IsUniqueName(CEngine engine,string name)
+		public bool NameExists(CEngine engine, string name)
 		{
 			if (string.IsNullOrEmpty(name))
-				return true;
+				return false;
 			foreach (CEngine e in this)
 				if ((e != engine) && (e.name == name))
-					return false;
-			return true;
+					return true;
+			return false;
 		}
 
 		public string CreateUniqueName(CEngine engine)
@@ -453,7 +450,7 @@ namespace RapChessGui
 			string name = engine.CreateName();
 			string result = name;
 			int i = 1;
-			while (!IsUniqueName(engine,result))
+			while (NameExists(engine, result))
 				result = $"{name} ({++i})";
 			return result;
 		}
