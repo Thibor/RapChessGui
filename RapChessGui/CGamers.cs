@@ -425,7 +425,7 @@ namespace RapChessGui
 
 		public int GetRemainingMs()
 		{
-			int v = Convert.ToInt32(player.modeValue.GetUciValue());
+			int v = Convert.ToInt32(player.levelValue.GetUciValue());
 			int t = Convert.ToInt32(v - timer.Elapsed.TotalMilliseconds);
 			return t < 1 ? 1 : t;
 		}
@@ -440,14 +440,14 @@ namespace RapChessGui
 		void UciGo()
 		{
 			SendMessageToEngine(CHistory.GetPosition());
-			if (player.modeValue.level == CLevel.standard)
+			if (player.levelValue.level == CLevel.standard)
 			{
 				CGamer gw = CGamers.GamerWhite();
 				CGamer gb = CGamers.GamerBlack();
 				SendMessageToEngine($"go wtime {gw.GetRemainingMs()} btime {gb.GetRemainingMs()} winc 0 binc 0");
 			}
 			else
-				SendMessageToEngine($"go {player.modeValue.GetUci()} {player.modeValue.GetUciValue()}");
+				SendMessageToEngine($"go {player.levelValue.GetUci()} {player.levelValue.GetUciValue()}");
 			TimerStart();
 		}
 
@@ -471,7 +471,7 @@ namespace RapChessGui
 
 		void XbGoTime()
 		{
-			int ms = player.modeValue.GetUciValue();
+			int ms = player.levelValue.GetUciValue();
 			if (engine.modeTime)
 				SendMessageToEngine($"st {ms / 1000}");
 			else
@@ -480,13 +480,13 @@ namespace RapChessGui
 
 		void XbGoDepth()
 		{
-			int d = player.modeValue.GetUciValue();
+			int d = player.levelValue.GetUciValue();
 			SendMessageToEngine($"sd {d}");
 		}
 
 		void XbGo()
 		{
-			switch (player.modeValue.level)
+			switch (player.levelValue.level)
 			{
 				case CLevel.standard:
 					XbGoStandard();
@@ -565,7 +565,7 @@ namespace RapChessGui
 
 		public string GetMode()
 		{
-			return player?.modeValue.LongName() ?? "Mode";
+			return player?.levelValue.LongName() ?? "Mode";
 		}
 
 		public string GetProtocol()
@@ -606,15 +606,15 @@ namespace RapChessGui
 			int value = 0;
 			if (player != null)
 			{
-				level = player.modeValue.level;
-				value = player.modeValue.GetUciValue();
+				level = player.levelValue.level;
+				value = player.levelValue.GetUciValue();
 			}
 			if (level == CLevel.standard)
 			{
 				double v = Convert.ToDouble(value);
 				double t = v - ms;
 				ts = TimeSpan.FromMilliseconds(t);
-				if ((ts.TotalMilliseconds < -FormOptions.marginStandard) && (FormOptions.marginStandard >= 0) && timer.IsRunning)
+				if ((CData.gameMode != CGameMode.game) && (ts.TotalMilliseconds < -FormOptions.marginStandard) && (FormOptions.marginStandard >= 0) && timer.IsRunning)
 				{
 					FormChess.This.SetGameState(CGameState.time);
 					return "Time out";
@@ -622,13 +622,13 @@ namespace RapChessGui
 				if (ts.TotalSeconds < 10)
 				{
 					low = true;
-					return ts.ToString(@"ss\.ff");
+					return $"{ts.TotalMilliseconds:N2}";
 				}
 			}
 			else if (level == CLevel.time)
 			{
 				double v = Convert.ToDouble(value);
-				if (((ms - timerStart) > (v + FormOptions.marginTime)) && (FormOptions.marginTime >= 0) && (value > 0) && timer.IsRunning)
+				if ((CData.gameMode != CGameMode.game) && ((ms - timerStart) > (v + FormOptions.marginTime)) && (FormOptions.marginTime >= 0) && (value > 0) && timer.IsRunning)
 				{
 					FormChess.This.SetGameState(CGameState.time);
 					return "Time out";

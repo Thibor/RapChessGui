@@ -11,7 +11,7 @@ namespace RapChessGui
 		public CBook book = null;
 		public CEngine engine = null;
 		public int tournament = 1;
-		public CModeValue modeValue = new CModeValue();
+		public CLevelValue levelValue = new CLevelValue();
 		public CHisElo hisElo = new CHisElo();
 
 		public string BookName
@@ -139,14 +139,14 @@ namespace RapChessGui
 
 		public bool IsHuman()
 		{
-			return (engine == null) && (modeValue.level == CLevel.infinite);
+			return (engine == null) && (levelValue.level == CLevel.infinite);
 		}
 
 		public bool IsPlayable()
 		{
 			if (engine == null)
 				return false;
-			if (!engine.IsPlayable(modeValue.level))
+			if (!engine.IsPlayable(levelValue.level))
 				return false;
 			if ((book != null) && !book.IsPlayable())
 				return false;
@@ -162,8 +162,8 @@ namespace RapChessGui
 				EngineName = p.EngineName;
 				BookName = p.BookName;
 				elo = p.elo;
-				modeValue.level = p.modeValue.level;
-				modeValue.value = p.modeValue.value;
+				levelValue.level = p.levelValue.level;
+				levelValue.baseVal = p.levelValue.baseVal;
 				hisElo.Assign(p.hisElo);
 			}
 		}
@@ -172,8 +172,8 @@ namespace RapChessGui
 		{
 			tournament = CPlayerList.iniFile.ReadInt($"player>{name}>tournament", tournament);
 			EngineName = CPlayerList.iniFile.Read($"player>{name}>engine", Global.none);
-			modeValue.SetLevel(CPlayerList.iniFile.Read($"player>{name}>mode", modeValue.GetLevel()));
-			modeValue.value = CPlayerList.iniFile.ReadInt($"player>{name}>value", modeValue.value);
+			levelValue.SetLevel(CPlayerList.iniFile.Read($"player>{name}>mode", levelValue.GetLevel()));
+			levelValue.baseVal = CPlayerList.iniFile.ReadInt($"player>{name}>value", levelValue.baseVal);
 			BookName = CPlayerList.iniFile.Read($"player>{name}>book", Global.none);
 			elo = CPlayerList.iniFile.Read($"player>{name}>elo", elo);
 			hisElo.LoadFromStr(CPlayerList.iniFile.Read($"player>{name}>history"));
@@ -189,8 +189,8 @@ namespace RapChessGui
 			}
 			CPlayerList.iniFile.Write($"player>{name}>tournament", tournament);
 			CPlayerList.iniFile.Write($"player>{name}>engine", EngineName);
-			CPlayerList.iniFile.Write($"player>{name}>mode", modeValue.GetLevel());
-			CPlayerList.iniFile.Write($"player>{name}>value", modeValue.value);
+			CPlayerList.iniFile.Write($"player>{name}>mode", levelValue.GetLevel());
+			CPlayerList.iniFile.Write($"player>{name}>value", levelValue.baseVal);
 			CPlayerList.iniFile.Write($"player>{name}>book", BookName);
 			CPlayerList.iniFile.Write($"player>{name}>elo", elo);
 			CPlayerList.iniFile.Write($"player>{name}>history", hisElo.SaveToStr());
@@ -204,7 +204,7 @@ namespace RapChessGui
 			if (engine != null)
 			{
 				n = EngineName;
-				m = modeValue.ShortName();
+				m = levelValue.ShortName();
 			}
 			if (book != null)
 				b = $" {CData.MakeShort(BookName)}";

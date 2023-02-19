@@ -276,16 +276,16 @@ namespace RapChessGui
 
 	}
 
-	public class CModeValue
+	public class CLevelValue
 	{
 		public CLevel level = CLevel.time;
-		public int value = 10;
+		public int baseVal = 10;
+		public int baseInc = 0;
 		public int increment = 100;
-		public int inc = 0;
 
-		public static CLevel StrToLevel(string l)
+		public static CLevel StrToLevel(string str)
 		{
-			switch (l)
+			switch (str)
 			{
 				case "Standard":
 					return CLevel.standard;
@@ -300,9 +300,9 @@ namespace RapChessGui
 			}
 		}
 
-		public string LevelToStr(CLevel l)
+		public static string LevelToStr(CLevel level)
 		{
-			switch (l)
+			switch (level)
 			{
 				case CLevel.standard:
 					return "Standard";
@@ -317,9 +317,32 @@ namespace RapChessGui
 			}
 		}
 
-		public void SetLevel(string l)
+		public static int GetIncrement(CLevel level)
 		{
-			level = StrToLevel(l);
+			switch (level)
+			{
+				case CLevel.standard:
+					return 15;
+				case CLevel.depth:
+					return 1;
+				case CLevel.nodes:
+					return 100000;
+				case CLevel.infinite:
+					return 0;
+				default:
+					return 100;
+			}
+		}
+
+		public static int GetValue(CLevel level,int baseVal)
+		{
+			int inc = GetIncrement(level);
+			return baseVal > 0 ? baseVal * inc : inc;
+		}
+
+		public void SetLevel(string str)
+		{
+			level = StrToLevel(str);
 		}
 
 		public string GetLevel()
@@ -331,20 +354,20 @@ namespace RapChessGui
 		{
 			int inc = GetValueIncrement();
 			if (inc > 0)
-				value = v / inc;
+				baseVal = v / inc;
 			else
-				value = 0;
+				baseVal = 0;
 		}
 
 		public int GetValue()
 		{
 			int inc = GetValueIncrement();
-			return value > 0 ? value * inc : inc;
+			return baseVal > 0 ? baseVal * inc : inc;
 		}
 
 		public int GetUciValue()
 		{
-			int result = value * GetValueIncrement();
+			int result = baseVal * GetValueIncrement();
 			if (result < 0)
 				result = 1;
 			if (level == CLevel.standard)
@@ -408,7 +431,7 @@ namespace RapChessGui
 			string mode = GetLevel();
 			string result = mode[0].ToString();
 			if (mode != "Infinite")
-				result = $"{result}{value}";
+				result = $"{result}{baseVal}";
 			return $" {result}";
 		}
 
@@ -417,11 +440,11 @@ namespace RapChessGui
 			string mode = GetLevel();
 			if (mode == "Standard")
 			{
-				int t = value * 15 + inc * 60;
-				int m = value / 4;
-				string min = m > 0 ? m.ToString() : "";
-				string sec = new string[4] { "", "¼", "½", "¾" }[value % 4];
-				string tim = $"{min}{sec}+{inc}";
+				int t = baseVal * 15 + baseInc * 60;
+				int m = baseVal / 4;
+				string min = m > 0 ? m.ToString() : String.Empty;
+				string sec = new string[4] { "", "¼", "½", "¾" }[baseVal % 4];
+				string tim = $"{min}{sec}+{baseInc}";
 				if (t > 21600)
 					return $"Mail {tim}";
 				if (t > 1800)
@@ -435,7 +458,7 @@ namespace RapChessGui
 				return $"UltraBullet {tim}";
 			}
 			if (mode != "Infinite")
-				return $"{mode} {value}";
+				return $"{mode} {baseVal}";
 			return mode;
 		}
 

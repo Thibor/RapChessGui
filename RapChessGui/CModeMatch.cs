@@ -12,8 +12,8 @@ namespace RapChessGui
 		public static string engine2 = CEngineList.def;
 		public static string book1 = CBookList.def;
 		public static string book2 = CBookList.def;
-		public static CModeValue modeValue1 = new CModeValue();
-		public static CModeValue modeValue2 = new CModeValue();
+		public static CLevelValue modeValue1 = new CLevelValue();
+		public static CLevelValue modeValue2 = new CLevelValue();
 		public static CHisElo his = new CHisElo();
 		static CColor color;
 
@@ -77,8 +77,8 @@ namespace RapChessGui
 			engine2 = FormChess.ini.Read("mode>match>engine2", engine2);
 			modeValue1.SetLevel(FormChess.ini.Read("mode>match>mode1", modeValue1.GetLevel()));
 			modeValue2.SetLevel(FormChess.ini.Read("mode>match>mode2", modeValue2.GetLevel()));
-			modeValue1.value = FormChess.ini.ReadInt("mode>match>value1", modeValue1.value);
-			modeValue2.value = FormChess.ini.ReadInt("mode>match>value2", modeValue2.value);
+			modeValue1.baseVal = FormChess.ini.ReadInt("mode>match>value1", modeValue1.baseVal);
+			modeValue2.baseVal = FormChess.ini.ReadInt("mode>match>value2", modeValue2.baseVal);
 			his.LoadFromStr(FormChess.ini.Read("mode>match>his", string.Empty));
 		}
 
@@ -93,8 +93,8 @@ namespace RapChessGui
 			FormChess.ini.Write("mode>match>engine2", engine2);
 			FormChess.ini.Write("mode>match>mode1", modeValue1.GetLevel());
 			FormChess.ini.Write("mode>match>mode2", modeValue2.GetLevel());
-			FormChess.ini.Write("mode>match>value1", modeValue1.value);
-			FormChess.ini.Write("mode>match>value2", modeValue2.value);
+			FormChess.ini.Write("mode>match>value1", modeValue1.baseVal);
+			FormChess.ini.Write("mode>match>value2", modeValue2.baseVal);
 			FormChess.ini.Write("mode>match>his", his.SaveToStr());
 		}
 

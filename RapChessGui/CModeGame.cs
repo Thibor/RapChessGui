@@ -11,7 +11,7 @@ namespace RapChessGui
 		public static string computer = "Auto";
 		public static string engine = CEngineList.def;
 		public static string book = CBookList.def;
-		public static CModeValue modeValue = new CModeValue();
+		public static CLevelValue modeValue = new CLevelValue();
 
 		public static void SaveToIni()
 		{
@@ -28,7 +28,7 @@ namespace RapChessGui
 			FormChess.ini.Write("mode>game>engine", engine);
 			FormChess.ini.Write("mode>game>book", book);
 			FormChess.ini.Write("mode>game>mode", modeValue.GetLevel());
-			FormChess.ini.Write("mode>game>value", modeValue.value);
+			FormChess.ini.Write("mode>game>value", modeValue.baseVal);
 			FormChess.ini.Write("mode>game>player>elo", humanPlayer.elo);
 			FormChess.ini.Write("mode>game>player>history", humanPlayer.hisElo.SaveToStr());
 		}
@@ -43,11 +43,11 @@ namespace RapChessGui
 			engine = FormChess.ini.Read("mode>game>engine", engine);
 			book = FormChess.ini.Read("mode>game>book", book);
 			modeValue.SetLevel(FormChess.ini.Read("mode>game>mode",modeValue.GetLevel()));
-			modeValue.value = FormChess.ini.ReadInt("mode>game>value", modeValue.value);
+			modeValue.baseVal = FormChess.ini.ReadInt("mode>game>value", modeValue.baseVal);
 			humanPlayer.elo = FormChess.ini.Read("mode>game>player>elo", "500");
 			humanPlayer.hisElo.LoadFromStr(FormChess.ini.Read("mode>game>player>history"));
 			humanPlayer.name = Global.human;
-			humanPlayer.modeValue.level = CLevel.infinite;
+			humanPlayer.levelValue.level = CLevel.infinite;
 		}
 
 	}

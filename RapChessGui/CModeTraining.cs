@@ -14,8 +14,8 @@ namespace RapChessGui
 		public static string trained = String.Empty;
 		public static string trainerBook = CBookList.def;
 		public static string trainedBook = CBookList.def;
-		public static CModeValue modeValueTrainer = new CModeValue();
-		public static CModeValue modeValueTrained = new CModeValue();
+		public static CLevelValue modeValueTrainer = new CLevelValue();
+		public static CLevelValue modeValueTrained = new CLevelValue();
 		public static CHisElo his = new CHisElo();
 
 		public static void Reset()
@@ -55,8 +55,8 @@ namespace RapChessGui
 			FormChess.ini.Write("mode>training>trained", trained);
 			FormChess.ini.Write("mode>training>trainerBook", trainerBook);
 			FormChess.ini.Write("mode>training>trainedBook", trainedBook);
-			FormChess.ini.Write("mode>training>trainerValue", modeValueTrainer.value);
-			FormChess.ini.Write("mode>training>trainedValue", modeValueTrained.value);
+			FormChess.ini.Write("mode>training>trainerValue", modeValueTrainer.baseVal);
+			FormChess.ini.Write("mode>training>trainedValue", modeValueTrained.baseVal);
 			FormChess.ini.Write("mode>training>trainerMode", modeValueTrainer.GetLevel());
 			FormChess.ini.Write("mode>training>trainedMode", modeValueTrained.GetLevel());
 			FormChess.ini.Write("mode>training>his", his.SaveToStr());
@@ -71,8 +71,8 @@ namespace RapChessGui
 			trained = FormChess.ini.Read("mode>training>trained", CEngineList.def);
 			trainerBook = FormChess.ini.Read("mode>training>trainerBook", trainerBook);
 			trainedBook = FormChess.ini.Read("mode>training>trainedBook", trainedBook);
-			modeValueTrainer.value = FormChess.ini.ReadInt("mode>training>trainerValue", modeValueTrainer.value);
-			modeValueTrained.value = FormChess.ini.ReadInt("mode>training>trainedValue", modeValueTrained.value);
+			modeValueTrainer.baseVal = FormChess.ini.ReadInt("mode>training>trainerValue", modeValueTrainer.baseVal);
+			modeValueTrained.baseVal = FormChess.ini.ReadInt("mode>training>trainedValue", modeValueTrained.baseVal);
 			modeValueTrainer.SetLevel(FormChess.ini.Read("mode>training>trainerMode", modeValueTrainer.GetLevel()));
 			modeValueTrained.SetLevel(FormChess.ini.Read("mode>training>trainedMode", modeValueTrained.GetLevel()));
 			his.LoadFromStr(FormChess.ini.Read("mode>training>his", string.Empty));

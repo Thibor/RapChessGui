@@ -19,7 +19,7 @@ namespace RapChessGui
 		public static string opponent = String.Empty;
 		public static string engine = String.Empty;
 		public static CTourList tourList = new CTourList("Tour-books");
-		public static CModeValue modeValue = new CModeValue();
+		public static CLevelValue modeValue = new CLevelValue();
 		public static CBookList bookList = new CBookList();
 		public static CBook bookWin = null;
 		public static CBook bookLoose = null;
@@ -29,7 +29,7 @@ namespace RapChessGui
 			FormChess.ini.Write("mode>tournamentB>book", first);
 			FormChess.ini.Write("mode>tournamentB>engine", engine);
 			FormChess.ini.Write("mode>tournamentB>mode", modeValue.GetLevel());
-			FormChess.ini.Write("mode>tournamentB>value", modeValue.value);
+			FormChess.ini.Write("mode>tournamentB>value", modeValue.baseVal);
 			FormChess.ini.Write("mode>tournamentB>records", records);
 			FormChess.ini.Write("mode>tournamentB>eloAvg", eloAvg);
 			FormChess.ini.Write("mode>tournamentB>eloRange", eloRange);
@@ -40,7 +40,7 @@ namespace RapChessGui
 			first = FormChess.ini.Read("mode>tournamentB>book", first);
 			engine = FormChess.ini.Read("mode>tournamentB>engine", engine);
 			modeValue.SetLevel(FormChess.ini.Read("mode>tournamentB>mode", modeValue.GetLevel()));
-			modeValue.value = FormChess.ini.ReadInt("mode>tournamentB>value", modeValue.value);
+			modeValue.baseVal = FormChess.ini.ReadInt("mode>tournamentB>value", modeValue.baseVal);
 			records = FormChess.ini.ReadInt("mode>tournamentB>records", records);
 			eloAvg = FormChess.ini.ReadInt("mode>tournamentB>eloAvg", eloAvg);
 			eloRange = FormChess.ini.ReadInt("mode>tournamentB>eloRange", eloRange);

@@ -42,6 +42,14 @@ namespace RapChessGui
 		public static ProcessPriorityClass priority = ProcessPriorityClass.Normal;
 		public static Color color = Color.Yellow;
 
+		public static CLevel TourELevel
+		{
+			get
+			{
+				return CLevelValue.StrToLevel(tourEMode);
+			}
+		}
+
 		[ComImport]
 		[Guid("00021401-0000-0000-C000-000000000046")]
 		internal class ShellLink
@@ -118,8 +126,8 @@ namespace RapChessGui
 			tourESelected = FormChess.ini.Read("options>mode>tourE>selected", tourESelected,def);
 			tourEBookF = FormChess.ini.Read("options>mode>tourE>bookF", tourEBookF,def);
 			tourEBookS = FormChess.ini.Read("options>mode>tourE>bookS", tourEBookS, def);
+			cbTourEMode.Text = FormChess.ini.Read("options>mode>tourE>mode", tourEMode, def);
 			nudTourE.Value = FormChess.ini.ReadDecimal("options>mode>tourE>value", tourEValue);
-			cbTourEMode.Text = FormChess.ini.Read("options>mode>tourE>mode", tourEMode,def);
 			tourPSelected = FormChess.ini.Read("options>mode>tourP>selected", tourPSelected,def);
 			color = ColorTranslator.FromHtml(FormChess.ini.Read("options>interface>color", ColorTranslator.ToHtml(Color.Yellow), def));
 			rbSan.Checked = FormChess.ini.ReadBool("options>interface>san", rbSan.Checked);
@@ -156,8 +164,8 @@ namespace RapChessGui
 			FormChess.ini.Write("options>mode>tourE>selected", tourESelected);
 			FormChess.ini.Write("options>mode>tourE>bookF", tourEBookF);
 			FormChess.ini.Write("options>mode>tourE>bookS", tourEBookS);
-			FormChess.ini.Write("options>mode>tourE>value", nudTourE.Value);
 			FormChess.ini.Write("options>mode>tourE>mode", cbTourEMode.Text);
+			FormChess.ini.Write("options>mode>tourE>value", nudTourE.Value);
 			FormChess.ini.Write("options>mode>tourP>selected", tourPSelected);
 			FormChess.ini.Write("options>interface>color", ColorTranslator.ToHtml(color));
 			FormChess.ini.Write("options>interface>san", rbSan.Checked);
@@ -472,10 +480,13 @@ namespace RapChessGui
 
 		private void cbTourEMode_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			CModeTournamentE.modeValue.SetLevel((sender as ComboBox).Text);
-			nudTourE.Increment = CModeTournamentE.modeValue.GetValueIncrement();
+			CLevelValue modeValue = new CLevelValue();
+			modeValue.SetLevel(tourEMode);
+			modeValue.SetValue(tourEValue);
+			modeValue.SetLevel((sender as ComboBox).Text);
+			nudTourE.Increment = modeValue.GetValueIncrement();
 			nudTourE.Minimum = nudTourE.Increment;
-			nudTourE.Value = Math.Max(CModeTournamentE.modeValue.GetValue(), nudTourE.Minimum);
+			nudTourE.Value = Math.Max(modeValue.GetValue(), nudTourE.Minimum);
 			tourEMode = cbTourEMode.Text;
 		}
 

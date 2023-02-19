@@ -1675,16 +1675,16 @@ namespace RapChessGui
 			{
 				pc.EngineName = cbEngine.Text;
 				pc.BookName = cbBook.Text;
-				pc.modeValue.level = CModeGame.modeValue.level;
-				pc.modeValue.value = CModeGame.modeValue.value;
+				pc.levelValue.level = CModeGame.modeValue.level;
+				pc.levelValue.baseVal = CModeGame.modeValue.baseVal;
 				pc.elo = CPlayerList.humanPlayer.elo;
 			}
 			else if (FormOptions.gameEngine != Global.none)
 			{
 				pc.EngineName = FormOptions.gameEngine;
 				pc.BookName = FormOptions.gameBook;
-				pc.modeValue.level = CLevel.time;
-				pc.modeValue.value = 10;
+				pc.levelValue.level = CLevel.time;
+				pc.levelValue.baseVal = 10;
 				pc.elo = CPlayerList.humanPlayer.elo;
 				pc.humanElo = true;
 			}
@@ -1814,13 +1814,13 @@ namespace RapChessGui
 			CPlayer p1 = new CPlayer("Player 1");
 			p1.EngineName = CModeMatch.engine1;
 			p1.BookName = CModeMatch.book1;
-			p1.modeValue.level = CModeMatch.modeValue1.level;
-			p1.modeValue.value = CModeMatch.modeValue1.value;
+			p1.levelValue.level = CModeMatch.modeValue1.level;
+			p1.levelValue.baseVal = CModeMatch.modeValue1.baseVal;
 			CPlayer p2 = new CPlayer("Player 2");
 			p2.EngineName = CModeMatch.engine2;
 			p2.BookName = CModeMatch.book2;
-			p2.modeValue.level = CModeMatch.modeValue2.level;
-			p2.modeValue.value = CModeMatch.modeValue2.value;
+			p2.levelValue.level = CModeMatch.modeValue2.level;
+			p2.levelValue.baseVal = CModeMatch.modeValue2.baseVal;
 			CGamers.GamerWhite().SetPlayer(p1);
 			CGamers.GamerBlack().SetPlayer(p2);
 			if (!gamers.Check(out string msg))
@@ -1972,10 +1972,10 @@ namespace RapChessGui
 			p2.elo = b2.elo;
 			p1.BookName = b1.name;
 			p2.BookName = b2.name;
-			p1.modeValue.level = CModeTournamentB.modeValue.level;
-			p2.modeValue.level = CModeTournamentB.modeValue.level;
-			p1.modeValue.value = CModeTournamentB.modeValue.value;
-			p2.modeValue.value = CModeTournamentB.modeValue.value;
+			p1.levelValue.level = CModeTournamentB.modeValue.level;
+			p2.levelValue.level = CModeTournamentB.modeValue.level;
+			p1.levelValue.baseVal = CModeTournamentB.modeValue.baseVal;
+			p2.levelValue.baseVal = CModeTournamentB.modeValue.baseVal;
 			CModeTournamentB.SetRepeition(b1, b2);
 			gamers.SetPlayers(p1, p2);
 			if (CModeTournamentB.rotate)
@@ -2130,8 +2130,6 @@ namespace RapChessGui
 			ComClear();
 			TournamentEUpdate(CModeTournamentE.engWin);
 			TournamentEUpdate(CModeTournamentE.engLoose);
-			CModeTournamentE.modeValue.SetLevel(FormOptions.tourEMode);
-			CModeTournamentE.modeValue.SetValue(FormOptions.tourEValue);
 			CModeTournamentE.SaveToIni();
 			SetMode(CGameMode.tourE);
 			CEngine e1 = CModeTournamentE.SelectFirst();
@@ -2143,11 +2141,11 @@ namespace RapChessGui
 			p1.elo = e1.elo;
 			p2.elo = e2.elo;
 			p1.BookName = FormOptions.tourEBookF;
-			p1.modeValue.level = CModeTournamentE.modeValue.level;
-			p1.modeValue.value = CModeTournamentE.modeValue.value;
+			p1.levelValue.SetLevel(FormOptions.tourEMode);
+			p1.levelValue.SetValue(FormOptions.tourEValue);
 			p2.BookName = FormOptions.tourEBookS;
-			p2.modeValue.level = CModeTournamentE.modeValue.level;
-			p2.modeValue.value = CModeTournamentE.modeValue.value;
+			p2.levelValue.SetLevel(FormOptions.tourEMode);
+			p2.levelValue.SetValue(FormOptions.tourEValue);
 			if (((CGames.played >> 1) & 1) > 0)
 				(p1.BookName, p2.BookName) = (p2.BookName, p1.BookName);
 			CModeTournamentE.SetRepeition(e1, e2);
@@ -2420,14 +2418,14 @@ namespace RapChessGui
 			CPlayer pw = new CPlayer("Trained");
 			pw.EngineName = CModeTraining.trained;
 			pw.BookName = CModeTraining.trainedBook;
-			pw.modeValue.level = CModeTraining.modeValueTrained.level;
-			pw.modeValue.value = CModeTraining.modeValueTrained.value;
+			pw.levelValue.level = CModeTraining.modeValueTrained.level;
+			pw.levelValue.baseVal = CModeTraining.modeValueTrained.baseVal;
 			pw.elo = pw.engine.elo;
 			CPlayer pb = new CPlayer("Trainer");
 			pb.EngineName = CModeTraining.trainer;
 			pb.BookName = CModeTraining.trainerBook;
-			pb.modeValue.level = CModeTraining.modeValueTrainer.level;
-			pb.modeValue.value = CModeTraining.modeValueTrainer.value;
+			pb.levelValue.level = CModeTraining.modeValueTrainer.level;
+			pb.levelValue.baseVal = CModeTraining.modeValueTrainer.baseVal;
 			pw.elo = pw.engine.elo;
 			gamers.SetPlayers(pw, pb);
 			if (CModeTraining.rotate)
@@ -2449,8 +2447,8 @@ namespace RapChessGui
 					if (++CModeTraining.winInRow > FormOptions.winLimit)
 					{
 						CModeTraining.winInRow = 0;
-						if (--CModeTraining.modeValueTrainer.value < 1)
-							CModeTraining.modeValueTrainer.value = 1;
+						if (--CModeTraining.modeValueTrainer.baseVal < 1)
+							CModeTraining.modeValueTrainer.baseVal = 1;
 						decimal nv = nudTrainer.Value - nudTrainer.Increment;
 						if (nv < nudTrainer.Minimum)
 							nv = nudTrainer.Minimum;
@@ -2462,14 +2460,14 @@ namespace RapChessGui
 				{
 					CModeTraining.loose++;
 					CModeTraining.winInRow = 0;
-					CModeTraining.modeValueTrainer.value++;
+					CModeTraining.modeValueTrainer.baseVal++;
 				}
 			}
 			else
 			{
 				CModeTraining.draw++;
 				CModeTraining.winInRow = 0;
-				CModeTraining.modeValueTrainer.value++;
+				CModeTraining.modeValueTrainer.baseVal++;
 			}
 			if (up)
 				nudTrainer.Value += nudTrainer.Increment;

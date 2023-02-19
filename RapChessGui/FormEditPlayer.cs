@@ -11,7 +11,7 @@ namespace RapChessGui
 		int tournament = -1;
 		CPlayer player = null;
 		public static string playerName = String.Empty;
-		readonly CModeValue modeValue = new CModeValue();
+		readonly CLevelValue modeValue = new CLevelValue();
 
 		public FormEditPlayer()
 		{
@@ -54,9 +54,9 @@ namespace RapChessGui
 			cbBookList.Text = player.BookName;
 			nudTournament.Value = player.tournament;
 			nudElo.Value = Convert.ToInt32(player.elo);
-			nudValue.Value = player.modeValue.GetValue();
-			modeValue.level = player.modeValue.level;
-			modeValue.value = player.modeValue.value;
+			nudValue.Value = player.levelValue.GetValue();
+			modeValue.level = player.levelValue.level;
+			modeValue.baseVal = player.levelValue.baseVal;
 			combMode.SelectedIndex = combMode.FindStringExact(modeValue.GetLevel());
 		}
 
@@ -100,8 +100,8 @@ namespace RapChessGui
 			p.BookName = cbBookList.Text;
 			p.SetTournament((int)nudTournament.Value);
 			p.elo = nudElo.Value.ToString();
-			p.modeValue.level = modeValue.level;
-			p.modeValue.value = modeValue.value;
+			p.levelValue.level = modeValue.level;
+			p.levelValue.baseVal = modeValue.baseVal;
 		}
 
 		void SaveToIni(CPlayer p)

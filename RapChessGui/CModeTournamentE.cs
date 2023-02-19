@@ -13,9 +13,7 @@ namespace RapChessGui
 		public static int eloRange = 0;
 		public static string first = String.Empty;
 		public static string opponent = String.Empty;
-		static CLevel level = CLevel.standard;
 		public static CTourList tourList = new CTourList("Tour-engines");
-		public static CModeValue modeValue = new CModeValue();
 		public static CEngineList engineList = new CEngineList();
 		public static CEngine engWin = null;
 		public static CEngine engLoose = null;
@@ -23,8 +21,6 @@ namespace RapChessGui
 		public static void SaveToIni()
 		{
 			FormChess.ini.Write("mode>tournamentE>engine", first);
-			FormChess.ini.Write("mode>tournamentE>mode", modeValue.GetLevel());
-			FormChess.ini.Write("mode>tournamentE>value", modeValue.value);
 			FormChess.ini.Write("mode>tournamentE>records", records);
 			FormChess.ini.Write("mode>tournamentE>eloAvg", eloAvg);
 			FormChess.ini.Write("mode>tournamentE>eloRange", eloRange);
@@ -33,8 +29,6 @@ namespace RapChessGui
 		public static void LoadFromIni()
 		{
 			first = FormChess.ini.Read("mode>tournamentE>engine", first);
-			modeValue.SetLevel(FormChess.ini.Read("mode>tournamentE>mode", modeValue.GetLevel()));
-			modeValue.value = FormChess.ini.ReadInt("mode>tournamentE>value", modeValue.value);
 			records = FormChess.ini.ReadInt("mode>tournamentE>records", records);
 			eloAvg = FormChess.ini.ReadInt("mode>tournamentE>eloAvg", eloAvg);
 			eloRange = FormChess.ini.ReadInt("mode>tournamentE>eloRange", eloRange);
@@ -68,7 +62,7 @@ namespace RapChessGui
 					eloMin = 0;
 					eloMax = 3000;
 				}
-			level = modeValue.level;
+			CLevel level =  CLevelValue.StrToLevel(FormOptions.tourEMode);
 			engineList.Clear();
 			foreach (CEngine e in FormChess.engineList)
 				if (e.IsPlayable(level) && (e.tournament > 0))
