@@ -622,7 +622,7 @@ namespace RapChessGui
 				if (ts.TotalSeconds < 10)
 				{
 					low = true;
-					return $"{ts.TotalMilliseconds:N2}";
+					return $"{ts.TotalSeconds:N2}";
 				}
 			}
 			else if (level == CLevel.time)
