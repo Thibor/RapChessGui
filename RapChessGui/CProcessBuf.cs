@@ -8,10 +8,10 @@ namespace RapChessGui
 
 	public class CProcessBuf
 	{
-		bool spamOff = false;
 		protected Process process = null;
 		readonly private object locker = new object();
-		private readonly List<string> list = new List<string>();
+		private readonly List<string> listSou = new List<string>();
+		private readonly List<string> listDes = new List<string>();
 
 		/// <summary>
 		/// Get memory usage
@@ -30,33 +30,59 @@ namespace RapChessGui
 		{
 			lock (locker)
 			{
-				list.Add(msg);
+				listSou.Add(msg);
 			}
 		}
 
-		public string GetMessage(out bool stop)
+		void CopyList()
 		{
-			stop = false;
-			string msg = String.Empty;
 			lock (locker)
 			{
-				foreach (string m in list)
-					if (m.Contains("bestmove"))
-					{
-						stop = true;
-						if (spamOff)
-						{
-							list.Clear();
-							return m;
-						}
-					}
-				if (list.Count > 0)
-				{
-
-					msg = list[0];
-					list.RemoveAt(0);
-				}
+				listDes.AddRange(listSou);
+				listSou.Clear();
 			}
+		}
+
+		/*async Task CopyBuffer()
+		{
+			await Task.Run(() =>
+			{
+				CopyList();
+			});
+		}*/
+
+		public string GetMessage(bool copy, out bool stop)
+		{
+			if (copy || (listDes.Count == 0))
+				CopyList();
+			stop = false;
+			foreach (string m in listDes)
+				if (m.Contains("bestmove"))
+				{
+					stop = true;
+					if (FormOptions.spamOff)
+					{
+						listDes.Clear();
+						return m;
+					}
+				}
+			return GetMsg();
+		}
+
+		public string GetMessage()
+		{
+			if (listDes.Count == 0)
+				CopyList();
+			return GetMsg();
+		}
+
+		string GetMsg()
+		{
+			string msg = String.Empty;
+			if (listDes.Count == 0)
+				return msg;
+			msg = listDes[0];
+			listDes.RemoveAt(0);
 			return msg;
 		}
 
@@ -64,7 +90,8 @@ namespace RapChessGui
 		{
 			lock (locker)
 			{
-				list.Clear();
+				listSou.Clear();
+				listDes.Clear();
 			}
 		}
 
@@ -81,9 +108,8 @@ namespace RapChessGui
 			catch { }
 		}
 
-		public bool SetProgram(string path, string param = "",bool spamOff = false)
+		public bool SetProgram(string path, string param = "")
 		{
-			this.spamOff = spamOff;
 			Terminate();
 			if (File.Exists(path))
 			{

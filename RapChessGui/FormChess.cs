@@ -1924,9 +1924,10 @@ namespace RapChessGui
 				}
 				countGames += count;
 			}
-			string rep = book.name == CModeTournamentB.first ? $"{CModeTournamentB.repetition}/{CModeTournamentB.games}" : book.tournament.ToString();
+			int reps = book.name == CModeTournamentB.first ? CModeTournamentB.reps : 0;
+			int left = book.name == CModeTournamentB.first ? CModeTournamentB.left : book.tournament;
 			labBook.BackColor = book.hisElo.GetColor();
-			labBook.Text = $"{book.name} games {countGames} players {bookList.Count} repetitions {rep}";
+			labBook.Text = $"{book.name} games {countGames} players {bookList.Count} reps {reps} left {left}";
 			if (top2 != null)
 				lvTourBSel.TopItem = top2;
 			CData.HisToPoints(book.hisElo, chartTournamentB.Series[1].Points);
@@ -1957,8 +1958,6 @@ namespace RapChessGui
 			ComClear();
 			TournamentBUpdate(CModeTournamentB.bookWin);
 			TournamentBUpdate(CModeTournamentB.bookLoose);
-			CModeTournamentB.modeValue.SetLevel(FormOptions.tourBMode);
-			CModeTournamentB.modeValue.SetValue(FormOptions.tourBValue);
 			CModeTournamentB.engine = FormOptions.tourBEngine == Global.none ? engineList.GetEngineName() : FormOptions.tourBEngine;
 			CModeTournamentB.SaveToIni();
 			SetMode(CGameMode.tourB);
@@ -1972,10 +1971,10 @@ namespace RapChessGui
 			p2.elo = b2.elo;
 			p1.BookName = b1.name;
 			p2.BookName = b2.name;
-			p1.levelValue.level = CModeTournamentB.modeValue.level;
-			p2.levelValue.level = CModeTournamentB.modeValue.level;
-			p1.levelValue.baseVal = CModeTournamentB.modeValue.baseVal;
-			p2.levelValue.baseVal = CModeTournamentB.modeValue.baseVal;
+			p1.levelValue.SetLevel(FormOptions.tourBMode);
+			p1.levelValue.SetValue(FormOptions.tourBValue);
+			p2.levelValue.SetLevel(FormOptions.tourBMode);
+			p2.levelValue.SetValue(FormOptions.tourBValue);
 			CModeTournamentB.SetRepeition(b1, b2);
 			gamers.SetPlayers(p1, p2);
 			if (CModeTournamentB.rotate)
@@ -2007,7 +2006,7 @@ namespace RapChessGui
 			else
 			{
 				if (eloW <= eloL)
-					CModeTournamentB.repetition++;
+					CModeTournamentB.left++;
 				string r = gw.player == pw ? "w" : "b";
 				CModeTournamentB.tourList.Write(pw.BookName, pb.BookName, r, f);
 			}
@@ -2083,9 +2082,10 @@ namespace RapChessGui
 				}
 				countGames += count;
 			}
-			string rep = engine.name == CModeTournamentE.first ? $"{CModeTournamentE.repetition}/{CModeTournamentE.games}" : engine.tournament.ToString();
+			int reps = engine.name == CModeTournamentE.first ? CModeTournamentE.reps : 0;
+			int left = engine.name == CModeTournamentE.first ? CModeTournamentE.left : engine.tournament;
 			labEngine.BackColor = engine.hisElo.GetColor();
-			labEngine.Text = $"{engine.name} games {countGames} players {engineList.Count} repetitions {rep}";
+			labEngine.Text = $"{engine.name} games {countGames} players {engineList.Count} reps {reps} left {left}";
 			if (top2 != null)
 				lvTourESel.TopItem = top2;
 			CData.HisToPoints(engine.hisElo, chartTournamentE.Series[1].Points);
@@ -2179,7 +2179,7 @@ namespace RapChessGui
 			else
 			{
 				if (eloW <= eloL)
-					CModeTournamentE.repetition++;
+					CModeTournamentE.left++;
 				string r = gw.player == pw ? "w" : "b";
 				CModeTournamentE.tourList.Write(pw.EngineName, pb.EngineName, r, f);
 			}
@@ -2255,9 +2255,10 @@ namespace RapChessGui
 					}
 					countGames += count;
 				}
-			string rep = player.name == CModeTournamentP.first ? $"{CModeTournamentP.repetition}/{CModeTournamentP.games}" : player.tournament.ToString();
+			int reps = player.name == CModeTournamentP.first ? CModeTournamentP.reps : 0;
+			int left = player.name == CModeTournamentP.first ? CModeTournamentP.left : player.tournament;
 			labPlayer.BackColor = player.hisElo.GetColor();
-			labPlayer.Text = $"{player.name} games {countGames} players {playerList.Count} repetitions {rep}";
+			labPlayer.Text = $"{player.name} games {countGames} players {playerList.Count} reps {reps} left {left}";
 			if (top2 != null)
 				lvTourPSel.TopItem = top2;
 			CData.HisToPoints(player.hisElo, chartTournamentP.Series[1].Points);
@@ -2335,7 +2336,7 @@ namespace RapChessGui
 			else
 			{
 				if (eloW <= eloL)
-					CModeTournamentP.repetition++;
+					CModeTournamentP.left++;
 				string r = pw == plw ? "w" : "b";
 				CModeTournamentP.tourList.Write(plw.name, plb.name, r, f);
 			}

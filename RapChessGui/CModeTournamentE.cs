@@ -6,8 +6,8 @@ namespace RapChessGui
 	static class CModeTournamentE
 	{
 		public static bool rotate = true;
-		public static int games = 0;
-		public static int repetition = 0;
+		public static int reps = 0;
+		public static int left = 0;
 		public static int records = 10000;
 		public static int eloAvg = 0;
 		public static int eloRange = 0;
@@ -38,8 +38,8 @@ namespace RapChessGui
 		public static void NewGame()
 		{
 			rotate = true;
-			games = 0;
-			repetition = 0;
+			reps = 0;
+			left = 0;
 			opponent = String.Empty;
 		}
 
@@ -93,10 +93,10 @@ namespace RapChessGui
 			if ((e != null) && (eloRange == 0))
 				return e;
 			e = engineList.GetEngineByName(first);
-			if ((e == null) || ((games >= repetition) && (games > 0)))
+			if ((e == null) || ((left < 1) && (reps > 0)))
 			{
 				e = SelectLast();
-				games = 0;
+				reps = 0;
 			}
 			return e;
 		}
@@ -130,19 +130,20 @@ namespace RapChessGui
 				opponent = o.name;
 				SaveToIni();
 				int cg = tourList.CountGames(e.name, o.name, out int rw, out int rl, out _);
-				if (games == 0)
+				if (reps == 0)
 				{
-					repetition = e.tournament;
+					left = e.tournament;
 					if (cg == 0)
-						repetition++;
+						left++;
 					if ((e.Elo > o.Elo) != (rw > rl))
-						repetition++;
+						left++;
 					if (e.hisElo.Count < o.hisElo.Count)
-						repetition += 2;
+						left += 2;
 					rotate = true;
 				}
 			}
-			games++;
+			reps++;
+			left--;
 			rotate ^= true;
 		}
 

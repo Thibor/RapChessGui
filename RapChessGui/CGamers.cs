@@ -167,7 +167,7 @@ namespace RapChessGui
 			string msg = String.Empty;
 			if (curProcess == gamerEngine)
 			{
-				msg = gamerEngine.GetMessage(out bool stop);
+				msg = gamerEngine.GetMessage(timer.IsRunning,out bool stop);
 				if (stop)
 					timer.Stop();
 				return msg;
@@ -175,7 +175,7 @@ namespace RapChessGui
 			if (curProcess == gamerBook)
 			{
 				book = true;
-				return gamerBook.GetMessage(out _);
+				return gamerBook.GetMessage();
 			}
 			return msg;
 		}
@@ -702,7 +702,7 @@ namespace RapChessGui
 			if (engine == null)
 				gamerEngine.Terminate();
 			else
-				gamerEngine.SetProgram(engine.GetPath(), engine.arguments, FormOptions.spamOff);
+				gamerEngine.SetProgram(engine.GetPath(), engine.arguments);
 		}
 
 	}

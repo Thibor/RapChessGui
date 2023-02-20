@@ -478,6 +478,18 @@ namespace RapChessGui
 			tourEBookF = cbTourEBookF.Text;
 		}
 
+		private void cbTourBMode_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			CLevelValue modeValue = new CLevelValue();
+			modeValue.SetLevel(tourBMode);
+			modeValue.SetValue(tourBValue);
+			modeValue.SetLevel((sender as ComboBox).Text);
+			nudTourB.Increment = modeValue.GetValueIncrement();
+			nudTourB.Minimum = nudTourB.Increment;
+			nudTourB.Value = Math.Max(modeValue.GetValue(), nudTourB.Minimum);
+			tourBMode = cbTourBMode.Text;
+		}
+
 		private void cbTourEMode_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			CLevelValue modeValue = new CLevelValue();
@@ -490,28 +502,19 @@ namespace RapChessGui
 			tourEMode = cbTourEMode.Text;
 		}
 
+		private void nudTourB_ValueChanged(object sender, EventArgs e)
+		{
+			tourBValue = (int)nudTourB.Value;
+		}
+
 		private void nudTourE_ValueChanged(object sender, EventArgs e)
 		{
 			tourEValue = (int)nudTourE.Value;
 		}
 
-		private void cbTourBMode_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			CModeTournamentB.modeValue.SetLevel((sender as ComboBox).Text);
-			nudTourB.Increment = CModeTournamentB.modeValue.GetValueIncrement();
-			nudTourB.Minimum = nudTourB.Increment;
-			nudTourB.Value = Math.Max(CModeTournamentB.modeValue.GetValue(), nudTourB.Minimum);
-			tourBMode = cbTourBMode.Text;
-		}
-
 		private void cbTourBEngine_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			tourBEngine = cbTourBEngine.Text;
-		}
-
-		private void nudTourB_ValueChanged(object sender, EventArgs e)
-		{
-			tourBValue = (int)nudTourB.Value;
 		}
 
 		private void cbGameBook_SelectedIndexChanged(object sender, EventArgs e)

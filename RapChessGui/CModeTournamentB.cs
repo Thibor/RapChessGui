@@ -10,16 +10,15 @@ namespace RapChessGui
 	static class CModeTournamentB
 	{
 		public static bool rotate = true;
-		public static int games = 0;
+		public static int reps = 0;
 		public static int eloAvg = 3000;
 		public static int eloRange = 0;
 		public static int records = 10000;
-		public static int repetition = 0;
+		public static int left = 0;
 		public static string first = String.Empty;
 		public static string opponent = String.Empty;
 		public static string engine = String.Empty;
 		public static CTourList tourList = new CTourList("Tour-books");
-		public static CLevelValue modeValue = new CLevelValue();
 		public static CBookList bookList = new CBookList();
 		public static CBook bookWin = null;
 		public static CBook bookLoose = null;
@@ -28,8 +27,6 @@ namespace RapChessGui
 		{
 			FormChess.ini.Write("mode>tournamentB>book", first);
 			FormChess.ini.Write("mode>tournamentB>engine", engine);
-			FormChess.ini.Write("mode>tournamentB>mode", modeValue.GetLevel());
-			FormChess.ini.Write("mode>tournamentB>value", modeValue.baseVal);
 			FormChess.ini.Write("mode>tournamentB>records", records);
 			FormChess.ini.Write("mode>tournamentB>eloAvg", eloAvg);
 			FormChess.ini.Write("mode>tournamentB>eloRange", eloRange);
@@ -39,8 +36,6 @@ namespace RapChessGui
 		{
 			first = FormChess.ini.Read("mode>tournamentB>book", first);
 			engine = FormChess.ini.Read("mode>tournamentB>engine", engine);
-			modeValue.SetLevel(FormChess.ini.Read("mode>tournamentB>mode", modeValue.GetLevel()));
-			modeValue.baseVal = FormChess.ini.ReadInt("mode>tournamentB>value", modeValue.baseVal);
 			records = FormChess.ini.ReadInt("mode>tournamentB>records", records);
 			eloAvg = FormChess.ini.ReadInt("mode>tournamentB>eloAvg", eloAvg);
 			eloRange = FormChess.ini.ReadInt("mode>tournamentB>eloRange", eloRange);
@@ -93,8 +88,8 @@ namespace RapChessGui
 		public static void NewGame()
 		{
 			rotate = true;
-			games = 0;
-			repetition = 0;
+			reps = 0;
+			left = 0;
 			opponent = String.Empty;
 		}
 
@@ -105,10 +100,10 @@ namespace RapChessGui
 			if ((b != null) && (eloRange == 0))
 				return b;
 			b = bookList.GetBookByName(first);
-			if ((b == null) || ((games >= repetition) && (games > 0)))
+			if ((b == null) || ((left < 1) && (reps > 0)))
 			{
 				b = SelectLast();
-				games = 0;
+				reps = 0;
 			}
 			return b;
 		}
@@ -127,7 +122,7 @@ namespace RapChessGui
 			for (int n = 0; n < bl.Count - 1; n++)
 			{
 				CBook b = bl[n];
-				double curScore = book.EvaluateOpponent(b,bookList.Count,tourList);
+				double curScore = book.EvaluateOpponent(b, bookList.Count, tourList);
 				if (bstScore < curScore)
 				{
 					bstScore = curScore;
@@ -162,19 +157,20 @@ namespace RapChessGui
 				opponent = o.name;
 				SaveToIni();
 				int cg = tourList.CountGames(b.name, o.name, out int rw, out int rl, out _);
-				if (games == 0)
+				if (reps == 0)
 				{
-					repetition = b.tournament;
+					left = b.tournament;
 					if (cg == 0)
-						repetition++;
+						left++;
 					if ((b.Elo > o.Elo) != (rw > rl))
-						repetition++;
+						left++;
 					if (b.hisElo.Count < o.hisElo.Count)
-						repetition += 2;
+						left += 2;
 					rotate = true;
 				}
 			}
-			games++;
+			reps++;
+			left--;
 			rotate ^= true;
 		}
 
