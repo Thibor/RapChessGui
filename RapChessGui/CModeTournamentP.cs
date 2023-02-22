@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace RapChessGui
 {
-	static class CModeTournamentP
+	class CModeTournamentP
 	{
 		public static bool rotate = false;
 		public static int reps = 0;
@@ -47,9 +46,9 @@ namespace RapChessGui
 		{
 			tourList.CountGames(player.name, player1.name, out int rw1, out int rl1, out int rd1);
 			tourList.CountGames(player.name, player2.name, out int rw2, out int rl2, out int rd2);
-			if ((player.Elo > player1.Elo) != (rw1 > rl1))
+			if ((player.elo > player1.elo) != (rw1 > rl1))
 				return player1;
-			if ((player.Elo > player2.Elo) != (rw2 > rl2))
+			if ((player.elo > player2.elo) != (rw2 > rl2))
 				return player2;
 			int count1 = (rw1 + rl1 + rd1);
 			int count2 = (rw2 + rl2 + rd2);
@@ -65,7 +64,7 @@ namespace RapChessGui
 			int avg = eloAvg;
 			CPlayer player = FormChess.playerList.GetPlayerByName(FormOptions.tourPSelected);
 			if (player != null)
-				avg = player.Elo;
+				avg = player.elo;
 			int eloMin = avg - eloRange;
 			int eloMax = avg + eloRange;
 			if ((eloRange == 0) || (eloAvg == 0))
@@ -82,7 +81,7 @@ namespace RapChessGui
 			playerList.Clear();
 			foreach (CPlayer p in FormChess.playerList)
 				if (p.IsPlayable() && (p.tournament > 0))
-					if ((p.Elo >= eloMin) && (p.Elo <= eloMax))
+					if ((p.elo >= eloMin) && (p.elo <= eloMax))
 						playerList.AddPlayer(p);
 		}
 
@@ -151,7 +150,7 @@ namespace RapChessGui
 					left = p.tournament;
 					if (cg == 0)
 						left++;
-					if ((p.Elo > o.Elo) != (rw > rl))
+					if ((p.elo > o.elo) != (rw > rl))
 						left++;
 					if (p.hisElo.Count < o.hisElo.Count)
 						left += 2;
@@ -159,7 +158,8 @@ namespace RapChessGui
 				}
 			}
 			reps++;
-			left--;
+			if (left > 0)
+				left--;
 			rotate ^= true;
 		}
 	}

@@ -19,9 +19,22 @@ namespace RapChessGui
 		public string file = Global.none;
 		public string folder = Global.none;
 		public string arguments = String.Empty;
-		public List<string> options = new List<string>();
 		public CProtocol protocol = CProtocol.auto;
-		public CHisElo hisElo = new CHisElo();
+		public List<string> options = new List<string>();
+		public CError eMove = new CError();
+		public CError eTime = new CError();
+
+		public string Protocol
+		{
+			get
+			{
+				return CData.ProtocolToStr(protocol);
+			}
+			set
+			{
+				protocol = CData.StrToProtocol(value);
+			}
+		}
 
 		public CEngine()
 		{
@@ -45,11 +58,13 @@ namespace RapChessGui
 			modeInfinite = CEngineList.iniFile.ReadBool($"engine>{name}>modeInfinite", modeInfinite);
 			file = CEngineList.iniFile.Read($"engine>{name}>file", file);
 			folder = CEngineList.iniFile.Read($"engine>{name}>folder", folder);
-			protocol = CData.StrToProtocol(CEngineList.iniFile.Read($"engine>{name}>protocol", "Uci"));
+			Protocol = CEngineList.iniFile.Read($"engine>{name}>protocol",Protocol);
 			arguments = CEngineList.iniFile.Read($"engine>{name}>parameters");
 			options = CEngineList.iniFile.ReadList($"engine>{name}>options");
-			elo = CEngineList.iniFile.Read($"engine>{name}>elo", elo);
+			elo = CEngineList.iniFile.ReadInt($"engine>{name}>elo", elo);
 			hisElo.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>history"));
+			eMove.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>eMove"));
+			eTime.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>eTime"));
 		}
 
 		public void SaveToIni()
@@ -57,8 +72,8 @@ namespace RapChessGui
 			SetUniqueName();
 			if (hisElo.Count == 0)
 			{
-				hisElo.AddValue(Elo);
-				hisElo.AddValue(Elo);
+				hisElo.AddValue(elo);
+				hisElo.AddValue(elo);
 			}
 			CEngineList.iniFile.Write($"engine>{name}>tournament", tournament);
 			CEngineList.iniFile.Write($"engine>{name}>modeElo", modeElo);
@@ -70,17 +85,26 @@ namespace RapChessGui
 			CEngineList.iniFile.Write($"engine>{name}>modeInfinite", modeInfinite);
 			CEngineList.iniFile.Write($"engine>{name}>file", file);
 			CEngineList.iniFile.Write($"engine>{name}>folder", folder);
-			CEngineList.iniFile.Write($"engine>{name}>protocol", CData.ProtocolToStr(protocol));
+			CEngineList.iniFile.Write($"engine>{name}>protocol", Protocol);
 			CEngineList.iniFile.Write($"engine>{name}>parameters", arguments);
 			CEngineList.iniFile.Write($"engine>{name}>options", options);
 			CEngineList.iniFile.Write($"engine>{name}>elo", elo);
 			CEngineList.iniFile.Write($"engine>{name}>history", hisElo.SaveToStr());
+			CEngineList.iniFile.Write($"engine>{name}>eMove", eMove.SaveToStr());
+			CEngineList.iniFile.Write($"engine>{name}>eTime", eTime.SaveToStr());
 		}
 
-		public void NewElo(int e)
+		public void AddElo(int e)
 		{
 			hisElo.AddValue(e);
-			elo = e.ToString();
+			elo = e;
+			SaveToIni();
+		}
+
+		public void AddGame(bool em,bool et)
+		{
+			eMove.AddGame(em);
+			eTime.AddGame(et);
 			SaveToIni();
 		}
 
@@ -164,7 +188,7 @@ namespace RapChessGui
 
 		public int GetDeltaElo()
 		{
-			return Elo - hisElo.EloAvg(Elo);
+			return elo - hisElo.EloAvg(elo);
 		}
 
 		public string GetFile()
@@ -336,7 +360,7 @@ namespace RapChessGui
 				if (e != null)
 				{
 					e.protocol = CProtocol.uci;
-					e.elo = "2000";
+					e.elo = 2000;
 					e.SaveToIni();
 				}
 				e = GetEngineByName("RapSimpleCs");
@@ -350,7 +374,7 @@ namespace RapChessGui
 				if (e != null)
 				{
 					e.protocol = CProtocol.uci;
-					e.elo = "1000";
+					e.elo = 1000;
 					e.modeElo = false;
 					e.SaveToIni();
 				}
@@ -410,7 +434,7 @@ namespace RapChessGui
 		{
 			Sort(delegate (CEngine e1, CEngine e2)
 			{
-				int result = e2.Elo - e1.Elo;
+				int result = e2.elo - e1.elo;
 				if (result == 0)
 					result = e2.hisElo.EloAvg() - e1.hisElo.EloAvg();
 				return result;
@@ -421,7 +445,7 @@ namespace RapChessGui
 		{
 			SortElo();
 			for (int n = 0; n < Count; n++)
-				this[n].position = Math.Abs(engine.Elo - this[n].Elo);
+				this[n].position = Math.Abs(engine.elo - this[n].elo);
 			Sort(delegate (CEngine e1, CEngine e2)
 			{
 				return e1.position - e2.position;
@@ -433,6 +457,15 @@ namespace RapChessGui
 		{
 			for (int n = 0; n < Count; n++)
 				this[n].position = n;
+		}
+
+		public int Position(int elo)
+		{
+			int result = 1;
+			foreach (CEngine e in this)
+				if (e.elo > elo)
+					result++;
+			return result;
 		}
 
 		public bool NameExists(CEngine engine, string name)

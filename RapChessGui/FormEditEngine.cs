@@ -111,7 +111,7 @@ namespace RapChessGui
 
 		void ClickRename()
 		{
-
+			SettingsToEngine(engine);
 			tbEngineName.Text = FormChess.engineList.CreateUniqueName(engine);
 			ClickSave();
 		}
@@ -229,7 +229,7 @@ namespace RapChessGui
 			cbModeTournament.Checked = engine.modeTournament;
 			cbModeNodes.Checked = engine.modeNodes;
 			cbModeInfinite.Checked = engine.modeInfinite;
-			nudElo.Value = Convert.ToInt32(engine.elo);
+			nudElo.Value = Convert.ToInt32(engine.Elo);
 			nudTournament.Value = engine.tournament;
 		}
 
@@ -300,7 +300,7 @@ namespace RapChessGui
 			e.modeTournament = cbModeTournament.Checked;
 			e.modeNodes = cbModeNodes.Checked;
 			e.modeInfinite = cbModeInfinite.Checked;
-			e.elo = nudElo.Value.ToString();
+			e.elo = (int)nudElo.Value;
 			e.tournament = (int)nudTournament.Value;
 			e.options = GetOptions();
 		}
@@ -372,6 +372,8 @@ namespace RapChessGui
 			cbFolderList.Sorted = false;
 			cbFolderList.Items.Insert(0, Global.none);
 			cbFolderList.SelectedIndex = 0;
+			if (FormChess.engineList.GetEngineAuto() != null)
+				formAutodetect.ShowDialog(this);
 			UpdateListBox();
 			listBoxEngines.SelectedIndex = listBoxEngines.FindString(engineName);
 			if ((listBoxEngines.SelectedIndex < 0) && (listBoxEngines.Items.Count > 0))
@@ -393,8 +395,7 @@ namespace RapChessGui
 			}
 			else if (!eng.FileExists())
 			{
-				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.White, Colors.red);
-				b = Brushes.White;
+				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Color.FromArgb(0xff,0xc0,0xc0));
 			}
 			else if (eng.tournament > 0)
 			{
@@ -485,8 +486,9 @@ namespace RapChessGui
 		{
 			if (engine != null)
 			{
-				engine.elo = Global.elo;
 				engine.hisElo.Clear();
+				engine.eMove.Clear();
+				engine.eTime.Clear();
 				engine.SaveToIni();
 				int count = CModeTournamentE.tourList.DeletePlayer(engine.name);
 				MessageBox.Show($"{count} records have been deleted");

@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RapChessGui
 {
 
-	static class CModeTournamentB
+	class CModeTournamentB
 	{
 		public static bool rotate = true;
 		public static int reps = 0;
@@ -46,9 +43,9 @@ namespace RapChessGui
 		{
 			tourList.CountGames(book.name, book1.name, out int rw1, out int rl1, out int rd1);
 			tourList.CountGames(book.name, book2.name, out int rw2, out int rl2, out int rd2);
-			if ((book.Elo > book1.Elo) != (rw1 > rl1))
+			if ((book.elo > book1.elo) != (rw1 > rl1))
 				return book1;
-			if ((book.Elo > book2.Elo) != (rw2 > rl2))
+			if ((book.elo > book2.elo) != (rw2 > rl2))
 				return book2;
 			int count1 = (rw1 + rl1 + rd1);
 			int count2 = (rw2 + rl2 + rd2);
@@ -64,7 +61,7 @@ namespace RapChessGui
 			int avg = eloAvg;
 			CBook book = FormChess.bookList.GetBookByName(FormOptions.tourBSelected);
 			if (book != null)
-				avg = book.Elo;
+				avg = book.elo;
 			int eloMin = avg - eloRange;
 			int eloMax = avg + eloRange;
 			if ((eloRange == 0) || (eloAvg == 0))
@@ -81,7 +78,7 @@ namespace RapChessGui
 			bookList.Clear();
 			foreach (CBook b in FormChess.bookList)
 				if (b.IsPlayable() && (b.tournament > 0))
-					if ((b.Elo >= eloMin) && (b.Elo <= eloMax))
+					if ((b.elo >= eloMin) && (b.elo <= eloMax))
 						bookList.AddBook(b);
 		}
 
@@ -162,7 +159,7 @@ namespace RapChessGui
 					left = b.tournament;
 					if (cg == 0)
 						left++;
-					if ((b.Elo > o.Elo) != (rw > rl))
+					if ((b.elo > o.elo) != (rw > rl))
 						left++;
 					if (b.hisElo.Count < o.hisElo.Count)
 						left += 2;
@@ -170,7 +167,8 @@ namespace RapChessGui
 				}
 			}
 			reps++;
-			left--;
+			if (left > 0)
+				left--;
 			rotate ^= true;
 		}
 

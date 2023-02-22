@@ -10,7 +10,7 @@ namespace RapIni
 	public class CRapIni : List<string>
 	{
 		bool loaded = false;
-		string name = String.Empty;
+		readonly string name = String.Empty;
 		string path = String.Empty;
 
 		bool Loaded

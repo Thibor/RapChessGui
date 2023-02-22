@@ -6,17 +6,15 @@ namespace NSChess
 
 	public enum CGameState { wait, normal, mate, stalemate, repetition, move50, material, time, error, resignation }
 
-	struct SXY
+	struct D2
 	{
 		public int x;
 		public int y;
-		public int s;
 
-		public SXY(int sx, int sy)
+		public D2(int sx, int sy)
 		{
 			x = sx;
 			y = sy;
-			s = y * 8 + x;
 		}
 	}
 
@@ -48,14 +46,14 @@ namespace NSChess
 		const int moveflagPassing = 0x02 << 16;
 		public const int moveflagCastleKing = 0x04 << 16;
 		public const int moveflagCastleQueen = 0x08 << 16;
-		const int moveflagPromotion = 0xf0 << 16;
-		const int moveflagPromoteQueen = 0x10 << 16;
-		const int moveflagPromoteRook = 0x20 << 16;
-		const int moveflagPromoteBishop = 0x40 << 16;
-		const int moveflagPromoteKnight = 0x80 << 16;
+		internal const int moveflagPromoteQueen = pieceQueen << 24;
+		internal const int moveflagPromoteRook = pieceRook << 24;
+		internal const int moveflagPromoteBishop = pieceBishop << 24;
+		internal const int moveflagPromoteKnight = pieceKnight << 24;
+		internal const int maskPromotion = moveflagPromoteQueen | moveflagPromoteRook | moveflagPromoteBishop | moveflagPromoteKnight;
 		const int maskCastle = moveflagCastleKing | moveflagCastleQueen;
 		const int maskColor = colorBlack | colorWhite;
-		public int castleRighs = 0xf;
+		public int castleRights = 0xf;
 		ulong hash = 0;
 		protected int passing = -1;
 		public int move50 = 0;
@@ -70,10 +68,10 @@ namespace NSChess
 		readonly int[] boardCastle = new int[64];
 		int usColor = 0;
 		int enColor = 0;
-		readonly SXY[] arrDirKinght = { new SXY(-2, -1), new SXY(-2, 1), new SXY(2, -1), new SXY(2, 1), new SXY(-1, -2), new SXY(-1, 2), new SXY(1, -2), new SXY(1, 2) };
-		readonly SXY[] arrDirBishop = { new SXY(-1, -1), new SXY(-1, 1), new SXY(1, -1), new SXY(1, 1) };
-		readonly SXY[] arrDirRock = { new SXY(-1, 0), new SXY(1, 0), new SXY(0, -1), new SXY(0, 1) };
-		readonly SXY[] arrDirQueen = { new SXY(-1, -1), new SXY(-1, 1), new SXY(1, -1), new SXY(1, 1), new SXY(-1, 0), new SXY(1, 0), new SXY(0, -1), new SXY(0, 1) };
+		readonly D2[] arrDirKinght = { new D2(-2, -1), new D2(-2, 1), new D2(2, -1), new D2(2, 1), new D2(-1, -2), new D2(-1, 2), new D2(1, -2), new D2(1, 2) };
+		readonly D2[] arrDirBishop = { new D2(-1, -1), new D2(-1, 1), new D2(1, -1), new D2(1, 1) };
+		readonly D2[] arrDirRock = { new D2(-1, 0), new D2(1, 0), new D2(0, -1), new D2(0, 1) };
+		readonly D2[] arrDirQueen = { new D2(-1, -1), new D2(-1, 1), new D2(1, -1), new D2(1, 1), new D2(-1, 0), new D2(1, 0), new D2(0, -1), new D2(0, 1) };
 		readonly CUndo[] undoStack = new CUndo[0xfff];
 
 		public bool WhiteTurn
@@ -177,12 +175,13 @@ namespace NSChess
 		public string EmoToUmo(int emo)
 		{
 			string result = IndexToSquare(emo & 0xFF) + IndexToSquare((emo >> 8) & 0xFF);
-			if ((emo & moveflagPromotion) > 0)
+			int promotion = (emo >> 24) & maskRank;
+			if (promotion > 0)
 			{
-				if ((emo & moveflagPromoteQueen) > 0) result += 'q';
-				else if ((emo & moveflagPromoteRook) > 0) result += 'r';
-				else if ((emo & moveflagPromoteBishop) > 0) result += 'b';
-				else result += 'n';
+				if (promotion == pieceKnight) result += 'n';
+				else if (promotion == pieceBishop) result += 'b';
+				else if (promotion == pieceRook) result += 'r';
+				else result += 'q';
 			}
 			return result;
 		}
@@ -213,13 +212,12 @@ namespace NSChess
 			string[] arrPiece = { "", "", "N", "B", "R", "Q", "K" };
 			int fr = emo & 0xff;
 			int to = (emo >> 8) & 0xff;
-			int flags = emo & 0xff0000;
 			int pieceFr = board[fr] & 7;
 			int pieceTo = board[to] & 7;
-			bool isAttack = (pieceTo > 0) || ((flags & moveflagPassing) > 0);
-			if ((flags & moveflagCastleKing) > 0)
+			bool isAttack = (pieceTo > 0) || ((emo & moveflagPassing) > 0);
+			if ((emo & moveflagCastleKing) > 0)
 				return "O-O";
-			if ((flags & moveflagCastleQueen) > 0)
+			if ((emo & moveflagCastleQueen) > 0)
 				return "O-O-O";
 			List<int> moves = GenerateValidMoves(out _);
 			bool showRank = false;
@@ -247,14 +245,15 @@ namespace NSChess
 			string far = showRank ? umo.Substring(1, 1) : String.Empty;
 			string fb = umo.Substring(2, 2);
 			string attack = isAttack ? "x" : String.Empty;
+			int promotion = (emo >> 24) & maskRank;
 			string promo = String.Empty;
-			if ((flags & moveflagPromoteKnight) > 0)
+			if (promotion == pieceKing)
 				promo = "=N";
-			if ((flags & moveflagPromoteBishop) > 0)
+			if (promotion == pieceBishop)
 				promo = "=B";
-			if ((flags & moveflagPromoteRook) > 0)
+			if (promotion == pieceRook)
 				promo = "=R";
-			if ((flags & moveflagPromoteQueen) > 0)
+			if (promotion == pieceQueen)
 				promo = "=Q";
 			string fin = check ? "+" : String.Empty;
 			if (gs == CGameState.mate)
@@ -377,15 +376,15 @@ namespace NSChess
 			if ((s1 != "w") && (s1 != "b"))
 				return false;
 			int wt = s1 == "w" ? 0 : 1;
-			castleRighs = 0;
+			castleRights = 0;
 			if (chunks[2].IndexOf('K') != -1)
-				castleRighs |= 1;
+				castleRights |= 1;
 			if (chunks[2].IndexOf('Q') != -1)
-				castleRighs |= 2;
+				castleRights |= 2;
 			if (chunks[2].IndexOf('k') != -1)
-				castleRighs |= 4;
+				castleRights |= 4;
 			if (chunks[2].IndexOf('q') != -1)
-				castleRighs |= 8;
+				castleRights |= 8;
 			Passant = chunks.Length < 4 ? "-" : chunks[3];
 			move50 = chunks.Length < 5 ? 0 : Int32.Parse(chunks[4]);
 			int mn = chunks.Length < 6 ? 1 : Int32.Parse(chunks[5]);
@@ -430,17 +429,17 @@ namespace NSChess
 		{
 			string result = GetFenBase();
 			result += WhiteTurn ? " w " : " b ";
-			if (castleRighs == 0)
+			if (castleRights == 0)
 				result += "-";
 			else
 			{
-				if ((castleRighs & 1) != 0)
+				if ((castleRights & 1) != 0)
 					result += 'K';
-				if ((castleRighs & 2) != 0)
+				if ((castleRights & 2) != 0)
 					result += 'Q';
-				if ((castleRighs & 4) != 0)
+				if ((castleRights & 4) != 0)
 					result += 'k';
-				if ((castleRighs & 8) != 0)
+				if ((castleRights & 8) != 0)
 					result += 'q';
 			}
 			return $"{result} {Passant}";
@@ -557,7 +556,7 @@ namespace NSChess
 							break;
 						case 6:
 							GenerateUniMoves(moves, onlyAattack, x, y, arrDirQueen, 1);
-							int cr = wt ? castleRighs : castleRighs >> 2;
+							int cr = wt ? castleRights : castleRights >> 2;
 							if ((cr & 1) > 0)
 								if (((board[fr + 1] & colorEmpty) > 0) && ((board[fr + 2] & colorEmpty) > 0))
 									GenerateMove(moves, fr, fr + 2, true, moveflagCastleKing);
@@ -585,7 +584,7 @@ namespace NSChess
 				GenerateMove(moves, fr, to, add, flag);
 		}
 
-		void GenerateUniMoves(List<int> moves, bool attack, int fx, int fy, SXY[] dir, int count)
+		void GenerateUniMoves(List<int> moves, bool attack, int fx, int fy, D2[] dir, int count)
 		{
 			for (int n = 0; n < dir.Length; n++)
 			{
@@ -595,7 +594,7 @@ namespace NSChess
 				int c = count;
 				while (c-- > 0)
 				{
-					SXY d = dir[n];
+					D2 d = dir[n];
 					dx += d.x;
 					dy += d.y;
 					if (!GetBoard(dx, dy, out int sq))
@@ -622,32 +621,31 @@ namespace NSChess
 		{
 			int fr = move & 0xFF;
 			int to = (move >> 8) & 0xFF;
-			int flags = move & 0xFF0000;
 			int capi = to;
 			CUndo undo = undoStack[--undoIndex];
 			passing = undo.passing;
-			castleRighs = undo.castle;
+			castleRights = undo.castle;
 			move50 = undo.move50;
 			lastCastle = undo.lastCastle;
 			hash = undo.hash;
 			int captured = undo.captured;
-			if ((flags & moveflagCastleKing) > 0)
+			if ((move & moveflagCastleKing) > 0)
 			{
 				board[to + 1] = board[to - 1];
 				board[to - 1] = colorEmpty;
 			}
-			else if ((flags & moveflagCastleQueen) > 0)
+			else if ((move & moveflagCastleQueen) > 0)
 			{
 				board[to - 2] = board[to + 1];
 				board[to + 1] = colorEmpty;
 			}
-			if ((flags & moveflagPromotion) > 0)
+			if ((move & maskPromotion) > 0)
 			{
 				int piece = (board[to] & (~0x7)) | piecePawn;
 				board[fr] = piece;
 			}
 			else board[fr] = board[to];
-			if ((flags & moveflagPassing) > 0)
+			if ((move & moveflagPassing) > 0)
 			{
 				capi = WhiteTurn ? to - 8 : to + 8;
 				board[to] = colorEmpty;
@@ -656,32 +654,31 @@ namespace NSChess
 			halfMove--;
 		}
 
-		public void MakeMove(int emo)
+		public void MakeMove(int move)
 		{
 			ref CUndo undo = ref undoStack[undoIndex++];
 			undo.hash = hash;
 			undo.passing = passing;
-			undo.castle = castleRighs;
+			undo.castle = castleRights;
 			undo.move50 = move50;
 			undo.lastCastle = lastCastle;
-			int fr = emo & 0xff;
-			int to = (emo >> 8) & 0xff;
-			int flags = emo & 0xFF0000;
+			int fr = move & 0xff;
+			int to = (move >> 8) & 0xff;
 			int piecefr = board[fr];
 			int piece = piecefr & 0xf;
 			int captured = board[to];
-			lastCastle = (emo & maskCastle) | (piecefr & maskColor);
-			if ((flags & moveflagCastleKing) > 0)
+			lastCastle = (move & maskCastle) | (piecefr & maskColor);
+			if ((move & moveflagCastleKing) > 0)
 			{
 				board[to - 1] = board[to + 1];
 				board[to + 1] = colorEmpty;
 			}
-			else if ((flags & moveflagCastleQueen) > 0)
+			else if ((move & moveflagCastleQueen) > 0)
 			{
 				board[to + 1] = board[to - 2];
 				board[to - 2] = colorEmpty;
 			}
-			else if ((flags & moveflagPassing) > 0)
+			else if ((move & moveflagPassing) > 0)
 			{
 				int capi = WhiteTurn ? to + 8 : to - 8;
 				captured = board[capi];
@@ -690,7 +687,7 @@ namespace NSChess
 			undo.captured = captured;
 			hash ^= hashBoard[fr, piece];
 			passing = -1;
-			if ((captured & 0xf) > 0)
+			if ((captured & maskRank) > 0)
 				move50 = 0;
 			else if ((piece & 7) == piecePawn)
 			{
@@ -702,27 +699,11 @@ namespace NSChess
 			}
 			else
 				move50++;
-			if ((flags & moveflagPromotion) > 0)
-			{
-				int newPiece = piecefr & (~0x7);
-				if ((flags & moveflagPromoteKnight) > 0)
-					newPiece |= pieceKnight;
-				else if ((flags & moveflagPromoteQueen) > 0)
-					newPiece |= pieceQueen;
-				else if ((flags & moveflagPromoteBishop) > 0)
-					newPiece |= pieceBishop;
-				else
-					newPiece |= pieceRook;
-				board[to] = newPiece;
-				hash ^= hashBoard[to, newPiece & 0xf];
-			}
-			else
-			{
-				board[to] = board[fr];
-				hash ^= hashBoard[to, piece];
-			}
+			int newPiece = ((move & maskPromotion) > 0) ? (piecefr & maskColor) | ((move >> 24) & maskRank) : piecefr;
 			board[fr] = colorEmpty;
-			castleRighs &= boardCastle[fr] & boardCastle[to];
+			board[to] = newPiece;
+			hash ^= hashBoard[to, newPiece & 0xf];
+			castleRights &= boardCastle[fr] & boardCastle[to];
 			halfMove++;
 		}
 

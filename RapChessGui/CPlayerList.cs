@@ -12,7 +12,6 @@ namespace RapChessGui
 		public CEngine engine = null;
 		public int tournament = 1;
 		public CLevelValue levelValue = new CLevelValue();
-		public CHisElo hisElo = new CHisElo();
 
 		public string BookName
 		{
@@ -53,7 +52,7 @@ namespace RapChessGui
 
 		public void NewElo()
 		{
-			NewElo(Elo);
+			NewElo(elo);
 		}
 
 		public void NewElo(int e)
@@ -63,14 +62,14 @@ namespace RapChessGui
 			if (e > CElo.eloMax)
 				e = CElo.eloMax;
 			hisElo.AddValue(e);
-			elo = e.ToString();
+			elo = e;
 			if (IsComputer())
 				SaveToIni();
 		}
 
 		public int GetEloLess()
 		{
-			int result = Convert.ToInt32(Math.Round(Elo / 50.0)) * 50 - 50;
+			int result = Convert.ToInt32(Math.Round(elo / 50.0)) * 50 - 50;
 			if (result < CElo.eloMin)
 				result = CElo.eloMin;
 			return result;
@@ -78,7 +77,7 @@ namespace RapChessGui
 
 		public int GetEloMore()
 		{
-			int result = Convert.ToInt32(Math.Round(Elo / 50.0)) * 50 + 50;
+			int result = Convert.ToInt32(Math.Round(elo / 50.0)) * 50 + 50;
 			if (result > CElo.eloMax)
 				result = CElo.eloMax;
 			return result;
@@ -109,7 +108,7 @@ namespace RapChessGui
 
 		public int GetDeltaElo()
 		{
-			return Elo - hisElo.EloAvg(Elo);
+			return elo - hisElo.EloAvg(elo);
 		}
 
 		public void SetTournament(int t)
@@ -175,7 +174,7 @@ namespace RapChessGui
 			levelValue.SetLevel(CPlayerList.iniFile.Read($"player>{name}>mode", levelValue.GetLevel()));
 			levelValue.baseVal = CPlayerList.iniFile.ReadInt($"player>{name}>value", levelValue.baseVal);
 			BookName = CPlayerList.iniFile.Read($"player>{name}>book", Global.none);
-			elo = CPlayerList.iniFile.Read($"player>{name}>elo", elo);
+			elo = CPlayerList.iniFile.ReadInt($"player>{name}>elo", elo);
 			hisElo.LoadFromStr(CPlayerList.iniFile.Read($"player>{name}>history"));
 		}
 
@@ -184,8 +183,8 @@ namespace RapChessGui
 			name = GetName();
 			if (hisElo.Count == 0)
 			{
-				hisElo.AddValue(Elo);
-				hisElo.AddValue(Elo);
+				hisElo.AddValue(elo);
+				hisElo.AddValue(elo);
 			}
 			CPlayerList.iniFile.Write($"player>{name}>tournament", tournament);
 			CPlayerList.iniFile.Write($"player>{name}>engine", EngineName);
@@ -271,7 +270,7 @@ namespace RapChessGui
 			{
 				if(!cp.IsPlayable())
 					continue;
-				int curE = cp.Elo;
+				int curE = cp.elo;
 				int curDel = Math.Abs(elo - curE);
 				if (bstDel > curDel)
 				{
@@ -286,7 +285,7 @@ namespace RapChessGui
 		{
 			Sort(delegate (CPlayer p1, CPlayer p2)
 			{
-				int result = p2.Elo - p1.Elo;
+				int result = p2.elo - p1.elo;
 				if (result == 0)
 					result = p2.hisElo.EloAvg() - p1.hisElo.EloAvg();
 				return result;
@@ -409,9 +408,9 @@ namespace RapChessGui
 		public void SetEloDistance(CPlayer player)
 		{
 			SortElo();
-			int elo = player.Elo;
+			int elo = player.elo;
 			for (int n = 0; n < Count; n++)
-				this[n].position = Math.Abs(elo - this[n].Elo);
+				this[n].position = Math.Abs(elo - this[n].elo);
 			Sort(delegate (CPlayer p1, CPlayer p2)
 			{
 				return p1.position - p2.position;

@@ -53,7 +53,7 @@ namespace RapChessGui
 			cbEngineList.Text = player.EngineName;
 			cbBookList.Text = player.BookName;
 			nudTournament.Value = player.tournament;
-			nudElo.Value = Convert.ToInt32(player.elo);
+			nudElo.Value = Convert.ToInt32(player.Elo);
 			nudValue.Value = player.levelValue.GetValue();
 			modeValue.level = player.levelValue.level;
 			modeValue.baseVal = player.levelValue.baseVal;
@@ -99,7 +99,7 @@ namespace RapChessGui
 			p.EngineName = cbEngineList.Text;
 			p.BookName = cbBookList.Text;
 			p.SetTournament((int)nudTournament.Value);
-			p.elo = nudElo.Value.ToString();
+			p.elo = (int)nudElo.Value;
 			p.levelValue.level = modeValue.level;
 			p.levelValue.baseVal = modeValue.baseVal;
 		}

@@ -60,7 +60,7 @@ namespace RapChessGui
 			string elo = String.Empty;
 			foreach (double d in this)
 				elo += $" {d}";
-			return elo.Trim(' ');
+			return elo.Trim();
 		}
 
 		public void AddValue(int value)

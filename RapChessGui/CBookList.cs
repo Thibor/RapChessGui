@@ -15,7 +15,6 @@ namespace RapChessGui
 		public string file = String.Empty;
 		public string arguments = String.Empty;
 		public List<string> options = new List<string>();
-		public CHisElo hisElo = new CHisElo();
 
 		public CBook()
 		{
@@ -74,7 +73,7 @@ namespace RapChessGui
 			file = CBookList.iniFile.Read($"book>{name}>exe");
 			arguments = CBookList.iniFile.Read($"book>{name}>parameters");
 			options = CBookList.iniFile.ReadList($"book>{name}>options");
-			elo = CBookList.iniFile.Read($"book>{name}>elo", elo);
+			elo = CBookList.iniFile.ReadInt($"book>{name}>elo", elo);
 			hisElo.LoadFromStr(CBookList.iniFile.Read($"book>{name}>history"));
 			tournament = CBookList.iniFile.ReadInt($"book>{name}>tournament", tournament);
 		}
@@ -93,13 +92,13 @@ namespace RapChessGui
 
 		public int GetDeltaElo()
 		{
-			return Elo - hisElo.EloAvg(Elo);
+			return elo - hisElo.EloAvg(elo);
 		}
 
 		public void NewElo(int e)
 		{
 			hisElo.AddValue(e);
-			elo = e.ToString();
+			elo = e;
 			SaveToIni();
 		}
 
@@ -265,7 +264,7 @@ namespace RapChessGui
 		{
 			Sort(delegate (CBook b1, CBook b2)
 			{
-				int result = b2.Elo - b1.Elo;
+				int result = b2.elo - b1.elo;
 				if (result != 0)
 					return result;
 				result = b2.hisElo.EloAvg() - b1.hisElo.EloAvg();

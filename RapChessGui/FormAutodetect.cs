@@ -66,7 +66,7 @@ namespace RapChessGui
 					if(msg.IndexOf("option name UCI_Elo type spin") == 0)
 					{
 						testEngine.modeElo = true;
-						testEngine.elo = uci.GetStr("max");
+						testEngine.elo = uci.GetInt("max");
 					}
 					if (msg == "uciok")
 						testEngine.protocol = CProtocol.uci;
@@ -241,6 +241,7 @@ namespace RapChessGui
 						testEngine.SetUniqueName();
 						lName.Text = testEngine.name;
 						WriteLine($"engine {testEngine.name} ready");
+						FormEditEngine.engineName = testEngine.name;
 						tick = 0;
 						testEngine.protocol = CProtocol.winboard;
 						testEngine.modeElo = false;

@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace RapChessGui
 {
-	static class CModeTournamentE
+	class CModeTournamentE
 	{
 		public static bool rotate = true;
 		public static int reps = 0;
@@ -48,7 +47,7 @@ namespace RapChessGui
 			int avg = eloAvg;
 			CEngine eng = FormChess.engineList.GetEngineByName(FormOptions.tourESelected);
 			if (eng != null)
-				avg = eng.Elo;
+				avg = eng.elo;
 			int eloMin = avg - eloRange;
 			int eloMax = avg + eloRange;
 			if ((eloRange == 0) || (eloAvg == 0))
@@ -62,11 +61,11 @@ namespace RapChessGui
 					eloMin = 0;
 					eloMax = 3000;
 				}
-			CLevel level =  CLevelValue.StrToLevel(FormOptions.tourEMode);
+			CLevel level = CLevelValue.StrToLevel(FormOptions.tourEMode);
 			engineList.Clear();
 			foreach (CEngine e in FormChess.engineList)
 				if (e.IsPlayable(level) && (e.tournament > 0))
-					if ((e.Elo >= eloMin) && (e.Elo <= eloMax))
+					if ((e.elo >= eloMin) && (e.elo <= eloMax))
 						engineList.AddEngine(e);
 		}
 
@@ -111,7 +110,7 @@ namespace RapChessGui
 			foreach (CEngine e in engineList)
 				if (e != engine)
 				{
-					double curScore = engine.EvaluateOpponent(e,engineList.Count,tourList);
+					double curScore = engine.EvaluateOpponent(e, engineList.Count, tourList);
 					if (bstScore < curScore)
 					{
 						bstScore = curScore;
@@ -135,7 +134,7 @@ namespace RapChessGui
 					left = e.tournament;
 					if (cg == 0)
 						left++;
-					if ((e.Elo > o.Elo) != (rw > rl))
+					if ((e.elo > o.elo) != (rw > rl))
 						left++;
 					if (e.hisElo.Count < o.hisElo.Count)
 						left += 2;
@@ -143,7 +142,8 @@ namespace RapChessGui
 				}
 			}
 			reps++;
-			left--;
+			if (left > 0)
+				left--;
 			rotate ^= true;
 		}
 

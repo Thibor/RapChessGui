@@ -18,8 +18,8 @@ namespace RapChessGui
 			CPlayer humanPlayer = CPlayerList.humanPlayer;
 			if (humanPlayer.hisElo.Count == 0)
 			{
-				humanPlayer.hisElo.AddValue(humanPlayer.Elo);
-				humanPlayer.hisElo.AddValue(humanPlayer.Elo);
+				humanPlayer.hisElo.AddValue(humanPlayer.elo);
+				humanPlayer.hisElo.AddValue(humanPlayer.elo);
 			}
 			FormChess.ini.Write("mode>game>finished", finished);
 			FormChess.ini.Write("mode>game>rotate", rotate);
@@ -44,7 +44,7 @@ namespace RapChessGui
 			book = FormChess.ini.Read("mode>game>book", book);
 			modeValue.SetLevel(FormChess.ini.Read("mode>game>mode",modeValue.GetLevel()));
 			modeValue.baseVal = FormChess.ini.ReadInt("mode>game>value", modeValue.baseVal);
-			humanPlayer.elo = FormChess.ini.Read("mode>game>player>elo", "500");
+			humanPlayer.elo = FormChess.ini.ReadInt("mode>game>player>elo",600);
 			humanPlayer.hisElo.LoadFromStr(FormChess.ini.Read("mode>game>player>history"));
 			humanPlayer.name = Global.human;
 			humanPlayer.levelValue.level = CLevel.infinite;

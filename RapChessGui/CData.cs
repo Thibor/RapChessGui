@@ -52,9 +52,9 @@ namespace RapChessGui
 
 	public static class Global
 	{
+		public static int elo = 1500;
 		public static string none = "None";
 		public static string human = "Human";
-		public static string elo = "1500";
 	}
 
 	public static class CGames
@@ -78,6 +78,57 @@ namespace RapChessGui
 			{
 				return $"RapChessGui Games {played} Draws {draw} Time out {time} Errors {error}";
 			}
+		}
+
+	}
+
+	public class CError : List<int>
+	{
+
+		int Sum()
+		{
+			int result = 0;
+			foreach (int i in this)
+				result += i;
+			return result;
+		}
+
+		public double Errors()
+		{
+			int s = Sum();
+			if (s == 0)
+				return 0;
+			return ((Count - 1) * 100.0) / s;
+		}
+
+		public void AddGame(bool error)
+		{
+			if (Count == 0)
+				Add(1);
+			else if (this[Count - 1] < int.MaxValue)
+			{
+				this[Count - 1]++;
+				if (((Sum() % 100) == 0) || (Count > FormOptions.historyLength))
+					RemoveRange(0, 1);
+			}
+			if (error)
+				Add(0);
+		}
+
+		public string SaveToStr()
+		{
+			string str = String.Empty;
+			foreach (int i in this)
+				str += $" {i}";
+			return str.Trim();
+		}
+
+		public void LoadFromStr(string str)
+		{
+			Clear();
+			string[] arr = str.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+			foreach (string e in arr)
+				Add(Convert.ToInt32(e));
 		}
 
 	}
@@ -109,9 +160,9 @@ namespace RapChessGui
 
 		public static string TextBeauty(string text)
 		{
-				TextInfo ti = new CultureInfo("en-US", false).TextInfo;
-				string p = text.Replace('_', ' ').Trim();
-				return ti.ToTitleCase(p);
+			TextInfo ti = new CultureInfo("en-US", false).TextInfo;
+			string p = text.Replace('_', ' ').Trim();
+			return ti.ToTitleCase(p);
 		}
 
 		public static void ComboSelect(ComboBox cb, string n)
@@ -189,7 +240,7 @@ namespace RapChessGui
 		}
 
 
-		public static void FillComboBox(ComboBox cb,List<string> list)
+		public static void FillComboBox(ComboBox cb, List<string> list)
 		{
 			cb.Items.Clear();
 			cb.Sorted = true;
@@ -334,7 +385,7 @@ namespace RapChessGui
 			}
 		}
 
-		public static int GetValue(CLevel level,int baseVal)
+		public static int GetValue(CLevel level, int baseVal)
 		{
 			int inc = GetIncrement(level);
 			return baseVal > 0 ? baseVal * inc : inc;
@@ -468,27 +519,24 @@ namespace RapChessGui
 	{
 		public int position = 0;
 		public string name = string.Empty;
-		public string elo = Global.elo;
+		public int elo = Global.elo;
+		public CHisElo hisElo = new CHisElo();
 
-		public int Elo
+		public string Elo
 		{
 			get
 			{
-				return Convert.ToInt32(elo);
-			}
-			set
-			{
-				elo = value.ToString();
+				return elo.ToString();
 			}
 		}
 
-		public double EvaluateOpponent(CElement second,double listCount, CTourList tourList)
+		public double EvaluateOpponent(CElement second, double listCount, CTourList tourList)
 		{
-			double sElo = second.Elo;
+			double sElo = second.elo;
 			double allGames = tourList.CountGames(name);
 			double curGames = tourList.CountGames(second.name, name, out int rw, out int rl, out int rd);
 			double r = curGames == 0 ? 0 : (rw * 2.0 + rd - curGames) / curGames;
-			double eloDif = (CElo.eloRange - Math.Abs(Elo - sElo)) / CElo.eloRange;
+			double eloDif = (CElo.eloRange - Math.Abs(elo - sElo)) / CElo.eloRange;
 			double nElo = sElo;
 			if (r < 0)
 			{
@@ -503,7 +551,7 @@ namespace RapChessGui
 					nElo = sElo;
 			}
 			else
-				nElo += Elo;
+				nElo += elo;
 			double ratioElo = (Math.Abs(sElo - nElo) / CElo.eloRange);
 			double maxCount = Math.Sqrt(allGames * 2) + 1;
 			double maxRange = Math.Min(listCount + 1, maxCount);
@@ -512,7 +560,7 @@ namespace RapChessGui
 			double optCount = maxCount - second.position * delCount + 1;
 			double ratioCount = allGames == 0 ? 0 : (optCount - curGames) / maxCount;
 			double ratioDistance = (listCount - second.position) / listCount;
-			double ratioOrder = allGames == 0 ? 0 : (rw == rl) ? 0.2 : (sElo == Elo) ? 0.5 : (rw > rl) == (sElo < Elo) ? 1 : 0;
+			double ratioOrder = allGames == 0 ? 0 : (rw == rl) ? 0.2 : (sElo == elo) ? 0.5 : (rw > rl) == (sElo < elo) ? 1 : 0;
 			return ratioCount + ratioDistance + ratioElo + ratioOrder;
 		}
 
