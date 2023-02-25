@@ -217,6 +217,8 @@ namespace RapChessGui
 
 		void EngineToSettings(CEngine engine)
 		{
+			cbFolderList.SelectedIndex = 0;
+			cbFileList.SelectedIndex = 0;
 			tbEngineName.Text = engine.name;
 			tbParameters.Text = engine.arguments;
 			cbFolderList.Text = engine.folder;

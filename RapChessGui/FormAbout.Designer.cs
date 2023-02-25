@@ -29,10 +29,10 @@
 		private void InitializeComponent()
 		{
 			this.panel2 = new System.Windows.Forms.Panel();
-			this.pictureBox = new System.Windows.Forms.PictureBox();
-			this.labName = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
 			this.labVersion = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.labName = new System.Windows.Forms.Label();
+			this.pictureBox = new System.Windows.Forms.PictureBox();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
 			this.SuspendLayout();
@@ -48,16 +48,26 @@
 			this.panel2.Size = new System.Drawing.Size(347, 128);
 			this.panel2.TabIndex = 5;
 			// 
-			// pictureBox
+			// labVersion
 			// 
-			this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.pictureBox.Dock = System.Windows.Forms.DockStyle.Left;
-			this.pictureBox.Location = new System.Drawing.Point(0, 0);
-			this.pictureBox.Name = "pictureBox";
-			this.pictureBox.Size = new System.Drawing.Size(128, 128);
-			this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-			this.pictureBox.TabIndex = 5;
-			this.pictureBox.TabStop = false;
+			this.labVersion.Dock = System.Windows.Forms.DockStyle.Top;
+			this.labVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.labVersion.Location = new System.Drawing.Point(128, 77);
+			this.labVersion.Name = "labVersion";
+			this.labVersion.Size = new System.Drawing.Size(219, 30);
+			this.labVersion.TabIndex = 8;
+			this.labVersion.Text = "2023-02-25";
+			this.labVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label1
+			// 
+			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.label1.Location = new System.Drawing.Point(128, 64);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(219, 13);
+			this.label1.TabIndex = 7;
+			this.label1.Text = "Current version";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// labName
 			// 
@@ -70,26 +80,16 @@
 			this.labName.Text = "RapChessGui";
 			this.labName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// label1
+			// pictureBox
 			// 
-			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.label1.Location = new System.Drawing.Point(128, 64);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(219, 13);
-			this.label1.TabIndex = 7;
-			this.label1.Text = "Current version";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// labVersion
-			// 
-			this.labVersion.Dock = System.Windows.Forms.DockStyle.Top;
-			this.labVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.labVersion.Location = new System.Drawing.Point(128, 77);
-			this.labVersion.Name = "labVersion";
-			this.labVersion.Size = new System.Drawing.Size(219, 30);
-			this.labVersion.TabIndex = 8;
-			this.labVersion.Text = "2023-02-04";
-			this.labVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.pictureBox.Dock = System.Windows.Forms.DockStyle.Left;
+			this.pictureBox.Location = new System.Drawing.Point(0, 0);
+			this.pictureBox.Name = "pictureBox";
+			this.pictureBox.Size = new System.Drawing.Size(128, 128);
+			this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+			this.pictureBox.TabIndex = 5;
+			this.pictureBox.TabStop = false;
 			// 
 			// FormAbout
 			// 

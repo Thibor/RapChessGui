@@ -193,8 +193,7 @@ namespace RapChessGui
 			}
 			else if (pla.EngineName == Global.none)
 			{
-				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.White, Colors.red);
-				b = Brushes.White;
+				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Color.FromArgb(0xff, 0xc0, 0xc0));
 			}
 			else if (pla.tournament > 0)
 			{

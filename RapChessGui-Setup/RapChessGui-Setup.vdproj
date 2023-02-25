@@ -292,31 +292,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_52A0754BA35C4230AC756E070DBBB268"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_89C8F28299654357B6C098C560D75E70"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_38FC6B4765F34ABEBF88339AFEC6F43D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_29B73977F0ED45FC8D2E7EB57616736A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_393085E42B6448BBA8756F1C49384834"
+        "OwnerKey" = "8:_D94084EABBD74EFB88891538EAAC36CF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -328,13 +304,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3150E9A75F97413597B8936AB7C773D2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5EE449CCEE1F483FA327D11028E349B7"
+        "OwnerKey" = "8:_89C8F28299654357B6C098C560D75E70"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -346,13 +316,43 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D94084EABBD74EFB88891538EAAC36CF"
+        "OwnerKey" = "8:_5EE449CCEE1F483FA327D11028E349B7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_52A0754BA35C4230AC756E070DBBB268"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_439F0754FF674AA293EF62C00542D86E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_393085E42B6448BBA8756F1C49384834"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_38FC6B4765F34ABEBF88339AFEC6F43D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_3150E9A75F97413597B8936AB7C773D2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_29B73977F0ED45FC8D2E7EB57616736A"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -363,7 +363,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\RapChessGui - Setup.msi"
+        "OutputFilename" = "8:Release\\RapChessGui-Debug.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -474,7 +474,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:RapChessGui, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64"
+            "AssemblyAsmDisplayName" = "8:RapChessGui, Version=2023.2.4.0, Culture=neutral, processorArchitecture=AMD64"
                 "ScatterAssemblies"
                 {
                     "_0F7DD1A0B40C46969523A5EFBF877319"
@@ -1662,7 +1662,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RapChessGui"
         "ProductCode" = "8:{6425323E-2E35-4673-840F-114EA0AF9A31}"
-        "PackageCode" = "8:{BBEE855D-25C9-403A-B6BE-7F860CD58BB8}"
+        "PackageCode" = "8:{869DAE76-E9E8-46CE-A344-4A8057C3B648}"
         "UpgradeCode" = "8:{D5376D45-FD03-4B79-B4C3-D74BBDB925C3}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
