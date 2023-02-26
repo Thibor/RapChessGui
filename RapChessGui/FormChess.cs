@@ -2430,7 +2430,7 @@ namespace RapChessGui
 			pb.BookName = CModeTraining.trainerBook;
 			pb.levelValue.level = CModeTraining.modeValueTrainer.level;
 			pb.levelValue.baseVal = CModeTraining.modeValueTrainer.baseVal;
-			pw.elo = pw.engine.elo;
+			pb.elo = pb.engine.elo;
 			gamers.SetPlayers(pw, pb);
 			if (CModeTraining.rotate)
 				gamers.Rotate();
