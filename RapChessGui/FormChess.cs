@@ -1672,8 +1672,7 @@ namespace RapChessGui
 
 		void GameModeToGamers()
 		{
-			if(!CModeGame.ranked)
-				CPlayerList.humanPlayer.elo = FormOptions.userElo;
+			CPlayerList.humanPlayer.elo = CModeGame.ranked ? CPlayerList.humanPlayer.hisElo.Last() : FormOptions.userElo;
 			CPlayer pc = new CPlayer();
 			if (cbComputer.Text == Global.human)
 				pc = CPlayerList.humanPlayer;
