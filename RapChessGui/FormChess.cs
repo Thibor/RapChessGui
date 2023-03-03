@@ -1672,7 +1672,8 @@ namespace RapChessGui
 
 		void GameModeToGamers()
 		{
-			int userElo = CModeGame.ranked ? CPlayerList.humanPlayer.elo : FormOptions.userElo;
+			if(!CModeGame.ranked)
+				CPlayerList.humanPlayer.elo = FormOptions.userElo;
 			CPlayer pc = new CPlayer();
 			if (cbComputer.Text == Global.human)
 				pc = CPlayerList.humanPlayer;
@@ -1682,7 +1683,7 @@ namespace RapChessGui
 				pc.BookName = cbBook.Text;
 				pc.levelValue.level = CModeGame.modeValue.level;
 				pc.levelValue.baseVal = CModeGame.modeValue.baseVal;
-				pc.elo = userElo;
+				pc.elo = CPlayerList.humanPlayer.elo;
 			}
 			else if (FormOptions.gameEngine != Global.none)
 			{
@@ -1690,12 +1691,12 @@ namespace RapChessGui
 				pc.BookName = FormOptions.gameBook;
 				pc.levelValue.level = CLevel.time;
 				pc.levelValue.baseVal = 10;
-				pc.elo = userElo;
+				pc.elo = CPlayerList.humanPlayer.elo;
 				pc.humanElo = true;
 			}
 			else
 			{
-				pc = playerList.GetPlayerByElo(userElo);
+				pc = playerList.GetPlayerByElo(CPlayerList.humanPlayer.elo);
 				if (FormOptions.gameBook != Global.none)
 					pc.BookName = FormOptions.gameBook;
 			}
