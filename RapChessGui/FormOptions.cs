@@ -29,6 +29,7 @@ namespace RapChessGui
 		public static int winLimit = 1;
 		public static int tourBValue = 100;
 		public static int tourEValue = 100;
+		public static int userElo = 1000;
 		public static string gameBook = CBookList.def;
 		public static string gameEngine = CEngineList.def;
 		public static string tourBEngine = Global.none;
@@ -146,6 +147,7 @@ namespace RapChessGui
 			combModeStandard.SelectedIndex = FormChess.ini.ReadInt("options>margin>standard", 1,def);
 			combModeTime.SelectedIndex = FormChess.ini.ReadInt("options>margin>time", 0,def);
 			combPriority.SelectedIndex = FormChess.ini.ReadInt("options>priority", 2,def);
+			nudUserElo.Value = FormChess.ini.ReadInt("options>game>userElo",userElo, def);
 			cbLink.Checked = IsLink();
 			if (!rbSan.Checked)
 				rbUci.Checked = true;
@@ -184,6 +186,7 @@ namespace RapChessGui
 			FormChess.ini.Write("options>margin>standard", combModeStandard.SelectedIndex);
 			FormChess.ini.Write("options>margin>time", combModeTime.SelectedIndex);
 			FormChess.ini.Write("options>priority", combPriority.SelectedIndex);
+			FormChess.ini.Write("options>game>userElo",nudUserElo.Value);
 		}
 
 		public void FormLoad()
@@ -436,6 +439,7 @@ namespace RapChessGui
 		private void cbGameAutoElo_CheckedChanged(object sender, EventArgs e)
 		{
 			autoElo = cbGameRanked.Checked;
+			nudUserElo.Enabled = !autoElo;
 		}
 
 		private void nudMatch_ValueChanged(object sender, EventArgs e)
@@ -543,6 +547,11 @@ namespace RapChessGui
 		private void cbTourEBookS_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			tourEBookS = cbTourEBookS.Text;
+		}
+
+		private void nudUserElo_ValueChanged(object sender, EventArgs e)
+		{
+			userElo = (int)nudUserElo.Value;
 		}
 
 	}

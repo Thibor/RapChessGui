@@ -159,6 +159,7 @@ namespace RapChessGui
 			if (!Directory.Exists(dir))
 				Directory.CreateDirectory(dir);
 		}
+		
 		void IniSave()
 		{
 			bool maximized = WindowState == FormWindowState.Maximized;
@@ -1671,6 +1672,7 @@ namespace RapChessGui
 
 		void GameModeToGamers()
 		{
+			int userElo = CModeGame.ranked ? CPlayerList.humanPlayer.elo : FormOptions.userElo;
 			CPlayer pc = new CPlayer();
 			if (cbComputer.Text == Global.human)
 				pc = CPlayerList.humanPlayer;
@@ -1680,7 +1682,7 @@ namespace RapChessGui
 				pc.BookName = cbBook.Text;
 				pc.levelValue.level = CModeGame.modeValue.level;
 				pc.levelValue.baseVal = CModeGame.modeValue.baseVal;
-				pc.elo = CPlayerList.humanPlayer.elo;
+				pc.elo = userElo;
 			}
 			else if (FormOptions.gameEngine != Global.none)
 			{
@@ -1688,12 +1690,12 @@ namespace RapChessGui
 				pc.BookName = FormOptions.gameBook;
 				pc.levelValue.level = CLevel.time;
 				pc.levelValue.baseVal = 10;
-				pc.elo = CPlayerList.humanPlayer.elo;
+				pc.elo = userElo;
 				pc.humanElo = true;
 			}
 			else
 			{
-				pc = playerList.GetPlayerByElo(CPlayerList.humanPlayer.elo);
+				pc = playerList.GetPlayerByElo(userElo);
 				if (FormOptions.gameBook != Global.none)
 					pc.BookName = FormOptions.gameBook;
 			}

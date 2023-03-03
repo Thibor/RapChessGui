@@ -72,7 +72,7 @@ namespace RapChessGui
 		{
 			file = CBookList.iniFile.Read($"book>{name}>exe");
 			arguments = CBookList.iniFile.Read($"book>{name}>parameters");
-			options = CBookList.iniFile.ReadList($"book>{name}>options");
+			options = CBookList.iniFile.ReadListStr($"book>{name}>options");
 			elo = CBookList.iniFile.ReadInt($"book>{name}>elo", elo);
 			hisElo.LoadFromStr(CBookList.iniFile.Read($"book>{name}>history"));
 			tournament = CBookList.iniFile.ReadInt($"book>{name}>tournament", tournament);

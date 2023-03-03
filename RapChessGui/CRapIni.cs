@@ -43,11 +43,10 @@ namespace RapIni
 			return String.Join(",", list.ToArray());
 		}
 
-		List<string> StringToList(string s)
+		public void Write(string key)
 		{
-			if (String.IsNullOrEmpty(s))
-				return new List<string>();
-			return new List<string>(s.Split(','));
+			DeleteKey(key);
+			Add(key);
 		}
 
 		public void Write(string key, string value)
@@ -115,8 +114,7 @@ namespace RapIni
 		public string[] ReadArrStr(string key)
 		{
 			string s = Read(key);
-			char[] sepearator = { ',' };
-			return s.Split(sepearator, StringSplitOptions.RemoveEmptyEntries);
+			return s.Split(',');
 		}
 
 		public string Read(string key, string def = "",bool restore = false)
@@ -172,12 +170,6 @@ namespace RapIni
 			string s = Read(key, Convert.ToString(def));
 			bool.TryParse(s, out bool result);
 			return result;
-		}
-
-		public List<string> ReadList(string key)
-		{
-			string s = Read(key);
-			return StringToList(s);
 		}
 
 		public List<string> ReadKeyList(string key)

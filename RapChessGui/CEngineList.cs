@@ -60,7 +60,7 @@ namespace RapChessGui
 			folder = CEngineList.iniFile.Read($"engine>{name}>folder", folder);
 			Protocol = CEngineList.iniFile.Read($"engine>{name}>protocol",Protocol);
 			arguments = CEngineList.iniFile.Read($"engine>{name}>parameters");
-			options = CEngineList.iniFile.ReadList($"engine>{name}>options");
+			options = CEngineList.iniFile.ReadListStr($"engine>{name}>options");
 			elo = CEngineList.iniFile.ReadInt($"engine>{name}>elo", elo);
 			hisElo.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>history"));
 			eMove.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>eMove"));
