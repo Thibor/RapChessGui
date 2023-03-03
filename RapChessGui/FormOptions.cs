@@ -16,7 +16,6 @@ namespace RapChessGui
 		public static bool rotateBoard = false;
 		public static bool showArrow = true;
 		public static bool showAttack = false;
-		public static bool showPonder = true;
 		public static bool showTips = true;
 		public static volatile bool spamOff = true;
 		public static bool soundOn = true;
@@ -132,7 +131,6 @@ namespace RapChessGui
 			tourPSelected = FormChess.ini.Read("options>mode>tourP>selected", tourPSelected,def);
 			color = ColorTranslator.FromHtml(FormChess.ini.Read("options>interface>color", ColorTranslator.ToHtml(Color.Yellow), def));
 			rbSan.Checked = FormChess.ini.ReadBool("options>interface>san", rbSan.Checked);
-			cbShowPonder.Checked = FormChess.ini.ReadBool("options>interface>showponder", true,def);
 			cbRotateBoard.Checked = FormChess.ini.ReadBool("options>interface>rotate", false,def);
 			cbAttack.Checked = FormChess.ini.ReadBool("options>interface>attack", false,def);
 			cbArrow.Checked = FormChess.ini.ReadBool("options>interface>arrow", true,def);
@@ -171,7 +169,6 @@ namespace RapChessGui
 			FormChess.ini.Write("options>mode>tourP>selected", tourPSelected);
 			FormChess.ini.Write("options>interface>color", ColorTranslator.ToHtml(color));
 			FormChess.ini.Write("options>interface>san", rbSan.Checked);
-			FormChess.ini.Write("options>interface>showponder", cbShowPonder.Checked);
 			FormChess.ini.Write("options>interface>rotate", cbRotateBoard.Checked);
 			FormChess.ini.Write("options>interface>attack", cbAttack.Checked);
 			FormChess.ini.Write("options>interface>arrow", cbArrow.Checked);
@@ -398,7 +395,6 @@ namespace RapChessGui
 
 		private void cbShowPonder_CheckedChanged(object sender, EventArgs e)
 		{
-			showPonder = cbShowPonder.Checked;
 		}
 
 		private void cbSpam_CheckedChanged(object sender, EventArgs e)

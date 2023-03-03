@@ -38,13 +38,13 @@
 			this.nudHistory = new System.Windows.Forms.NumericUpDown();
 			this.label18 = new System.Windows.Forms.Label();
 			this.nudSpeed = new System.Windows.Forms.NumericUpDown();
-			this.cbLink = new System.Windows.Forms.CheckBox();
+			this.cbRotateBoard = new System.Windows.Forms.CheckBox();
 			this.cbSound = new System.Windows.Forms.CheckBox();
 			this.butColor = new System.Windows.Forms.Button();
 			this.cbTips = new System.Windows.Forms.CheckBox();
 			this.cbArrow = new System.Windows.Forms.CheckBox();
 			this.cbAttack = new System.Windows.Forms.CheckBox();
-			this.cbShowPonder = new System.Windows.Forms.CheckBox();
+			this.cbLink = new System.Windows.Forms.CheckBox();
 			this.gbTimeMargin = new System.Windows.Forms.GroupBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
@@ -66,7 +66,13 @@
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.cbBookReader = new System.Windows.Forms.ComboBox();
 			this.tabPageGame = new System.Windows.Forms.TabPage();
+			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.cbGameBook = new System.Windows.Forms.ComboBox();
+			this.groupBox12 = new System.Windows.Forms.GroupBox();
+			this.cbGameEngine = new System.Windows.Forms.ComboBox();
 			this.gbGame = new System.Windows.Forms.GroupBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.nudUserElo = new System.Windows.Forms.NumericUpDown();
 			this.cbGameRanked = new System.Windows.Forms.CheckBox();
 			this.tabPageInterface = new System.Windows.Forms.TabPage();
 			this.tabPageMatch = new System.Windows.Forms.TabPage();
@@ -122,13 +128,6 @@
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.label12 = new System.Windows.Forms.Label();
 			this.nudTraining = new System.Windows.Forms.NumericUpDown();
-			this.groupBox5 = new System.Windows.Forms.GroupBox();
-			this.cbGameBook = new System.Windows.Forms.ComboBox();
-			this.groupBox12 = new System.Windows.Forms.GroupBox();
-			this.cbGameEngine = new System.Windows.Forms.ComboBox();
-			this.nudUserElo = new System.Windows.Forms.NumericUpDown();
-			this.label1 = new System.Windows.Forms.Label();
-			this.cbRotateBoard = new System.Windows.Forms.CheckBox();
 			this.gbInterface.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudFontSize)).BeginInit();
@@ -141,7 +140,10 @@
 			this.tabPageBooks.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tabPageGame.SuspendLayout();
+			this.groupBox5.SuspendLayout();
+			this.groupBox12.SuspendLayout();
 			this.gbGame.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudUserElo)).BeginInit();
 			this.tabPageInterface.SuspendLayout();
 			this.tabPageMatch.SuspendLayout();
 			this.gbMatch.SuspendLayout();
@@ -174,15 +176,12 @@
 			this.tabPageTraining.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudTraining)).BeginInit();
-			this.groupBox5.SuspendLayout();
-			this.groupBox12.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nudUserElo)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// butDefault
 			// 
 			this.butDefault.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.butDefault.Location = new System.Drawing.Point(0, 481);
+			this.butDefault.Location = new System.Drawing.Point(0, 437);
 			this.butDefault.Name = "butDefault";
 			this.butDefault.Size = new System.Drawing.Size(491, 24);
 			this.butDefault.TabIndex = 2;
@@ -199,12 +198,11 @@
 			this.gbInterface.Controls.Add(this.cbTips);
 			this.gbInterface.Controls.Add(this.cbArrow);
 			this.gbInterface.Controls.Add(this.cbAttack);
-			this.gbInterface.Controls.Add(this.cbShowPonder);
 			this.gbInterface.Controls.Add(this.cbLink);
 			this.gbInterface.Dock = System.Windows.Forms.DockStyle.Top;
 			this.gbInterface.Location = new System.Drawing.Point(3, 3);
 			this.gbInterface.Name = "gbInterface";
-			this.gbInterface.Size = new System.Drawing.Size(359, 267);
+			this.gbInterface.Size = new System.Drawing.Size(359, 211);
 			this.gbInterface.TabIndex = 4;
 			this.gbInterface.TabStop = false;
 			this.gbInterface.Text = "Interface";
@@ -217,8 +215,8 @@
 			this.panel1.Controls.Add(this.nudHistory);
 			this.panel1.Controls.Add(this.label18);
 			this.panel1.Controls.Add(this.nudSpeed);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel1.Location = new System.Drawing.Point(3, 135);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.panel1.Location = new System.Drawing.Point(3, 87);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(353, 97);
 			this.panel1.TabIndex = 19;
@@ -322,27 +320,25 @@
             0});
 			this.nudSpeed.ValueChanged += new System.EventHandler(this.nudSpeed_ValueChanged);
 			// 
-			// cbLink
+			// cbRotateBoard
 			// 
-			this.cbLink.AutoSize = true;
-			this.cbLink.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbLink.Location = new System.Drawing.Point(3, 16);
-			this.cbLink.Name = "cbLink";
-			this.cbLink.Size = new System.Drawing.Size(353, 17);
-			this.cbLink.TabIndex = 18;
-			this.cbLink.Text = "Desktop shortcut";
-			this.cbLink.UseVisualStyleBackColor = true;
-			this.cbLink.CheckedChanged += new System.EventHandler(this.cbLink_CheckedChanged);
+			this.cbRotateBoard.AutoSize = true;
+			this.cbRotateBoard.Location = new System.Drawing.Point(12, 65);
+			this.cbRotateBoard.Name = "cbRotateBoard";
+			this.cbRotateBoard.Size = new System.Drawing.Size(88, 17);
+			this.cbRotateBoard.TabIndex = 20;
+			this.cbRotateBoard.Text = "Rotate board";
+			this.cbRotateBoard.UseVisualStyleBackColor = true;
+			this.cbRotateBoard.CheckedChanged += new System.EventHandler(this.CbRotateBoard_CheckedChanged);
 			// 
 			// cbSound
 			// 
 			this.cbSound.AutoSize = true;
 			this.cbSound.Checked = true;
 			this.cbSound.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbSound.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbSound.Location = new System.Drawing.Point(3, 101);
+			this.cbSound.Location = new System.Drawing.Point(12, 42);
 			this.cbSound.Name = "cbSound";
-			this.cbSound.Size = new System.Drawing.Size(353, 17);
+			this.cbSound.Size = new System.Drawing.Size(78, 17);
 			this.cbSound.TabIndex = 13;
 			this.cbSound.Text = "Play sound";
 			this.cbSound.UseVisualStyleBackColor = true;
@@ -351,7 +347,7 @@
 			// butColor
 			// 
 			this.butColor.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.butColor.Location = new System.Drawing.Point(3, 240);
+			this.butColor.Location = new System.Drawing.Point(3, 184);
 			this.butColor.Name = "butColor";
 			this.butColor.Size = new System.Drawing.Size(353, 24);
 			this.butColor.TabIndex = 4;
@@ -364,10 +360,9 @@
 			this.cbTips.AutoSize = true;
 			this.cbTips.Checked = true;
 			this.cbTips.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbTips.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbTips.Location = new System.Drawing.Point(3, 84);
+			this.cbTips.Location = new System.Drawing.Point(211, 65);
 			this.cbTips.Name = "cbTips";
-			this.cbTips.Size = new System.Drawing.Size(353, 17);
+			this.cbTips.Size = new System.Drawing.Size(72, 17);
 			this.cbTips.TabIndex = 12;
 			this.cbTips.Text = "Show tips";
 			this.cbTips.UseVisualStyleBackColor = true;
@@ -378,10 +373,9 @@
 			this.cbArrow.AutoSize = true;
 			this.cbArrow.Checked = true;
 			this.cbArrow.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbArrow.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbArrow.Location = new System.Drawing.Point(3, 67);
+			this.cbArrow.Location = new System.Drawing.Point(211, 19);
 			this.cbArrow.Name = "cbArrow";
-			this.cbArrow.Size = new System.Drawing.Size(353, 17);
+			this.cbArrow.Size = new System.Drawing.Size(82, 17);
 			this.cbArrow.TabIndex = 10;
 			this.cbArrow.Text = "Show arrow";
 			this.cbArrow.UseVisualStyleBackColor = true;
@@ -390,28 +384,24 @@
 			// cbAttack
 			// 
 			this.cbAttack.AutoSize = true;
-			this.cbAttack.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbAttack.Location = new System.Drawing.Point(3, 50);
+			this.cbAttack.Location = new System.Drawing.Point(211, 42);
 			this.cbAttack.Name = "cbAttack";
-			this.cbAttack.Size = new System.Drawing.Size(353, 17);
+			this.cbAttack.Size = new System.Drawing.Size(86, 17);
 			this.cbAttack.TabIndex = 7;
 			this.cbAttack.Text = "Show attack";
 			this.cbAttack.UseVisualStyleBackColor = true;
 			this.cbAttack.CheckedChanged += new System.EventHandler(this.cbAttack_CheckedChanged);
 			// 
-			// cbShowPonder
+			// cbLink
 			// 
-			this.cbShowPonder.AutoSize = true;
-			this.cbShowPonder.Checked = true;
-			this.cbShowPonder.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.cbShowPonder.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbShowPonder.Location = new System.Drawing.Point(3, 33);
-			this.cbShowPonder.Name = "cbShowPonder";
-			this.cbShowPonder.Size = new System.Drawing.Size(353, 17);
-			this.cbShowPonder.TabIndex = 6;
-			this.cbShowPonder.Text = "Show ponder";
-			this.cbShowPonder.UseVisualStyleBackColor = true;
-			this.cbShowPonder.CheckedChanged += new System.EventHandler(this.cbShowPonder_CheckedChanged);
+			this.cbLink.AutoSize = true;
+			this.cbLink.Location = new System.Drawing.Point(12, 19);
+			this.cbLink.Name = "cbLink";
+			this.cbLink.Size = new System.Drawing.Size(107, 17);
+			this.cbLink.TabIndex = 18;
+			this.cbLink.Text = "Desktop shortcut";
+			this.cbLink.UseVisualStyleBackColor = true;
+			this.cbLink.CheckedChanged += new System.EventHandler(this.cbLink_CheckedChanged);
 			// 
 			// gbTimeMargin
 			// 
@@ -420,7 +410,7 @@
 			this.gbTimeMargin.Controls.Add(this.combModeTime);
 			this.gbTimeMargin.Controls.Add(this.combModeStandard);
 			this.gbTimeMargin.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gbTimeMargin.Location = new System.Drawing.Point(3, 323);
+			this.gbTimeMargin.Location = new System.Drawing.Point(3, 267);
 			this.gbTimeMargin.Name = "gbTimeMargin";
 			this.gbTimeMargin.Size = new System.Drawing.Size(359, 78);
 			this.gbTimeMargin.TabIndex = 8;
@@ -490,7 +480,7 @@
 			this.gbNotation.Controls.Add(this.rbUci);
 			this.gbNotation.Controls.Add(this.rbSan);
 			this.gbNotation.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gbNotation.Location = new System.Drawing.Point(3, 270);
+			this.gbNotation.Location = new System.Drawing.Point(3, 214);
 			this.gbNotation.Name = "gbNotation";
 			this.gbNotation.Size = new System.Drawing.Size(359, 53);
 			this.gbNotation.TabIndex = 10;
@@ -528,7 +518,7 @@
 			this.gbPriority.Controls.Add(this.cbSpam);
 			this.gbPriority.Controls.Add(this.combPriority);
 			this.gbPriority.Dock = System.Windows.Forms.DockStyle.Top;
-			this.gbPriority.Location = new System.Drawing.Point(3, 401);
+			this.gbPriority.Location = new System.Drawing.Point(3, 345);
 			this.gbPriority.Name = "gbPriority";
 			this.gbPriority.Size = new System.Drawing.Size(359, 72);
 			this.gbPriority.TabIndex = 11;
@@ -589,7 +579,7 @@
             "Training"});
 			this.listBox.Location = new System.Drawing.Point(0, 0);
 			this.listBox.Name = "listBox";
-			this.listBox.Size = new System.Drawing.Size(118, 481);
+			this.listBox.Size = new System.Drawing.Size(118, 437);
 			this.listBox.Sorted = true;
 			this.listBox.TabIndex = 13;
 			this.listBox.SelectedValueChanged += new System.EventHandler(this.listBox1_SelectedValueChanged);
@@ -609,7 +599,7 @@
 			this.tabControl1.Location = new System.Drawing.Point(118, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(373, 481);
+			this.tabControl1.Size = new System.Drawing.Size(373, 437);
 			this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.tabControl1.TabIndex = 14;
 			// 
@@ -619,7 +609,7 @@
 			this.tabPageBooks.Location = new System.Drawing.Point(4, 5);
 			this.tabPageBooks.Name = "tabPageBooks";
 			this.tabPageBooks.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageBooks.Size = new System.Drawing.Size(365, 463);
+			this.tabPageBooks.Size = new System.Drawing.Size(365, 452);
 			this.tabPageBooks.TabIndex = 2;
 			this.tabPageBooks.Text = "tabPage1";
 			this.tabPageBooks.UseVisualStyleBackColor = true;
@@ -631,7 +621,7 @@
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.groupBox1.Location = new System.Drawing.Point(3, 3);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(359, 457);
+			this.groupBox1.Size = new System.Drawing.Size(359, 446);
 			this.groupBox1.TabIndex = 51;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Autocreate";
@@ -648,7 +638,7 @@
 			this.lvBooks.Location = new System.Drawing.Point(3, 16);
 			this.lvBooks.MultiSelect = false;
 			this.lvBooks.Name = "lvBooks";
-			this.lvBooks.Size = new System.Drawing.Size(353, 417);
+			this.lvBooks.Size = new System.Drawing.Size(353, 406);
 			this.lvBooks.TabIndex = 52;
 			this.lvBooks.UseCompatibleStateImageBehavior = false;
 			this.lvBooks.View = System.Windows.Forms.View.Details;
@@ -668,7 +658,7 @@
 			this.cbBookReader.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.cbBookReader.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbBookReader.FormattingEnabled = true;
-			this.cbBookReader.Location = new System.Drawing.Point(3, 433);
+			this.cbBookReader.Location = new System.Drawing.Point(3, 422);
 			this.cbBookReader.Name = "cbBookReader";
 			this.cbBookReader.Size = new System.Drawing.Size(353, 21);
 			this.cbBookReader.TabIndex = 51;
@@ -681,10 +671,56 @@
 			this.tabPageGame.Controls.Add(this.gbGame);
 			this.tabPageGame.Location = new System.Drawing.Point(4, 5);
 			this.tabPageGame.Name = "tabPageGame";
-			this.tabPageGame.Size = new System.Drawing.Size(365, 472);
+			this.tabPageGame.Size = new System.Drawing.Size(365, 452);
 			this.tabPageGame.TabIndex = 3;
 			this.tabPageGame.Text = "Game";
 			this.tabPageGame.UseVisualStyleBackColor = true;
+			// 
+			// groupBox5
+			// 
+			this.groupBox5.Controls.Add(this.cbGameBook);
+			this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
+			this.groupBox5.Location = new System.Drawing.Point(0, 124);
+			this.groupBox5.Name = "groupBox5";
+			this.groupBox5.Size = new System.Drawing.Size(365, 44);
+			this.groupBox5.TabIndex = 32;
+			this.groupBox5.TabStop = false;
+			this.groupBox5.Text = "Book";
+			// 
+			// cbGameBook
+			// 
+			this.cbGameBook.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.cbGameBook.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cbGameBook.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbGameBook.FormattingEnabled = true;
+			this.cbGameBook.Location = new System.Drawing.Point(3, 16);
+			this.cbGameBook.Name = "cbGameBook";
+			this.cbGameBook.Size = new System.Drawing.Size(359, 21);
+			this.cbGameBook.TabIndex = 51;
+			this.cbGameBook.SelectedIndexChanged += new System.EventHandler(this.cbGameBook_SelectedIndexChanged);
+			// 
+			// groupBox12
+			// 
+			this.groupBox12.Controls.Add(this.cbGameEngine);
+			this.groupBox12.Dock = System.Windows.Forms.DockStyle.Top;
+			this.groupBox12.Location = new System.Drawing.Point(0, 70);
+			this.groupBox12.Name = "groupBox12";
+			this.groupBox12.Size = new System.Drawing.Size(365, 54);
+			this.groupBox12.TabIndex = 33;
+			this.groupBox12.TabStop = false;
+			this.groupBox12.Text = "Engine";
+			// 
+			// cbGameEngine
+			// 
+			this.cbGameEngine.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.cbGameEngine.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cbGameEngine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbGameEngine.FormattingEnabled = true;
+			this.cbGameEngine.Location = new System.Drawing.Point(3, 16);
+			this.cbGameEngine.Name = "cbGameEngine";
+			this.cbGameEngine.Size = new System.Drawing.Size(359, 21);
+			this.cbGameEngine.TabIndex = 51;
+			this.cbGameEngine.SelectedIndexChanged += new System.EventHandler(this.cbGameEngine_SelectedIndexChanged);
 			// 
 			// gbGame
 			// 
@@ -698,6 +734,40 @@
 			this.gbGame.TabIndex = 7;
 			this.gbGame.TabStop = false;
 			this.gbGame.Text = "Game";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(144, 46);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(46, 13);
+			this.label1.TabIndex = 9;
+			this.label1.Text = "User elo";
+			// 
+			// nudUserElo
+			// 
+			this.nudUserElo.Enabled = false;
+			this.nudUserElo.Increment = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+			this.nudUserElo.Location = new System.Drawing.Point(6, 39);
+			this.nudUserElo.Maximum = new decimal(new int[] {
+            3000,
+            0,
+            0,
+            0});
+			this.nudUserElo.Name = "nudUserElo";
+			this.nudUserElo.Size = new System.Drawing.Size(120, 20);
+			this.nudUserElo.TabIndex = 8;
+			this.nudUserElo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.nudUserElo.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.nudUserElo.ValueChanged += new System.EventHandler(this.nudUserElo_ValueChanged);
 			// 
 			// cbGameRanked
 			// 
@@ -722,7 +792,7 @@
 			this.tabPageInterface.Location = new System.Drawing.Point(4, 5);
 			this.tabPageInterface.Name = "tabPageInterface";
 			this.tabPageInterface.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageInterface.Size = new System.Drawing.Size(365, 472);
+			this.tabPageInterface.Size = new System.Drawing.Size(365, 428);
 			this.tabPageInterface.TabIndex = 0;
 			this.tabPageInterface.Text = "Interface";
 			this.tabPageInterface.UseVisualStyleBackColor = true;
@@ -732,7 +802,7 @@
 			this.tabPageMatch.Controls.Add(this.gbMatch);
 			this.tabPageMatch.Location = new System.Drawing.Point(4, 5);
 			this.tabPageMatch.Name = "tabPageMatch";
-			this.tabPageMatch.Size = new System.Drawing.Size(365, 463);
+			this.tabPageMatch.Size = new System.Drawing.Size(365, 452);
 			this.tabPageMatch.TabIndex = 6;
 			this.tabPageMatch.Text = "tabPage1";
 			this.tabPageMatch.UseVisualStyleBackColor = true;
@@ -794,7 +864,7 @@
 			this.tabPageTourB.Location = new System.Drawing.Point(4, 5);
 			this.tabPageTourB.Name = "tabPageTourB";
 			this.tabPageTourB.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageTourB.Size = new System.Drawing.Size(365, 463);
+			this.tabPageTourB.Size = new System.Drawing.Size(365, 452);
 			this.tabPageTourB.TabIndex = 1;
 			this.tabPageTourB.Text = "Tournament books";
 			this.tabPageTourB.UseVisualStyleBackColor = true;
@@ -1027,7 +1097,7 @@
 			this.tabPageTourE.Location = new System.Drawing.Point(4, 5);
 			this.tabPageTourE.Name = "tabPageTourE";
 			this.tabPageTourE.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageTourE.Size = new System.Drawing.Size(365, 463);
+			this.tabPageTourE.Size = new System.Drawing.Size(365, 452);
 			this.tabPageTourE.TabIndex = 4;
 			this.tabPageTourE.Text = "Tournament engines";
 			this.tabPageTourE.UseVisualStyleBackColor = true;
@@ -1281,7 +1351,7 @@
 			this.tabPageTourP.Location = new System.Drawing.Point(4, 5);
 			this.tabPageTourP.Name = "tabPageTourP";
 			this.tabPageTourP.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageTourP.Size = new System.Drawing.Size(365, 463);
+			this.tabPageTourP.Size = new System.Drawing.Size(365, 452);
 			this.tabPageTourP.TabIndex = 5;
 			this.tabPageTourP.Text = "Tournament players";
 			this.tabPageTourP.UseVisualStyleBackColor = true;
@@ -1434,7 +1504,7 @@
 			this.tabPageTraining.Controls.Add(this.groupBox2);
 			this.tabPageTraining.Location = new System.Drawing.Point(4, 5);
 			this.tabPageTraining.Name = "tabPageTraining";
-			this.tabPageTraining.Size = new System.Drawing.Size(365, 463);
+			this.tabPageTraining.Size = new System.Drawing.Size(365, 452);
 			this.tabPageTraining.TabIndex = 7;
 			this.tabPageTraining.Text = "tabPage2";
 			this.tabPageTraining.UseVisualStyleBackColor = true;
@@ -1481,103 +1551,11 @@
             0});
 			this.nudTraining.ValueChanged += new System.EventHandler(this.nudTraining_ValueChanged);
 			// 
-			// groupBox5
-			// 
-			this.groupBox5.Controls.Add(this.cbGameBook);
-			this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox5.Location = new System.Drawing.Point(0, 124);
-			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(365, 44);
-			this.groupBox5.TabIndex = 32;
-			this.groupBox5.TabStop = false;
-			this.groupBox5.Text = "Book";
-			// 
-			// cbGameBook
-			// 
-			this.cbGameBook.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.cbGameBook.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbGameBook.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbGameBook.FormattingEnabled = true;
-			this.cbGameBook.Location = new System.Drawing.Point(3, 16);
-			this.cbGameBook.Name = "cbGameBook";
-			this.cbGameBook.Size = new System.Drawing.Size(359, 21);
-			this.cbGameBook.TabIndex = 51;
-			this.cbGameBook.SelectedIndexChanged += new System.EventHandler(this.cbGameBook_SelectedIndexChanged);
-			// 
-			// groupBox12
-			// 
-			this.groupBox12.Controls.Add(this.cbGameEngine);
-			this.groupBox12.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox12.Location = new System.Drawing.Point(0, 70);
-			this.groupBox12.Name = "groupBox12";
-			this.groupBox12.Size = new System.Drawing.Size(365, 54);
-			this.groupBox12.TabIndex = 33;
-			this.groupBox12.TabStop = false;
-			this.groupBox12.Text = "Engine";
-			// 
-			// cbGameEngine
-			// 
-			this.cbGameEngine.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.cbGameEngine.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbGameEngine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbGameEngine.FormattingEnabled = true;
-			this.cbGameEngine.Location = new System.Drawing.Point(3, 16);
-			this.cbGameEngine.Name = "cbGameEngine";
-			this.cbGameEngine.Size = new System.Drawing.Size(359, 21);
-			this.cbGameEngine.TabIndex = 51;
-			this.cbGameEngine.SelectedIndexChanged += new System.EventHandler(this.cbGameEngine_SelectedIndexChanged);
-			// 
-			// nudUserElo
-			// 
-			this.nudUserElo.Enabled = false;
-			this.nudUserElo.Increment = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-			this.nudUserElo.Location = new System.Drawing.Point(6, 39);
-			this.nudUserElo.Maximum = new decimal(new int[] {
-            3000,
-            0,
-            0,
-            0});
-			this.nudUserElo.Name = "nudUserElo";
-			this.nudUserElo.Size = new System.Drawing.Size(120, 20);
-			this.nudUserElo.TabIndex = 8;
-			this.nudUserElo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.nudUserElo.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-			this.nudUserElo.ValueChanged += new System.EventHandler(this.nudUserElo_ValueChanged);
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(144, 46);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(46, 13);
-			this.label1.TabIndex = 9;
-			this.label1.Text = "User elo";
-			// 
-			// cbRotateBoard
-			// 
-			this.cbRotateBoard.AutoSize = true;
-			this.cbRotateBoard.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbRotateBoard.Location = new System.Drawing.Point(3, 118);
-			this.cbRotateBoard.Name = "cbRotateBoard";
-			this.cbRotateBoard.Size = new System.Drawing.Size(353, 17);
-			this.cbRotateBoard.TabIndex = 20;
-			this.cbRotateBoard.Text = "Rotate board";
-			this.cbRotateBoard.UseVisualStyleBackColor = true;
-			this.cbRotateBoard.CheckedChanged += new System.EventHandler(this.CbRotateBoard_CheckedChanged);
-			// 
 			// FormOptions
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(491, 505);
+			this.ClientSize = new System.Drawing.Size(491, 461);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.listBox);
 			this.Controls.Add(this.butDefault);
@@ -1606,8 +1584,11 @@
 			this.tabPageBooks.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
 			this.tabPageGame.ResumeLayout(false);
+			this.groupBox5.ResumeLayout(false);
+			this.groupBox12.ResumeLayout(false);
 			this.gbGame.ResumeLayout(false);
 			this.gbGame.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudUserElo)).EndInit();
 			this.tabPageInterface.ResumeLayout(false);
 			this.tabPageMatch.ResumeLayout(false);
 			this.gbMatch.ResumeLayout(false);
@@ -1645,9 +1626,6 @@
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudTraining)).EndInit();
-			this.groupBox5.ResumeLayout(false);
-			this.groupBox12.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.nudUserElo)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -1657,7 +1635,6 @@
 		private System.Windows.Forms.Button butDefault;
 		private System.Windows.Forms.GroupBox gbInterface;
 		private System.Windows.Forms.Button butColor;
-		public System.Windows.Forms.CheckBox cbShowPonder;
 		public System.Windows.Forms.CheckBox cbAttack;
 		public System.Windows.Forms.CheckBox cbArrow;
 		public System.Windows.Forms.CheckBox cbTips;
