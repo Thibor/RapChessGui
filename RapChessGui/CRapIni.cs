@@ -114,29 +114,29 @@ namespace RapIni
 		public string[] ReadArrStr(string key)
 		{
 			string s = Read(key);
-			return s.Split(',');
+			return s.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 		}
 
-		public string Read(string key, string def = "",bool restore = false)
+		public string Read(string key, string def = "", bool restore = false)
 		{
 			if (restore)
 				return def;
-				string[] ak = key.Split('>');
-				foreach (string e in this)
+			string[] ak = key.Split('>');
+			foreach (string e in this)
+			{
+				if (e.IndexOf($"{key}>") == 0)
 				{
-					if (e.IndexOf($"{key}>") == 0)
-					{
-						string[] ae = e.Split('>');
-						if (ae.Length > ak.Length)
-							return ae[ak.Length];
-						else
-							return string.Empty;
-					}
+					string[] ae = e.Split('>');
+					if (ae.Length > ak.Length)
+						return ae[ak.Length];
+					else
+						return string.Empty;
 				}
+			}
 			return def;
 		}
 
-		public decimal ReadDecimal(string key, decimal def = 0,bool restore = false)
+		public decimal ReadDecimal(string key, decimal def = 0, bool restore = false)
 		{
 			if (restore)
 				return def;
@@ -145,7 +145,7 @@ namespace RapIni
 			return result;
 		}
 
-		public double ReadDouble(string key, double def = 0,bool restore = false)
+		public double ReadDouble(string key, double def = 0, bool restore = false)
 		{
 			if (restore)
 				return def;
@@ -154,7 +154,7 @@ namespace RapIni
 			return result;
 		}
 
-		public int ReadInt(string key, int def = 0,bool restore = false)
+		public int ReadInt(string key, int def = 0, bool restore = false)
 		{
 			if (restore)
 				return def;
@@ -163,7 +163,7 @@ namespace RapIni
 			return result;
 		}
 
-		public bool ReadBool(string key, bool def = false,bool restore = false)
+		public bool ReadBool(string key, bool def = false, bool restore = false)
 		{
 			if (restore)
 				return def;
