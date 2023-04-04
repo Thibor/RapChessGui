@@ -266,8 +266,9 @@ namespace RapChessGui
 
 	public static class CElo
 	{
-		public static int eloMax = 2950;
+		public static int eloTotal = 4000;
 		public static int eloMin = 50;
+		public static int eloMax = eloTotal - eloMin;
 		public static int eloRange = eloMax - eloMin;
 
 		static double Probability(double rating1, double rating2)

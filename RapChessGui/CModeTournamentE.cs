@@ -59,7 +59,7 @@ namespace RapChessGui
 				else
 				{
 					eloMin = 0;
-					eloMax = 3000;
+					eloMax = CElo.eloTotal;
 				}
 			CLevel level = CLevelValue.StrToLevel(FormOptions.tourEMode);
 			engineList.Clear();

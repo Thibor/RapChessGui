@@ -33,6 +33,7 @@
 			this.panOptions = new System.Windows.Forms.Panel();
 			this.panButtons = new System.Windows.Forms.Panel();
 			this.bDelete = new System.Windows.Forms.Button();
+			this.bClear = new System.Windows.Forms.Button();
 			this.bCreate = new System.Windows.Forms.Button();
 			this.bRename = new System.Windows.Forms.Button();
 			this.bSave = new System.Windows.Forms.Button();
@@ -67,8 +68,9 @@
 			this.autodetectAllEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.autodetectEngineProtocolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.clearTournamentHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.deleteNotExistsEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.findEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.resetEngineOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.bClear = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.panButtons.SuspendLayout();
 			this.gbMode.SuspendLayout();
@@ -139,6 +141,18 @@
 			this.bDelete.Text = "Delete";
 			this.bDelete.UseVisualStyleBackColor = true;
 			this.bDelete.Click += new System.EventHandler(this.bDelete_Click);
+			// 
+			// bClear
+			// 
+			this.bClear.AutoSize = true;
+			this.bClear.Dock = System.Windows.Forms.DockStyle.Top;
+			this.bClear.Location = new System.Drawing.Point(0, 72);
+			this.bClear.Name = "bClear";
+			this.bClear.Size = new System.Drawing.Size(311, 24);
+			this.bClear.TabIndex = 42;
+			this.bClear.Text = "Clear";
+			this.bClear.UseVisualStyleBackColor = true;
+			this.bClear.Click += new System.EventHandler(this.bClear_Click);
 			// 
 			// bCreate
 			// 
@@ -309,7 +323,7 @@
 			this.nudElo.Dock = System.Windows.Forms.DockStyle.Top;
 			this.nudElo.Location = new System.Drawing.Point(3, 16);
 			this.nudElo.Maximum = new decimal(new int[] {
-            15000,
+            4000,
             0,
             0,
             0});
@@ -491,6 +505,8 @@
             this.autodetectAllEnginesToolStripMenuItem,
             this.autodetectEngineProtocolToolStripMenuItem,
             this.clearTournamentHistoryToolStripMenuItem,
+            this.deleteNotExistsEnginesToolStripMenuItem,
+            this.findEnginesToolStripMenuItem,
             this.resetEngineOptionsToolStripMenuItem});
 			this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
 			this.actionToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
@@ -517,24 +533,26 @@
 			this.clearTournamentHistoryToolStripMenuItem.Text = "Clear tournament history";
 			this.clearTournamentHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearTournamentHistoryToolStripMenuItem_Click);
 			// 
+			// deleteNotExistsEnginesToolStripMenuItem
+			// 
+			this.deleteNotExistsEnginesToolStripMenuItem.Name = "deleteNotExistsEnginesToolStripMenuItem";
+			this.deleteNotExistsEnginesToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+			this.deleteNotExistsEnginesToolStripMenuItem.Text = "Delete unplayable";
+			this.deleteNotExistsEnginesToolStripMenuItem.Click += new System.EventHandler(this.deleteNotExistsEnginesToolStripMenuItem_Click);
+			// 
+			// findEnginesToolStripMenuItem
+			// 
+			this.findEnginesToolStripMenuItem.Name = "findEnginesToolStripMenuItem";
+			this.findEnginesToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+			this.findEnginesToolStripMenuItem.Text = "Find engines";
+			this.findEnginesToolStripMenuItem.Click += new System.EventHandler(this.findEnginesToolStripMenuItem_Click);
+			// 
 			// resetEngineOptionsToolStripMenuItem
 			// 
 			this.resetEngineOptionsToolStripMenuItem.Name = "resetEngineOptionsToolStripMenuItem";
 			this.resetEngineOptionsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
 			this.resetEngineOptionsToolStripMenuItem.Text = "Reset engine options";
 			this.resetEngineOptionsToolStripMenuItem.Click += new System.EventHandler(this.resetEngineOptionsToolStripMenuItem_Click);
-			// 
-			// bClear
-			// 
-			this.bClear.AutoSize = true;
-			this.bClear.Dock = System.Windows.Forms.DockStyle.Top;
-			this.bClear.Location = new System.Drawing.Point(0, 72);
-			this.bClear.Name = "bClear";
-			this.bClear.Size = new System.Drawing.Size(311, 24);
-			this.bClear.TabIndex = 42;
-			this.bClear.Text = "Clear";
-			this.bClear.UseVisualStyleBackColor = true;
-			this.bClear.Click += new System.EventHandler(this.bClear_Click);
 			// 
 			// FormEditEngine
 			// 
@@ -620,5 +638,7 @@
 		private System.Windows.Forms.CheckBox cbModeElo;
 		private System.Windows.Forms.ToolStripMenuItem autodetectAllEnginesToolStripMenuItem;
 		private System.Windows.Forms.Button bClear;
+		private System.Windows.Forms.ToolStripMenuItem findEnginesToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem deleteNotExistsEnginesToolStripMenuItem;
 	}
 }

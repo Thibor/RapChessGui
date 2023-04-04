@@ -58,13 +58,17 @@ namespace RapChessGui
 			modeInfinite = CEngineList.iniFile.ReadBool($"engine>{name}>modeInfinite", modeInfinite);
 			file = CEngineList.iniFile.Read($"engine>{name}>file", file);
 			folder = CEngineList.iniFile.Read($"engine>{name}>folder", folder);
-			Protocol = CEngineList.iniFile.Read($"engine>{name}>protocol",Protocol);
+			Protocol = CEngineList.iniFile.Read($"engine>{name}>protocol", Protocol);
 			arguments = CEngineList.iniFile.Read($"engine>{name}>parameters");
 			options = CEngineList.iniFile.ReadListStr($"engine>{name}>options");
 			elo = CEngineList.iniFile.ReadInt($"engine>{name}>elo", elo);
 			hisElo.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>history"));
 			eMove.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>eMove"));
 			eTime.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>eTime"));
+			if (elo < CElo.eloMin)
+				elo = CElo.eloMin;
+			if (elo > CElo.eloMax)
+				elo = CElo.eloMax;
 		}
 
 		public void SaveToIni()
@@ -101,7 +105,7 @@ namespace RapChessGui
 			SaveToIni();
 		}
 
-		public void AddGame(bool em,bool et)
+		public void AddGame(bool em, bool et)
 		{
 			eMove.AddGame(em);
 			eTime.AddGame(et);
@@ -305,6 +309,14 @@ namespace RapChessGui
 			return null;
 		}
 
+		public CEngine GetEngineByDir(string dir)
+		{
+			foreach (CEngine e in this)
+				if (e.folder.ToLower() == dir.ToLower())
+					return e;
+			return null;
+		}
+
 		public CEngine GetEngineByIndex(int index)
 		{
 			if ((index < 0) || (index >= Count))
@@ -487,6 +499,18 @@ namespace RapChessGui
 				result = $"{name} ({++i})";
 			return result;
 		}
+
+		public void DeleteUnaplayable()
+		{
+			for (int n = Count - 1; n >= 0; n--)
+			{
+				CEngine e = this[n];
+				if (!e.IsPlayable())
+					RemoveAt(n);
+			}
+			SaveToIni();
+		}
+
 
 	}
 

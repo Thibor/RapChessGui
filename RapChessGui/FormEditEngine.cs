@@ -69,6 +69,14 @@ namespace RapChessGui
 			return e;
 		}
 
+		void ClickAutodetectAllEngines()
+		{
+			foreach (CEngine engine in FormChess.engineList)
+				engine.protocol = CProtocol.auto;
+			formAutodetect.ShowDialog(this);
+			EngineToSettings(engine);
+		}
+
 		void ClickDelete()
 		{
 			if (engine == null)
@@ -90,6 +98,35 @@ namespace RapChessGui
 				return;
 			MessageBox.Show($"Chess {engine.name} has been created");
 			CData.reset = true;
+		}
+
+		void ClickDeleteUnplayable()
+		{
+			FormChess.engineList.DeleteUnaplayable();
+			UpdateListBox();
+		}
+
+		void ClickFindEngines()
+		{
+			string[] directories = Directory.GetDirectories("Engines");
+			foreach (string d in directories)
+			{
+				string dir = Path.GetFileName(d);
+				if (FormChess.engineList.GetEngineByDir(dir) != null)
+					continue;
+				string[] filePaths = Directory.GetFiles(d, "*.exe");
+				if (filePaths.Length == 0)
+					continue;
+				string file = filePaths[0];
+				engine = new CEngine();
+				FormChess.engineList.Add(engine);
+				engine.file = Path.GetFileName(file);
+				engine.folder = Path.GetFileName(d);
+				engine.SaveToIni();
+			}
+			formAutodetect.ShowDialog(this);
+			UpdateListBox();
+			EngineToSettings(engine);
 		}
 
 		void ClickSave()
@@ -217,6 +254,11 @@ namespace RapChessGui
 
 		void EngineToSettings(CEngine engine)
 		{
+			if (engine == null)
+			{
+				EngineToSettings(new CEngine());
+				return;
+			}
 			cbFolderList.SelectedIndex = 0;
 			cbFileList.SelectedIndex = 0;
 			tbEngineName.Text = engine.name;
@@ -246,7 +288,10 @@ namespace RapChessGui
 		void SelectEngine(CEngine e)
 		{
 			if (e == null)
+			{
+				EngineToSettings(new CEngine());
 				return;
+			}
 			engine = e;
 			engineName = e.name;
 			SelectEngine();
@@ -395,9 +440,9 @@ namespace RapChessGui
 				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State ^ DrawItemState.Selected, Colors.message, Colors.chartD);
 				b = Brushes.White;
 			}
-			else if (!eng.FileExists())
+			else if (!eng.IsPlayable())
 			{
-				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Color.FromArgb(0xff,0xc0,0xc0));
+				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Color.FromArgb(0xff, 0xc0, 0xc0));
 			}
 			else if (eng.tournament > 0)
 			{
@@ -462,12 +507,6 @@ namespace RapChessGui
 			ClickRename();
 		}
 
-		private void ListBox1_SelectedValueChanged(object sender, EventArgs e)
-		{
-			if (listBoxEngines.SelectedItem != null)
-				SelectEngine(listBoxEngines.SelectedItem.ToString());
-		}
-
 		private void consoleToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			ProcessStartInfo psi = new ProcessStartInfo();
@@ -513,15 +552,33 @@ namespace RapChessGui
 
 		private void autodetectAllEnginesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			foreach (CEngine engine in FormChess.engineList)
-				engine.protocol = CProtocol.auto;
-			formAutodetect.ShowDialog(this);
-			EngineToSettings(engine);
+			ClickAutodetectAllEngines();
 		}
 
 		private void bClear_Click(object sender, EventArgs e)
 		{
 			ClickClear();
+		}
+
+		private void findEnginesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ClickFindEngines();
+		}
+
+		private void deleteNotExistsEnginesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ClickDeleteUnplayable();
+		}
+
+		private void listBoxEngines_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void ListBox1_SelectedValueChanged(object sender, EventArgs e)
+		{
+			if (listBoxEngines.SelectedItem != null)
+				SelectEngine(listBoxEngines.SelectedItem.ToString());
 		}
 
 	}

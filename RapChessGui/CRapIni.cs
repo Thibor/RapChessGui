@@ -114,7 +114,7 @@ namespace RapIni
 		public string[] ReadArrStr(string key)
 		{
 			string s = Read(key);
-			return s.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+			return s.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 		}
 
 		public string Read(string key, string def = "", bool restore = false)

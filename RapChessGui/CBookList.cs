@@ -76,6 +76,10 @@ namespace RapChessGui
 			elo = CBookList.iniFile.ReadInt($"book>{name}>elo", elo);
 			hisElo.LoadFromStr(CBookList.iniFile.Read($"book>{name}>history"));
 			tournament = CBookList.iniFile.ReadInt($"book>{name}>tournament", tournament);
+			if (elo < CElo.eloMin)
+				elo = CElo.eloMin;
+			if (elo > CElo.eloMax)
+				elo = CElo.eloMax;
 		}
 
 		public void SaveToIni()

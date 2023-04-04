@@ -1722,8 +1722,8 @@ namespace RapChessGui
 
 		void GameShow()
 		{
-			GameModeToSettings();
 			ShowLastGame();
+			GameModeToSettings();
 			GameStart();
 		}
 
