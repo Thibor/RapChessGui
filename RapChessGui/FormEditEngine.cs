@@ -273,7 +273,7 @@ namespace RapChessGui
 			cbModeTournament.Checked = engine.modeTournament;
 			cbModeNodes.Checked = engine.modeNodes;
 			cbModeInfinite.Checked = engine.modeInfinite;
-			nudElo.Value = Convert.ToInt32(engine.Elo);
+			nudElo.Value = Convert.ToInt32(engine.StrElo);
 			nudTournament.Value = engine.tournament;
 		}
 

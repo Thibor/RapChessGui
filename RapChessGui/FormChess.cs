@@ -652,7 +652,7 @@ namespace RapChessGui
 			if ((hu != null) && (CModeGame.ranked))
 			{
 				string elo = hu.hisElo.Change().ToString("+#;-#;0");
-				elo = $"elo {hu.Elo} ({elo})";
+				elo = $"elo {hu.StrElo} ({elo})";
 				if (winColor == CColor.none)
 					infoMsg = $"{infoMsg} {elo}";
 				else if (hu == pl)
@@ -919,8 +919,8 @@ namespace RapChessGui
 			list.Add($"[Round \"{CGames.played}\"]");
 			list.Add($"[White \"{CGamers.GamerWhite().player.name}\"]");
 			list.Add($"[Black \"{CGamers.GamerBlack().player.name}\"]");
-			list.Add($"[WhiteElo \"{CGamers.GamerWhite().player.Elo}\"]");
-			list.Add($"[BlackElo \"{CGamers.GamerBlack().player.Elo}\"]");
+			list.Add($"[WhiteElo \"{CGamers.GamerWhite().player.StrElo}\"]");
+			list.Add($"[BlackElo \"{CGamers.GamerBlack().player.StrElo}\"]");
 			list.Add($"[Result \"{result}\"]");
 			list.Add("");
 			list.Add($"{CHistory.GetPgn()} {result}");
@@ -1853,7 +1853,7 @@ namespace RapChessGui
 				foreach (ListViewItem lvi in lvTourBList.Items)
 					if (lvi.Text == b.name)
 					{
-						lvi.SubItems[1].Text = b.Elo;
+						lvi.SubItems[1].Text = b.StrElo;
 						lvi.SubItems[2].Text = b.GetDeltaElo().ToString();
 						lvi.BackColor = b.hisElo.GetColor();
 					}
@@ -1865,7 +1865,7 @@ namespace RapChessGui
 			CModeTournamentB.ListFill();
 			foreach (CBook b in CModeTournamentB.bookList)
 			{
-				ListViewItem lvi = new ListViewItem(new[] { b.name, b.Elo, b.GetDeltaElo().ToString() });
+				ListViewItem lvi = new ListViewItem(new[] { b.name, b.StrElo, b.GetDeltaElo().ToString() });
 				lvi.BackColor = b.hisElo.GetColor();
 				lvTourBList.Items.Add(lvi);
 			}
@@ -2030,7 +2030,7 @@ namespace RapChessGui
 				foreach (ListViewItem lvi in lvTourEList.Items)
 					if (lvi.Text == e.name)
 					{
-						lvi.SubItems[1].Text = e.Elo;
+						lvi.SubItems[1].Text = e.StrElo;
 						lvi.SubItems[2].Text = e.GetDeltaElo().ToString();
 						lvi.BackColor = e.hisElo.GetColor();
 					}
@@ -2042,7 +2042,7 @@ namespace RapChessGui
 			CModeTournamentE.ListFill();
 			foreach (CEngine e in CModeTournamentE.engineList)
 			{
-				ListViewItem lvi = new ListViewItem(new[] { e.name, e.Elo, e.GetDeltaElo().ToString() });
+				ListViewItem lvi = new ListViewItem(new[] { e.name, e.StrElo, e.GetDeltaElo().ToString() });
 				lvi.BackColor = e.hisElo.GetColor();
 				lvTourEList.Items.Add(lvi);
 			}
@@ -2203,7 +2203,7 @@ namespace RapChessGui
 				foreach (ListViewItem lvi in lvTourPList.Items)
 					if (lvi.Text == p.name)
 					{
-						lvi.SubItems[1].Text = p.Elo;
+						lvi.SubItems[1].Text = p.StrElo;
 						lvi.SubItems[2].Text = p.GetDeltaElo().ToString();
 						lvi.BackColor = p.hisElo.GetColor();
 					}
@@ -2214,7 +2214,7 @@ namespace RapChessGui
 			CModeTournamentP.ListFill();
 			foreach (CPlayer p in CModeTournamentP.playerList)
 			{
-				ListViewItem lvi = new ListViewItem(new[] { p.name, p.Elo, p.GetDeltaElo().ToString() });
+				ListViewItem lvi = new ListViewItem(new[] { p.name, p.StrElo, p.GetDeltaElo().ToString() });
 				lvi.BackColor = p.hisElo.GetColor();
 				lvTourPList.Items.Add(lvi);
 			}
@@ -2244,7 +2244,7 @@ namespace RapChessGui
 					if (count > 0)
 					{
 						int pro = (gw * 200 + gd * 100) / count - 100;
-						int del = Convert.ToInt32(player.Elo) - Convert.ToInt32(p.Elo);
+						int del = Convert.ToInt32(player.StrElo) - Convert.ToInt32(p.StrElo);
 						ListViewItem lvi = new ListViewItem(new[] { p.name, del.ToString(), count.ToString(), pro.ToString() });
 						if (del > 0)
 							lvi.BackColor = Colors.listW;

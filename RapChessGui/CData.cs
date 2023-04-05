@@ -523,7 +523,7 @@ namespace RapChessGui
 		public int elo = Global.elo;
 		public CHisElo hisElo = new CHisElo();
 
-		public string Elo
+		public string StrElo
 		{
 			get
 			{

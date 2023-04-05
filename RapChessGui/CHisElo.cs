@@ -58,8 +58,16 @@ namespace RapChessGui
 		public string SaveToStr()
 		{
 			string elo = String.Empty;
-			foreach (double d in this)
+			for (int n = 0; n < Count; n++)
+			{
+				int d = this[n];
+				if (d < CElo.eloMin)
+					d = CElo.eloMin;
+				if (d > CElo.eloMax)
+					d = CElo.eloMax;
+				this[n] = d;
 				elo += $" {d}";
+			}
 			return elo.Trim();
 		}
 
@@ -74,7 +82,7 @@ namespace RapChessGui
 		public int Last()
 		{
 			if (Count < 1)
-				return 0;
+				return Global.elo;
 			return this[Count - 1];
 		}
 
@@ -104,7 +112,7 @@ namespace RapChessGui
 			int totMax = totMin;
 			min = 0;
 			max = 0;
-			for(int n=1;n<Count;n++)
+			for (int n = 1; n < Count; n++)
 			{
 				int d = this[n];
 				if (totMin > d)

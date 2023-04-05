@@ -73,22 +73,22 @@ namespace RapChessGui
 			file = CBookList.iniFile.Read($"book>{name}>exe");
 			arguments = CBookList.iniFile.Read($"book>{name}>parameters");
 			options = CBookList.iniFile.ReadListStr($"book>{name}>options");
-			elo = CBookList.iniFile.ReadInt($"book>{name}>elo", elo);
 			hisElo.LoadFromStr(CBookList.iniFile.Read($"book>{name}>history"));
 			tournament = CBookList.iniFile.ReadInt($"book>{name}>tournament", tournament);
-			if (elo < CElo.eloMin)
-				elo = CElo.eloMin;
-			if (elo > CElo.eloMax)
-				elo = CElo.eloMax;
+			elo = hisElo.Last();
 		}
 
 		public void SaveToIni()
 		{
+			if (hisElo.Count == 0)
+			{
+				hisElo.AddValue(elo);
+				hisElo.AddValue(elo);
+			}
 			name = GetName();
 			CBookList.iniFile.Write($"book>{name}>exe", file);
 			CBookList.iniFile.Write($"book>{name}>parameters", arguments);
 			CBookList.iniFile.Write($"book>{name}>options", options);
-			CBookList.iniFile.Write($"book>{name}>elo", elo);
 			CBookList.iniFile.Write($"book>{name}>history", hisElo.SaveToStr());
 			CBookList.iniFile.Write($"book>{name}>tournament", tournament);
 		}

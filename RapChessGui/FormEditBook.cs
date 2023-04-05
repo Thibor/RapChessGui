@@ -159,7 +159,7 @@ namespace RapChessGui
 			tbBookName.Text = book.name;
 			cbBookreaderList.Text = book.file;
 			tbParameters.Text = book.arguments;
-			nudElo.Value = Convert.ToInt32(book.Elo);
+			nudElo.Value = Convert.ToInt32(book.StrElo);
 			nudTournament.Value = book.tournament;
 		}
 

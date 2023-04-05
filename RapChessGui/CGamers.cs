@@ -205,7 +205,7 @@ namespace RapChessGui
 			if (player.humanElo)
 			{
 				SendMessageToEngine("setoption name UCI_LimitStrength value true");
-				SendMessageToEngine($"setoption name UCI_Elo value {CPlayerList.humanPlayer.Elo}");
+				SendMessageToEngine($"setoption name UCI_Elo value {CPlayerList.humanPlayer.StrElo}");
 			}
 			else
 				foreach (string op in engine.options)
@@ -645,7 +645,7 @@ namespace RapChessGui
 			if (player == null)
 				return "Elo";
 			else
-				return $"Elo {player.Elo}";
+				return $"Elo {player.StrElo}";
 		}
 
 		public string GetPlayerName()

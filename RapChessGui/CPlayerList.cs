@@ -174,28 +174,23 @@ namespace RapChessGui
 			levelValue.SetLevel(CPlayerList.iniFile.Read($"player>{name}>mode", levelValue.GetLevel()));
 			levelValue.baseVal = CPlayerList.iniFile.ReadInt($"player>{name}>value", levelValue.baseVal);
 			BookName = CPlayerList.iniFile.Read($"player>{name}>book", Global.none);
-			elo = CPlayerList.iniFile.ReadInt($"player>{name}>elo", elo);
 			hisElo.LoadFromStr(CPlayerList.iniFile.Read($"player>{name}>history"));
-			if (elo < CElo.eloMin)
-				elo = CElo.eloMin;
-			if (elo > CElo.eloMax)
-				elo = CElo.eloMax;
+			elo = hisElo.Last();
 		}
 
 		public void SaveToIni()
 		{
-			name = GetName();
 			if (hisElo.Count == 0)
 			{
 				hisElo.AddValue(elo);
 				hisElo.AddValue(elo);
 			}
+			name = GetName();
 			CPlayerList.iniFile.Write($"player>{name}>tournament", tournament);
 			CPlayerList.iniFile.Write($"player>{name}>engine", EngineName);
 			CPlayerList.iniFile.Write($"player>{name}>mode", levelValue.GetLevel());
 			CPlayerList.iniFile.Write($"player>{name}>value", levelValue.baseVal);
 			CPlayerList.iniFile.Write($"player>{name}>book", BookName);
-			CPlayerList.iniFile.Write($"player>{name}>elo", elo);
 			CPlayerList.iniFile.Write($"player>{name}>history", hisElo.SaveToStr());
 		}
 

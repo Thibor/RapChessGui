@@ -35,7 +35,7 @@ namespace RapChessGui
 			foreach (CEngine engine in FormChess.engineList)
 			{
 				string protocol = CData.ProtocolToStr(engine.protocol);
-				ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, engine.Protocol,engine.Elo, engine.hisElo.Trend().ToString(), engine.hisElo.Change().ToString(), engine.eMove.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2") });
+				ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, engine.Protocol,engine.StrElo, engine.hisElo.Trend().ToString(), engine.hisElo.Change().ToString(), engine.eMove.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2") });
 				lvEngines.Items.Add(lvi);
 			}
 		}

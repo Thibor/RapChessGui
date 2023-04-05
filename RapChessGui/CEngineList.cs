@@ -61,24 +61,20 @@ namespace RapChessGui
 			Protocol = CEngineList.iniFile.Read($"engine>{name}>protocol", Protocol);
 			arguments = CEngineList.iniFile.Read($"engine>{name}>parameters");
 			options = CEngineList.iniFile.ReadListStr($"engine>{name}>options");
-			elo = CEngineList.iniFile.ReadInt($"engine>{name}>elo", elo);
 			hisElo.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>history"));
 			eMove.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>eMove"));
 			eTime.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>eTime"));
-			if (elo < CElo.eloMin)
-				elo = CElo.eloMin;
-			if (elo > CElo.eloMax)
-				elo = CElo.eloMax;
+			elo = hisElo.Last();
 		}
 
 		public void SaveToIni()
 		{
-			SetUniqueName();
 			if (hisElo.Count == 0)
 			{
 				hisElo.AddValue(elo);
 				hisElo.AddValue(elo);
 			}
+			SetUniqueName();
 			CEngineList.iniFile.Write($"engine>{name}>tournament", tournament);
 			CEngineList.iniFile.Write($"engine>{name}>modeElo", modeElo);
 			CEngineList.iniFile.Write($"engine>{name}>modeStandard", modeStandard);
@@ -92,7 +88,6 @@ namespace RapChessGui
 			CEngineList.iniFile.Write($"engine>{name}>protocol", Protocol);
 			CEngineList.iniFile.Write($"engine>{name}>parameters", arguments);
 			CEngineList.iniFile.Write($"engine>{name}>options", options);
-			CEngineList.iniFile.Write($"engine>{name}>elo", elo);
 			CEngineList.iniFile.Write($"engine>{name}>history", hisElo.SaveToStr());
 			CEngineList.iniFile.Write($"engine>{name}>eMove", eMove.SaveToStr());
 			CEngineList.iniFile.Write($"engine>{name}>eTime", eTime.SaveToStr());
