@@ -169,12 +169,12 @@ namespace RapChessGui
 
 		public void LoadFromIni()
 		{
-			tournament = CPlayerList.iniFile.ReadInt($"player>{name}>tournament", tournament);
-			EngineName = CPlayerList.iniFile.Read($"player>{name}>engine", Global.none);
-			levelValue.SetLevel(CPlayerList.iniFile.Read($"player>{name}>mode", levelValue.GetLevel()));
-			levelValue.baseVal = CPlayerList.iniFile.ReadInt($"player>{name}>value", levelValue.baseVal);
-			BookName = CPlayerList.iniFile.Read($"player>{name}>book", Global.none);
-			hisElo.LoadFromStr(CPlayerList.iniFile.Read($"player>{name}>history"));
+			tournament = CListPlayer.iniFile.ReadInt($"player>{name}>tournament", tournament);
+			EngineName = CListPlayer.iniFile.Read($"player>{name}>engine", Global.none);
+			levelValue.SetLevel(CListPlayer.iniFile.Read($"player>{name}>mode", levelValue.GetLevel()));
+			levelValue.baseVal = CListPlayer.iniFile.ReadInt($"player>{name}>value", levelValue.baseVal);
+			BookName = CListPlayer.iniFile.Read($"player>{name}>book", Global.none);
+			hisElo.LoadFromStr(CListPlayer.iniFile.Read($"player>{name}>history"));
 			elo = hisElo.Last();
 		}
 
@@ -186,12 +186,12 @@ namespace RapChessGui
 				hisElo.AddValue(elo);
 			}
 			name = GetName();
-			CPlayerList.iniFile.Write($"player>{name}>tournament", tournament);
-			CPlayerList.iniFile.Write($"player>{name}>engine", EngineName);
-			CPlayerList.iniFile.Write($"player>{name}>mode", levelValue.GetLevel());
-			CPlayerList.iniFile.Write($"player>{name}>value", levelValue.baseVal);
-			CPlayerList.iniFile.Write($"player>{name}>book", BookName);
-			CPlayerList.iniFile.Write($"player>{name}>history", hisElo.SaveToStr());
+			CListPlayer.iniFile.Write($"player>{name}>tournament", tournament);
+			CListPlayer.iniFile.Write($"player>{name}>engine", EngineName);
+			CListPlayer.iniFile.Write($"player>{name}>mode", levelValue.GetLevel());
+			CListPlayer.iniFile.Write($"player>{name}>value", levelValue.baseVal);
+			CListPlayer.iniFile.Write($"player>{name}>book", BookName);
+			CListPlayer.iniFile.Write($"player>{name}>history", hisElo, " ");
 		}
 
 		public string CreateName()
@@ -218,7 +218,7 @@ namespace RapChessGui
 
 	}
 
-	public class CPlayerList : List<CPlayer>
+	public class CListPlayer : List<CPlayer>
 	{
 		public static CRapIni iniFile = new CRapIni(@"Ini\players.ini");
 		public static CPlayer humanPlayer = new CPlayer();
@@ -311,7 +311,7 @@ namespace RapChessGui
 				CPlayer p = new CPlayer();
 				p.EngineName = e.name;
 				p.elo = e.elo;
-				p.BookName = CBookList.def;
+				p.BookName = CListBook.def;
 				AddPlayer(p);
 			}
 			SaveToIni();

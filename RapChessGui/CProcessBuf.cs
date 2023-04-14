@@ -43,14 +43,6 @@ namespace RapChessGui
 			}
 		}
 
-		/*async Task CopyBuffer()
-		{
-			await Task.Run(() =>
-			{
-				CopyList();
-			});
-		}*/
-
 		public string GetMessage(bool copy, out bool stop)
 		{
 			if (copy || (listDes.Count == 0))

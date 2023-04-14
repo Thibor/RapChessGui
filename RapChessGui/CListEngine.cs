@@ -48,22 +48,22 @@ namespace RapChessGui
 
 		public void LoadFromIni()
 		{
-			tournament = CEngineList.iniFile.ReadInt($"engine>{name}>tournament", tournament);
-			modeElo = CEngineList.iniFile.ReadBool($"engine>{name}>modeElo", modeElo);
-			modeStandard = CEngineList.iniFile.ReadBool($"engine>{name}>modeStandard", modeStandard);
-			modeTime = CEngineList.iniFile.ReadBool($"engine>{name}>modeTime", modeTime);
-			modeDepth = CEngineList.iniFile.ReadBool($"engine>{name}>modeDepth", modeDepth);
-			modeTournament = CEngineList.iniFile.ReadBool($"engine>{name}>modeTournament", modeTournament);
-			modeNodes = CEngineList.iniFile.ReadBool($"engine>{name}>modeNodes", modeNodes);
-			modeInfinite = CEngineList.iniFile.ReadBool($"engine>{name}>modeInfinite", modeInfinite);
-			file = CEngineList.iniFile.Read($"engine>{name}>file", file);
-			folder = CEngineList.iniFile.Read($"engine>{name}>folder", folder);
-			Protocol = CEngineList.iniFile.Read($"engine>{name}>protocol", Protocol);
-			arguments = CEngineList.iniFile.Read($"engine>{name}>parameters");
-			options = CEngineList.iniFile.ReadListStr($"engine>{name}>options");
-			hisElo.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>history"));
-			eMove.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>eMove"));
-			eTime.LoadFromStr(CEngineList.iniFile.Read($"engine>{name}>eTime"));
+			tournament = CListEngine.iniFile.ReadInt($"engine>{name}>tournament", tournament);
+			modeElo = CListEngine.iniFile.ReadBool($"engine>{name}>modeElo", modeElo);
+			modeStandard = CListEngine.iniFile.ReadBool($"engine>{name}>modeStandard", modeStandard);
+			modeTime = CListEngine.iniFile.ReadBool($"engine>{name}>modeTime", modeTime);
+			modeDepth = CListEngine.iniFile.ReadBool($"engine>{name}>modeDepth", modeDepth);
+			modeTournament = CListEngine.iniFile.ReadBool($"engine>{name}>modeTournament", modeTournament);
+			modeNodes = CListEngine.iniFile.ReadBool($"engine>{name}>modeNodes", modeNodes);
+			modeInfinite = CListEngine.iniFile.ReadBool($"engine>{name}>modeInfinite", modeInfinite);
+			file = CListEngine.iniFile.Read($"engine>{name}>file", file);
+			folder = CListEngine.iniFile.Read($"engine>{name}>folder", folder);
+			Protocol = CListEngine.iniFile.Read($"engine>{name}>protocol", Protocol);
+			arguments = CListEngine.iniFile.Read($"engine>{name}>parameters");
+			options = CListEngine.iniFile.ReadListStr($"engine>{name}>options");
+			hisElo.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>history"));
+			eMove.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>eMove"));
+			eTime.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>eTime"));
 			elo = hisElo.Last();
 		}
 
@@ -75,22 +75,22 @@ namespace RapChessGui
 				hisElo.AddValue(elo);
 			}
 			SetUniqueName();
-			CEngineList.iniFile.Write($"engine>{name}>tournament", tournament);
-			CEngineList.iniFile.Write($"engine>{name}>modeElo", modeElo);
-			CEngineList.iniFile.Write($"engine>{name}>modeStandard", modeStandard);
-			CEngineList.iniFile.Write($"engine>{name}>modeTime", modeTime);
-			CEngineList.iniFile.Write($"engine>{name}>modeDepth", modeDepth);
-			CEngineList.iniFile.Write($"engine>{name}>modeTournament", modeTournament);
-			CEngineList.iniFile.Write($"engine>{name}>modeNodes", modeNodes);
-			CEngineList.iniFile.Write($"engine>{name}>modeInfinite", modeInfinite);
-			CEngineList.iniFile.Write($"engine>{name}>file", file);
-			CEngineList.iniFile.Write($"engine>{name}>folder", folder);
-			CEngineList.iniFile.Write($"engine>{name}>protocol", Protocol);
-			CEngineList.iniFile.Write($"engine>{name}>parameters", arguments);
-			CEngineList.iniFile.Write($"engine>{name}>options", options);
-			CEngineList.iniFile.Write($"engine>{name}>history", hisElo.SaveToStr());
-			CEngineList.iniFile.Write($"engine>{name}>eMove", eMove.SaveToStr());
-			CEngineList.iniFile.Write($"engine>{name}>eTime", eTime.SaveToStr());
+			CListEngine.iniFile.Write($"engine>{name}>tournament", tournament);
+			CListEngine.iniFile.Write($"engine>{name}>modeElo", modeElo);
+			CListEngine.iniFile.Write($"engine>{name}>modeStandard", modeStandard);
+			CListEngine.iniFile.Write($"engine>{name}>modeTime", modeTime);
+			CListEngine.iniFile.Write($"engine>{name}>modeDepth", modeDepth);
+			CListEngine.iniFile.Write($"engine>{name}>modeTournament", modeTournament);
+			CListEngine.iniFile.Write($"engine>{name}>modeNodes", modeNodes);
+			CListEngine.iniFile.Write($"engine>{name}>modeInfinite", modeInfinite);
+			CListEngine.iniFile.Write($"engine>{name}>file", file);
+			CListEngine.iniFile.Write($"engine>{name}>folder", folder);
+			CListEngine.iniFile.Write($"engine>{name}>protocol", Protocol);
+			CListEngine.iniFile.Write($"engine>{name}>parameters", arguments);
+			CListEngine.iniFile.Write($"engine>{name}>options", options);
+			CListEngine.iniFile.Write($"engine>{name}>history", hisElo, " ");
+			CListEngine.iniFile.Write($"engine>{name}>eMove", eMove, " ");
+			CListEngine.iniFile.Write($"engine>{name}>eTime", eTime, " ");
 		}
 
 		public void AddElo(int e)
@@ -114,7 +114,10 @@ namespace RapChessGui
 			switch (l)
 			{
 				case CLevel.standard:
-					return modeStandard;
+					if (protocol == CProtocol.winboard)
+						return modeStandard || modeTournament;
+					else
+						return modeStandard;
 				case CLevel.depth:
 					return modeDepth;
 				default:
@@ -232,7 +235,7 @@ namespace RapChessGui
 
 	}
 
-	public class CEngineList : List<CEngine>
+	public class CListEngine : List<CEngine>
 	{
 		public const string def = "RapChessCs";
 		public static CRapIni iniFile = new CRapIni(@"Ini\engines.ini");
@@ -245,6 +248,15 @@ namespace RapChessGui
 				this[index] = e;
 			else
 				Add(e);
+		}
+
+		public int CountFolder(string folder)
+		{
+			int result = 0;
+			foreach (CEngine e in this)
+				if (e.folder == folder)
+					result++;
+			return result;
 		}
 
 		public void DeleteEngine(string name)
@@ -363,7 +375,7 @@ namespace RapChessGui
 			if (reset)
 			{
 				CEngine e;
-				e = GetEngineByName(CEngineList.def);
+				e = GetEngineByName(CListEngine.def);
 				if (e != null)
 				{
 					e.protocol = CProtocol.uci;

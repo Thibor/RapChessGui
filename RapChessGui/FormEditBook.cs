@@ -124,7 +124,7 @@ namespace RapChessGui
 		{
 			if (book == null)
 				return;
-			CBookList.iniFile.DeleteKey($"book>{book.name}");
+			CListBook.iniFile.DeleteKey($"book>{book.name}");
 			SaveToIni(book);
 			MessageBox.Show($"Reader {book.name} has been modified");
 			CData.reset = true;
@@ -321,7 +321,7 @@ namespace RapChessGui
 		{
 			if (processOptions != null)
 				processOptions.Terminate();
-			CBookList.iniFile.Save();
+			CListBook.iniFile.Save();
 		}
 
 		private void consoleToolStripMenuItem_Click(object sender, EventArgs e)

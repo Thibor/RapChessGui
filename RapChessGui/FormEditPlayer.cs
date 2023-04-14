@@ -25,7 +25,7 @@ namespace RapChessGui
 			modeValue.SetValue((int)nudValue.Value);
 			if (player == null)
 				return;
-			CPlayerList.iniFile.DeleteKey($"player>{player.name}");
+			CListPlayer.iniFile.DeleteKey($"player>{player.name}");
 			SaveToIni(player);
 			MessageBox.Show($"Player {player.name} has been modified");
 			CData.reset = true;
@@ -259,7 +259,7 @@ namespace RapChessGui
 
 		private void FormEditPlayer_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			CPlayerList.iniFile.Save();
+			CListPlayer.iniFile.Save();
 		}
 
 		private void clearTournamentHistoryToolStripMenuItem_Click(object sender, EventArgs e)

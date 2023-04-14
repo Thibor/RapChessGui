@@ -55,22 +55,6 @@ namespace RapChessGui
 				AddValue(Convert.ToInt32(e));
 		}
 
-		public string SaveToStr()
-		{
-			string elo = String.Empty;
-			for (int n = 0; n < Count; n++)
-			{
-				int d = this[n];
-				if (d < CElo.eloMin)
-					d = CElo.eloMin;
-				if (d > CElo.eloMax)
-					d = CElo.eloMax;
-				this[n] = d;
-				elo += $" {d}";
-			}
-			return elo.Trim();
-		}
-
 		public void AddValue(int value)
 		{
 			Add(value);

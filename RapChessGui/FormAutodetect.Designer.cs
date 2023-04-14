@@ -33,6 +33,10 @@
 			this.testTimer = new System.Windows.Forms.Timer(this.components);
 			this.progressBar = new System.Windows.Forms.ProgressBar();
 			this.lName = new System.Windows.Forms.Label();
+			this.statusStrip = new System.Windows.Forms.StatusStrip();
+			this.sslTime = new System.Windows.Forms.ToolStripStatusLabel();
+			this.sslLeft = new System.Windows.Forms.ToolStripStatusLabel();
+			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tbConsole
@@ -71,11 +75,33 @@
 			this.lName.TabIndex = 2;
 			this.lName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// statusStrip
+			// 
+			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sslTime,
+            this.sslLeft});
+			this.statusStrip.Location = new System.Drawing.Point(0, 428);
+			this.statusStrip.Name = "statusStrip";
+			this.statusStrip.Size = new System.Drawing.Size(800, 22);
+			this.statusStrip.TabIndex = 3;
+			this.statusStrip.Text = "statusStrip1";
+			// 
+			// sslTime
+			// 
+			this.sslTime.Name = "sslTime";
+			this.sslTime.Size = new System.Drawing.Size(0, 17);
+			// 
+			// sslLeft
+			// 
+			this.sslLeft.Name = "sslLeft";
+			this.sslLeft.Size = new System.Drawing.Size(0, 17);
+			// 
 			// FormAutodetect
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.statusStrip);
 			this.Controls.Add(this.tbConsole);
 			this.Controls.Add(this.progressBar);
 			this.Controls.Add(this.lName);
@@ -89,6 +115,8 @@
 			this.Text = "Autodetect";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAutodetect_FormClosing);
 			this.Shown += new System.EventHandler(this.FormAutodetect_Shown);
+			this.statusStrip.ResumeLayout(false);
+			this.statusStrip.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -100,5 +128,8 @@
 		private System.Windows.Forms.Timer testTimer;
 		private System.Windows.Forms.ProgressBar progressBar;
 		private System.Windows.Forms.Label lName;
+		private System.Windows.Forms.StatusStrip statusStrip;
+		private System.Windows.Forms.ToolStripStatusLabel sslTime;
+		private System.Windows.Forms.ToolStripStatusLabel sslLeft;
 	}
 }

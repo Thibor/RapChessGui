@@ -77,18 +77,13 @@ namespace RapChessGui
 			EngineToSettings(engine);
 		}
 
-		void ClickDelete()
+		void ClickClear()
 		{
-			if (engine == null)
-				return;
-			string name = engine.name;
-			var dr = MessageBox.Show($"Are you sure that you would like to delete {name}?", "Delete engine", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-			if (dr == DialogResult.Yes)
-			{
-				FormChess.engineList.DeleteEngine(name);
-				UpdateListBox();
-				CData.reset = true;
-			}
+			listBoxEngines.SelectedIndex = -1;
+			engine = new CEngine();
+			EngineToSettings(engine);
+			optionList.Clear();
+			panOptions.Controls.Clear();
 		}
 
 		void ClickCreate()
@@ -100,10 +95,25 @@ namespace RapChessGui
 			CData.reset = true;
 		}
 
+		void ClickDelete()
+		{
+			if (engine == null)
+				return;
+			string name = engine.name;
+			var dr = MessageBox.Show($"Are you sure that you would like to delete {name}?", "Delete engine", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			if (dr != DialogResult.Yes)
+				return;
+			FormChess.engineList.DeleteEngine(name);
+			UpdateListBox();
+			CData.reset = true;
+			ClickClear();
+		}
+
 		void ClickDeleteUnplayable()
 		{
 			FormChess.engineList.DeleteUnaplayable();
 			UpdateListBox();
+			ClickClear();
 		}
 
 		void ClickFindEngines()
@@ -136,14 +146,6 @@ namespace RapChessGui
 				return;
 			MessageBox.Show($"Chess {engine.name} has been modified");
 			CData.reset = true;
-		}
-
-		void ClickClear()
-		{
-			listBoxEngines.SelectedIndex = -1;
-			EngineToSettings(new CEngine());
-			optionList.Clear();
-			panOptions.Controls.Clear();
 		}
 
 		void ClickRename()
@@ -401,7 +403,10 @@ namespace RapChessGui
 
 		private void bSave_Click(object sender, EventArgs e)
 		{
-			ClickSave();
+			if (engine == null)
+				ClickCreate();
+			else
+				ClickSave();
 		}
 
 		private void bDelete_Click(object sender, EventArgs e)
@@ -443,6 +448,10 @@ namespace RapChessGui
 			else if (!eng.IsPlayable())
 			{
 				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Color.FromArgb(0xff, 0xc0, 0xc0));
+			}
+			else if (!eng.SupportLevel(CLevel.standard))
+			{
+				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Color.FromArgb(0xff, 0xff, 0xc0));
 			}
 			else if (eng.tournament > 0)
 			{
@@ -499,7 +508,7 @@ namespace RapChessGui
 		{
 			if (processOptions != null)
 				processOptions.Terminate();
-			CEngineList.iniFile.Save();
+			CListEngine.iniFile.Save();
 		}
 
 		private void bRename_Click(object sender, EventArgs e)
@@ -581,5 +590,9 @@ namespace RapChessGui
 				SelectEngine(listBoxEngines.SelectedItem.ToString());
 		}
 
+		private void Log_Click(object sender, EventArgs e)
+		{
+			FormChess.ShowFormLog("Engine autodetection", FormAutodetect.path, this);
+		}
 	}
 }

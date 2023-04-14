@@ -13,7 +13,7 @@ namespace RapChessGui
 		public static string first = String.Empty;
 		public static string opponent = String.Empty;
 		public static CTourList tourList = new CTourList("Tour-engines");
-		public static CEngineList engineList = new CEngineList();
+		public static CListEngine engineList = new CListEngine();
 		public static CEngine engWin = null;
 		public static CEngine engLoose = null;
 

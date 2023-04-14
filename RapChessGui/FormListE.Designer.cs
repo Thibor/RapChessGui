@@ -31,12 +31,15 @@
 			this.lvEngines = new System.Windows.Forms.ListView();
 			this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.foldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// lvEngines
@@ -56,16 +59,15 @@
 			this.lvEngines.FullRowSelect = true;
 			this.lvEngines.GridLines = true;
 			this.lvEngines.HideSelection = false;
-			this.lvEngines.Location = new System.Drawing.Point(0, 0);
+			this.lvEngines.Location = new System.Drawing.Point(0, 24);
 			this.lvEngines.MultiSelect = false;
 			this.lvEngines.Name = "lvEngines";
 			this.lvEngines.ShowGroups = false;
-			this.lvEngines.Size = new System.Drawing.Size(899, 450);
+			this.lvEngines.Size = new System.Drawing.Size(899, 426);
 			this.lvEngines.TabIndex = 28;
 			this.lvEngines.UseCompatibleStateImageBehavior = false;
 			this.lvEngines.View = System.Windows.Forms.View.Details;
 			this.lvEngines.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvEngines_ColumnClick);
-			this.lvEngines.SelectedIndexChanged += new System.EventHandler(this.lvEngines_SelectedIndexChanged);
 			// 
 			// columnHeader5
 			// 
@@ -77,6 +79,11 @@
 			this.columnHeader3.Text = "Engine";
 			this.columnHeader3.Width = 200;
 			// 
+			// columnHeader8
+			// 
+			this.columnHeader8.Text = "Protocol";
+			this.columnHeader8.Width = 80;
+			// 
 			// columnHeader4
 			// 
 			this.columnHeader4.Text = "Elo";
@@ -85,14 +92,12 @@
 			// 
 			// columnHeader1
 			// 
-			this.columnHeader1.DisplayIndex = 3;
 			this.columnHeader1.Text = "Trend";
 			this.columnHeader1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.columnHeader1.Width = 100;
 			// 
 			// columnHeader2
 			// 
-			this.columnHeader2.DisplayIndex = 4;
 			this.columnHeader2.Text = "Change";
 			this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.columnHeader2.Width = 100;
@@ -109,11 +114,22 @@
 			this.columnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.columnHeader7.Width = 100;
 			// 
-			// columnHeader8
+			// menuStrip1
 			// 
-			this.columnHeader8.DisplayIndex = 2;
-			this.columnHeader8.Text = "Protocol";
-			this.columnHeader8.Width = 80;
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.foldersToolStripMenuItem});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Size = new System.Drawing.Size(899, 24);
+			this.menuStrip1.TabIndex = 29;
+			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// foldersToolStripMenuItem
+			// 
+			this.foldersToolStripMenuItem.Name = "foldersToolStripMenuItem";
+			this.foldersToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+			this.foldersToolStripMenuItem.Text = "Folders";
+			this.foldersToolStripMenuItem.Click += new System.EventHandler(this.foldersToolStripMenuItem_Click);
 			// 
 			// FormListE
 			// 
@@ -121,6 +137,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(899, 450);
 			this.Controls.Add(this.lvEngines);
+			this.Controls.Add(this.menuStrip1);
+			this.MainMenuStrip = this.menuStrip1;
 			this.MinimizeBox = false;
 			this.Name = "FormListE";
 			this.ShowIcon = false;
@@ -128,7 +146,10 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Engines";
 			this.Shown += new System.EventHandler(this.FormListE_Shown);
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -143,5 +164,7 @@
 		private System.Windows.Forms.ColumnHeader columnHeader6;
 		private System.Windows.Forms.ColumnHeader columnHeader7;
 		private System.Windows.Forms.ColumnHeader columnHeader8;
+		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem foldersToolStripMenuItem;
 	}
 }

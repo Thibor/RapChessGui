@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using System.Diagnostics;
 using NSUci;
 
 namespace RapChessGui
@@ -20,7 +20,11 @@ namespace RapChessGui
 		static CProcess testProcess = null;
 		static FormAutodetect This;
 		readonly static List<string> report = new List<string>();
+		public Stopwatch timer = new Stopwatch();
 		readonly static CUci uci = new CUci();
+		double lastTime = 0;
+		double lastLeft = 0;
+		int lastValue = 0;
 
 		public FormAutodetect()
 		{
@@ -56,10 +60,10 @@ namespace RapChessGui
 			uci.SetMsg(msg);
 			string bst = testEngine.protocol == CProtocol.uci ? uci.GetStr("bestmove") : uci.GetStr("move");
 			bool con = !string.IsNullOrEmpty(bst);
-			bool bstOk = (bst.Length == 4) && ((bst[0] != bst[2]) || (bst[1] != bst[3]));
+			bool bstOk = (bst.Length <4)||((bst.Length == 4) && ((bst[0] != bst[2]) || (bst[1] != bst[3])));
 			if (testResult && con && !bstOk && (testMode > 1))
 				testResult = false;
-			WriteLine(msg);
+			WriteLineFromEngine(msg);
 			switch (testMode)
 			{
 				case 1:
@@ -67,6 +71,9 @@ namespace RapChessGui
 					{
 						testEngine.modeElo = true;
 						testEngine.elo = uci.GetInt("max");
+						testEngine.hisElo.Clear();
+						testEngine.hisElo.Add(testEngine.elo);
+						testEngine.hisElo.Add(testEngine.elo);
 					}
 					if (msg == "uciok")
 						testEngine.protocol = CProtocol.uci;
@@ -126,23 +133,24 @@ namespace RapChessGui
 
 		public static void TestUci(string command)
 		{
-			testProcess.WriteLine("uci", true);
-			testProcess.WriteLine("ucinewgame", true);
-			testProcess.WriteLine("isready", true);
-			testProcess.WriteLine("position startpos moves b1a3 b8a6", true);
-			testProcess.WriteLine(command, true);
+			WriteLineToEngine("uci");
+			WriteLineToEngine("ucinewgame");
+			WriteLineToEngine("isready");
+			WriteLineToEngine("position startpos moves b1a3 b8a6");
+			WriteLineToEngine(command);
 		}
 
 		void TestXb(string command)
 		{
-			testProcess.WriteLine("new", true);
-			testProcess.WriteLine("post", true);
-			testProcess.WriteLine("force", true);
-			testProcess.WriteLine("b1a3", true);
-			testProcess.WriteLine("b8a6", true);
-			testProcess.WriteLine("white", true);
-			testProcess.WriteLine(command, true);
-			testProcess.WriteLine("go", true);
+			WriteLineToEngine("xboard");
+			WriteLineToEngine("new");
+			WriteLineToEngine("post");
+			WriteLineToEngine("force");
+			WriteLineToEngine("b1a3");
+			WriteLineToEngine("b8a6");
+			WriteLineToEngine("white");
+			WriteLineToEngine(command);
+			WriteLineToEngine("go");
 		}
 
 		void ShowProtocol()
@@ -212,8 +220,9 @@ namespace RapChessGui
 		void NextPhase()
 		{
 			tick = 20;
-			testWatch.Restart();
 			testMode++;
+			WriteLine("Next phase");
+			testWatch.Restart();
 			progressBar.Value = countDone * 19 + testMode;
 			switch (testMode)
 			{
@@ -232,7 +241,7 @@ namespace RapChessGui
 						WriteLine($"engine {testEngine.name} file not exist");
 						testEngine.protocol = CProtocol.unknow;
 						testEngine.SaveToIni();
-						CEngineList.iniFile.Save();
+						CListEngine.iniFile.Save();
 						tick = 0;
 						testMode = -1;
 					}
@@ -432,6 +441,28 @@ namespace RapChessGui
 
 		private void testTimer_Tick(object sender, EventArgs e)
 		{
+			TimeSpan ts = timer.Elapsed;
+			double sec = ts.TotalSeconds;
+			int min = Convert.ToInt32(ts.TotalMinutes);
+			sslTime.Text = $"Time {min}:{ts.Seconds:D2}";
+			if (lastValue != progressBar.Value)
+			{
+				lastValue = progressBar.Value;
+				lastTime = sec;
+				double speed = sec > 0 ? progressBar.Value / sec : 0;
+				sec = speed > 0 ? (progressBar.Maximum - progressBar.Value) / speed : 0;
+				ts = TimeSpan.FromSeconds(sec);
+				lastLeft = sec;
+			}
+			else
+			{
+				sec = lastLeft - (sec - lastTime);
+				if (sec < 0)
+					sec = 0;
+				ts = TimeSpan.FromSeconds(sec);
+			}
+			min = Convert.ToInt32(ts.TotalMinutes);
+			sslLeft.Text = $"Left {min}:{ts.Seconds:D2}";
 			if (--tick <= 0)
 				NextPhase();
 		}
@@ -446,6 +477,7 @@ namespace RapChessGui
 			report.Clear();
 			tick = 0;
 			testMode = -1;
+			timer.Restart();
 			testTimer.Start();
 		}
 
@@ -453,11 +485,23 @@ namespace RapChessGui
 
 		static void WriteLine(string line = "")
 		{
-			DateTime dt = new DateTime();
-			dt = dt.AddMilliseconds(testWatch.Elapsed.TotalMilliseconds);
-			string t = dt.ToString("ss.fff");
+			TimeSpan ts = testWatch.Elapsed;
+			string s = $"{ts.Seconds:D2}";
+			string m = $"{ts.Milliseconds:D3}";
+			string t = $"{s}.{m}";
 			This.tbConsole.AppendText($"{t} {line}\n");
 			report.Add($"{t} {line}");
+		}
+
+		static void WriteLineToEngine(string line)
+		{
+			WriteLine($"> {line}");
+			testProcess.WriteLine(line, true);
+		}
+
+		static void WriteLineFromEngine(string line)
+		{
+			WriteLine($"< {line}");
 		}
 
 		private void FormAutodetect_FormClosing(object sender, FormClosingEventArgs e)

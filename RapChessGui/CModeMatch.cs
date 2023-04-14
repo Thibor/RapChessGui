@@ -8,10 +8,10 @@ namespace RapChessGui
 		public static int win = 0;
 		public static int draw = 0;
 		public static int loose = 0;
-		public static string engine1 = CEngineList.def;
-		public static string engine2 = CEngineList.def;
-		public static string book1 = CBookList.def;
-		public static string book2 = CBookList.def;
+		public static string engine1 = CListEngine.def;
+		public static string engine2 = CListEngine.def;
+		public static string book1 = CListBook.def;
+		public static string book2 = CListBook.def;
 		public static CLevelValue modeValue1 = new CLevelValue();
 		public static CLevelValue modeValue2 = new CLevelValue();
 		public static CHisElo his = new CHisElo();
@@ -95,7 +95,7 @@ namespace RapChessGui
 			FormChess.ini.Write("mode>match>mode2", modeValue2.GetLevel());
 			FormChess.ini.Write("mode>match>value1", modeValue1.baseVal);
 			FormChess.ini.Write("mode>match>value2", modeValue2.baseVal);
-			FormChess.ini.Write("mode>match>his", his.SaveToStr());
+			FormChess.ini.Write("mode>match>his", his," ");
 		}
 
 	}

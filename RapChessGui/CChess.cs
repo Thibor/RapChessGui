@@ -769,9 +769,9 @@ namespace NSChess
 
 		public bool IsValidMove(string move, out string umo, out int emo)
 		{
-			umo = move;
-			emo = 0;
 			move = move.ToLower();
+			emo = 0;
+			umo = String.Empty;
 			List<int> moves = GenerateValidMoves(out _);
 			foreach (int m in moves)
 			{
@@ -788,6 +788,7 @@ namespace NSChess
 
 		public bool IsValidMove(string move, out string umo, out string san, out int emo)
 		{
+			move = move.ToLower();
 			emo = 0;
 			umo = String.Empty;
 			san = String.Empty;
@@ -797,7 +798,7 @@ namespace NSChess
 				emo = m;
 				umo = EmoToUmo(emo);
 				san = UmoToSan(umo);
-				if ((umo == move) || (san == move))
+				if ((umo == move) || (umo == $"{move}q") || (san.ToLower() == move))
 					return true;
 			}
 			return false;

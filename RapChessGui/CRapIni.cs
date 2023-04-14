@@ -38,9 +38,9 @@ namespace RapIni
 			Load();
 		}
 
-		string ListToString(List<string> list)
+		string ListToString(List<string> list,string separator = ",")
 		{
-			return String.Join(",", list.ToArray());
+			return String.Join(separator, list.ToArray());
 		}
 
 		public void Write(string key)
@@ -81,19 +81,19 @@ namespace RapIni
 			Write(key, ListToString(value));
 		}
 
-		public void Write(string key, int[] arr)
+		public void Write(string key, int[] arr,string separator = ",")
 		{
-			Write(key, String.Join(",", arr));
+			Write(key, String.Join(separator, arr));
 		}
 
-		public void Write(string key, List<int> list)
+		public void Write(string key, List<int> list,string separator = ",")
 		{
-			Write(key, list.ToArray());
+			Write(key, list.ToArray(),separator);
 		}
 
-		public void Write(string key, string[] arrStr)
+		public void Write(string key, string[] arrStr,string separator = ",")
 		{
-			Write(key, String.Join(",", arrStr));
+			Write(key, String.Join(separator, arrStr));
 		}
 
 		public List<int> ReadListInt(string key)
@@ -111,10 +111,10 @@ namespace RapIni
 			return arrStr.ToList();
 		}
 
-		public string[] ReadArrStr(string key)
+		public string[] ReadArrStr(string key,string separator = ",")
 		{
 			string s = Read(key);
-			return s.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+			return s.Split(new[] {separator }, StringSplitOptions.RemoveEmptyEntries);
 		}
 
 		public string Read(string key, string def = "", bool restore = false)

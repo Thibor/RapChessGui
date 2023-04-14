@@ -48,11 +48,11 @@ namespace RapChessGui
 		readonly SoundPlayer audioCheck = new SoundPlayer(Properties.Resources.Check);
 		public static CRapLog log = new CRapLog(@"History\RapChessGui.log");
 		public static PrivateFontCollection pfc = new PrivateFontCollection();
-		public static CBookList bookList = new CBookList();
-		public static CEngineList engineList = new CEngineList();
-		public static CPlayerList playerList = new CPlayerList();
+		public static CListBook bookList = new CListBook();
+		public static CListEngine engineList = new CListEngine();
+		public static CListPlayer playerList = new CListPlayer();
 		readonly FormAbout formAbout = new FormAbout();
-		readonly FormLog formLog = new FormLog();
+		readonly static FormLog formLog = new FormLog();
 		readonly FormLogGames formLogGames = new FormLogGames();
 		readonly FormLogEngines formLogEngines = new FormLogEngines();
 		readonly FormLastGame formLastGame = new FormLastGame();
@@ -174,9 +174,9 @@ namespace RapChessGui
 			ini.Write("position>y", y);
 			ini.Write("edit>fen", editFen);
 			SplitSaveToIni();
-			CBookList.iniFile.Save();
-			CEngineList.iniFile.Save();
-			CPlayerList.iniFile.Save();
+			CListBook.iniFile.Save();
+			CListEngine.iniFile.Save();
+			CListPlayer.iniFile.Save();
 			CReaderList.iniFile.Save();
 			CModeGame.SaveToIni();
 			CModeMatch.SaveToIni();
@@ -291,11 +291,11 @@ namespace RapChessGui
 			Reset();
 		}
 
-		void ShowFormLog(string text, string path)
+		public static void ShowFormLog(string text, string path,Form form)
 		{
 			FormLog.text = text;
 			FormLog.path = path;
-			formLog.ShowDialog(this);
+			formLog.ShowDialog(form);
 		}
 
 		void MakeBoardSquare()
@@ -985,7 +985,7 @@ namespace RapChessGui
 			if (CModeGame.ranked == true)
 			{
 				CModeGame.ranked = false;
-				CPlayerList.humanPlayer.elo = CPlayerList.humanPlayer.hisElo.Last();
+				CListPlayer.humanPlayer.elo = CListPlayer.humanPlayer.hisElo.Last();
 				CModeGame.SaveToIni();
 			}
 			ShowAutoElo();
@@ -1037,7 +1037,7 @@ namespace RapChessGui
 		{
 			if (CModeGame.finished)
 				return false;
-			CPlayer hu = CPlayerList.humanPlayer;
+			CPlayer hu = CListPlayer.humanPlayer;
 			hu.NewElo(hu.GetEloLess());
 			int oe = hu.hisElo.Penultimate();
 			int ne = hu.hisElo.Last();
@@ -1173,9 +1173,9 @@ namespace RapChessGui
 			tssMove.Text = $"Move {chess.MoveNumber} {chess.move50} {chess.GenerateValidMoves(out _).Count}";
 		}
 
-		public bool MakeMove(string umo)
+		public bool MakeMove(string move)
 		{
-			umo = umo.Trim('\0').ToLower();
+			move = move.Trim('\0').ToLower();
 			if (CData.gameState != CGameState.normal)
 				return false;
 			board.arrowCur.Clear();
@@ -1191,14 +1191,13 @@ namespace RapChessGui
 					CModeGame.SaveToIni();
 				}
 			}
-			if (!chess.IsValidMove(umo, out umo, out int emo))
+			if (!chess.IsValidMove(move, out string umo, out string san,out int emo))
 			{
-				SetGameState(CGameState.error, gc, umo);
+				SetGameState(CGameState.error, gc, move);
 				return false;
 			}
 			PlaySound(chess.IsCapture(emo), chess.IsCastling(emo), chess.IsCheck(emo));
 			gc.MoveDone();
-			string san = chess.UmoToSan(umo);
 			CChess.UmoToSD(umo, out CDrag.lastSou, out CDrag.lastDes);
 			board.MakeMove(emo);
 			chess.MakeMove(umo, out _, out int piece);
@@ -1665,24 +1664,24 @@ namespace RapChessGui
 			cbBook.Text = CModeGame.book;
 			cbMode.Text = CModeGame.modeValue.GetLevel();
 			nudValue.Value = CModeGame.modeValue.GetValue();
-			CData.HisToPoints(CPlayerList.humanPlayer.hisElo, chartGame.Series[0].Points);
+			CData.HisToPoints(CListPlayer.humanPlayer.hisElo, chartGame.Series[0].Points);
 			if (cbEngine.SelectedIndex < 0)
 				cbEngine.SelectedIndex = 0;
 		}
 
 		void GameModeToGamers()
 		{
-			CPlayerList.humanPlayer.elo = CModeGame.ranked ? CPlayerList.humanPlayer.hisElo.Last() : FormOptions.userElo;
+			CListPlayer.humanPlayer.elo = CModeGame.ranked ? CListPlayer.humanPlayer.hisElo.Last() : FormOptions.userElo;
 			CPlayer pc = new CPlayer();
 			if (cbComputer.Text == Global.human)
-				pc = CPlayerList.humanPlayer;
+				pc = CListPlayer.humanPlayer;
 			else if (cbComputer.Text == "Custom")
 			{
 				pc.EngineName = cbEngine.Text;
 				pc.BookName = cbBook.Text;
 				pc.levelValue.level = CModeGame.modeValue.level;
 				pc.levelValue.baseVal = CModeGame.modeValue.baseVal;
-				pc.elo = CPlayerList.humanPlayer.elo;
+				pc.elo = CListPlayer.humanPlayer.elo;
 			}
 			else if (FormOptions.gameEngine != Global.none)
 			{
@@ -1690,16 +1689,16 @@ namespace RapChessGui
 				pc.BookName = FormOptions.gameBook;
 				pc.levelValue.level = CLevel.time;
 				pc.levelValue.baseVal = 10;
-				pc.elo = CPlayerList.humanPlayer.elo;
+				pc.elo = CListPlayer.humanPlayer.elo;
 				pc.humanElo = true;
 			}
 			else
 			{
-				pc = playerList.GetPlayerByElo(CPlayerList.humanPlayer.elo);
+				pc = playerList.GetPlayerByElo(CListPlayer.humanPlayer.elo);
 				if (FormOptions.gameBook != Global.none)
 					pc.BookName = FormOptions.gameBook;
 			}
-			gamers.SetPlayers(CPlayerList.humanPlayer, pc);
+			gamers.SetPlayers(CListPlayer.humanPlayer, pc);
 			if (CModeGame.rotate)
 				gamers.Rotate();
 		}
@@ -1899,7 +1898,7 @@ namespace RapChessGui
 				return;
 			ListViewItem top2 = null;
 			string name = lvTourBList.SelectedItems[0].Text;
-			CBookList bookList = CModeTournamentB.bookList;
+			CListBook bookList = CModeTournamentB.bookList;
 			CBook book = bookList.GetBookByName(name);
 			if (book == null)
 				return;
@@ -1991,7 +1990,7 @@ namespace RapChessGui
 
 		void TournamentBEnd(CGamer gw, CGamer gl, bool isDraw)
 		{
-			CBookList bookList = CModeTournamentB.bookList;
+			CListBook bookList = CModeTournamentB.bookList;
 			CBook bw = bookList.GetBookByName(gw.book.name);
 			CBook bl = bookList.GetBookByName(gl.book.name);
 			if ((bw == null) || (bl == null))
@@ -2057,7 +2056,7 @@ namespace RapChessGui
 				return;
 			ListViewItem top2 = null;
 			string name = lvTourEList.SelectedItems[0].Text;
-			CEngineList engineList = CModeTournamentE.engineList;
+			CListEngine engineList = CModeTournamentE.engineList;
 			CEngine engine = engineList.GetEngineByName(name);
 			if (engine == null)
 				return;
@@ -2164,7 +2163,7 @@ namespace RapChessGui
 
 		void TournamentEEnd(CGamer gw, CGamer gl, bool isDraw)
 		{
-			CEngineList engList = CModeTournamentE.engineList;
+			CListEngine engList = CModeTournamentE.engineList;
 			CEngine ew = engList.GetEngineByName(gw.engine.name);
 			CEngine el = engList.GetEngineByName(gl.engine.name);
 			if ((ew == null) || (el == null))
@@ -2229,7 +2228,7 @@ namespace RapChessGui
 				return;
 			ListViewItem top2 = null;
 			string name = lvTourPList.SelectedItems[0].Text;
-			CPlayerList playerList = CModeTournamentP.playerList;
+			CListPlayer playerList = CModeTournamentP.playerList;
 			CPlayer player = playerList.GetPlayerByName(name);
 			if (player == null)
 				return;
@@ -2321,7 +2320,7 @@ namespace RapChessGui
 
 		void TournamentPEnd(CPlayer pw, CPlayer pl, bool isDraw)
 		{
-			CPlayerList plaList = CModeTournamentP.playerList;
+			CListPlayer plaList = CModeTournamentP.playerList;
 			pw = plaList.GetPlayerByName(pw.name);
 			pl = plaList.GetPlayerByName(pl.name);
 			if ((pw == null) || (pl == null))
@@ -2567,7 +2566,7 @@ namespace RapChessGui
 
 		private void programLogToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ShowFormLog("Application log", log.path);
+			ShowFormLog("Application log", log.path,this);
 		}
 
 		private void gamesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3191,7 +3190,7 @@ namespace RapChessGui
 
 		private void lastAutodetectToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ShowFormLog("Engine autodetection", FormAutodetect.path);
+			ShowFormLog("Engine autodetection", FormAutodetect.path,this);
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

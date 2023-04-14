@@ -29,8 +29,8 @@ namespace RapChessGui
 		public static int tourBValue = 100;
 		public static int tourEValue = 100;
 		public static int userElo = 1000;
-		public static string gameBook = CBookList.def;
-		public static string gameEngine = CEngineList.def;
+		public static string gameBook = CListBook.def;
+		public static string gameEngine = CListEngine.def;
 		public static string tourBEngine = Global.none;
 		public static string tourBMode = "Time";
 		public static string tourBSelected = Global.none;

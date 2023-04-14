@@ -16,7 +16,7 @@ namespace RapChessGui
 		public static string opponent = String.Empty;
 		public static string engine = String.Empty;
 		public static CTourList tourList = new CTourList("Tour-books");
-		public static CBookList bookList = new CBookList();
+		public static CListBook bookList = new CListBook();
 		public static CBook bookWin = null;
 		public static CBook bookLoose = null;
 

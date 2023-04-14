@@ -115,14 +115,6 @@ namespace RapChessGui
 				Add(0);
 		}
 
-		public string SaveToStr()
-		{
-			string str = String.Empty;
-			foreach (int i in this)
-				str += $" {i}";
-			return str.Trim();
-		}
-
 		public void LoadFromStr(string str)
 		{
 			Clear();

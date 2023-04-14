@@ -12,8 +12,8 @@ namespace RapChessGui
 		public static int winInRow = 0;
 		public static string trainer = String.Empty;
 		public static string trained = String.Empty;
-		public static string trainerBook = CBookList.def;
-		public static string trainedBook = CBookList.def;
+		public static string trainerBook = CListBook.def;
+		public static string trainedBook = CListBook.def;
 		public static CLevelValue modeValueTrainer = new CLevelValue();
 		public static CLevelValue modeValueTrained = new CLevelValue();
 		public static CHisElo his = new CHisElo();
@@ -59,7 +59,7 @@ namespace RapChessGui
 			FormChess.ini.Write("mode>training>trainedValue", modeValueTrained.baseVal);
 			FormChess.ini.Write("mode>training>trainerMode", modeValueTrainer.GetLevel());
 			FormChess.ini.Write("mode>training>trainedMode", modeValueTrained.GetLevel());
-			FormChess.ini.Write("mode>training>his", his.SaveToStr());
+			FormChess.ini.Write("mode>training>his", his," ");
 		}
 
 		public static void LoadFromIni()
@@ -67,8 +67,8 @@ namespace RapChessGui
 			win = FormChess.ini.ReadInt("mode>training>win");
 			draw = FormChess.ini.ReadInt("mode>training>draw");
 			loose = FormChess.ini.ReadInt("mode>training>loose");
-			trainer = FormChess.ini.Read("mode>training>trainer", CEngineList.def);
-			trained = FormChess.ini.Read("mode>training>trained", CEngineList.def);
+			trainer = FormChess.ini.Read("mode>training>trainer", CListEngine.def);
+			trained = FormChess.ini.Read("mode>training>trained", CListEngine.def);
 			trainerBook = FormChess.ini.Read("mode>training>trainerBook", trainerBook);
 			trainedBook = FormChess.ini.Read("mode>training>trainedBook", trainedBook);
 			modeValueTrainer.baseVal = FormChess.ini.ReadInt("mode>training>trainerValue", modeValueTrainer.baseVal);

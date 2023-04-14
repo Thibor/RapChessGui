@@ -13,6 +13,8 @@ namespace RapChessGui
 {
 	public partial class FormListE : Form
 	{
+		readonly FormFolderE formFolderE = new FormFolderE();
+
 		public FormListE()
 		{
 			InitializeComponent();
@@ -40,9 +42,10 @@ namespace RapChessGui
 			}
 		}
 
-		private void lvEngines_SelectedIndexChanged(object sender, EventArgs e)
+		private void foldersToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			formFolderE.ShowDialog(this);
 		}
+
 	}
 }

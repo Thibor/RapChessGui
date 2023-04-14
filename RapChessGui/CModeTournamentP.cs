@@ -13,7 +13,7 @@ namespace RapChessGui
 		public static string first = String.Empty;
 		public static string opponent = String.Empty;
 		public static CTourList tourList = new CTourList("Tour-players");
-		public static CPlayerList playerList = new CPlayerList();
+		public static CListPlayer playerList = new CListPlayer();
 		public static CPlayer plaWin = null;
 		public static CPlayer plaLoose = null;
 

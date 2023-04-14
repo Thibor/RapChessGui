@@ -70,11 +70,11 @@ namespace RapChessGui
 
 		public void LoadFromIni()
 		{
-			file = CBookList.iniFile.Read($"book>{name}>exe");
-			arguments = CBookList.iniFile.Read($"book>{name}>parameters");
-			options = CBookList.iniFile.ReadListStr($"book>{name}>options");
-			hisElo.LoadFromStr(CBookList.iniFile.Read($"book>{name}>history"));
-			tournament = CBookList.iniFile.ReadInt($"book>{name}>tournament", tournament);
+			file = CListBook.iniFile.Read($"book>{name}>exe");
+			arguments = CListBook.iniFile.Read($"book>{name}>parameters");
+			options = CListBook.iniFile.ReadListStr($"book>{name}>options");
+			hisElo.LoadFromStr(CListBook.iniFile.Read($"book>{name}>history"));
+			tournament = CListBook.iniFile.ReadInt($"book>{name}>tournament", tournament);
 			elo = hisElo.Last();
 		}
 
@@ -86,11 +86,11 @@ namespace RapChessGui
 				hisElo.AddValue(elo);
 			}
 			name = GetName();
-			CBookList.iniFile.Write($"book>{name}>exe", file);
-			CBookList.iniFile.Write($"book>{name}>parameters", arguments);
-			CBookList.iniFile.Write($"book>{name}>options", options);
-			CBookList.iniFile.Write($"book>{name}>history", hisElo.SaveToStr());
-			CBookList.iniFile.Write($"book>{name}>tournament", tournament);
+			CListBook.iniFile.Write($"book>{name}>exe", file);
+			CListBook.iniFile.Write($"book>{name}>parameters", arguments);
+			CListBook.iniFile.Write($"book>{name}>options", options);
+			CListBook.iniFile.Write($"book>{name}>history", hisElo, " ");
+			CListBook.iniFile.Write($"book>{name}>tournament", tournament);
 		}
 
 
@@ -139,7 +139,7 @@ namespace RapChessGui
 
 	}
 
-	public class CBookList : List<CBook>
+	public class CListBook : List<CBook>
 	{
 		public static string def = "BRM Bigmem";
 		public static CRapIni iniFile = new CRapIni(@"Ini\books.ini");
@@ -195,7 +195,7 @@ namespace RapChessGui
 		public int LoadFromIni()
 		{
 			Clear();
-			List<string> bl = CBookList.iniFile.ReadKeyList("book");
+			List<string> bl = CListBook.iniFile.ReadKeyList("book");
 			foreach (string name in bl)
 			{
 				CBook br = new CBook(name);

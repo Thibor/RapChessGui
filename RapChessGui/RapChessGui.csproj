@@ -108,12 +108,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CArrowList.cs" />
-    <Compile Include="CBookList.cs" />
+    <Compile Include="CListBook.cs" />
     <Compile Include="CData.cs" />
     <Compile Include="CChess.cs" />
     <Compile Include="CReaderList.cs" />
     <Compile Include="CEcoList.cs" />
-    <Compile Include="CEngineList.cs" />
+    <Compile Include="CListEngine.cs" />
     <Compile Include="CExtensions.cs" />
     <Compile Include="CHisElo.cs" />
     <Compile Include="CHistory.cs" />
@@ -131,7 +131,7 @@
     <Compile Include="CGamers.cs" />
     <Compile Include="CRapIni.cs" />
     <Compile Include="CModeTraining.cs" />
-    <Compile Include="CPlayerList.cs" />
+    <Compile Include="CListPlayer.cs" />
     <Compile Include="CTourList.cs" />
     <Compile Include="CUci.cs" />
     <Compile Include="FormAbout.cs">
@@ -175,6 +175,12 @@
     </Compile>
     <Compile Include="FormChartP.Designer.cs">
       <DependentUpon>FormChartP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFolderE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFolderE.Designer.cs">
+      <DependentUpon>FormFolderE.cs</DependentUpon>
     </Compile>
     <Compile Include="FormLastGame.cs">
       <SubType>Form</SubType>
@@ -264,6 +270,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormChartP.resx">
       <DependentUpon>FormChartP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFolderE.resx">
+      <DependentUpon>FormFolderE.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLastGame.resx">
       <DependentUpon>FormLastGame.cs</DependentUpon>
