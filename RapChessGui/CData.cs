@@ -320,6 +320,27 @@ namespace RapChessGui
 
 	}
 
+	public class CModeTournament
+	{
+		public bool rotate = true;
+		public int reps = 0;
+		public int left = 0;
+		public int records = 10000;
+		public int eloAvg = 0;
+		public int eloRange = 0;
+		public string first = String.Empty;
+		public string opponent = String.Empty;
+
+		public void NewGame()
+		{
+			rotate = true;
+			reps = 0;
+			left = 0;
+			opponent = String.Empty;
+		}
+
+	}
+
 	public class CLevelValue
 	{
 		public CLevel level = CLevel.time;

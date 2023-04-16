@@ -261,18 +261,18 @@ namespace RapChessGui
 			CData.ComboSelect(cbTourEBookF, tourEBookF);
 			CData.ComboSelect(cbTourEBookS, tourEBookS);
 			CData.ComboSelect(cbTourPSelected, tourPSelected);
-			nudTourBRec.Value = CModeTournamentB.records;
-			nudTourBAvg.Value = CModeTournamentB.eloAvg;
-			nudTourBRange.Value = CModeTournamentB.eloRange;
-			nudTourERec.Value = CModeTournamentE.records;
-			nudTourEAvg.Value = CModeTournamentE.eloAvg;
-			nudTourERange.Value = CModeTournamentE.eloRange;
-			nudTourPRec.Value = CModeTournamentP.records;
-			nudTourPAvg.Value = CModeTournamentP.eloAvg;
-			nudTourPRange.Value = CModeTournamentP.eloRange;
-			labTourB.Text = $"Fill {(CModeTournamentB.tourList.Count * 100) / CModeTournamentB.records}%";
-			labTourE.Text = $"Fill {(CModeTournamentE.tourList.Count * 100) / CModeTournamentE.records}%";
-			labTourP.Text = $"Fill {(CModeTournamentP.tourList.Count * 100) / CModeTournamentP.records}%";
+			nudTourBRec.Value = FormChess.tourB.records;
+			nudTourBAvg.Value = FormChess.tourB.eloAvg;
+			nudTourBRange.Value = FormChess.tourB.eloRange;
+			nudTourERec.Value = FormChess.tourE.records;
+			nudTourEAvg.Value = FormChess.tourE.eloAvg;
+			nudTourERange.Value = FormChess.tourE.eloRange;
+			nudTourPRec.Value = FormChess.tourP.records;
+			nudTourPAvg.Value = FormChess.tourP.eloAvg;
+			nudTourPRange.Value = FormChess.tourP.eloRange;
+			labTourB.Text = $"Fill {(CModeTournamentB.tourList.Count * 100) / FormChess.tourB.records}%";
+			labTourE.Text = $"Fill {(CModeTournamentE.tourList.Count * 100) / FormChess.tourE.records}%";
+			labTourP.Text = $"Fill {(CModeTournamentP.tourList.Count * 100) / FormChess.tourP.records}%";
 		}
 
 		void FormSave()
@@ -286,18 +286,18 @@ namespace RapChessGui
 				FormChess.readerList.Add(db);
 			}
 			FormChess.readerList.SaveToIni();
-			CModeTournamentB.records = (int)nudTourBRec.Value;
-			CModeTournamentB.eloAvg = (int)nudTourBAvg.Value;
-			CModeTournamentB.eloRange = (int)nudTourBRange.Value;
-			CModeTournamentE.records = (int)nudTourERec.Value;
-			CModeTournamentE.eloAvg = (int)nudTourEAvg.Value;
-			CModeTournamentE.eloRange = (int)nudTourERange.Value;
-			CModeTournamentP.records = (int)nudTourPRec.Value;
-			CModeTournamentP.eloAvg = (int)nudTourPAvg.Value;
-			CModeTournamentP.eloRange = (int)nudTourPRange.Value;
-			CModeTournamentB.SaveToIni();
-			CModeTournamentE.SaveToIni();
-			CModeTournamentP.SaveToIni();
+			FormChess.tourB.records = (int)nudTourBRec.Value;
+			FormChess.tourB.eloAvg = (int)nudTourBAvg.Value;
+			FormChess.tourB.eloRange = (int)nudTourBRange.Value;
+			FormChess.tourE.records = (int)nudTourERec.Value;
+			FormChess.tourE.eloAvg = (int)nudTourEAvg.Value;
+			FormChess.tourE.eloRange = (int)nudTourERange.Value;
+			FormChess.tourP.records = (int)nudTourPRec.Value;
+			FormChess.tourP.eloAvg = (int)nudTourPAvg.Value;
+			FormChess.tourP.eloRange = (int)nudTourPRange.Value;
+			FormChess.tourB.SaveToIni();
+			FormChess.tourE.SaveToIni();
+			FormChess.tourP.SaveToIni();
 			SaveToIni();
 		}
 

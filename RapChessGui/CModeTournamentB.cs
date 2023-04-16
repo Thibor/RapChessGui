@@ -4,35 +4,24 @@ using System.Collections.Generic;
 namespace RapChessGui
 {
 
-	class CModeTournamentB
+	public class CModeTournamentB:CModeTournament
 	{
-		public static bool rotate = true;
-		public static int reps = 0;
-		public static int eloAvg = 3000;
-		public static int eloRange = 0;
-		public static int records = 10000;
-		public static int left = 0;
-		public static string first = String.Empty;
-		public static string opponent = String.Empty;
-		public static string engine = String.Empty;
 		public static CTourList tourList = new CTourList("Tour-books");
 		public static CListBook bookList = new CListBook();
 		public static CBook bookWin = null;
 		public static CBook bookLoose = null;
 
-		public static void SaveToIni()
+		public void SaveToIni()
 		{
 			FormChess.ini.Write("mode>tournamentB>book", first);
-			FormChess.ini.Write("mode>tournamentB>engine", engine);
 			FormChess.ini.Write("mode>tournamentB>records", records);
 			FormChess.ini.Write("mode>tournamentB>eloAvg", eloAvg);
 			FormChess.ini.Write("mode>tournamentB>eloRange", eloRange);
 		}
 
-		public static void LoadFromIni()
+		public void LoadFromIni()
 		{
 			first = FormChess.ini.Read("mode>tournamentB>book", first);
-			engine = FormChess.ini.Read("mode>tournamentB>engine", engine);
 			records = FormChess.ini.ReadInt("mode>tournamentB>records", records);
 			eloAvg = FormChess.ini.ReadInt("mode>tournamentB>eloAvg", eloAvg);
 			eloRange = FormChess.ini.ReadInt("mode>tournamentB>eloRange", eloRange);
@@ -56,7 +45,7 @@ namespace RapChessGui
 			return null;
 		}
 
-		public static void ListFill()
+		public void ListFill()
 		{
 			int avg = eloAvg;
 			CBook book = FormChess.bookList.GetBookByName(FormOptions.tourBSelected);
@@ -73,7 +62,7 @@ namespace RapChessGui
 				else
 				{
 					eloMin = 0;
-					eloMax = 3000;
+					eloMax = CElo.eloTotal;
 				}
 			bookList.Clear();
 			foreach (CBook b in FormChess.bookList)
@@ -82,15 +71,7 @@ namespace RapChessGui
 						bookList.AddBook(b);
 		}
 
-		public static void NewGame()
-		{
-			rotate = true;
-			reps = 0;
-			left = 0;
-			opponent = String.Empty;
-		}
-
-		public static CBook SelectFirst()
+		public CBook SelectFirst()
 		{
 			ListFill();
 			CBook b = bookList.GetBookByName(FormOptions.tourBSelected);
@@ -146,7 +127,7 @@ namespace RapChessGui
 			return result;
 		}
 
-		public static void SetRepeition(CBook b, CBook o)
+		public void SetRepeition(CBook b, CBook o)
 		{
 			if ((first != b.name) || (opponent != o.name))
 			{

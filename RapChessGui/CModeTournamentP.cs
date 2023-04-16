@@ -2,22 +2,14 @@
 
 namespace RapChessGui
 {
-	class CModeTournamentP
+	public class CModeTournamentP:CModeTournament
 	{
-		public static bool rotate = false;
-		public static int reps = 0;
-		public static int left = 0;
-		public static int records = 10000;
-		public static int eloAvg = 3000;
-		public static int eloRange = 0;
-		public static string first = String.Empty;
-		public static string opponent = String.Empty;
 		public static CTourList tourList = new CTourList("Tour-players");
 		public static CListPlayer playerList = new CListPlayer();
 		public static CPlayer plaWin = null;
 		public static CPlayer plaLoose = null;
 
-		public static void SaveToIni()
+		public void SaveToIni()
 		{
 			FormChess.ini.Write("mode>tournamentP>player", first);
 			FormChess.ini.Write("mode>tournamentP>records", records);
@@ -25,21 +17,13 @@ namespace RapChessGui
 			FormChess.ini.Write("mode>tournamentP>eloRange", eloRange);
 		}
 
-		public static void LoadFromIni()
+		public void LoadFromIni()
 		{
 			first = FormChess.ini.Read("mode>tournamentP>player", first);
 			records = FormChess.ini.ReadInt("mode>tournamentP>records", records);
 			eloAvg = FormChess.ini.ReadInt("mode>tournamentP>eloAvg", eloAvg);
 			eloRange = FormChess.ini.ReadInt("mode>tournamentP>eloRange", eloRange);
 			tourList.SetLimit(records);
-		}
-
-		public static void NewGame()
-		{
-			rotate = true;
-			reps = 0;
-			left = 0;
-			opponent = String.Empty;
 		}
 
 		public static CPlayer ChooseOpponent(CPlayer player, CPlayer player1, CPlayer player2)
@@ -59,7 +43,7 @@ namespace RapChessGui
 			return null;
 		}
 
-		public static void ListFill()
+		public void ListFill()
 		{
 			int avg = eloAvg;
 			CPlayer player = FormChess.playerList.GetPlayerByName(FormOptions.tourPSelected);
@@ -76,7 +60,7 @@ namespace RapChessGui
 				else
 				{
 					eloMin = 0;
-					eloMax = 3000;
+					eloMax = CElo.eloTotal;
 				}
 			playerList.Clear();
 			foreach (CPlayer p in FormChess.playerList)
@@ -101,7 +85,7 @@ namespace RapChessGui
 			return result;
 		}
 
-		public static CPlayer SelectFirst()
+		public CPlayer SelectFirst()
 		{
 			ListFill();
 			CPlayer p = playerList.GetPlayerByName(FormOptions.tourPSelected);
@@ -137,7 +121,7 @@ namespace RapChessGui
 			return bstPlayer;
 		}
 
-		public static void SetRepeition(CPlayer p, CPlayer o)
+		public void SetRepeition(CPlayer p, CPlayer o)
 		{
 			if ((first != p.name) || (opponent != o.name))
 			{

@@ -371,8 +371,8 @@ namespace RapChessGui
 
 		public int GetOptElo(double index)
 		{
-			int min = CModeTournamentP.eloRange;
-			int max = CModeTournamentP.eloAvg;
+			int min = FormChess.tourP.eloRange;
+			int max = FormChess.tourP.eloAvg;
 			if (index < 0)
 				index = 0;
 			if (index >= Count)

@@ -2,22 +2,14 @@
 
 namespace RapChessGui
 {
-	class CModeTournamentE
+	public class CModeTournamentE : CModeTournament
 	{
-		public static bool rotate = true;
-		public static int reps = 0;
-		public static int left = 0;
-		public static int records = 10000;
-		public static int eloAvg = 0;
-		public static int eloRange = 0;
-		public static string first = String.Empty;
-		public static string opponent = String.Empty;
 		public static CTourList tourList = new CTourList("Tour-engines");
 		public static CListEngine engineList = new CListEngine();
 		public static CEngine engWin = null;
 		public static CEngine engLoose = null;
 
-		public static void SaveToIni()
+		public void SaveToIni()
 		{
 			FormChess.ini.Write("mode>tournamentE>engine", first);
 			FormChess.ini.Write("mode>tournamentE>records", records);
@@ -25,7 +17,7 @@ namespace RapChessGui
 			FormChess.ini.Write("mode>tournamentE>eloRange", eloRange);
 		}
 
-		public static void LoadFromIni()
+		public void LoadFromIni()
 		{
 			first = FormChess.ini.Read("mode>tournamentE>engine", first);
 			records = FormChess.ini.ReadInt("mode>tournamentE>records", records);
@@ -34,15 +26,7 @@ namespace RapChessGui
 			tourList.SetLimit(records);
 		}
 
-		public static void NewGame()
-		{
-			rotate = true;
-			reps = 0;
-			left = 0;
-			opponent = String.Empty;
-		}
-
-		public static void ListFill()
+		public void ListFill()
 		{
 			int avg = eloAvg;
 			CEngine eng = FormChess.engineList.GetEngineByName(FormOptions.tourESelected);
@@ -85,7 +69,7 @@ namespace RapChessGui
 			return result;
 		}
 
-		public static CEngine SelectFirst()
+		public CEngine SelectFirst()
 		{
 			ListFill();
 			CEngine e = engineList.GetEngineByName(FormOptions.tourESelected);
@@ -116,12 +100,11 @@ namespace RapChessGui
 						bstScore = curScore;
 						bstEngine = e;
 					}
-
 				}
 			return bstEngine;
 		}
 
-		public static void SetRepeition(CEngine e, CEngine o)
+		public void SetRepeition(CEngine e, CEngine o)
 		{
 			if ((first != e.name) || (opponent != o.name))
 			{
