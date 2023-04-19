@@ -369,19 +369,6 @@ namespace RapChessGui
 					p.SaveToIni();
 		}
 
-		public int GetOptElo(double index)
-		{
-			int min = FormChess.tourP.eloRange;
-			int max = FormChess.tourP.eloAvg;
-			if (index < 0)
-				index = 0;
-			if (index >= Count)
-				index = Count - 1;
-			int range = max - min;
-			index = Count - index;
-			return min + Convert.ToInt32((range * index) / (Count + 1));
-		}
-
 		public CPlayer NextTournament(CPlayer p, bool rotate = true, bool back = false)
 		{
 			SortElo();

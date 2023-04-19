@@ -609,7 +609,7 @@
 			this.tabPageBooks.Location = new System.Drawing.Point(4, 5);
 			this.tabPageBooks.Name = "tabPageBooks";
 			this.tabPageBooks.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageBooks.Size = new System.Drawing.Size(365, 452);
+			this.tabPageBooks.Size = new System.Drawing.Size(365, 428);
 			this.tabPageBooks.TabIndex = 2;
 			this.tabPageBooks.Text = "tabPage1";
 			this.tabPageBooks.UseVisualStyleBackColor = true;
@@ -621,7 +621,7 @@
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.groupBox1.Location = new System.Drawing.Point(3, 3);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(359, 446);
+			this.groupBox1.Size = new System.Drawing.Size(359, 422);
 			this.groupBox1.TabIndex = 51;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Autocreate";
@@ -638,7 +638,7 @@
 			this.lvBooks.Location = new System.Drawing.Point(3, 16);
 			this.lvBooks.MultiSelect = false;
 			this.lvBooks.Name = "lvBooks";
-			this.lvBooks.Size = new System.Drawing.Size(353, 406);
+			this.lvBooks.Size = new System.Drawing.Size(353, 382);
 			this.lvBooks.TabIndex = 52;
 			this.lvBooks.UseCompatibleStateImageBehavior = false;
 			this.lvBooks.View = System.Windows.Forms.View.Details;
@@ -658,7 +658,7 @@
 			this.cbBookReader.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.cbBookReader.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbBookReader.FormattingEnabled = true;
-			this.cbBookReader.Location = new System.Drawing.Point(3, 422);
+			this.cbBookReader.Location = new System.Drawing.Point(3, 398);
 			this.cbBookReader.Name = "cbBookReader";
 			this.cbBookReader.Size = new System.Drawing.Size(353, 21);
 			this.cbBookReader.TabIndex = 51;
@@ -671,7 +671,7 @@
 			this.tabPageGame.Controls.Add(this.gbGame);
 			this.tabPageGame.Location = new System.Drawing.Point(4, 5);
 			this.tabPageGame.Name = "tabPageGame";
-			this.tabPageGame.Size = new System.Drawing.Size(365, 452);
+			this.tabPageGame.Size = new System.Drawing.Size(365, 428);
 			this.tabPageGame.TabIndex = 3;
 			this.tabPageGame.Text = "Game";
 			this.tabPageGame.UseVisualStyleBackColor = true;
@@ -697,7 +697,6 @@
 			this.cbGameBook.Name = "cbGameBook";
 			this.cbGameBook.Size = new System.Drawing.Size(359, 21);
 			this.cbGameBook.TabIndex = 51;
-			this.cbGameBook.SelectedIndexChanged += new System.EventHandler(this.cbGameBook_SelectedIndexChanged);
 			// 
 			// groupBox12
 			// 
@@ -720,7 +719,6 @@
 			this.cbGameEngine.Name = "cbGameEngine";
 			this.cbGameEngine.Size = new System.Drawing.Size(359, 21);
 			this.cbGameEngine.TabIndex = 51;
-			this.cbGameEngine.SelectedIndexChanged += new System.EventHandler(this.cbGameEngine_SelectedIndexChanged);
 			// 
 			// gbGame
 			// 
@@ -802,7 +800,7 @@
 			this.tabPageMatch.Controls.Add(this.gbMatch);
 			this.tabPageMatch.Location = new System.Drawing.Point(4, 5);
 			this.tabPageMatch.Name = "tabPageMatch";
-			this.tabPageMatch.Size = new System.Drawing.Size(365, 452);
+			this.tabPageMatch.Size = new System.Drawing.Size(365, 428);
 			this.tabPageMatch.TabIndex = 6;
 			this.tabPageMatch.Text = "tabPage1";
 			this.tabPageMatch.UseVisualStyleBackColor = true;
@@ -864,7 +862,7 @@
 			this.tabPageTourB.Location = new System.Drawing.Point(4, 5);
 			this.tabPageTourB.Name = "tabPageTourB";
 			this.tabPageTourB.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageTourB.Size = new System.Drawing.Size(365, 452);
+			this.tabPageTourB.Size = new System.Drawing.Size(365, 428);
 			this.tabPageTourB.TabIndex = 1;
 			this.tabPageTourB.Text = "Tournament books";
 			this.tabPageTourB.UseVisualStyleBackColor = true;
@@ -942,7 +940,6 @@
 			this.cbTourBEngine.Size = new System.Drawing.Size(353, 21);
 			this.cbTourBEngine.Sorted = true;
 			this.cbTourBEngine.TabIndex = 32;
-			this.cbTourBEngine.SelectedIndexChanged += new System.EventHandler(this.cbTourBEngine_SelectedIndexChanged);
 			// 
 			// groupBox7
 			// 
@@ -965,7 +962,6 @@
 			this.cbTourBSelected.Name = "cbTourBSelected";
 			this.cbTourBSelected.Size = new System.Drawing.Size(353, 21);
 			this.cbTourBSelected.TabIndex = 51;
-			this.cbTourBSelected.SelectedIndexChanged += new System.EventHandler(this.cbTourBSelected_SelectedIndexChanged);
 			// 
 			// groupBox3
 			// 
@@ -1097,7 +1093,7 @@
 			this.tabPageTourE.Location = new System.Drawing.Point(4, 5);
 			this.tabPageTourE.Name = "tabPageTourE";
 			this.tabPageTourE.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageTourE.Size = new System.Drawing.Size(365, 452);
+			this.tabPageTourE.Size = new System.Drawing.Size(365, 428);
 			this.tabPageTourE.TabIndex = 4;
 			this.tabPageTourE.Text = "Tournament engines";
 			this.tabPageTourE.UseVisualStyleBackColor = true;
@@ -1175,7 +1171,6 @@
 			this.cbTourEBookS.Size = new System.Drawing.Size(353, 21);
 			this.cbTourEBookS.Sorted = true;
 			this.cbTourEBookS.TabIndex = 32;
-			this.cbTourEBookS.SelectedIndexChanged += new System.EventHandler(this.cbTourEBookS_SelectedIndexChanged);
 			// 
 			// groupBox9
 			// 
@@ -1199,7 +1194,6 @@
 			this.cbTourEBookF.Size = new System.Drawing.Size(353, 21);
 			this.cbTourEBookF.Sorted = true;
 			this.cbTourEBookF.TabIndex = 32;
-			this.cbTourEBookF.SelectedIndexChanged += new System.EventHandler(this.cbTourEBook_SelectedIndexChanged);
 			// 
 			// groupBox4
 			// 
@@ -1222,7 +1216,6 @@
 			this.cbTourESelected.Name = "cbTourESelected";
 			this.cbTourESelected.Size = new System.Drawing.Size(353, 21);
 			this.cbTourESelected.TabIndex = 51;
-			this.cbTourESelected.SelectedIndexChanged += new System.EventHandler(this.cbTourESelected_SelectedIndexChanged);
 			// 
 			// gbTournamentE
 			// 
@@ -1351,7 +1344,7 @@
 			this.tabPageTourP.Location = new System.Drawing.Point(4, 5);
 			this.tabPageTourP.Name = "tabPageTourP";
 			this.tabPageTourP.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageTourP.Size = new System.Drawing.Size(365, 452);
+			this.tabPageTourP.Size = new System.Drawing.Size(365, 428);
 			this.tabPageTourP.TabIndex = 5;
 			this.tabPageTourP.Text = "Tournament players";
 			this.tabPageTourP.UseVisualStyleBackColor = true;
@@ -1377,7 +1370,6 @@
 			this.cbTourPSelected.Name = "cbTourPSelected";
 			this.cbTourPSelected.Size = new System.Drawing.Size(353, 21);
 			this.cbTourPSelected.TabIndex = 51;
-			this.cbTourPSelected.SelectedIndexChanged += new System.EventHandler(this.cbTourPSelected_SelectedIndexChanged);
 			// 
 			// gbTournamentP
 			// 
@@ -1504,7 +1496,7 @@
 			this.tabPageTraining.Controls.Add(this.groupBox2);
 			this.tabPageTraining.Location = new System.Drawing.Point(4, 5);
 			this.tabPageTraining.Name = "tabPageTraining";
-			this.tabPageTraining.Size = new System.Drawing.Size(365, 452);
+			this.tabPageTraining.Size = new System.Drawing.Size(365, 428);
 			this.tabPageTraining.TabIndex = 7;
 			this.tabPageTraining.Text = "tabPage2";
 			this.tabPageTraining.UseVisualStyleBackColor = true;
@@ -1567,6 +1559,7 @@
 			this.Text = "Options";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormOptions_FormClosing);
 			this.Load += new System.EventHandler(this.FormOptions_Load);
+			this.Shown += new System.EventHandler(this.FormOptions_Shown);
 			this.gbInterface.ResumeLayout(false);
 			this.gbInterface.PerformLayout();
 			this.panel1.ResumeLayout(false);
@@ -1690,18 +1683,13 @@
 		private System.Windows.Forms.Label label2;
 		public System.Windows.Forms.NumericUpDown nudTourPRec;
 		private System.Windows.Forms.GroupBox groupBox9;
-		private System.Windows.Forms.ComboBox cbTourEBookF;
 		private System.Windows.Forms.GroupBox groupBox4;
-		private System.Windows.Forms.ComboBox cbTourESelected;
 		private System.Windows.Forms.GroupBox groupBox8;
 		private System.Windows.Forms.NumericUpDown nudTourE;
 		private System.Windows.Forms.ComboBox cbTourEMode;
 		private System.Windows.Forms.GroupBox groupBox7;
-		private System.Windows.Forms.ComboBox cbTourBSelected;
 		private System.Windows.Forms.GroupBox groupBox6;
-		private System.Windows.Forms.ComboBox cbTourPSelected;
 		private System.Windows.Forms.GroupBox groupBox10;
-		private System.Windows.Forms.ComboBox cbTourBEngine;
 		private System.Windows.Forms.GroupBox groupBox11;
 		private System.Windows.Forms.NumericUpDown nudTourB;
 		private System.Windows.Forms.ComboBox cbTourBMode;
@@ -1723,13 +1711,18 @@
 		public System.Windows.Forms.NumericUpDown nudTraining;
 		public System.Windows.Forms.ListBox listBox;
 		private System.Windows.Forms.GroupBox groupBox13;
-		private System.Windows.Forms.ComboBox cbTourEBookS;
 		private System.Windows.Forms.GroupBox groupBox12;
-		private System.Windows.Forms.ComboBox cbGameEngine;
 		private System.Windows.Forms.GroupBox groupBox5;
-		private System.Windows.Forms.ComboBox cbGameBook;
 		private System.Windows.Forms.NumericUpDown nudUserElo;
 		private System.Windows.Forms.Label label1;
 		public System.Windows.Forms.CheckBox cbRotateBoard;
+		public System.Windows.Forms.ComboBox cbTourPSelected;
+		public System.Windows.Forms.ComboBox cbTourBSelected;
+		public System.Windows.Forms.ComboBox cbTourESelected;
+		public System.Windows.Forms.ComboBox cbTourEBookF;
+		public System.Windows.Forms.ComboBox cbTourEBookS;
+		public System.Windows.Forms.ComboBox cbTourBEngine;
+		public System.Windows.Forms.ComboBox cbGameEngine;
+		public System.Windows.Forms.ComboBox cbGameBook;
 	}
 }

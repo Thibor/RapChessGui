@@ -325,9 +325,6 @@ namespace RapChessGui
 		public bool rotate = true;
 		public int reps = 0;
 		public int left = 0;
-		public int records = 10000;
-		public int eloAvg = 0;
-		public int eloRange = 0;
 		public string first = String.Empty;
 		public string opponent = String.Empty;
 

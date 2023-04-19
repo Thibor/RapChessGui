@@ -449,13 +449,12 @@ namespace RapChessGui
 			{
 				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Color.FromArgb(0xff, 0xc0, 0xc0));
 			}
-			else if (!eng.SupportLevel(CLevel.standard))
-			{
-				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Color.FromArgb(0xff, 0xff, 0xc0));
-			}
 			else if (eng.tournament > 0)
 			{
-				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Colors.message);
+				if (eng.SupportLevel(CLevel.standard))
+					e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Colors.message);
+				else
+					e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Color.FromArgb(0xff, 0xff, 0xc0));
 			}
 			e.DrawBackground();
 			e.Graphics.DrawString(name, e.Font, b, e.Bounds, StringFormat.GenericDefault);

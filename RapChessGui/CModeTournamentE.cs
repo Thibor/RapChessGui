@@ -9,50 +9,6 @@ namespace RapChessGui
 		public static CEngine engWin = null;
 		public static CEngine engLoose = null;
 
-		public void SaveToIni()
-		{
-			FormChess.ini.Write("mode>tournamentE>engine", first);
-			FormChess.ini.Write("mode>tournamentE>records", records);
-			FormChess.ini.Write("mode>tournamentE>eloAvg", eloAvg);
-			FormChess.ini.Write("mode>tournamentE>eloRange", eloRange);
-		}
-
-		public void LoadFromIni()
-		{
-			first = FormChess.ini.Read("mode>tournamentE>engine", first);
-			records = FormChess.ini.ReadInt("mode>tournamentE>records", records);
-			eloAvg = FormChess.ini.ReadInt("mode>tournamentE>eloAvg", eloAvg);
-			eloRange = FormChess.ini.ReadInt("mode>tournamentE>eloRange", eloRange);
-			tourList.SetLimit(records);
-		}
-
-		public void ListFill()
-		{
-			int avg = eloAvg;
-			CEngine eng = FormChess.engineList.GetEngineByName(FormOptions.tourESelected);
-			if (eng != null)
-				avg = eng.elo;
-			int eloMin = avg - eloRange;
-			int eloMax = avg + eloRange;
-			if ((eloRange == 0) || (eloAvg == 0))
-				if (eloAvg > 0)
-				{
-					eloMin = avg - eloAvg;
-					eloMax = avg + eloAvg;
-				}
-				else
-				{
-					eloMin = 0;
-					eloMax = CElo.eloTotal;
-				}
-			CLevel level = CLevelValue.StrToLevel(FormOptions.tourEMode);
-			engineList.Clear();
-			foreach (CEngine e in FormChess.engineList)
-				if (e.IsPlayable(level) && (e.tournament > 0))
-					if ((e.elo >= eloMin) && (e.elo <= eloMax))
-						engineList.AddEngine(e);
-		}
-
 		public static CEngine SelectLast()
 		{
 			int count = 0;
@@ -69,23 +25,39 @@ namespace RapChessGui
 			return result;
 		}
 
+		public void ListFill()
+		{
+			CEngine eng = FormChess.engineList.GetEngineByName(FormChess.formOptions.cbTourESelected.Text);
+			int avg = eng == null ? (int)FormChess.formOptions.nudTourEAvg.Value : eng.elo;
+			int range = (int)FormChess.formOptions.nudTourERange.Value;
+			int eloMin = range == 0 ? 0 : avg - range;
+			int eloMax = range == 0 ? CElo.eloTotal : avg + range;
+			CLevel level = CLevelValue.StrToLevel(FormOptions.tourEMode);
+			engineList.Clear();
+			foreach (CEngine e in FormChess.engineList)
+				if (e.IsPlayable(level) && (e.tournament > 0))
+					if ((e.elo >= eloMin) && (e.elo <= eloMax))
+						engineList.AddEngine(e);
+		}
+
 		public CEngine SelectFirst()
 		{
 			ListFill();
-			CEngine e = engineList.GetEngineByName(FormOptions.tourESelected);
-			if ((e != null) && (eloRange == 0))
-				return e;
-			e = engineList.GetEngineByName(first);
-			if ((e == null) || ((left < 1) && (reps > 0)))
+			CEngine eng = engineList.GetEngineByName(FormChess.formOptions.cbTourESelected.Text);
+			if ((eng != null) && (FormChess.formOptions.nudTourBRange.Value == 0))
+				return eng;
+			eng = engineList.GetEngineByName(first);
+			if ((eng == null) || ((left < 1) && (reps > 0)))
 			{
-				e = SelectLast();
+				eng = SelectLast();
 				reps = 0;
 			}
-			return e;
+			return eng;
 		}
 
-		public static CEngine SelectSecond(CEngine engine)
+		public CEngine SelectSecond(CEngine engine)
 		{
+			first = opponent = engine.name;
 			if (engineList.Count < 2)
 				return engine;
 			engineList.SetEloDistance(engine);
@@ -101,6 +73,7 @@ namespace RapChessGui
 						bstEngine = e;
 					}
 				}
+			opponent = bstEngine.name;
 			return bstEngine;
 		}
 
@@ -110,7 +83,6 @@ namespace RapChessGui
 			{
 				first = e.name;
 				opponent = o.name;
-				SaveToIni();
 				int cg = tourList.CountGames(e.name, o.name, out int rw, out int rl, out _);
 				if (reps == 0)
 				{

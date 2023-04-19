@@ -11,23 +11,6 @@ namespace RapChessGui
 		public static CBook bookWin = null;
 		public static CBook bookLoose = null;
 
-		public void SaveToIni()
-		{
-			FormChess.ini.Write("mode>tournamentB>book", first);
-			FormChess.ini.Write("mode>tournamentB>records", records);
-			FormChess.ini.Write("mode>tournamentB>eloAvg", eloAvg);
-			FormChess.ini.Write("mode>tournamentB>eloRange", eloRange);
-		}
-
-		public void LoadFromIni()
-		{
-			first = FormChess.ini.Read("mode>tournamentB>book", first);
-			records = FormChess.ini.ReadInt("mode>tournamentB>records", records);
-			eloAvg = FormChess.ini.ReadInt("mode>tournamentB>eloAvg", eloAvg);
-			eloRange = FormChess.ini.ReadInt("mode>tournamentB>eloRange", eloRange);
-			tourList.SetLimit(records);
-		}
-
 		public static CBook ChooseOpponent(CBook book, CBook book1, CBook book2)
 		{
 			tourList.CountGames(book.name, book1.name, out int rw1, out int rl1, out int rd1);
@@ -47,23 +30,11 @@ namespace RapChessGui
 
 		public void ListFill()
 		{
-			int avg = eloAvg;
-			CBook book = FormChess.bookList.GetBookByName(FormOptions.tourBSelected);
-			if (book != null)
-				avg = book.elo;
-			int eloMin = avg - eloRange;
-			int eloMax = avg + eloRange;
-			if ((eloRange == 0) || (eloAvg == 0))
-				if (eloAvg > 0)
-				{
-					eloMin = avg - eloAvg;
-					eloMax = avg + eloAvg;
-				}
-				else
-				{
-					eloMin = 0;
-					eloMax = CElo.eloTotal;
-				}
+			CBook book = FormChess.bookList.GetBookByName(FormChess.formOptions.cbTourBSelected.Text);
+			int avg = book == null ? (int)FormChess.formOptions.nudTourBAvg.Value : book.elo;
+			int range = (int)FormChess.formOptions.nudTourERange.Value;
+			int eloMin = range == 0 ? 0 : avg - range;
+			int eloMax = range == 0 ? CElo.eloTotal : avg + range;
 			bookList.Clear();
 			foreach (CBook b in FormChess.bookList)
 				if (b.IsPlayable() && (b.tournament > 0))
@@ -74,20 +45,21 @@ namespace RapChessGui
 		public CBook SelectFirst()
 		{
 			ListFill();
-			CBook b = bookList.GetBookByName(FormOptions.tourBSelected);
-			if ((b != null) && (eloRange == 0))
-				return b;
-			b = bookList.GetBookByName(first);
-			if ((b == null) || ((left < 1) && (reps > 0)))
+			CBook book = bookList.GetBookByName(FormChess.formOptions.cbTourBSelected.Text);
+			if ((book != null) && (FormChess.formOptions.nudTourBRange.Value == 0))
+				return book;
+			book = bookList.GetBookByName(first);
+			if ((book == null) || ((left < 1) && (reps > 0)))
 			{
-				b = SelectLast();
+				book = SelectLast();
 				reps = 0;
 			}
-			return b;
+			return book;
 		}
 
-		public static CBook SelectSecond(CBook book)
+		public CBook SelectSecond(CBook book)
 		{
+			first = opponent = book.name;
 			bookList.SortPosition(book);
 			List<CBook> bl = new List<CBook>();
 			foreach (CBook b in bookList)
@@ -108,6 +80,7 @@ namespace RapChessGui
 				}
 
 			}
+			opponent = bstBook.name;
 			return bstBook;
 		}
 
@@ -133,7 +106,6 @@ namespace RapChessGui
 			{
 				first = b.name;
 				opponent = o.name;
-				SaveToIni();
 				int cg = tourList.CountGames(b.name, o.name, out int rw, out int rl, out _);
 				if (reps == 0)
 				{

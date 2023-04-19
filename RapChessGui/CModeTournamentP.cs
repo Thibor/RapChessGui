@@ -9,23 +9,6 @@ namespace RapChessGui
 		public static CPlayer plaWin = null;
 		public static CPlayer plaLoose = null;
 
-		public void SaveToIni()
-		{
-			FormChess.ini.Write("mode>tournamentP>player", first);
-			FormChess.ini.Write("mode>tournamentP>records", records);
-			FormChess.ini.Write("mode>tournamentP>eloAvg", eloAvg);
-			FormChess.ini.Write("mode>tournamentP>eloRange", eloRange);
-		}
-
-		public void LoadFromIni()
-		{
-			first = FormChess.ini.Read("mode>tournamentP>player", first);
-			records = FormChess.ini.ReadInt("mode>tournamentP>records", records);
-			eloAvg = FormChess.ini.ReadInt("mode>tournamentP>eloAvg", eloAvg);
-			eloRange = FormChess.ini.ReadInt("mode>tournamentP>eloRange", eloRange);
-			tourList.SetLimit(records);
-		}
-
 		public static CPlayer ChooseOpponent(CPlayer player, CPlayer player1, CPlayer player2)
 		{
 			tourList.CountGames(player.name, player1.name, out int rw1, out int rl1, out int rd1);
@@ -41,32 +24,6 @@ namespace RapChessGui
 			if (count2 * 1.1 <= count1 >> 1)
 				return player2;
 			return null;
-		}
-
-		public void ListFill()
-		{
-			int avg = eloAvg;
-			CPlayer player = FormChess.playerList.GetPlayerByName(FormOptions.tourPSelected);
-			if (player != null)
-				avg = player.elo;
-			int eloMin = avg - eloRange;
-			int eloMax = avg + eloRange;
-			if ((eloRange == 0) || (eloAvg == 0))
-				if (eloAvg > 0)
-				{
-					eloMin = avg - eloAvg;
-					eloMax = avg + eloAvg;
-				}
-				else
-				{
-					eloMin = 0;
-					eloMax = CElo.eloTotal;
-				}
-			playerList.Clear();
-			foreach (CPlayer p in FormChess.playerList)
-				if (p.IsPlayable() && (p.tournament > 0))
-					if ((p.elo >= eloMin) && (p.elo <= eloMax))
-						playerList.AddPlayer(p);
 		}
 
 		public static CPlayer SelectLast()
@@ -85,23 +42,38 @@ namespace RapChessGui
 			return result;
 		}
 
+		public void ListFill()
+		{
+			CPlayer player = FormChess.playerList.GetPlayerByName(FormChess.formOptions.cbTourPSelected.Text);
+			int avg = player == null ? (int)FormChess.formOptions.nudTourPAvg.Value : player.elo;
+			int range = (int)FormChess.formOptions.nudTourERange.Value;
+			int eloMin = range == 0 ? 0 : avg - range;
+			int eloMax = range == 0 ? CElo.eloTotal : avg + range;
+			playerList.Clear();
+			foreach (CPlayer p in FormChess.playerList)
+				if (p.IsPlayable() && (p.tournament > 0))
+					if ((p.elo >= eloMin) && (p.elo <= eloMax))
+						playerList.AddPlayer(p);
+		}
+
 		public CPlayer SelectFirst()
 		{
 			ListFill();
-			CPlayer p = playerList.GetPlayerByName(FormOptions.tourPSelected);
-			if ((p != null) && (eloRange == 0))
-				return p;
-			p = playerList.GetPlayerByName(first);
-			if ((p == null) || ((left < 1) && (reps > 0)))
+			CPlayer player = playerList.GetPlayerByName(FormChess.formOptions.cbTourPSelected.Text);
+			if ((player != null) && (FormChess.formOptions.nudTourBRange.Value == 0))
+				return player;
+			player = playerList.GetPlayerByName(first);
+			if ((player == null) || ((left < 1) && (reps > 0)))
 			{
-				p = SelectLast();
+				player = SelectLast();
 				reps = 0;
 			}
-			return p;
+			return player;
 		}
 
-		public static CPlayer SelectSecond(CPlayer player)
+		public CPlayer SelectSecond(CPlayer player)
 		{
+			first =opponent= player.name;
 			if (playerList.Count < 2)
 				return player;
 			playerList.SetEloDistance(player);
@@ -118,6 +90,7 @@ namespace RapChessGui
 					}
 
 				}
+			opponent = bstPlayer.name;
 			return bstPlayer;
 		}
 
@@ -127,7 +100,6 @@ namespace RapChessGui
 			{
 				first = p.name;
 				opponent = o.name;
-				SaveToIni();
 				int cg = tourList.CountGames(p.name, o.name, out int rw, out int rl, out _);
 				if (reps == 0)
 				{

@@ -80,9 +80,9 @@
 			this.panel1.Controls.Add(this.gbEngine);
 			this.panel1.Controls.Add(this.groupBox1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panel1.Location = new System.Drawing.Point(489, 0);
+			this.panel1.Location = new System.Drawing.Point(489, 24);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(311, 591);
+			this.panel1.Size = new System.Drawing.Size(311, 567);
 			this.panel1.TabIndex = 0;
 			// 
 			// bDelete
@@ -311,11 +311,10 @@
 			// 
 			this.gbPlayers.AutoSize = true;
 			this.gbPlayers.Controls.Add(this.listBox1);
-			this.gbPlayers.Controls.Add(this.menuStrip1);
 			this.gbPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gbPlayers.Location = new System.Drawing.Point(0, 0);
+			this.gbPlayers.Location = new System.Drawing.Point(0, 24);
 			this.gbPlayers.Name = "gbPlayers";
-			this.gbPlayers.Size = new System.Drawing.Size(489, 591);
+			this.gbPlayers.Size = new System.Drawing.Size(489, 567);
 			this.gbPlayers.TabIndex = 5;
 			this.gbPlayers.TabStop = false;
 			this.gbPlayers.Text = "Players List";
@@ -327,7 +326,7 @@
 			this.listBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.listBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.listBox1.FormattingEnabled = true;
-			this.listBox1.Location = new System.Drawing.Point(3, 40);
+			this.listBox1.Location = new System.Drawing.Point(3, 16);
 			this.listBox1.Name = "listBox1";
 			this.listBox1.Size = new System.Drawing.Size(483, 548);
 			this.listBox1.Sorted = true;
@@ -342,10 +341,10 @@
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.actionToolStripMenuItem});
-			this.menuStrip1.Location = new System.Drawing.Point(3, 16);
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(483, 24);
-			this.menuStrip1.TabIndex = 2;
+			this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+			this.menuStrip1.TabIndex = 6;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
 			// actionToolStripMenuItem
@@ -371,8 +370,8 @@
 			this.ClientSize = new System.Drawing.Size(800, 591);
 			this.Controls.Add(this.gbPlayers);
 			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.menuStrip1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.MainMenuStrip = this.menuStrip1;
 			this.MinimizeBox = false;
 			this.Name = "FormEditPlayer";
 			this.ShowInTaskbar = false;
@@ -393,7 +392,6 @@
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.gbPlayers.ResumeLayout(false);
-			this.gbPlayers.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
