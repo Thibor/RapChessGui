@@ -142,6 +142,7 @@ namespace RapChessGui
 	public class CListBook : List<CBook>
 	{
 		public static string def = "BRM Bigmem";
+		static Random rnd = new Random();
 		public static CRapIni iniFile = new CRapIni(@"Ini\books.ini");
 
 		public void AddBook(CBook b)
@@ -194,6 +195,10 @@ namespace RapChessGui
 
 		public CBook GetBookByName(string name)
 		{
+			if (Count == 0)
+				return null;
+			if (name == "Random")
+				return this[rnd.Next(Count)];
 			foreach (CBook br in this)
 				if (br.name.ToLower() == name.ToLower())
 					return br;

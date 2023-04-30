@@ -2938,7 +2938,6 @@ namespace RapChessGui
 		private void butForward_Click(object sender, EventArgs e)
 		{
 			SetUnranked();
-			gamers.WhiteTurn = !gamers.WhiteTurn;
 			gamers.Rotate();
 			ShowGamers();
 		}

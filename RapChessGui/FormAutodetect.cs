@@ -12,7 +12,6 @@ namespace RapChessGui
 		static int countAuto = 0;
 		static int countDone = 0;
 		static int tick = 0;
-		static bool testResult = false;
 		static int testMode = 0;
 		public static string path = @"History\autodetect.log";
 		static CEngine testEngine = null;
@@ -59,10 +58,7 @@ namespace RapChessGui
 				return;
 			uci.SetMsg(msg);
 			string bst = testEngine.protocol == CProtocol.uci ? uci.GetStr("bestmove") : uci.GetStr("move");
-			bool con = !string.IsNullOrEmpty(bst);
-			bool bstOk = (bst.Length <4)||((bst.Length == 4) && ((bst[0] != bst[2]) || (bst[1] != bst[3])));
-			if (testResult && con && !bstOk && (testMode > 1))
-				testResult = false;
+			bool bstOk = (bst.Length ==2)||(bst.Length==3)||((bst.Length == 4) && ((bst[0] != bst[2]) || (bst[1] != bst[3])));
 			WriteLineFromEngine(msg);
 			switch (testMode)
 			{
@@ -80,33 +76,33 @@ namespace RapChessGui
 					break;
 				case 2:
 				case 3:
-					if (con)
-						testEngine.modeTime = testResult;
+					if (bstOk)
+						testEngine.modeTime ^= true;
 					break;
 				case 5:
 				case 6:
-					if (con)
-						testEngine.modeDepth = testResult;
+					if (bstOk)
+						testEngine.modeDepth ^= true;
 					break;
 				case 8:
 				case 9:
-					if (con)
-						testEngine.modeStandard = testResult;
+					if (bstOk)
+						testEngine.modeStandard ^= true; ;
 					break;
 				case 11:
 				case 12:
-					if (con)
-						testEngine.modeTournament = testResult;
+					if (bstOk)
+						testEngine.modeTournament ^= true;
 					break;
 				case 14:
 				case 15:
-					if (con)
-						testEngine.modeNodes = testResult;
+					if (bstOk)
+						testEngine.modeNodes ^= true;
 					break;
 				case 17:
 				case 18:
-					if (con)
-						testEngine.modeInfinite = testResult;
+					if (bstOk)
+						testEngine.modeInfinite ^= true;
 					break;
 
 			}
@@ -268,7 +264,6 @@ namespace RapChessGui
 					if (testEngine.protocol == CProtocol.winboard)
 						testProcess.WriteLine("xboard", true);
 					testEngine.modeTime = false;
-					testResult = true;
 					WriteLine("start test time 1");
 					if (testEngine.protocol == CProtocol.uci)
 						TestUci("go movetime 1000");
@@ -278,7 +273,6 @@ namespace RapChessGui
 				case 3:
 					if (testEngine.modeTime)
 					{
-						testResult = false;
 						WriteLine("start test time 2");
 						if (testEngine.protocol == CProtocol.uci)
 							TestUci("go movetime 10000");
@@ -294,7 +288,6 @@ namespace RapChessGui
 				case 5:
 					ShowTime();
 					testEngine.modeDepth = false;
-					testResult = true;
 					WriteLine("start test depth 1");
 					if (testEngine.protocol == CProtocol.uci)
 						TestUci("go depth 3");
@@ -304,7 +297,6 @@ namespace RapChessGui
 				case 6:
 					if (testEngine.modeDepth)
 					{
-						testResult = false;
 						WriteLine("start test depth 2");
 						if (testEngine.protocol == CProtocol.uci)
 							TestUci("go depth 60");
@@ -320,7 +312,6 @@ namespace RapChessGui
 				case 8:
 					ShowDepth();
 					testEngine.modeStandard = false;
-					testResult = true;
 					WriteLine("start test standard 1");
 					if (testEngine.protocol == CProtocol.uci)
 						TestUci("go wtime 500 btime 500 winc 0 binc 0");
@@ -330,7 +321,6 @@ namespace RapChessGui
 				case 9:
 					if (testEngine.modeStandard)
 					{
-						testResult = false;
 						WriteLine("start test standard 2");
 						if (testEngine.protocol == CProtocol.uci)
 							TestUci("go wtime 1000000 btime 1000000 winc 0 binc 0");
@@ -346,7 +336,6 @@ namespace RapChessGui
 				case 11:
 					ShowStandard();
 					testEngine.modeTournament = false;
-					testResult = true;
 					WriteLine("start test tournament 1");
 					if (testEngine.protocol == CProtocol.uci)
 						TestUci("go wtime 20000 btime 20000 winc 0 binc 0 movestogo 80");
@@ -356,7 +345,6 @@ namespace RapChessGui
 				case 12:
 					if (testEngine.modeTournament)
 					{
-						testResult = false;
 						WriteLine("start test tournament 2");
 						if (testEngine.protocol == CProtocol.uci)
 							TestUci("go wtime 20000 btime 20000 winc 0 binc 0 movestogo 1");
@@ -372,7 +360,6 @@ namespace RapChessGui
 				case 14:
 					ShowTournament();
 					testEngine.modeNodes = false;
-					testResult = true;
 					WriteLine("start test nodes 1");
 					if (testEngine.protocol == CProtocol.uci)
 						TestUci("go nodes 1000");
@@ -382,7 +369,6 @@ namespace RapChessGui
 				case 15:
 					if (testEngine.modeNodes)
 					{
-						testResult = false;
 						WriteLine("start test nodes 2");
 						TestUci("go nodes 100000000");
 					}
@@ -394,7 +380,6 @@ namespace RapChessGui
 					break;
 				case 17:
 					ShowNodes();
-					testResult = false;
 					WriteLine("start test infinite 1");
 					if (testEngine.protocol == CProtocol.uci)
 					{
@@ -410,7 +395,7 @@ namespace RapChessGui
 				case 18:
 					if (testEngine.modeInfinite)
 					{
-						testResult = true;
+						testEngine.modeInfinite = false;
 						WriteLine("start test infinite 2");
 						TestStop();
 					}

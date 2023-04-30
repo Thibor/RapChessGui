@@ -240,6 +240,8 @@ namespace RapChessGui
 			cbTourBSelected.Items.Insert(0, Global.none);
 			cbTourEBookF.Items.Insert(0, Global.none);
 			cbTourEBookS.Items.Insert(0, Global.none);
+			cbTourEBookF.Items.Insert(1, "Random");
+			cbTourEBookS.Items.Insert(1, "Random");
 
 			cbGameEngine.Items.Clear();
 			cbTourBEngine.Items.Clear();

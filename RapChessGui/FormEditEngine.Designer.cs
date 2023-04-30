@@ -64,6 +64,7 @@
 			this.timerPhase = new System.Windows.Forms.Timer(this.components);
 			this.menuStrip2 = new System.Windows.Forms.MenuStrip();
 			this.consoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.autodetectAllEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.autodetectEngineProtocolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,7 +72,7 @@
 			this.deleteNotExistsEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.findEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.resetEngineOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.panel1.SuspendLayout();
 			this.panButtons.SuspendLayout();
 			this.gbMode.SuspendLayout();
@@ -501,14 +502,22 @@
 			this.consoleToolStripMenuItem.Text = "Console";
 			this.consoleToolStripMenuItem.Click += new System.EventHandler(this.consoleToolStripMenuItem_Click);
 			// 
+			// logToolStripMenuItem
+			// 
+			this.logToolStripMenuItem.Name = "logToolStripMenuItem";
+			this.logToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+			this.logToolStripMenuItem.Text = "Log";
+			this.logToolStripMenuItem.Click += new System.EventHandler(this.Log_Click);
+			// 
 			// actionToolStripMenuItem
 			// 
 			this.actionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.autodetectAllEnginesToolStripMenuItem,
-            this.autodetectEngineProtocolToolStripMenuItem,
-            this.clearTournamentHistoryToolStripMenuItem,
             this.deleteNotExistsEnginesToolStripMenuItem,
             this.findEnginesToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.autodetectEngineProtocolToolStripMenuItem,
+            this.clearTournamentHistoryToolStripMenuItem,
             this.resetEngineOptionsToolStripMenuItem});
 			this.actionToolStripMenuItem.Name = "actionToolStripMenuItem";
 			this.actionToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
@@ -532,14 +541,14 @@
 			// 
 			this.clearTournamentHistoryToolStripMenuItem.Name = "clearTournamentHistoryToolStripMenuItem";
 			this.clearTournamentHistoryToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
-			this.clearTournamentHistoryToolStripMenuItem.Text = "Clear tournament history";
+			this.clearTournamentHistoryToolStripMenuItem.Text = "Clear engine history";
 			this.clearTournamentHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearTournamentHistoryToolStripMenuItem_Click);
 			// 
 			// deleteNotExistsEnginesToolStripMenuItem
 			// 
 			this.deleteNotExistsEnginesToolStripMenuItem.Name = "deleteNotExistsEnginesToolStripMenuItem";
 			this.deleteNotExistsEnginesToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
-			this.deleteNotExistsEnginesToolStripMenuItem.Text = "Delete unplayable";
+			this.deleteNotExistsEnginesToolStripMenuItem.Text = "Delete unplayable engines";
 			this.deleteNotExistsEnginesToolStripMenuItem.Click += new System.EventHandler(this.deleteNotExistsEnginesToolStripMenuItem_Click);
 			// 
 			// findEnginesToolStripMenuItem
@@ -556,12 +565,10 @@
 			this.resetEngineOptionsToolStripMenuItem.Text = "Reset engine options";
 			this.resetEngineOptionsToolStripMenuItem.Click += new System.EventHandler(this.resetEngineOptionsToolStripMenuItem_Click);
 			// 
-			// logToolStripMenuItem
+			// toolStripMenuItem1
 			// 
-			this.logToolStripMenuItem.Name = "logToolStripMenuItem";
-			this.logToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-			this.logToolStripMenuItem.Text = "Log";
-			this.logToolStripMenuItem.Click += new System.EventHandler(this.Log_Click);
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(210, 6);
 			// 
 			// FormEditEngine
 			// 
@@ -650,5 +657,6 @@
 		private System.Windows.Forms.ToolStripMenuItem findEnginesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem deleteNotExistsEnginesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem logToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 	}
 }
