@@ -60,7 +60,7 @@ namespace RapChessGui
 		{
 			ListFill();
 			CPlayer player = playerList.GetPlayerByName(FormChess.formOptions.cbTourPSelected.Text);
-			if ((player != null) && (FormChess.formOptions.nudTourBRange.Value == 0))
+			if ((player != null) && (FormChess.formOptions.nudTourPRange.Value == 0))
 				return player;
 			player = playerList.GetPlayerByName(first);
 			if ((player == null) || ((left < 1) && (reps > 0)))

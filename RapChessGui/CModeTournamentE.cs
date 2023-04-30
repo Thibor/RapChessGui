@@ -44,7 +44,7 @@ namespace RapChessGui
 		{
 			ListFill();
 			CEngine eng = engineList.GetEngineByName(FormChess.formOptions.cbTourESelected.Text);
-			if ((eng != null) && (FormChess.formOptions.nudTourBRange.Value == 0))
+			if ((eng != null) && (FormChess.formOptions.nudTourERange.Value == 0))
 				return eng;
 			eng = engineList.GetEngineByName(first);
 			if ((eng == null) || ((left < 1) && (reps > 0)))
