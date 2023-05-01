@@ -57,6 +57,8 @@ namespace RapChessGui
 
 		public CEngine SelectSecond(CEngine engine)
 		{
+			if (engine == null)
+				return null;
 			first = opponent = engine.name;
 			if (engineList.Count < 2)
 				return engine;

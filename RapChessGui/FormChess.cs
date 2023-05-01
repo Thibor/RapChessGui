@@ -1968,6 +1968,8 @@ namespace RapChessGui
 			TournamentBUpdate(CModeTournamentB.bookLoose);
 			SetMode(CGameMode.tourB);
 			CBook b1 = tourB.SelectFirst();
+			if (b1 == null)
+				return;
 			CBook b2 = tourB.SelectSecond(b1);
 			CPlayer p1 = new CPlayer(b1.name);
 			CPlayer p2 = new CPlayer(b2.name);
@@ -2137,6 +2139,8 @@ namespace RapChessGui
 			TournamentEUpdate(CModeTournamentE.engLoose);
 			SetMode(CGameMode.tourE);
 			CEngine e1 = tourE.SelectFirst();
+			if (e1 == null)
+				return;
 			CEngine e2 = tourE.SelectSecond(e1);
 			CPlayer p1 = new CPlayer(e1.name);
 			CPlayer p2 = new CPlayer(e2.name);
@@ -2298,10 +2302,15 @@ namespace RapChessGui
 		}
 
 		void TournamentPStart()
-		{
+		{ 
 			if (engineList.Count == 0)
 			{
 				MessageBox.Show("No engines");
+				return;
+			}
+			if (playerList.Count == 0)
+			{
+				MessageBox.Show("No players");
 				return;
 			}
 			ComClear();
@@ -2309,6 +2318,8 @@ namespace RapChessGui
 			TournamentPUpdate(CModeTournamentP.plaLoose);
 			SetMode(CGameMode.tourP);
 			CPlayer p1 = tourP.SelectFirst();
+			if (p1 == null)
+				return;
 			CPlayer p2 = tourP.SelectSecond(p1);
 			tourP.SetRepeition(p1, p2);
 			gamers.SetPlayers(p1, p2);

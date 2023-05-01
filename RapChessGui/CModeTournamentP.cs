@@ -73,6 +73,8 @@ namespace RapChessGui
 
 		public CPlayer SelectSecond(CPlayer player)
 		{
+			if (player == null)
+				return null;
 			first =opponent= player.name;
 			if (playerList.Count < 2)
 				return player;

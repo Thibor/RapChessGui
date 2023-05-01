@@ -59,6 +59,8 @@ namespace RapChessGui
 
 		public CBook SelectSecond(CBook book)
 		{
+			if (book == null)
+				return null;
 			first = opponent = book.name;
 			bookList.SortPosition(book);
 			List<CBook> bl = new List<CBook>();
