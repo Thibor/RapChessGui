@@ -247,7 +247,7 @@ namespace NSChess
 			string attack = isAttack ? "x" : String.Empty;
 			int promotion = (emo >> 24) & maskRank;
 			string promo = String.Empty;
-			if (promotion == pieceKing)
+			if (promotion == pieceKnight)
 				promo = "=N";
 			if (promotion == pieceBishop)
 				promo = "=B";

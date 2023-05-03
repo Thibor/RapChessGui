@@ -2196,7 +2196,7 @@ namespace RapChessGui
 			formChartE.UpdateChart();
 		}
 
-		#endregion
+		#endregion mode tournament E
 
 		#region mode touurnament P
 
