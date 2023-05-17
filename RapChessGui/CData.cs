@@ -89,7 +89,7 @@ namespace RapChessGui
 		{
 			int result = 0;
 			foreach (int i in this)
-				result += i;
+				result += (i + 1);
 			return result;
 		}
 
@@ -104,15 +104,13 @@ namespace RapChessGui
 		public void AddGame(bool error)
 		{
 			if (Count == 0)
-				Add(1);
-			else if (this[Count - 1] < int.MaxValue)
-			{
-				this[Count - 1]++;
-				if (((Sum() % 100) == 0) || (Count > FormOptions.historyLength))
-					RemoveRange(0, 1);
-			}
+				Add(0);
 			if (error)
 				Add(0);
+			else if (this[Count - 1] < int.MaxValue)
+				this[Count - 1]++;
+			if (((Sum() % 100) == 0) || (Count > FormOptions.historyLength))
+				RemoveRange(0, 1);
 		}
 
 		public void LoadFromStr(string str)

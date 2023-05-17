@@ -392,7 +392,7 @@ namespace RapChessGui
 			for (int n = 0; n < 64; n++)
 				UpdateField(n);
 			SetPosition();
-			ShowAttack(FormOptions.showAttack);
+			ShowAttack();
 			Render();
 		}
 
@@ -574,11 +574,11 @@ namespace RapChessGui
 			}
 		}
 
-		public void ShowAttack(bool show)
+		public void ShowAttack()
 		{
+			bool show = FormOptions.showAttack;
 			ClearAttack();
-			if (show)
-				ShowAttack(show, FormChess.chess.WhiteTurn);
+			ShowAttack(show, FormChess.chess.WhiteTurn);
 			ShowAttack(show, !FormChess.chess.WhiteTurn);
 		}
 

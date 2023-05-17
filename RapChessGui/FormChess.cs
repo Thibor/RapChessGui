@@ -1199,7 +1199,7 @@ namespace RapChessGui
 				SetGameState(CGameState.error, gc, move);
 				return false;
 			}
-			PlaySound(chess.IsCapture(emo), chess.IsCastling(emo), chess.IsCheck(emo));
+			PlaySound(chess.MoveIsCapture(emo), chess.MoveIsCastling(emo), chess.IsCheck(emo));
 			gc.MoveDone();
 			CChess.UmoToSD(umo, out CDrag.lastSou, out CDrag.lastDes);
 			board.MakeMove(emo);

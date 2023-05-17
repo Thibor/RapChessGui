@@ -59,7 +59,7 @@ namespace NSChess
 		public int move50 = 0;
 		public int halfMove = 0;
 		public bool inCheck = false;
-		int lastCastle = 0;
+		protected int lastCastle = 0;
 		bool adjInsufficient = false;
 		int undoIndex = 0;
 		public int[] board = new int[64];
@@ -115,6 +115,7 @@ namespace NSChess
 		public CChess()
 		{
 			Initialize();
+			SetFen();
 		}
 
 		public void Initialize()
@@ -145,16 +146,13 @@ namespace NSChess
 
 		#region info
 
-		public bool IsCapture(int emo)
-		{
-			int to = (emo >> 8) & 0xff;
-			return (board[to] & 0xf) > 0;
-		}
-
-		public bool IsCastling(int emo)
-		{
-			return (emo & maskCastle) > 0;
-		}
+		public int SquareX(int sq) => sq & 7;
+		public int SquareY(int sq) => sq >> 3;
+		public int MoveFr(int emo) => emo & 0x3f;
+		public int MoveTo(int emo) => (emo >> 8) & 0x3f;
+		public bool MoveWhite(int emo) => (board[MoveFr(emo)] & colorWhite) > 0;
+		public bool MoveIsCastling(int emo) => (emo & maskCastle) > 0;
+		public bool MoveIsCapture(int emo) => (board[MoveTo(emo)] & 0xf) > 0;
 
 		public bool IsCheck(int emo)
 		{
@@ -210,8 +208,8 @@ namespace NSChess
 			CGameState gs = GetGameState(out bool check);
 			UnmakeMove(emo);
 			string[] arrPiece = { "", "", "N", "B", "R", "Q", "K" };
-			int fr = emo & 0xff;
-			int to = (emo >> 8) & 0xff;
+			int fr = MoveFr(emo);
+			int to = MoveTo(emo);
 			int pieceFr = board[fr] & 7;
 			int pieceTo = board[to] & 7;
 			bool isAttack = (pieceTo > 0) || ((emo & moveflagPassing) > 0);
@@ -395,7 +393,7 @@ namespace NSChess
 
 		public string GetFenBase()
 		{
-			string result = "";
+			string result = String.Empty;
 			string[] arr = { " ", "p", "n", "b", "r", "q", "k", " " };
 			for (int y = 0; y < 8; y++)
 			{
@@ -832,7 +830,7 @@ namespace NSChess
 			return GetGameState(out _);
 		}
 
-		bool IsRepetition(int count = 3)
+		public bool IsRepetition(int count = 3)
 		{
 			int pos = undoIndex - 2;
 			while (pos >= 0)

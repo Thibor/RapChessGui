@@ -10,9 +10,11 @@ namespace RapChessGui
 	public partial class FormEditBook : Form
 	{
 		public static FormEditBook This;
+		int indexFirst = -1;
+		int tournament = -1;
+		public static CBook book = null;
 		readonly FormLogBook formLogBook = new FormLogBook();
 		public static string bookName = String.Empty;
-		public static CBook book = null;
 		public static CProcess processOptions = null;
 		readonly static COptionList optionList = new COptionList();
 
@@ -154,6 +156,26 @@ namespace RapChessGui
 			StartTestOptions();
 		}
 
+		void SelectBooks(int first, int last, bool t)
+		{
+			int f = first < last ? first : last;
+			int l = first < last ? last : first;
+			bool r = false;
+			for (int n = f; n <= l; n++)
+			{
+				var item = listBoxBooks.Items[n];
+				string name = item.ToString();
+				CBook eb = FormChess.bookList.GetBookByName(name);
+				if (eb.SetTournament(t))
+					r = true;
+			}
+			if (r)
+			{
+				listBoxBooks.Refresh();
+				SelectBook();
+			}
+		}
+
 		void BookToSetings()
 		{
 			tbBookName.Text = book.name;
@@ -165,15 +187,15 @@ namespace RapChessGui
 
 		void UpdateListBox()
 		{
-			listBox1.Items.Clear();
+			listBoxBooks.Items.Clear();
 			foreach (CBook b in FormChess.bookList)
-				listBox1.Items.Add(b.name);
-			gbBooks.Text = $"Books {listBox1.Items.Count}";
+				listBoxBooks.Items.Add(b.name);
+			gbBooks.Text = $"Books {listBoxBooks.Items.Count}";
 		}
 
 		private void ListBox1_SelectedValueChanged(object sender, EventArgs e)
 		{
-			SelectBook(listBox1.SelectedItem.ToString());
+			SelectBook(listBoxBooks.SelectedItem.ToString());
 		}
 
 		void SetingsToBook(CBook b)
@@ -227,9 +249,9 @@ namespace RapChessGui
 			SetingsToBook(b);
 			b.SaveToIni();
 			UpdateListBox();
-			int index = listBox1.FindString(b.name);
+			int index = listBoxBooks.FindString(b.name);
 			if (index == -1) return;
-			listBox1.SetSelected(index, true);
+			listBoxBooks.SetSelected(index, true);
 		}
 
 		private void ButUpdate_Click(object sender, EventArgs e)
@@ -276,16 +298,16 @@ namespace RapChessGui
 			cbBookreaderList.Items.Insert(0, Global.none);
 			cbBookreaderList.SelectedIndex = 0;
 			UpdateListBox();
-			listBox1.SelectedIndex = listBox1.FindString(bookName);
-			if ((listBox1.SelectedIndex < 0) && (listBox1.Items.Count > 0))
-				listBox1.SelectedIndex = 0;
+			listBoxBooks.SelectedIndex = listBoxBooks.FindString(bookName);
+			if ((listBoxBooks.SelectedIndex < 0) && (listBoxBooks.Items.Count > 0))
+				listBoxBooks.SelectedIndex = 0;
 		}
 
 		private void listBox1_DrawItem(object sender, DrawItemEventArgs e)
 		{
 			if (e.Index < 0)
 				return;
-			string name = listBox1.Items[e.Index].ToString();
+			string name = listBoxBooks.Items[e.Index].ToString();
 			CBook book = FormChess.bookList.GetBookByName(name);
 			bool selected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
 			Brush b = Brushes.Black;
@@ -353,6 +375,48 @@ namespace RapChessGui
 				int count = CModeTournamentB.tourList.DeletePlayer(book.name);
 				MessageBox.Show($"{count} records have been deleted");
 			}
+		}
+
+		private void listBox1_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				indexFirst = -1;
+				tournament = -1;
+				listBoxBooks.Capture = true;
+				int index = listBoxBooks.IndexFromPoint(e.Location);
+				if ((index >= 0) && (index < listBoxBooks.Items.Count))
+				{
+					var item = listBoxBooks.Items[index];
+					string name = item.ToString();
+					CBook ce = FormChess.bookList.GetBookByName(name);
+					indexFirst = index;
+					tournament = ce.tournament > 0 ? 0 : 1;
+					if (ce.SetTournament(tournament == 1))
+					{
+						listBoxBooks.Refresh();
+						if (book == ce)
+							SelectBook();
+					}
+
+				}
+			}
+		}
+
+		private void listBoxBooks_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				int index = listBoxBooks.IndexFromPoint(e.Location);
+				if ((index >= 0) && (index < listBoxBooks.Items.Count) && (tournament >= 0))
+					SelectBooks(indexFirst, index, tournament > 0);
+			}
+		}
+
+		private void listBoxBooks_MouseUp(object sender, MouseEventArgs e)
+		{
+			tournament = -1;
+			listBoxBooks.Capture = false;
 		}
 	}
 }

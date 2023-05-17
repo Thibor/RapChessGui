@@ -137,6 +137,20 @@ namespace RapChessGui
 			return name;
 		}
 
+		public bool SetTournament(bool tb)
+		{
+			int t = tb ? 1 : 0;
+			if (tb && (tournament > 0))
+				t = tournament;
+			if (tournament != t)
+			{
+				tournament = t;
+				SaveToIni();
+				return true;
+			}
+			return false;
+		}
+
 	}
 
 	public class CListBook : List<CBook>
