@@ -112,6 +112,9 @@ namespace RapChessGui
 			cbGameEngine.Text = FormChess.ini.Read("options>mode>game>engine", CListEngine.def,def);
 			nudBreak.Value = FormChess.ini.ReadDecimal("options>mode>game>break",8,def);
 
+			cbMatchBookF.Text = FormChess.ini.Read("options>mode>match>bookF", Global.none, def);
+			cbMatchBookS.Text = FormChess.ini.Read("options>mode>match>bookS", Global.none, def);
+
 			cbTourBSelected.Text = FormChess.ini.Read("options>mode>tourB>selected", Global.none, def);
 			cbTourBEngine.Text = FormChess.ini.Read("options>mode>tourB>engine", Global.none,def);
 			cbTourBMode.Text = FormChess.ini.Read("options>mode>tourB>mode", tourBMode,def);
@@ -162,6 +165,9 @@ namespace RapChessGui
 			FormChess.ini.Write("options>mode>game>book", cbGameBook.Text);
 			FormChess.ini.Write("options>mode>game>engine", cbGameEngine.Text);
 			FormChess.ini.Write("options>mode>game>break", nudBreak.Value);
+
+			FormChess.ini.Write("options>mode>match>bookF", cbMatchBookF.Text);
+			FormChess.ini.Write("options>mode>match>bookS", cbMatchBookS.Text);
 
 			FormChess.ini.Write("options>mode>tourB>selected", cbTourBSelected.Text);
 			FormChess.ini.Write("options>mode>tourB>engine", cbTourBEngine.Text);
@@ -218,28 +224,40 @@ namespace RapChessGui
 				cbBookReader.Items.Add(book);
 			cbBookReader.SelectedIndex = 0;
 			cbGameBook.Items.Clear();
+			cbMatchBookF.Items.Clear();
+			cbMatchBookS.Items.Clear();
 			cbTourBSelected.Items.Clear();
 			cbTourEBookF.Items.Clear();
 			cbTourEBookS.Items.Clear();
 			cbGameBook.Sorted = true;
+			cbMatchBookF.Sorted = true;
+			cbMatchBookS.Sorted = true;
 			cbTourBSelected.Sorted = true;
 			cbTourEBookF.Sorted = true;
 			cbTourEBookS.Sorted = true;
 			foreach (CBook b in FormChess.bookList)
 			{
 				cbGameBook.Items.Add(b.name);
+				cbMatchBookF.Items.Add(b.name);
+				cbMatchBookS.Items.Add(b.name);
 				cbTourBSelected.Items.Add(b.name);
 				cbTourEBookF.Items.Add(b.name);
 				cbTourEBookS.Items.Add(b.name);
 			}
 			cbGameBook.Sorted = false;
+			cbMatchBookF.Sorted = false;
+			cbMatchBookS.Sorted = false;
 			cbTourBSelected.Sorted = false;
 			cbTourEBookF.Sorted = false;
 			cbTourEBookS.Sorted = false;
 			cbGameBook.Items.Insert(0, Global.none);
+			cbMatchBookF.Items.Insert(0, Global.none);
+			cbMatchBookS.Items.Insert(0,Global.none);
 			cbTourBSelected.Items.Insert(0, Global.none);
 			cbTourEBookF.Items.Insert(0, Global.none);
 			cbTourEBookS.Items.Insert(0, Global.none);
+			cbMatchBookF.Items.Insert(1,"Random");
+			cbMatchBookS.Items.Insert(1,"Random");
 			cbTourEBookF.Items.Insert(1, "Random");
 			cbTourEBookS.Items.Insert(1, "Random");
 

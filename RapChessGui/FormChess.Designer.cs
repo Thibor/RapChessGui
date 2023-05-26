@@ -91,12 +91,10 @@
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
 			this.nudValue2 = new System.Windows.Forms.NumericUpDown();
 			this.cbMode2 = new System.Windows.Forms.ComboBox();
-			this.cbMatchBook2 = new System.Windows.Forms.ComboBox();
 			this.cbMatchEngine2 = new System.Windows.Forms.ComboBox();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.nudValue1 = new System.Windows.Forms.NumericUpDown();
 			this.cbMode1 = new System.Windows.Forms.ComboBox();
-			this.cbMatchBook1 = new System.Windows.Forms.ComboBox();
 			this.cbMatchEngine1 = new System.Windows.Forms.ComboBox();
 			this.tabPageTourB = new System.Windows.Forms.TabPage();
 			this.splitContainerTourB = new System.Windows.Forms.SplitContainer();
@@ -750,7 +748,7 @@
 			this.chartMatch.ChartAreas.Add(chartArea2);
 			this.chartMatch.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.chartMatch.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.chartMatch.Location = new System.Drawing.Point(0, 321);
+			this.chartMatch.Location = new System.Drawing.Point(0, 275);
 			this.chartMatch.Name = "chartMatch";
 			this.chartMatch.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
 			this.chartMatch.PaletteCustomColors = new System.Drawing.Color[] {
@@ -761,7 +759,7 @@
 			series2.IsVisibleInLegend = false;
 			series2.Name = "Series1";
 			this.chartMatch.Series.Add(series2);
-			this.chartMatch.Size = new System.Drawing.Size(337, 141);
+			this.chartMatch.Size = new System.Drawing.Size(337, 187);
 			this.chartMatch.TabIndex = 29;
 			this.chartMatch.Text = "chart1";
 			this.toolTip1.SetToolTip(this.chartMatch, "User progress history");
@@ -793,7 +791,7 @@
 			this.tlpMatch.Controls.Add(this.labMatchPlayer, 0, 0);
 			this.tlpMatch.Controls.Add(this.labMatchPlayer1, 0, 1);
 			this.tlpMatch.Dock = System.Windows.Forms.DockStyle.Top;
-			this.tlpMatch.Location = new System.Drawing.Point(0, 261);
+			this.tlpMatch.Location = new System.Drawing.Point(0, 215);
 			this.tlpMatch.Name = "tlpMatch";
 			this.tlpMatch.RowCount = 3;
 			this.tlpMatch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
@@ -993,7 +991,7 @@
 			// 
 			this.labMatchGames.BackColor = System.Drawing.Color.Transparent;
 			this.labMatchGames.Dock = System.Windows.Forms.DockStyle.Top;
-			this.labMatchGames.Location = new System.Drawing.Point(0, 239);
+			this.labMatchGames.Location = new System.Drawing.Point(0, 193);
 			this.labMatchGames.Name = "labMatchGames";
 			this.labMatchGames.Size = new System.Drawing.Size(337, 22);
 			this.labMatchGames.TabIndex = 23;
@@ -1003,7 +1001,7 @@
 			// butNewMatch
 			// 
 			this.butNewMatch.Dock = System.Windows.Forms.DockStyle.Top;
-			this.butNewMatch.Location = new System.Drawing.Point(0, 216);
+			this.butNewMatch.Location = new System.Drawing.Point(0, 170);
 			this.butNewMatch.Name = "butNewMatch";
 			this.butNewMatch.Size = new System.Drawing.Size(337, 23);
 			this.butNewMatch.TabIndex = 22;
@@ -1016,12 +1014,11 @@
 			// 
 			this.groupBox6.Controls.Add(this.nudValue2);
 			this.groupBox6.Controls.Add(this.cbMode2);
-			this.groupBox6.Controls.Add(this.cbMatchBook2);
 			this.groupBox6.Controls.Add(this.cbMatchEngine2);
 			this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBox6.Location = new System.Drawing.Point(0, 108);
+			this.groupBox6.Location = new System.Drawing.Point(0, 85);
 			this.groupBox6.Name = "groupBox6";
-			this.groupBox6.Size = new System.Drawing.Size(337, 108);
+			this.groupBox6.Size = new System.Drawing.Size(337, 85);
 			this.groupBox6.TabIndex = 20;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Player 2";
@@ -1029,7 +1026,7 @@
 			// nudValue2
 			// 
 			this.nudValue2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.nudValue2.Location = new System.Drawing.Point(3, 79);
+			this.nudValue2.Location = new System.Drawing.Point(3, 58);
 			this.nudValue2.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -1056,25 +1053,13 @@
             "Nodes",
             "Standard",
             "Time"});
-			this.cbMode2.Location = new System.Drawing.Point(3, 58);
+			this.cbMode2.Location = new System.Drawing.Point(3, 37);
 			this.cbMode2.Name = "cbMode2";
 			this.cbMode2.Size = new System.Drawing.Size(331, 21);
 			this.cbMode2.Sorted = true;
 			this.cbMode2.TabIndex = 30;
 			this.toolTip1.SetToolTip(this.cbMode2, "Select engine mode");
 			this.cbMode2.SelectedIndexChanged += new System.EventHandler(this.cbMode2_SelectedIndexChanged);
-			// 
-			// cbMatchBook2
-			// 
-			this.cbMatchBook2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbMatchBook2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbMatchBook2.FormattingEnabled = true;
-			this.cbMatchBook2.Location = new System.Drawing.Point(3, 37);
-			this.cbMatchBook2.Name = "cbMatchBook2";
-			this.cbMatchBook2.Size = new System.Drawing.Size(331, 21);
-			this.cbMatchBook2.Sorted = true;
-			this.cbMatchBook2.TabIndex = 32;
-			this.toolTip1.SetToolTip(this.cbMatchBook2, "Select engine opening book");
 			// 
 			// cbMatchEngine2
 			// 
@@ -1092,12 +1077,11 @@
 			// 
 			this.groupBox5.Controls.Add(this.nudValue1);
 			this.groupBox5.Controls.Add(this.cbMode1);
-			this.groupBox5.Controls.Add(this.cbMatchBook1);
 			this.groupBox5.Controls.Add(this.cbMatchEngine1);
 			this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox5.Location = new System.Drawing.Point(0, 0);
 			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(337, 108);
+			this.groupBox5.Size = new System.Drawing.Size(337, 85);
 			this.groupBox5.TabIndex = 19;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Player 1";
@@ -1105,7 +1089,7 @@
 			// nudValue1
 			// 
 			this.nudValue1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.nudValue1.Location = new System.Drawing.Point(3, 79);
+			this.nudValue1.Location = new System.Drawing.Point(3, 58);
 			this.nudValue1.Maximum = new decimal(new int[] {
             1000000000,
             0,
@@ -1132,25 +1116,13 @@
             "Nodes",
             "Standard",
             "Time"});
-			this.cbMode1.Location = new System.Drawing.Point(3, 58);
+			this.cbMode1.Location = new System.Drawing.Point(3, 37);
 			this.cbMode1.Name = "cbMode1";
 			this.cbMode1.Size = new System.Drawing.Size(331, 21);
 			this.cbMode1.Sorted = true;
 			this.cbMode1.TabIndex = 29;
 			this.toolTip1.SetToolTip(this.cbMode1, "Select engine mode");
 			this.cbMode1.SelectedIndexChanged += new System.EventHandler(this.cbMode1_SelectedIndexChanged);
-			// 
-			// cbMatchBook1
-			// 
-			this.cbMatchBook1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.cbMatchBook1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbMatchBook1.FormattingEnabled = true;
-			this.cbMatchBook1.Location = new System.Drawing.Point(3, 37);
-			this.cbMatchBook1.Name = "cbMatchBook1";
-			this.cbMatchBook1.Size = new System.Drawing.Size(331, 21);
-			this.cbMatchBook1.Sorted = true;
-			this.cbMatchBook1.TabIndex = 31;
-			this.toolTip1.SetToolTip(this.cbMatchBook1, "Select engine opening book");
 			// 
 			// cbMatchEngine1
 			// 
@@ -4600,12 +4572,10 @@
 		private System.Windows.Forms.Button butStop;
 		private System.Windows.Forms.Button butContinueGame;
 		private System.Windows.Forms.Button butDefault;
-		private System.Windows.Forms.ComboBox cbMatchBook1;
 		private System.Windows.Forms.ComboBox cbMode1;
 		private System.Windows.Forms.ComboBox cbMatchEngine1;
 		private System.Windows.Forms.ComboBox cbMatchEngine2;
 		private System.Windows.Forms.ComboBox cbMode2;
-		private System.Windows.Forms.ComboBox cbMatchBook2;
 		private System.Windows.Forms.ComboBox cbTrainedBook;
 		private System.Windows.Forms.ComboBox cbTrainerMode;
 		private System.Windows.Forms.ComboBox cbTrainedMode;

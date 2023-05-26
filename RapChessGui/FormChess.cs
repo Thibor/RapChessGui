@@ -137,7 +137,7 @@ namespace RapChessGui
 			ManagementObjectCollection processCollection = processSearcher.Get();
 			if (processCollection != null)
 			{
-				foreach (ManagementObject mo in processCollection)
+				foreach (ManagementObject mo in processCollection.Cast<ManagementObject>())
 				{
 					try
 					{
@@ -1109,37 +1109,25 @@ namespace RapChessGui
 		void ResetListBook()
 		{
 			cbBook.Items.Clear();
-			cbMatchBook1.Items.Clear();
-			cbMatchBook2.Items.Clear();
 			cbTrainerBook.Items.Clear();
 			cbTrainedBook.Items.Clear();
 			cbBook.Sorted = true;
-			cbMatchBook1.Sorted = true;
-			cbMatchBook2.Sorted = true;
 			cbTrainerBook.Sorted = true;
 			cbTrainedBook.Sorted = true;
 			foreach (CBook b in bookList)
 				if (b.FileExists())
 				{
 					cbBook.Items.Add(b.name);
-					cbMatchBook1.Items.Add(b.name);
-					cbMatchBook2.Items.Add(b.name);
 					cbTrainerBook.Items.Add(b.name);
 					cbTrainedBook.Items.Add(b.name);
 				}
 			cbBook.Sorted = false;
-			cbMatchBook1.Sorted = false;
-			cbMatchBook2.Sorted = false;
 			cbTrainerBook.Sorted = false;
 			cbTrainedBook.Sorted = false;
 			cbBook.Items.Insert(0, Global.none);
-			cbMatchBook1.Items.Insert(0, Global.none);
-			cbMatchBook2.Items.Insert(0, Global.none);
 			cbTrainerBook.Items.Insert(0, Global.none);
 			cbTrainedBook.Items.Insert(0, Global.none);
 			cbBook.Text = Global.none;
-			cbMatchBook1.Text = Global.none;
-			cbMatchBook2.Text = Global.none;
 			cbTrainerBook.Text = Global.none;
 			cbTrainedBook.Text = Global.none;
 		}
@@ -1765,8 +1753,6 @@ namespace RapChessGui
 		{
 			CModeMatch.engine1 = cbMatchEngine1.Text;
 			CModeMatch.engine2 = cbMatchEngine2.Text;
-			CModeMatch.book1 = cbMatchBook1.Text;
-			CModeMatch.book2 = cbMatchBook2.Text;
 			CModeMatch.modeValue1.SetLevel(cbMode1.Text);
 			CModeMatch.modeValue2.SetLevel(cbMode2.Text);
 			CModeMatch.modeValue1.SetValue((int)nudValue1.Value);
@@ -1778,8 +1764,6 @@ namespace RapChessGui
 		{
 			cbMatchEngine1.Text = CModeMatch.engine1;
 			cbMatchEngine2.Text = CModeMatch.engine2;
-			cbMatchBook1.Text = CModeMatch.book1;
-			cbMatchBook2.Text = CModeMatch.book2;
 			cbMode1.Text = CModeMatch.modeValue1.GetLevel();
 			cbMode2.Text = CModeMatch.modeValue2.GetLevel();
 			nudValue1.Value = CModeMatch.modeValue1.GetValue();
@@ -1821,14 +1805,16 @@ namespace RapChessGui
 			SetMode(CGameMode.match);
 			CPlayer p1 = new CPlayer("Player 1");
 			p1.EngineName = CModeMatch.engine1;
-			p1.BookName = CModeMatch.book1;
+			p1.BookName = formOptions.cbMatchBookF.Text;
 			p1.levelValue.level = CModeMatch.modeValue1.level;
 			p1.levelValue.baseVal = CModeMatch.modeValue1.baseVal;
 			CPlayer p2 = new CPlayer("Player 2");
 			p2.EngineName = CModeMatch.engine2;
-			p2.BookName = CModeMatch.book2;
+			p2.BookName = formOptions.cbMatchBookS.Text;
 			p2.levelValue.level = CModeMatch.modeValue2.level;
 			p2.levelValue.baseVal = CModeMatch.modeValue2.baseVal;
+			if ((CGames.played & 2) > 0)
+				(p1.BookName, p2.BookName) = (p2.BookName, p1.BookName);
 			CGamers.GamerWhite().SetPlayer(p1);
 			CGamers.GamerBlack().SetPlayer(p2);
 			if (!gamers.Check(out string msg))
@@ -2154,7 +2140,7 @@ namespace RapChessGui
 			p2.BookName = formOptions.cbTourEBookS.Text;
 			p2.levelValue.SetLevel(FormOptions.tourEMode);
 			p2.levelValue.SetValue(FormOptions.tourEValue);
-			if (((CGames.played >> 1) & 1) > 0)
+			if ((CGames.played & 2) > 0)
 				(p1.BookName, p2.BookName) = (p2.BookName, p1.BookName);
 			tourE.SetRepeition(e1, e2);
 			gamers.SetPlayers(p1, p2);

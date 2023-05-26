@@ -128,6 +128,10 @@
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.label12 = new System.Windows.Forms.Label();
 			this.nudTraining = new System.Windows.Forms.NumericUpDown();
+			this.groupBox14 = new System.Windows.Forms.GroupBox();
+			this.cbMatchBookF = new System.Windows.Forms.ComboBox();
+			this.groupBox15 = new System.Windows.Forms.GroupBox();
+			this.cbMatchBookS = new System.Windows.Forms.ComboBox();
 			this.gbInterface.SuspendLayout();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudFontSize)).BeginInit();
@@ -176,6 +180,8 @@
 			this.tabPageTraining.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudTraining)).BeginInit();
+			this.groupBox14.SuspendLayout();
+			this.groupBox15.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// butDefault
@@ -797,6 +803,8 @@
 			// 
 			// tabPageMatch
 			// 
+			this.tabPageMatch.Controls.Add(this.groupBox15);
+			this.tabPageMatch.Controls.Add(this.groupBox14);
 			this.tabPageMatch.Controls.Add(this.gbMatch);
 			this.tabPageMatch.Location = new System.Drawing.Point(4, 5);
 			this.tabPageMatch.Name = "tabPageMatch";
@@ -1543,6 +1551,52 @@
             0});
 			this.nudTraining.ValueChanged += new System.EventHandler(this.nudTraining_ValueChanged);
 			// 
+			// groupBox14
+			// 
+			this.groupBox14.Controls.Add(this.cbMatchBookF);
+			this.groupBox14.Dock = System.Windows.Forms.DockStyle.Top;
+			this.groupBox14.Location = new System.Drawing.Point(0, 48);
+			this.groupBox14.Name = "groupBox14";
+			this.groupBox14.Size = new System.Drawing.Size(365, 44);
+			this.groupBox14.TabIndex = 30;
+			this.groupBox14.TabStop = false;
+			this.groupBox14.Text = "First book";
+			// 
+			// cbMatchBookF
+			// 
+			this.cbMatchBookF.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.cbMatchBookF.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cbMatchBookF.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbMatchBookF.FormattingEnabled = true;
+			this.cbMatchBookF.Location = new System.Drawing.Point(3, 16);
+			this.cbMatchBookF.Name = "cbMatchBookF";
+			this.cbMatchBookF.Size = new System.Drawing.Size(359, 21);
+			this.cbMatchBookF.Sorted = true;
+			this.cbMatchBookF.TabIndex = 32;
+			// 
+			// groupBox15
+			// 
+			this.groupBox15.Controls.Add(this.cbMatchBookS);
+			this.groupBox15.Dock = System.Windows.Forms.DockStyle.Top;
+			this.groupBox15.Location = new System.Drawing.Point(0, 92);
+			this.groupBox15.Name = "groupBox15";
+			this.groupBox15.Size = new System.Drawing.Size(365, 44);
+			this.groupBox15.TabIndex = 31;
+			this.groupBox15.TabStop = false;
+			this.groupBox15.Text = "Second book";
+			// 
+			// cbMatchBookS
+			// 
+			this.cbMatchBookS.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.cbMatchBookS.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cbMatchBookS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbMatchBookS.FormattingEnabled = true;
+			this.cbMatchBookS.Location = new System.Drawing.Point(3, 16);
+			this.cbMatchBookS.Name = "cbMatchBookS";
+			this.cbMatchBookS.Size = new System.Drawing.Size(359, 21);
+			this.cbMatchBookS.Sorted = true;
+			this.cbMatchBookS.TabIndex = 32;
+			// 
 			// FormOptions
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1619,6 +1673,8 @@
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudTraining)).EndInit();
+			this.groupBox14.ResumeLayout(false);
+			this.groupBox15.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -1724,5 +1780,9 @@
 		public System.Windows.Forms.ComboBox cbTourBEngine;
 		public System.Windows.Forms.ComboBox cbGameEngine;
 		public System.Windows.Forms.ComboBox cbGameBook;
+		private System.Windows.Forms.GroupBox groupBox15;
+		public System.Windows.Forms.ComboBox cbMatchBookS;
+		private System.Windows.Forms.GroupBox groupBox14;
+		public System.Windows.Forms.ComboBox cbMatchBookF;
 	}
 }
