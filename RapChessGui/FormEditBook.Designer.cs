@@ -51,6 +51,9 @@
 			this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.showLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.clearTournamentHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.allToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.nToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.panel1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudTournament)).BeginInit();
@@ -296,6 +299,7 @@
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.consoleToolStripMenuItem,
+            this.tournamentToolStripMenuItem,
             this.actionToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
@@ -332,6 +336,29 @@
 			this.clearTournamentHistoryToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
 			this.clearTournamentHistoryToolStripMenuItem.Text = "Clear tournament history";
 			this.clearTournamentHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearTournamentHistoryToolStripMenuItem_Click);
+			// 
+			// tournamentToolStripMenuItem
+			// 
+			this.tournamentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.allToolStripMenuItem,
+            this.nToolStripMenuItem});
+			this.tournamentToolStripMenuItem.Name = "tournamentToolStripMenuItem";
+			this.tournamentToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
+			this.tournamentToolStripMenuItem.Text = "Tournament";
+			// 
+			// allToolStripMenuItem
+			// 
+			this.allToolStripMenuItem.Name = "allToolStripMenuItem";
+			this.allToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.allToolStripMenuItem.Text = "All";
+			this.allToolStripMenuItem.Click += new System.EventHandler(this.allToolStripMenuItem_Click);
+			// 
+			// nToolStripMenuItem
+			// 
+			this.nToolStripMenuItem.Name = "nToolStripMenuItem";
+			this.nToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.nToolStripMenuItem.Text = "None";
+			this.nToolStripMenuItem.Click += new System.EventHandler(this.nToolStripMenuItem_Click);
 			// 
 			// FormEditBook
 			// 
@@ -394,5 +421,8 @@
 		private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem showLogToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem clearTournamentHistoryToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tournamentToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem allToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem nToolStripMenuItem;
 	}
 }

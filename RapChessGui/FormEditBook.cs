@@ -319,7 +319,8 @@ namespace RapChessGui
 			else if (!book.FileExists())
 			{
 				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Color.FromArgb(0xff, 0xc0, 0xc0));
-			}else if (book.tournament > 0)
+			}
+			else if (book.tournament > 0)
 			{
 				e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, e.State, Color.Black, Colors.message);
 			}
@@ -417,6 +418,23 @@ namespace RapChessGui
 		{
 			tournament = -1;
 			listBoxBooks.Capture = false;
+		}
+
+		private void allToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			for (int n = 0; n < FormChess.bookList.Count; n++)
+				if (FormChess.bookList[n].tournament == 0)
+					FormChess.bookList[n].tournament = 1;
+			FormChess.bookList.SaveToIni();
+			listBoxBooks.Refresh();
+		}
+
+		private void nToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			for (int n = 0; n < FormChess.bookList.Count; n++)
+				FormChess.bookList[n].tournament = 0;
+			FormChess.bookList.SaveToIni();
+			listBoxBooks.Refresh();
 		}
 	}
 }

@@ -67,12 +67,15 @@
 			this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.autodetectAllEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.autodetectEngineProtocolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.clearTournamentHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deleteNotExistsEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.findEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.resetEngineOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.autodetectEngineProtocolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.clearTournamentHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.resetEngineOptionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tournametToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.allToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.noneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.panel1.SuspendLayout();
 			this.panButtons.SuspendLayout();
 			this.gbMode.SuspendLayout();
@@ -488,6 +491,7 @@
 			this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.consoleToolStripMenuItem,
             this.logToolStripMenuItem,
+            this.tournametToolStripMenuItem,
             this.actionToolStripMenuItem});
 			this.menuStrip2.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip2.Name = "menuStrip2";
@@ -530,20 +534,6 @@
 			this.autodetectAllEnginesToolStripMenuItem.Text = "Autodetect all engines";
 			this.autodetectAllEnginesToolStripMenuItem.Click += new System.EventHandler(this.autodetectAllEnginesToolStripMenuItem_Click);
 			// 
-			// autodetectEngineProtocolToolStripMenuItem
-			// 
-			this.autodetectEngineProtocolToolStripMenuItem.Name = "autodetectEngineProtocolToolStripMenuItem";
-			this.autodetectEngineProtocolToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
-			this.autodetectEngineProtocolToolStripMenuItem.Text = "Autodetect current engine";
-			this.autodetectEngineProtocolToolStripMenuItem.Click += new System.EventHandler(this.autodetectEngineProtocolToolStripMenuItem_Click);
-			// 
-			// clearTournamentHistoryToolStripMenuItem
-			// 
-			this.clearTournamentHistoryToolStripMenuItem.Name = "clearTournamentHistoryToolStripMenuItem";
-			this.clearTournamentHistoryToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
-			this.clearTournamentHistoryToolStripMenuItem.Text = "Clear engine history";
-			this.clearTournamentHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearTournamentHistoryToolStripMenuItem_Click);
-			// 
 			// deleteNotExistsEnginesToolStripMenuItem
 			// 
 			this.deleteNotExistsEnginesToolStripMenuItem.Name = "deleteNotExistsEnginesToolStripMenuItem";
@@ -558,6 +548,25 @@
 			this.findEnginesToolStripMenuItem.Text = "Find engines";
 			this.findEnginesToolStripMenuItem.Click += new System.EventHandler(this.findEnginesToolStripMenuItem_Click);
 			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(210, 6);
+			// 
+			// autodetectEngineProtocolToolStripMenuItem
+			// 
+			this.autodetectEngineProtocolToolStripMenuItem.Name = "autodetectEngineProtocolToolStripMenuItem";
+			this.autodetectEngineProtocolToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+			this.autodetectEngineProtocolToolStripMenuItem.Text = "Autodetect current engine";
+			this.autodetectEngineProtocolToolStripMenuItem.Click += new System.EventHandler(this.autodetectEngineProtocolToolStripMenuItem_Click);
+			// 
+			// clearTournamentHistoryToolStripMenuItem
+			// 
+			this.clearTournamentHistoryToolStripMenuItem.Name = "clearTournamentHistoryToolStripMenuItem";
+			this.clearTournamentHistoryToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+			this.clearTournamentHistoryToolStripMenuItem.Text = "Clear engine history";
+			this.clearTournamentHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearTournamentHistoryToolStripMenuItem_Click);
+			// 
 			// resetEngineOptionsToolStripMenuItem
 			// 
 			this.resetEngineOptionsToolStripMenuItem.Name = "resetEngineOptionsToolStripMenuItem";
@@ -565,10 +574,28 @@
 			this.resetEngineOptionsToolStripMenuItem.Text = "Reset engine options";
 			this.resetEngineOptionsToolStripMenuItem.Click += new System.EventHandler(this.resetEngineOptionsToolStripMenuItem_Click);
 			// 
-			// toolStripMenuItem1
+			// tournametToolStripMenuItem
 			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(210, 6);
+			this.tournametToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.allToolStripMenuItem,
+            this.noneToolStripMenuItem});
+			this.tournametToolStripMenuItem.Name = "tournametToolStripMenuItem";
+			this.tournametToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
+			this.tournametToolStripMenuItem.Text = "Tournamet";
+			// 
+			// allToolStripMenuItem
+			// 
+			this.allToolStripMenuItem.Name = "allToolStripMenuItem";
+			this.allToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.allToolStripMenuItem.Text = "All";
+			this.allToolStripMenuItem.Click += new System.EventHandler(this.allToolStripMenuItem_Click);
+			// 
+			// noneToolStripMenuItem
+			// 
+			this.noneToolStripMenuItem.Name = "noneToolStripMenuItem";
+			this.noneToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.noneToolStripMenuItem.Text = "None";
+			this.noneToolStripMenuItem.Click += new System.EventHandler(this.noneToolStripMenuItem_Click);
 			// 
 			// FormEditEngine
 			// 
@@ -658,5 +685,8 @@
 		private System.Windows.Forms.ToolStripMenuItem deleteNotExistsEnginesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem logToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem tournametToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem allToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem noneToolStripMenuItem;
 	}
 }

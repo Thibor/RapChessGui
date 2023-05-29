@@ -48,11 +48,14 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.tbPlayerName = new System.Windows.Forms.TextBox();
 			this.gbPlayers = new System.Windows.Forms.GroupBox();
-			this.listBox1 = new System.Windows.Forms.ListBox();
+			this.listBoxPlayers = new System.Windows.Forms.ListBox();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.actionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.clearTournamentHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.allToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.noneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.panel1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nudTournament)).BeginInit();
@@ -310,7 +313,7 @@
 			// gbPlayers
 			// 
 			this.gbPlayers.AutoSize = true;
-			this.gbPlayers.Controls.Add(this.listBox1);
+			this.gbPlayers.Controls.Add(this.listBoxPlayers);
 			this.gbPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.gbPlayers.Location = new System.Drawing.Point(0, 24);
 			this.gbPlayers.Name = "gbPlayers";
@@ -319,27 +322,28 @@
 			this.gbPlayers.TabStop = false;
 			this.gbPlayers.Text = "Players List";
 			// 
-			// listBox1
+			// listBoxPlayers
 			// 
-			this.listBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-			this.listBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.listBox1.FormattingEnabled = true;
-			this.listBox1.Location = new System.Drawing.Point(3, 16);
-			this.listBox1.Name = "listBox1";
-			this.listBox1.Size = new System.Drawing.Size(483, 548);
-			this.listBox1.Sorted = true;
-			this.listBox1.TabIndex = 1;
-			this.listBox1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBox1_DrawItem);
-			this.listBox1.SelectedValueChanged += new System.EventHandler(this.ListBox1_SelectedValueChanged);
-			this.listBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseDown);
-			this.listBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseMove);
-			this.listBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseUp);
+			this.listBoxPlayers.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.listBoxPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listBoxPlayers.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+			this.listBoxPlayers.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.listBoxPlayers.FormattingEnabled = true;
+			this.listBoxPlayers.Location = new System.Drawing.Point(3, 16);
+			this.listBoxPlayers.Name = "listBoxPlayers";
+			this.listBoxPlayers.Size = new System.Drawing.Size(483, 548);
+			this.listBoxPlayers.Sorted = true;
+			this.listBoxPlayers.TabIndex = 1;
+			this.listBoxPlayers.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBox1_DrawItem);
+			this.listBoxPlayers.SelectedValueChanged += new System.EventHandler(this.ListBox1_SelectedValueChanged);
+			this.listBoxPlayers.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseDown);
+			this.listBoxPlayers.MouseMove += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseMove);
+			this.listBoxPlayers.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseUp);
 			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tournamentToolStripMenuItem,
             this.actionToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
@@ -361,6 +365,29 @@
 			this.clearTournamentHistoryToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
 			this.clearTournamentHistoryToolStripMenuItem.Text = "Clear tournament history";
 			this.clearTournamentHistoryToolStripMenuItem.Click += new System.EventHandler(this.clearTournamentHistoryToolStripMenuItem_Click);
+			// 
+			// tournamentToolStripMenuItem
+			// 
+			this.tournamentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.allToolStripMenuItem,
+            this.noneToolStripMenuItem});
+			this.tournamentToolStripMenuItem.Name = "tournamentToolStripMenuItem";
+			this.tournamentToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
+			this.tournamentToolStripMenuItem.Text = "Tournament";
+			// 
+			// allToolStripMenuItem
+			// 
+			this.allToolStripMenuItem.Name = "allToolStripMenuItem";
+			this.allToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.allToolStripMenuItem.Text = "All";
+			this.allToolStripMenuItem.Click += new System.EventHandler(this.allToolStripMenuItem_Click);
+			// 
+			// noneToolStripMenuItem
+			// 
+			this.noneToolStripMenuItem.Name = "noneToolStripMenuItem";
+			this.noneToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.noneToolStripMenuItem.Text = "None";
+			this.noneToolStripMenuItem.Click += new System.EventHandler(this.noneToolStripMenuItem_Click);
 			// 
 			// FormEditPlayer
 			// 
@@ -404,7 +431,7 @@
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.TextBox tbPlayerName;
 		private System.Windows.Forms.GroupBox gbPlayers;
-		public System.Windows.Forms.ListBox listBox1;
+		public System.Windows.Forms.ListBox listBoxPlayers;
 		private System.Windows.Forms.GroupBox gbEngine;
 		private System.Windows.Forms.ComboBox cbEngineList;
 		private System.Windows.Forms.GroupBox gbMode;
@@ -424,5 +451,8 @@
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem actionToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem clearTournamentHistoryToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tournamentToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem allToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem noneToolStripMenuItem;
 	}
 }

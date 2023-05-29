@@ -67,7 +67,7 @@ namespace RapChessGui
 			bool r = false;
 			for (int n = f; n <= l; n++)
 			{
-				var item = listBox1.Items[n];
+				var item = listBoxPlayers.Items[n];
 				string name = item.ToString();
 				CPlayer pla = FormChess.playerList.GetPlayerByName(name);
 				if (pla.SetTournament(t))
@@ -75,22 +75,22 @@ namespace RapChessGui
 			}
 			if (r)
 			{
-				listBox1.Refresh();
+				listBoxPlayers.Refresh();
 				SelectPlayer();
 			}
 		}
 
 		void UpdateListBox()
 		{
-			listBox1.Items.Clear();
+			listBoxPlayers.Items.Clear();
 			foreach (CPlayer u in FormChess.playerList)
-				listBox1.Items.Add(u.name);
-			gbPlayers.Text = $"Players {listBox1.Items.Count}";
+				listBoxPlayers.Items.Add(u.name);
+			gbPlayers.Text = $"Players {listBoxPlayers.Items.Count}";
 		}
 
 		private void ListBox1_SelectedValueChanged(object sender, EventArgs e)
 		{
-			SelectPlayer(listBox1.SelectedItem.ToString());
+			SelectPlayer(listBoxPlayers.SelectedItem.ToString());
 		}
 
 		void UpdatePlayer(CPlayer p)
@@ -109,9 +109,9 @@ namespace RapChessGui
 			UpdatePlayer(p);
 			p.SaveToIni();
 			UpdateListBox();
-			int index = listBox1.FindString(p.name);
+			int index = listBoxPlayers.FindString(p.name);
 			if (index == -1) return;
-			listBox1.SetSelected(index, true);
+			listBoxPlayers.SetSelected(index, true);
 		}
 
 		private void ButUpdate_Click(object sender, EventArgs e)
@@ -165,9 +165,9 @@ namespace RapChessGui
 			cbBookList.Items.Insert(0, Global.none);
 			cbBookList.SelectedIndex = 0;
 			UpdateListBox();
-			listBox1.SelectedIndex = listBox1.FindString(playerName);
-			if ((listBox1.SelectedIndex < 0) && (listBox1.Items.Count > 0))
-				listBox1.SelectedIndex = 0;
+			listBoxPlayers.SelectedIndex = listBoxPlayers.FindString(playerName);
+			if ((listBoxPlayers.SelectedIndex < 0) && (listBoxPlayers.Items.Count > 0))
+				listBoxPlayers.SelectedIndex = 0;
 		}
 
 		private void combMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -182,7 +182,7 @@ namespace RapChessGui
 		{
 			if (e.Index < 0)
 				return;
-			string name = listBox1.Items[e.Index].ToString();
+			string name = listBoxPlayers.Items[e.Index].ToString();
 			CPlayer pla = FormChess.playerList.GetPlayerByName(name);
 			bool selected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
 			Brush b = Brushes.Black;
@@ -207,7 +207,7 @@ namespace RapChessGui
 		private void listBox1_MouseUp(object sender, MouseEventArgs e)
 		{
 			tournament = -1;
-			listBox1.Capture = false;
+			listBoxPlayers.Capture = false;
 		}
 
 		private void listBox1_MouseDown(object sender, MouseEventArgs e)
@@ -216,18 +216,18 @@ namespace RapChessGui
 			{
 				indexFirst = -1;
 				tournament = -1;
-				listBox1.Capture = true;
-				int index = listBox1.IndexFromPoint(e.Location);
-				if ((index >= 0) && (index < listBox1.Items.Count))
+				listBoxPlayers.Capture = true;
+				int index = listBoxPlayers.IndexFromPoint(e.Location);
+				if ((index >= 0) && (index < listBoxPlayers.Items.Count))
 				{
-					var item = listBox1.Items[index];
+					var item = listBoxPlayers.Items[index];
 					string name = item.ToString();
 					CPlayer pla = FormChess.playerList.GetPlayerByName(name);
 					indexFirst = index;
 					tournament = pla.tournament > 0 ? 0 : 1;
 					if (pla.SetTournament(tournament == 1))
 					{
-						listBox1.Refresh();
+						listBoxPlayers.Refresh();
 						if (player == pla)
 							SelectPlayer();
 					}
@@ -240,8 +240,8 @@ namespace RapChessGui
 		{
 			if (e.Button == MouseButtons.Right)
 			{
-				int index = listBox1.IndexFromPoint(e.Location);
-				if ((index >= 0) && (index < listBox1.Items.Count) && (tournament >= 0))
+				int index = listBoxPlayers.IndexFromPoint(e.Location);
+				if ((index >= 0) && (index < listBoxPlayers.Items.Count) && (tournament >= 0))
 					SelectPlayers(indexFirst, index, tournament > 0);
 			}
 		}
@@ -271,6 +271,23 @@ namespace RapChessGui
 				int count = CModeTournamentP.tourList.DeletePlayer(player.name);
 				MessageBox.Show($"{count} records have been deleted");
 			}
+		}
+
+		private void allToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			for (int n = 0; n < FormChess.playerList.Count; n++)
+				if (FormChess.playerList[n].tournament == 0)
+					FormChess.playerList[n].tournament = 1;
+			FormChess.playerList.SaveToIni();
+			listBoxPlayers.Refresh();
+		}
+
+		private void noneToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			for (int n = 0; n < FormChess.playerList.Count; n++)
+					FormChess.playerList[n].tournament = 0;
+			FormChess.playerList.SaveToIni();
+			listBoxPlayers.Refresh();
 		}
 	}
 }

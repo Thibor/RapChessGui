@@ -578,11 +578,6 @@ namespace RapChessGui
 			ClickDeleteUnplayable();
 		}
 
-		private void listBoxEngines_SelectedIndexChanged(object sender, EventArgs e)
-		{
-
-		}
-
 		private void ListBox1_SelectedValueChanged(object sender, EventArgs e)
 		{
 			if (listBoxEngines.SelectedItem != null)
@@ -592,6 +587,23 @@ namespace RapChessGui
 		private void Log_Click(object sender, EventArgs e)
 		{
 			FormChess.ShowFormLog("Engine autodetection", FormAutodetect.path, this);
+		}
+
+		private void allToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			for (int n = 0; n < FormChess.engineList.Count; n++)
+				if(FormChess.engineList[n].tournament == 0)
+				FormChess.engineList[n].tournament = 1;
+			FormChess.engineList.SaveToIni();
+			listBoxEngines.Refresh();
+		}
+
+		private void noneToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			for (int n = 0; n < FormChess.engineList.Count; n++)
+					FormChess.engineList[n].tournament = 0;
+			FormChess.engineList.SaveToIni();
+			listBoxEngines.Refresh();
 		}
 	}
 }
