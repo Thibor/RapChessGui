@@ -578,6 +578,8 @@ namespace RapChessGui
 		{
 			bool show = FormOptions.showAttack;
 			ClearAttack();
+			if (CData.gameMode == CGameMode.edit)
+				return;
 			ShowAttack(show, FormChess.chess.WhiteTurn);
 			ShowAttack(show, !FormChess.chess.WhiteTurn);
 		}
