@@ -99,10 +99,10 @@ namespace RapChessGui
 			}
 			set
 			{
-				if (hash < 0)
-					hash = 0;
-				if (hash > 1000)
-					hash = 1000;
+				if (value < 0)
+					value = 0;
+				if (value > 1000)
+					value = 1000;
 				hash = value;
 			}
 		}
