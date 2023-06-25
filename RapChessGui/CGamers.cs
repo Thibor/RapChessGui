@@ -167,7 +167,7 @@ namespace RapChessGui
 			string msg = String.Empty;
 			if (curProcess == gamerEngine)
 			{
-				msg = gamerEngine.GetMessage(timer.IsRunning,out bool stop);
+				msg = gamerEngine.GetMessage(timer.IsRunning, out bool stop);
 				if (stop)
 					timer.Stop();
 				return msg;
@@ -505,6 +505,7 @@ namespace RapChessGui
 		/// </summary>
 		public void EngMakeMove()
 		{
+			FormLogEngines.AddFen(FormChess.chess.GetFen());
 			if (engine.protocol == CProtocol.uci)
 				UciGo();
 			else
@@ -749,8 +750,6 @@ namespace RapChessGui
 			cg.InitNextMove();
 			if (cg.player.IsHuman())
 				cg.TimerStart();
-			if (FormChess.chess.WhiteTurn)
-				FormLogEngines.AddMove(FormChess.chess.MoveNumber);
 		}
 
 		public void InitNewGame()
@@ -866,10 +865,8 @@ namespace RapChessGui
 				CBook bb = FormChess.bookList.GetBookByName(pb.BookName);
 				string bfw = string.Empty;
 				string bfb = string.Empty;
-				if (bw != null)
-					bw.GetBFFromOption(out bfw);
-				if (bb != null)
-					bb.GetBFFromOption(out bfb);
+				bw?.GetBFFromOption(out bfw);
+				bb?.GetBFFromOption(out bfb);
 				if ((bw != null) && (bfw != string.Empty))
 					bookSta.SetProgram(pw.book.GetPath(), pw.book.arguments, pw.BookName);
 				else if ((bb != null) && (bfb != string.Empty))

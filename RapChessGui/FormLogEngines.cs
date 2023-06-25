@@ -62,9 +62,9 @@ namespace RapChessGui
 			}
 		}
 
-		public static void AddMove(int move)
+		public static void AddFen(string fen)
 		{
-			AppendText($"{GetTimeElapsed()} move {move}\n",Color.Black);
+			AppendText($"{GetTimeElapsed()} fen {fen}\n", Color.Black);
 		}
 
 		public static void Save(string fn)

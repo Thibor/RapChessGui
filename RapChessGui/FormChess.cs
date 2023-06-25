@@ -623,7 +623,7 @@ namespace RapChessGui
 			FormLogEngines.AppendTimeText($" Black: {gBla.player.name}\n", Color.Black);
 			FormLogEngines.AppendTimeText($" Engine: {gBla.GetEngineName()}\n", Color.Black);
 			FormLogEngines.AppendTimeText($" Clock: {gBla.GetTime(out _)} Book: {gBla.countMovesBook} Engine: {gBla.countMovesEngine}\n", Color.Black);
-			FormLogEngines.AppendTimeText($" Finish {tssInfo.Text}\n", Color.Olive);
+			FormLogEngines.AppendTimeText($" Finish {infoMsg}\n", Color.Olive);
 			if (winColor == CColor.none)
 				CGames.draw++;
 			CGames.played++;
