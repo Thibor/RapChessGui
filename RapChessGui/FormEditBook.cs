@@ -55,7 +55,7 @@ namespace RapChessGui
 		{
 			if (processOptions.SetProgram($@"{AppDomain.CurrentDomain.BaseDirectory}Books\{book.file}", book.arguments) > 0)
 			{
-				processOptions.WriteLine("book getoption", true);
+				processOptions.WriteLine("book getoption");
 				processOptions.WriteLine("quit");
 			}
 		}

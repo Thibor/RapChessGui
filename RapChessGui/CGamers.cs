@@ -161,13 +161,16 @@ namespace RapChessGui
 			return Icon.ExtractAssociatedIcon(path).ToBitmap();
 		}
 
-		public string GetMessage(out bool book)
+
+
+		public string GetMessage(out bool book,out bool last)
 		{
 			book = false;
-			string msg = String.Empty;
+            last = true;
+            string msg = String.Empty;
 			if (curProcess == gamerEngine)
 			{
-				msg = gamerEngine.GetMessage(timer.IsRunning, out bool stop);
+				msg = gamerEngine.GetMessage(out bool stop,out last);
 				if (stop)
 					timer.Stop();
 				return msg;

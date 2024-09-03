@@ -32,7 +32,7 @@ namespace RapChessGui
 		{
 			CBook book = FormChess.bookList.GetBookByName(FormChess.formOptions.cbTourBSelected.Text);
 			int avg = book == null ? (int)FormChess.formOptions.nudTourBAvg.Value : book.elo;
-			int range = (int)FormChess.formOptions.nudTourERange.Value;
+			int range = (int)FormChess.formOptions.nudTourBRange.Value;
 			int eloMin = range == 0 ? 0 : avg - range;
 			int eloMax = range == 0 ? CElo.eloTotal : avg + range;
 			bookList.Clear();

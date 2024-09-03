@@ -12,6 +12,7 @@ namespace RapChessGui
 		public static string engine = CListEngine.def;
 		public static string book = CListBook.def;
 		public static CLevelValue modeValue = new CLevelValue();
+		readonly static CRapIni ini = new CRapIni(@"Ini\game.ini");
 
 		public static void SaveToIni()
 		{
@@ -21,29 +22,30 @@ namespace RapChessGui
 				humanPlayer.hisElo.AddValue(1000);
 				humanPlayer.hisElo.AddValue(1000);
 			}
-			FormChess.ini.Write("mode>game>finished", finished);
-			FormChess.ini.Write("mode>game>rotate", rotate);
-			FormChess.ini.Write("mode>game>color", color);
-			FormChess.ini.Write("mode>game>computer",computer);
-			FormChess.ini.Write("mode>game>engine", engine);
-			FormChess.ini.Write("mode>game>book", book);
-			FormChess.ini.Write("mode>game>mode", modeValue.GetLevel());
-			FormChess.ini.Write("mode>game>value", modeValue.baseVal);
-			FormChess.ini.Write("mode>game>player>history", humanPlayer.hisElo, " ");
+			ini.Write("finished", finished);
+			ini.Write("rotate", rotate);
+			ini.Write("color", color);
+			ini.Write("computer",computer);
+			ini.Write("engine", engine);
+			ini.Write("book", book);
+			ini.Write("mode", modeValue.GetLevel());
+			ini.Write("value", modeValue.baseVal);
+			ini.Write("history", humanPlayer.hisElo, " ");
+			ini.Save();
 		}
 
 		public static void LoadFromIni()
 		{
 			CPlayer humanPlayer = CListPlayer.humanPlayer;
-			finished = FormChess.ini.ReadBool("mode>game>finished",finished);
-			rotate = FormChess.ini.ReadBool("mode>game>rotate");
-			color = FormChess.ini.Read("mode>game>color", color);
-			computer = FormChess.ini.Read("mode>game>computer", computer);
-			engine = FormChess.ini.Read("mode>game>engine", engine);
-			book = FormChess.ini.Read("mode>game>book", book);
-			modeValue.SetLevel(FormChess.ini.Read("mode>game>mode",modeValue.GetLevel()));
-			modeValue.baseVal = FormChess.ini.ReadInt("mode>game>value", modeValue.baseVal);
-			humanPlayer.hisElo.LoadFromStr(FormChess.ini.Read("mode>game>player>history"));
+			finished = ini.ReadBool("finished",finished);
+			rotate = ini.ReadBool("rotate");
+			color = ini.Read("color", color);
+			computer = ini.Read("computer", computer);
+			engine = ini.Read("engine", engine);
+			book = ini.Read("book", book);
+			modeValue.SetLevel(ini.Read("mode",modeValue.GetLevel()));
+			modeValue.baseVal = ini.ReadInt("value", modeValue.baseVal);
+			humanPlayer.hisElo.LoadFromStr(ini.Read("history"));
 			humanPlayer.elo = humanPlayer.hisElo.Last();
 			humanPlayer.name = Global.human;
 			humanPlayer.levelValue.level = CLevel.infinite;

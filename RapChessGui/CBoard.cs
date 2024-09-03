@@ -489,18 +489,12 @@ namespace RapChessGui
 			arrField[sou].piece = null;
 		}
 
-		public void MakeMove(int gm)
+		public void MakeMove(int emo)
 		{
 			animated = true;
-			int flags = gm & 0xFF0000;
-			int sou = gm & 0xFF;
-			int des = (gm >> 8) & 0xFF;
-			int xs = sou & 7;
-			int ys = sou >> 3;
-			int xd = des & 7;
-			int yd = des >> 3;
-			sou = ys * 8 + xs;
-			des = yd * 8 + xd;
+			int flags = emo & 0xFF0000;
+			int sou = emo & 0xFF;
+			int des = (emo >> 8) & 0xFF;
 			CPiece pd = arrField[des].piece;
 			if (pd != null)
 				arrField[sou].piece.desImage = pd.image;

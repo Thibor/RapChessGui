@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RapChessGui;
+using System;
 using System.Collections.Generic;
 
 namespace NSChess
@@ -705,13 +706,18 @@ namespace NSChess
 			halfMove++;
 		}
 
+		public int GetPiece(int emo)
+		{
+			return board[emo & 0xff] & 7;
+		}
+
 		public bool MakeMove(string umo, out int emo, out int piece)
 		{
 			piece = 0;
 			emo = UmoToEmo(umo);
 			if (emo > 0)
 			{
-				piece = board[emo & 0xff] & 7;
+				piece = GetPiece(emo);
 				MakeMove(emo);
 				return true;
 			}

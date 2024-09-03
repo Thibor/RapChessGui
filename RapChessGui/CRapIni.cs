@@ -76,6 +76,11 @@ namespace RapIni
 			Write(key, Convert.ToString(value, CultureInfo.InvariantCulture.NumberFormat));
 		}
 
+		public void Write(string key,DateTime dt)
+		{
+              Write(key,dt.ToString(CultureInfo.InvariantCulture));
+        }
+
 		public void Write(string key, List<string> value)
 		{
 			Write(key, ListToString(value));
@@ -95,6 +100,14 @@ namespace RapIni
 		{
 			Write(key, String.Join(separator, arrStr));
 		}
+
+		public DateTime ReadDateTime(string key,DateTime def)
+		{
+			string dt = Read(key);
+			if (String.IsNullOrEmpty(dt))
+				return def;
+            return DateTime.Parse(dt, CultureInfo.InvariantCulture);
+        }
 
 		public List<int> ReadListInt(string key)
 		{

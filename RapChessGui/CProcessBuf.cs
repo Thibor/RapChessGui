@@ -34,47 +34,49 @@ namespace RapChessGui
 			}
 		}
 
-		void CopyList()
+		void CopyList(out bool stop)
 		{
+			stop = false;
 			lock (locker)
 			{
-				listDes.AddRange(listSou);
+				foreach(string m in listSou)
+					if (m.Contains("bestmove"))
+					{
+						stop=true;
+						break;
+					}
+                listDes.AddRange(listSou);
 				listSou.Clear();
 			}
 		}
 
-		public string GetMessage(bool copy, out bool stop)
+		public string GetMessage(out bool stop,out bool last)
 		{
-			if (copy || (listDes.Count == 0))
-				CopyList();
-			stop = false;
-			foreach (string m in listDes)
-				if (m.Contains("bestmove"))
-				{
-					stop = true;
-					if (FormOptions.spamOff)
-					{
-						listDes.Clear();
-						return m;
-					}
-				}
-			return GetMsg();
+            stop = false;
+			if(listDes.Count == 0)
+				CopyList(out stop);
+            last = listDes.Count<2;
+            return GetMsg(out last);
 		}
+
+
 
 		public string GetMessage()
 		{
 			if (listDes.Count == 0)
-				CopyList();
-			return GetMsg();
+				CopyList(out _);
+			return GetMsg(out _);
 		}
 
-		string GetMsg()
+        string GetMsg(out bool last)
 		{
+			last = true;
 			string msg = String.Empty;
 			if (listDes.Count == 0)
 				return msg;
 			msg = listDes[0];
 			listDes.RemoveAt(0);
+			last = listDes.Count == 0;
 			return msg;
 		}
 

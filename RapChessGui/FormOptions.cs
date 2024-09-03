@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace RapChessGui
 {
@@ -13,11 +14,9 @@ namespace RapChessGui
 	{
 		public static bool autoElo = true;
 		public static bool isSan = true;
-		public static bool rotateBoard = false;
 		public static bool showArrow = true;
 		public static bool showAttack = false;
 		public static bool showTips = true;
-		public static volatile bool spamOff = true;
 		public static bool soundOn = true;
 		public static int animationSpeed = 200;
 		public static int fontSize = 10;
@@ -110,12 +109,21 @@ namespace RapChessGui
 		{
 			cbGameBook.Text = FormChess.ini.Read("options>mode>game>book", CListBook.def,def);
 			cbGameEngine.Text = FormChess.ini.Read("options>mode>game>engine", CListEngine.def,def);
-			nudBreak.Value = FormChess.ini.ReadDecimal("options>mode>game>break",8,def);
+            cbBottomPlayer.SelectedIndex = FormChess.ini.ReadInt("options>mode>game>bottom",0, def);
+            nudBreak.Value = FormChess.ini.ReadDecimal("options>mode>game>break",8,def);
 
-			cbMatchBookF.Text = FormChess.ini.Read("options>mode>match>bookF", Global.none, def);
-			cbMatchBookS.Text = FormChess.ini.Read("options>mode>match>bookS", Global.none, def);
+			CModeMatch.LoadFromIni();
+			cbMatchBook1.Text = CModeMatch.book1;
+            cbMatchBook2.Text = CModeMatch.book2;
+            cbMatchEngine1.Text = CModeMatch.engine1;
+            cbMatchEngine2.Text = CModeMatch.engine2;
+            cbMatchEngine1.Text = CModeMatch.engine1;
+			cbMatchMode1.Text = CModeMatch.modeValue1.GetLevel();
+			cbMatchMode2.Text = CModeMatch.modeValue2.GetLevel();
+			nudMatchValue1.Value = CModeMatch.modeValue1.GetValue();
+            nudMatchValue2.Value = CModeMatch.modeValue2.GetValue();
 
-			cbTourBSelected.Text = FormChess.ini.Read("options>mode>tourB>selected", Global.none, def);
+            cbTourBSelected.Text = FormChess.ini.Read("options>mode>tourB>selected", Global.none, def);
 			cbTourBEngine.Text = FormChess.ini.Read("options>mode>tourB>engine", Global.none,def);
 			cbTourBMode.Text = FormChess.ini.Read("options>mode>tourB>mode", tourBMode,def);
 			nudTourB.Value = FormChess.ini.ReadDecimal("options>mode>tourB>value", tourBValue,def);
@@ -139,12 +147,10 @@ namespace RapChessGui
 
 			color = ColorTranslator.FromHtml(FormChess.ini.Read("options>interface>color", ColorTranslator.ToHtml(Color.Yellow), def));
 			rbSan.Checked = FormChess.ini.ReadBool("options>interface>san", rbSan.Checked);
-			cbRotateBoard.Checked = FormChess.ini.ReadBool("options>interface>rotate", false,def);
 			cbAttack.Checked = FormChess.ini.ReadBool("options>interface>attack", false,def);
 			cbArrow.Checked = FormChess.ini.ReadBool("options>interface>arrow", true,def);
 			cbTips.Checked = FormChess.ini.ReadBool("options>interface>tips", true,def);
 			cbSound.Checked = FormChess.ini.ReadBool("options>interface>sound", true,def);
-			cbSpam.Checked = FormChess.ini.ReadBool("options>interface>spam", true,def);
 			nudTraining.Value = FormChess.ini.ReadDecimal("options>mode>training>strength", 1,def);
 			nudHistory.Value = FormChess.ini.ReadDecimal("options>interface>history", 100,def);
 			nudSpeed.Value = FormChess.ini.ReadDecimal("options>interface>speed", 200,def);
@@ -164,12 +170,20 @@ namespace RapChessGui
 		{
 			FormChess.ini.Write("options>mode>game>book", cbGameBook.Text);
 			FormChess.ini.Write("options>mode>game>engine", cbGameEngine.Text);
-			FormChess.ini.Write("options>mode>game>break", nudBreak.Value);
+            FormChess.ini.Write("options>mode>game>bottom", cbBottomPlayer.SelectedIndex);
+            FormChess.ini.Write("options>mode>game>break", nudBreak.Value);
 
-			FormChess.ini.Write("options>mode>match>bookF", cbMatchBookF.Text);
-			FormChess.ini.Write("options>mode>match>bookS", cbMatchBookS.Text);
+            CModeMatch.book1 = cbMatchBook1.Text;
+            CModeMatch.book2 = cbMatchBook2.Text;
+            CModeMatch.engine1 = cbMatchEngine1.Text;
+            CModeMatch.engine2 = cbMatchEngine2.Text;
+			CModeMatch.modeValue1.SetLevel(cbMatchMode1.Text);
+            CModeMatch.modeValue2.SetLevel(cbMatchMode2.Text);
+			CModeMatch.modeValue1.SetValue((int)nudMatchValue1.Value);
+            CModeMatch.modeValue2.SetValue((int)nudMatchValue2.Value);
+            CModeMatch.SaveToIni();
 
-			FormChess.ini.Write("options>mode>tourB>selected", cbTourBSelected.Text);
+            FormChess.ini.Write("options>mode>tourB>selected", cbTourBSelected.Text);
 			FormChess.ini.Write("options>mode>tourB>engine", cbTourBEngine.Text);
 			FormChess.ini.Write("options>mode>tourB>mode", cbTourBMode.Text);
 			FormChess.ini.Write("options>mode>tourB>value", nudTourB.Value);
@@ -193,12 +207,10 @@ namespace RapChessGui
 
 			FormChess.ini.Write("options>interface>color", ColorTranslator.ToHtml(color));
 			FormChess.ini.Write("options>interface>san", rbSan.Checked);
-			FormChess.ini.Write("options>interface>rotate", cbRotateBoard.Checked);
 			FormChess.ini.Write("options>interface>attack", cbAttack.Checked);
 			FormChess.ini.Write("options>interface>arrow", cbArrow.Checked);
 			FormChess.ini.Write("options>interface>tips", cbTips.Checked);
 			FormChess.ini.Write("options>interface>sound", cbSound.Checked);
-			FormChess.ini.Write("options>interface>spam", cbSpam.Checked);
 			FormChess.ini.Write("options>mode>training>strength", nudTraining.Value);
 			FormChess.ini.Write("options>interface>history", nudHistory.Value);
 			FormChess.ini.Write("options>interface>speed", nudSpeed.Value);
@@ -224,40 +236,40 @@ namespace RapChessGui
 				cbBookReader.Items.Add(book);
 			cbBookReader.SelectedIndex = 0;
 			cbGameBook.Items.Clear();
-			cbMatchBookF.Items.Clear();
-			cbMatchBookS.Items.Clear();
+			cbMatchBook1.Items.Clear();
+			cbMatchBook2.Items.Clear();
 			cbTourBSelected.Items.Clear();
 			cbTourEBookF.Items.Clear();
 			cbTourEBookS.Items.Clear();
 			cbGameBook.Sorted = true;
-			cbMatchBookF.Sorted = true;
-			cbMatchBookS.Sorted = true;
+			cbMatchBook1.Sorted = true;
+			cbMatchBook2.Sorted = true;
 			cbTourBSelected.Sorted = true;
 			cbTourEBookF.Sorted = true;
 			cbTourEBookS.Sorted = true;
 			foreach (CBook b in FormChess.bookList)
 			{
 				cbGameBook.Items.Add(b.name);
-				cbMatchBookF.Items.Add(b.name);
-				cbMatchBookS.Items.Add(b.name);
+				cbMatchBook1.Items.Add(b.name);
+				cbMatchBook2.Items.Add(b.name);
 				cbTourBSelected.Items.Add(b.name);
 				cbTourEBookF.Items.Add(b.name);
 				cbTourEBookS.Items.Add(b.name);
 			}
 			cbGameBook.Sorted = false;
-			cbMatchBookF.Sorted = false;
-			cbMatchBookS.Sorted = false;
+			cbMatchBook1.Sorted = false;
+			cbMatchBook2.Sorted = false;
 			cbTourBSelected.Sorted = false;
 			cbTourEBookF.Sorted = false;
 			cbTourEBookS.Sorted = false;
 			cbGameBook.Items.Insert(0, Global.none);
-			cbMatchBookF.Items.Insert(0, Global.none);
-			cbMatchBookS.Items.Insert(0,Global.none);
+			cbMatchBook1.Items.Insert(0, Global.none);
+			cbMatchBook2.Items.Insert(0,Global.none);
 			cbTourBSelected.Items.Insert(0, Global.none);
 			cbTourEBookF.Items.Insert(0, Global.none);
 			cbTourEBookS.Items.Insert(0, Global.none);
-			cbMatchBookF.Items.Insert(1,"Random");
-			cbMatchBookS.Items.Insert(1,"Random");
+			cbMatchBook1.Items.Insert(1,"Random");
+			cbMatchBook2.Items.Insert(1,"Random");
 			cbTourEBookF.Items.Insert(1, "Random");
 			cbTourEBookS.Items.Insert(1, "Random");
 
@@ -319,11 +331,6 @@ namespace RapChessGui
 		int CbToMargin(int i)
 		{
 			return new int[] { -1, 0, 1000, 2000, 5000, 10000 }[i];
-		}
-
-		private void CbRotateBoard_CheckedChanged(object sender, EventArgs e)
-		{
-			rotateBoard = cbRotateBoard.Checked;
 		}
 
 		private void butColor_Click(object sender, EventArgs e)
@@ -408,7 +415,6 @@ namespace RapChessGui
 
 		private void cbSpam_CheckedChanged(object sender, EventArgs e)
 		{
-			spamOff = cbSpam.Checked;
 		}
 
 		private void cbArrow_CheckedChanged(object sender, EventArgs e)
@@ -488,7 +494,7 @@ namespace RapChessGui
 			CLevelValue modeValue = new CLevelValue();
 			modeValue.SetLevel(tourBMode);
 			modeValue.SetValue(tourBValue);
-			modeValue.SetLevel((sender as ComboBox).Text);
+			modeValue.SetLevel((sender as System.Windows.Forms.ComboBox).Text);
 			nudTourB.Increment = modeValue.GetValueIncrement();
 			nudTourB.Minimum = nudTourB.Increment;
 			nudTourB.Value = Math.Max(modeValue.GetValue(), nudTourB.Minimum);
@@ -500,7 +506,7 @@ namespace RapChessGui
 			CLevelValue modeValue = new CLevelValue();
 			modeValue.SetLevel(tourEMode);
 			modeValue.SetValue(tourEValue);
-			modeValue.SetLevel((sender as ComboBox).Text);
+			modeValue.SetLevel((sender as System.Windows.Forms.ComboBox).Text);
 			nudTourE.Increment = modeValue.GetValueIncrement();
 			nudTourE.Minimum = nudTourE.Increment;
 			nudTourE.Value = Math.Max(modeValue.GetValue(), nudTourE.Minimum);
@@ -544,5 +550,29 @@ namespace RapChessGui
 			labTourE.Text = $"Fill {(CModeTournamentE.tourList.Count * 100) / nudTourERec.Value}%";
 			labTourP.Text = $"Fill {(CModeTournamentP.tourList.Count * 100) / nudTourPRec.Value}%";
 		}
-	}
+
+        private void cbMatchMode1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CModeMatch.modeValue1.SetLevel(cbMatchMode1.Text);
+            nudMatchValue1.Increment = CModeMatch.modeValue1.GetValueIncrement();
+            nudMatchValue1.Minimum = nudMatchValue1.Increment;
+            nudMatchValue1.Value = CModeMatch.modeValue1.GetValue();
+        }
+
+        private void cbMatchMode2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CModeMatch.modeValue2.SetLevel(cbMatchMode2.Text);
+            nudMatchValue2.Increment = CModeMatch.modeValue1.GetValueIncrement();
+            nudMatchValue2.Minimum = nudMatchValue2.Increment;
+            nudMatchValue2.Value = CModeMatch.modeValue1.GetValue();
+        }
+
+        private void cbCustomMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CModeGame.modeValue.SetLevel(cbCustomMode.Text);
+            nudCustomValue.Increment = CModeGame.modeValue.GetValueIncrement();
+            nudCustomValue.Minimum = nudCustomValue.Increment;
+            nudCustomValue.Value = CModeGame.modeValue.GetValue();
+        }
+    }
 }

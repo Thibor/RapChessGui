@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CArrowList.cs" />
+    <Compile Include="CEloAcc.cs" />
     <Compile Include="CListBook.cs" />
     <Compile Include="CData.cs" />
     <Compile Include="CChess.cs" />
@@ -248,6 +249,7 @@
     <Compile Include="FormEditPlayer.designer.cs">
       <DependentUpon>FormEditPlayer.cs</DependentUpon>
     </Compile>
+    <Compile Include="CMSList.cs" />
     <Compile Include="Program.cs" />
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>

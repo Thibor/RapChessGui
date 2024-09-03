@@ -8,18 +8,22 @@ namespace RapChessGui
 {
 	public class CEngine : CElement
 	{
-		public bool modeStandard = true;
-		public bool modeTime = true;
-		public bool modeDepth = true;
-		public bool modeTournament = true;
-		public bool modeNodes = true;
-		public bool modeInfinite = true;
-		public bool modeElo = true;
+		public bool modeStandard = false;
+		public bool modeTime = false;
+		public bool modeDepth = false;
+		public bool modeTournament = false;
+		public bool modeNodes = false;
+		public bool modeInfinite = false;
+		public bool modeElo = false;
+		public bool modeFen = false;
 		public int tournament = 1;
+		public int eloMax = 0;
 		public string file = Global.none;
 		public string folder = Global.none;
 		public string arguments = String.Empty;
 		public CProtocol protocol = CProtocol.auto;
+		public int eloAcc = 0;
+		public DateTime eloAccDT = new DateTime(0);
 		public List<string> options = new List<string>();
 		public CError eMove = new CError();
 		public CError eTime = new CError();
@@ -48,9 +52,11 @@ namespace RapChessGui
 
 		public void LoadFromIni()
 		{
-			tournament = CListEngine.iniFile.ReadInt($"engine>{name}>tournament", tournament);
+            eloMax = CListEngine.iniFile.ReadInt($"engine>{name}>eloMax", eloMax);
+            tournament = CListEngine.iniFile.ReadInt($"engine>{name}>tournament", tournament);
 			modeElo = CListEngine.iniFile.ReadBool($"engine>{name}>modeElo", modeElo);
-			modeStandard = CListEngine.iniFile.ReadBool($"engine>{name}>modeStandard", modeStandard);
+            modeFen = CListEngine.iniFile.ReadBool($"engine>{name}>modeFen", modeFen);
+            modeStandard = CListEngine.iniFile.ReadBool($"engine>{name}>modeStandard", modeStandard);
 			modeTime = CListEngine.iniFile.ReadBool($"engine>{name}>modeTime", modeTime);
 			modeDepth = CListEngine.iniFile.ReadBool($"engine>{name}>modeDepth", modeDepth);
 			modeTournament = CListEngine.iniFile.ReadBool($"engine>{name}>modeTournament", modeTournament);
@@ -61,7 +67,9 @@ namespace RapChessGui
 			Protocol = CListEngine.iniFile.Read($"engine>{name}>protocol", Protocol);
 			arguments = CListEngine.iniFile.Read($"engine>{name}>parameters");
 			options = CListEngine.iniFile.ReadListStr($"engine>{name}>options");
-			hisElo.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>history"));
+			eloAcc = CListEngine.iniFile.ReadInt($"engine>{name}>eloAcc",eloAcc);
+            eloAccDT = CListEngine.iniFile.ReadDateTime($"engine>{name}>eloAccDT",eloAccDT);
+            hisElo.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>history"));
 			eMove.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>eMove"));
 			eTime.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>eTime"));
 			elo = hisElo.Last();
@@ -75,9 +83,11 @@ namespace RapChessGui
 				hisElo.AddValue(elo);
 			}
 			SetUniqueName();
-			CListEngine.iniFile.Write($"engine>{name}>tournament", tournament);
+            CListEngine.iniFile.Write($"engine>{name}>eloMax", eloMax);
+            CListEngine.iniFile.Write($"engine>{name}>tournament", tournament);
 			CListEngine.iniFile.Write($"engine>{name}>modeElo", modeElo);
-			CListEngine.iniFile.Write($"engine>{name}>modeStandard", modeStandard);
+            CListEngine.iniFile.Write($"engine>{name}>modeFen", modeFen);
+            CListEngine.iniFile.Write($"engine>{name}>modeStandard", modeStandard);
 			CListEngine.iniFile.Write($"engine>{name}>modeTime", modeTime);
 			CListEngine.iniFile.Write($"engine>{name}>modeDepth", modeDepth);
 			CListEngine.iniFile.Write($"engine>{name}>modeTournament", modeTournament);
@@ -88,7 +98,9 @@ namespace RapChessGui
 			CListEngine.iniFile.Write($"engine>{name}>protocol", Protocol);
 			CListEngine.iniFile.Write($"engine>{name}>parameters", arguments);
 			CListEngine.iniFile.Write($"engine>{name}>options", options);
-			CListEngine.iniFile.Write($"engine>{name}>history", hisElo, " ");
+			CListEngine.iniFile.Write($"engine>{name}>eloAcc", eloAcc);
+            CListEngine.iniFile.Write($"engine>{name}>eloAccDT", eloAccDT);
+            CListEngine.iniFile.Write($"engine>{name}>history", hisElo, " ");
 			CListEngine.iniFile.Write($"engine>{name}>eMove", eMove, " ");
 			CListEngine.iniFile.Write($"engine>{name}>eTime", eTime, " ");
 		}

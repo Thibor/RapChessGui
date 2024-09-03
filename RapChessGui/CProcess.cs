@@ -96,11 +96,10 @@ namespace RapChessGui
 			catch { }
 		}
 
-		public void WriteLine(string c, bool sleep = false)
+		public void WriteLine(string c,int sleep = 0)
 		{
 			process?.StandardInput.WriteLine(c);
-			if (sleep)
-				System.Threading.Thread.Sleep(8);
+			System.Threading.Thread.Sleep(sleep);
 		}
 
 	}
