@@ -177,7 +177,7 @@ namespace RapChessGui
                     StudentWriteLine("ucinewgame");
                     Thread.Sleep(100);
                     StudentWriteLine($"position fen {line.fen}");
-                    StudentWriteLine("go movetime 2000");
+                    StudentWriteLine("go movetime 1000");
                 }
                 else
                 {
@@ -187,7 +187,7 @@ namespace RapChessGui
                     StudentWriteLine("post");
                     StudentWriteLine("force");
                     StudentWriteLine($"board {line.fen}");
-                    StudentWriteLine("st 200");
+                    StudentWriteLine("st 100");
                     StudentWriteLine(chess.WhiteTurn ? "white" : "black");
                     StudentWriteLine("go");
                 }

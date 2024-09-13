@@ -55,6 +55,10 @@ namespace RapChessGui
 
 	public class CGamer
 	{
+        /// <summary>
+        /// Engine send score mate
+        /// </summary>
+        public bool mate;
 		/// <summary>
 		/// Count moves maked by book.
 		/// </summary>
@@ -74,7 +78,6 @@ namespace RapChessGui
 		public ulong npsTotal;
 		public ulong npsCount;
 		public string strScore;
-		public string strDepth;
 		public int depth;
 		public int seldepth;
 		int hash;
@@ -112,7 +115,14 @@ namespace RapChessGui
 			InitNewGame();
 		}
 
-		public Bitmap GetBitmap(int height, out int width)
+        public double DepthAvg()
+		{
+			if(depthCount==0)
+				return 0;
+			return (double)depthTotal / depthCount;
+		}
+
+        public Bitmap GetBitmap(int height, out int width)
 		{
 			Bitmap bmp = GetBitmap();
 			double ratio = (double)bmp.Width / bmp.Height;
@@ -278,6 +288,7 @@ namespace RapChessGui
 		public void InitNewGame()
 		{
 			curProcess = null;
+			mate = false;
 			gamerBook.isBookStarted = false;
 			gamerBook.isBookFail = false;
 			gamerEngine.isEngRunning = false;
@@ -312,7 +323,6 @@ namespace RapChessGui
 			ponder = String.Empty;
 			pv = String.Empty;
 			strScore = String.Empty;
-			strDepth = String.Empty;
 		}
 
 		public void MoveDone()
@@ -322,7 +332,7 @@ namespace RapChessGui
 			else
 			{
 				countMovesEngine++;
-				if (depth > 0)
+				if (!mate &&(depth > 0))
 				{
 					depthCount++;
 					depthTotal += depth;
@@ -346,11 +356,6 @@ namespace RapChessGui
 				return IsWhite() ? "White" : "Black";
 			else
 				return player.name;
-		}
-
-		public int GetDepthAvg()
-		{
-			return (depthTotal + depth) / (depthCount + 1);
 		}
 
 		public ulong GetNpsAvg()
@@ -577,13 +582,6 @@ namespace RapChessGui
 			if (engine == null)
 				return "Protocol";
 			return CData.ProtocolToStr(engine.protocol);
-		}
-
-		public string GetDepth()
-		{
-			if (depth > 0)
-				return $"{depth} / {seldepth} / {GetDepthAvg()}";
-			return String.Empty;
 		}
 
 		public Color GetScoreColor()

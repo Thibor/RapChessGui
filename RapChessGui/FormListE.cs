@@ -11,6 +11,7 @@ using System.Globalization;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 using System.Security.Cryptography;
 using System.Management;
+using System.Net;
 
 namespace RapChessGui
 {
@@ -38,38 +39,73 @@ namespace RapChessGui
                 lv.Items[n].SubItems[0].Text = (n + 1).ToString();
         }
 
+        int EloOpt(CEngine e1,CEngine e2)
+        {
+            CModeTournamentE.tourList.CountGames(e1.name, e2.name, out int gw, out int gl, out _);
+            return gw - gl;
+        }
+
+        bool EloOpt(int index)
+        {
+            CEngine e1=FormChess.engineList[index];
+            CEngine e2;
+            int down = index;
+            int up = index;
+            for (int n = index + 1; n < FormChess.engineList.Count; n++)
+            {
+                e2 = FormChess.engineList[n];
+                int r = EloOpt(e1, e2);
+                if ( r== 0)
+                    continue;
+                if(r<0)
+                    down = n;
+                if (r > 0)
+                    break;
+            }
+            for (int n = index - 1; n >=0; n--)
+            {
+                e2 = FormChess.engineList[n];
+                int r = EloOpt(e1, e2);
+                if (r == 0)
+                    continue;
+                if (r > 0)
+                    up = n;
+                if (r < 0)
+                    break;
+            }
+            if((down==up)||((down!=index)&&(up!=index)))
+                return false;
+            e2 = down == index ? FormChess.engineList[up] : FormChess.engineList[down];
+            (e1.eloOpt, e2.eloOpt) = (e2.eloOpt, e1.eloOpt);
+            return true;
+        }
+
+        void UpdateEloOpt()
+        {
+            for (int n = 0; n < FormChess.engineList.Count; n++)
+                EloOpt(n);    
+        }
+
+        void FillEloOpt()
+        {
+            if (FormChess.engineList.Count == 0)
+                return;
+            FormChess.engineList.SortElo();
+            int dis = (CElo.eloMax - CElo.eloMin) / (FormChess.engineList.Count);
+            for (int n = 0; n < FormChess.engineList.Count; n++)
+                FormChess.engineList[n].eloOpt = CElo.eloMin + (FormChess.engineList.Count - n) * dis;
+            UpdateEloOpt();
+        }
+
         private void FormListE_Shown(object sender, EventArgs e)
         {
+            FillEloOpt();
             lvEngines.Items.Clear();
             FormChess.engineList.SortElo();
             int index = 0;
             foreach (CEngine engine in FormChess.engineList)
             {
-                string protocol = CData.ProtocolToStr(engine.protocol);
-                int eloOpt = engine.elo;
-                int totalEngines = 0;
-                int totalGames = 0;
-                int totalW = 0;
-                int totalL = 0;
-                int totalD = 0;
-                double totalElo = 0;
-                foreach (CEngine engine2 in FormChess.engineList)
-                {
-                    int games = CModeTournamentE.tourList.CountGames(engine.name, engine2.name, out int gw, out int gl, out int gd);
-                    if (games == 0)
-                        continue;
-                    totalEngines++;
-                    totalGames += games;
-                    totalW += gw * games;
-                    totalL += gl * games;
-                    totalD += gd * games;
-                    totalElo += engine2.elo * games;
-                }
-                totalElo /= totalGames;
-                if (totalGames > 0)
-                    eloOpt = Convert.ToInt32(CElo.EloOpt(eloOpt, totalElo, totalW, totalL, totalD));
-                int delta = eloOpt - engine.elo;
-                ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, engine.StrElo, engine.eloAcc.ToString(), eloOpt.ToString(), delta.ToString(), engine.Protocol, engine.hisElo.Trend().ToString(), engine.hisElo.Change().ToString(), engine.eMove.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2") });
+                ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, engine.StrElo, engine.eloAcc.ToString(), engine.eloOpt.ToString(), engine.Protocol, engine.hisElo.Trend().ToString(), engine.hisElo.Change().ToString(), engine.eMove.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2") });
                 lvEngines.Items.Add(lvi);
             }
         }

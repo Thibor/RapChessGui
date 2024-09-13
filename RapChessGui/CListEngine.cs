@@ -18,6 +18,7 @@ namespace RapChessGui
 		public bool modeFen = false;
 		public int tournament = 1;
 		public int eloMax = 0;
+		public int eloOpt = 0;
 		public string file = Global.none;
 		public string folder = Global.none;
 		public string arguments = String.Empty;

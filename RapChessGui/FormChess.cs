@@ -497,7 +497,7 @@ namespace RapChessGui
             if (g.IsWhite())
             {
                 labScoreW.Text = $"Score {g.strScore}";
-                labDepthW.Text = $"Depth {g.strDepth}";
+                labDepthW.Text = $"Depth {g.DepthAvg():N2}";
                 labNodesW.Text = $"Nodes {g.nodes:N0}";
                 labNpsW.Text = $"Nps {g.GetNpsAvg():N0}";
                 labBookCW.Text = $"Book {g.countMovesBook}";
@@ -507,7 +507,7 @@ namespace RapChessGui
             else
             {
                 labScoreB.Text = $"Score {g.strScore}";
-                labDepthB.Text = $"Depth {g.strDepth}";
+                labDepthB.Text = $"Depth {g.DepthAvg():N2}";
                 labNodesB.Text = $"Nodes {g.nodes:N0}";
                 labNpsB.Text = $"Nps {g.GetNpsAvg():N0}";
                 labBookCB.Text = $"Book {g.countMovesBook}";
@@ -690,7 +690,7 @@ namespace RapChessGui
         void AddLines(CGamer g)
         {
             TimeSpan ts = TimeSpan.FromMilliseconds(g.infMs);
-            ListViewItem lvi = new ListViewItem(new[] { ts.ToString(@"mm\:ss\.ff"), g.strScore, g.strDepth, g.nodes.ToString("N0"), g.nps.ToString("N0"), g.pv });
+            ListViewItem lvi = new ListViewItem(new[] { ts.ToString(@"mm\:ss\.ff"), g.strScore, $"{g.depth}/{g.seldepth}", g.nodes.ToString("N0"), g.nps.ToString("N0"), g.pv });
             ListView lv = g.IsWhite() ? lvMovesW : lvMovesB;
             if ((lv.Items.Count & 1) > 0)
                 lvi.BackColor = Colors.message;
@@ -727,7 +727,6 @@ namespace RapChessGui
             if (pv != String.Empty)
                 g.pv = pv;
             g.seldepth = selfdepth;
-            g.strDepth = g.GetDepth();
             ShowInfo(pv, Color.Gainsboro, 0, g);
             AddLines(g);
         }
@@ -786,6 +785,7 @@ namespace RapChessGui
                     }
                     if (uci.GetValue("mate", out s))
                     {
+                        g.mate = true;
                         int.TryParse(s, out int ip);
                         if (ip > 0)
                         {

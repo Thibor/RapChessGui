@@ -33,6 +33,7 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -40,8 +41,6 @@
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.foldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +52,6 @@
             this.columnHeader4,
             this.columnHeader9,
             this.columnHeader10,
-            this.columnHeader11,
             this.columnHeader8,
             this.columnHeader1,
             this.columnHeader2,
@@ -97,36 +95,37 @@
             this.columnHeader9.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeader9.Width = 100;
             // 
+            // columnHeader10
+            // 
+            this.columnHeader10.Text = "EloOpt";
+            this.columnHeader10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.columnHeader10.Width = 100;
+            // 
             // columnHeader8
             // 
-            this.columnHeader8.DisplayIndex = 5;
             this.columnHeader8.Text = "Protocol";
             this.columnHeader8.Width = 80;
             // 
             // columnHeader1
             // 
-            this.columnHeader1.DisplayIndex = 6;
             this.columnHeader1.Text = "Trend";
             this.columnHeader1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeader1.Width = 100;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.DisplayIndex = 7;
             this.columnHeader2.Text = "Change";
             this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeader2.Width = 100;
             // 
             // columnHeader6
             // 
-            this.columnHeader6.DisplayIndex = 8;
             this.columnHeader6.Text = "E Move %";
             this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeader6.Width = 100;
             // 
             // columnHeader7
             // 
-            this.columnHeader7.DisplayIndex = 9;
             this.columnHeader7.Text = "E Tme %";
             this.columnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeader7.Width = 100;
@@ -147,19 +146,6 @@
             this.foldersToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.foldersToolStripMenuItem.Text = "Folders";
             this.foldersToolStripMenuItem.Click += new System.EventHandler(this.foldersToolStripMenuItem_Click);
-            // 
-            // columnHeader10
-            // 
-            this.columnHeader10.DisplayIndex = 4;
-            this.columnHeader10.Text = "EloOpt";
-            this.columnHeader10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader10.Width = 100;
-            // 
-            // columnHeader11
-            // 
-            this.columnHeader11.Text = "Delta";
-            this.columnHeader11.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader11.Width = 100;
             // 
             // FormListE
             // 
@@ -198,6 +184,5 @@
 		private System.Windows.Forms.ToolStripMenuItem foldersToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader columnHeader9;
         private System.Windows.Forms.ColumnHeader columnHeader10;
-        private System.Windows.Forms.ColumnHeader columnHeader11;
     }
 }
