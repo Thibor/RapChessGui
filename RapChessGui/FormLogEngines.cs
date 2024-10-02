@@ -170,7 +170,7 @@ namespace RapChessGui
 			{
 				locked = true;
 				richTextBox1.Clear();
-				process.SetProgram($@"{AppDomain.CurrentDomain.BaseDirectory}Engines\{engine.file}", engine.arguments);
+				process.SetProgram($@"{AppDomain.CurrentDomain.BaseDirectory}{engine.GetFileName()}", engine.arguments);
 			}
 		}
 
