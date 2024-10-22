@@ -112,6 +112,7 @@
     <Compile Include="CListBook.cs" />
     <Compile Include="CData.cs" />
     <Compile Include="CChess.cs" />
+    <Compile Include="CModeEdit.cs" />
     <Compile Include="CReaderList.cs" />
     <Compile Include="CEcoList.cs" />
     <Compile Include="CListEngine.cs" />

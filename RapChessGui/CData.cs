@@ -47,7 +47,7 @@ namespace RapChessGui
         public static int lastDes = -1;
         public static int mouseX = 0;
         public static int mouseY = 0;
-        public static int mouseIndex = 0;
+        public static int mouseIndex = -1;
     }
 
     public static class Global

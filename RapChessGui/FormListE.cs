@@ -97,6 +97,11 @@ namespace RapChessGui
             UpdateEloOpt();
         }
 
+        string GetElo(double v)
+        {
+            return Convert.ToInt32( (v * CElo.eloMax)/100).ToString();
+        }
+
         private void FormListE_Shown(object sender, EventArgs e)
         {
             FillEloOpt();
@@ -105,7 +110,7 @@ namespace RapChessGui
             int index = 0;
             foreach (CEngine engine in FormChess.engineList)
             {
-                ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, engine.StrElo, engine.eloAcc.ToString(), engine.eloOpt.ToString(), engine.Protocol, engine.hisElo.Trend().ToString(), engine.hisElo.Change().ToString(), engine.eMove.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2") });
+                ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, engine.StrElo, engine.eloOpt.ToString(), GetElo(engine.accuracy),GetElo(engine.weight),  engine.Protocol, engine.hisElo.Trend().ToString(), engine.hisElo.Change().ToString(), engine.eMove.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2") });
                 lvEngines.Items.Add(lvi);
             }
         }

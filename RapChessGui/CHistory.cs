@@ -3,23 +3,27 @@ using NSChess;
 
 namespace RapChessGui
 {
-	public class CHisMove
+	public class CHis
 	{
 		public int halfMove;
 		public int piece;
 		public int emo;
 		public string umo;
 		public string san;
-		public string score = string.Empty;
+        public string fen = string.Empty;
+        public string score = string.Empty;
+		public string pv = string.Empty;
 
-		public CHisMove(int halfMove, int piece, int emo, string umo, string san, string score)
+		public CHis(string fen,int halfMove, int piece, int emo, string umo, string san, string score,string pv)
 		{
 			this.halfMove = halfMove;
 			this.piece = piece;
 			this.emo = emo;
 			this.umo = umo;
 			this.san = san;
+			this.fen = fen;
 			this.score = score;
+			this.pv = pv;
 		}
 
 		public string GetNotation()
@@ -38,81 +42,91 @@ namespace RapChessGui
 
 	}
 
-	public static class CHistory
+	public class CHistory:List<CHis>
 	{
-		public static int moveNumber = 0;
-		public static string fen = CChess.defFen;
-		public static List<CHisMove> moveList = new List<CHisMove>();
+		public int moveNumber = 0;
+		public string fen = CChess.defFen;
 
-		public static CHisMove AddMove(int halfMove, int piece, int emo, string umo, string san, string score)
+		public CHis AddMove(string fen,int halfMove, int piece, int emo, string umo, string san, string score, string pv)
 		{
-			CHisMove hm = new CHisMove(halfMove, piece, emo, umo, san, score);
-			moveList.Add(hm);
+			CHis hm = new CHis(fen,halfMove, piece, emo, umo, san, score,pv);
+			Add(hm);
 			return hm;
 		}
 
-		public static bool Back(int c)
+		public bool Back(int c)
 		{
-			if ((c > 0) && (c <= moveList.Count))
+			if ((c > 0) && (c <= Count))
 			{
-				moveList.RemoveRange(moveList.Count - c, c);
+				RemoveRange(Count - c, c);
 				return true;
 			}
 			return false;
 		}
 
-		public static bool BackTo(int mn, bool white)
+		public bool BackTo(int mn, bool white)
 		{
-			int c = moveList.Count - (mn << 1) - 1;
+			int c = Count - (mn << 1) - 1;
 			if (white)
 				c--;
 			return Back(c);
 		}
 
-		public static CHisMove Last()
+		public CHis Last()
 		{
-			if (moveList.Count == 0)
+			if (Count == 0)
 				return null;
-			return moveList[moveList.Count - 1];
+			return this[Count - 1];
 		}
 
-		public static string LastPiece()
+		public string LastPiece()
 		{
-			if (moveList.Count == 0)
+			if (Count == 0)
 				return string.Empty;
-			return moveList[moveList.Count - 1].GetPiece();
+			return Last().GetPiece();
 		}
 
-		public static string LastUmo()
+		public string LastUmo()
 		{
-			if (moveList.Count == 0)
-				return "";
-			return moveList[moveList.Count - 1].umo;
+			if (Count == 0)
+				return string.Empty;
+			return Last().umo;
 		}
 
-		public static bool LastWhite()
+		public bool LastWhite()
 		{
-			return ((moveNumber + moveList.Count) & 1) == 1;
+			return ((moveNumber + Count) & 1) == 1;
 		}
-		public static void SetFen(string f = CChess.defFen, int mn = 0)
+
+		public void SetFen(string f = CChess.defFen, int mn = 0)
 		{
 			fen = f;
 			moveNumber = mn;
-			moveList.Clear();
+			Clear();
 		}
 
-		public static string GetUci()
+		public void SetLength(int l)
+		{
+			if (l <= 0)
+				Clear();
+			else if (l >= Count)
+				return;
+			else
+				RemoveRange(l, Count - l);
+		}
+
+		public string GetMovesUci()
 		{
 			string result = string.Empty;
-			foreach (CHisMove m in moveList)
+			foreach (CHis m in this)
 				result += $" {m.umo}";
 			return result.Trim();
 		}
 
-		public static string GetMovesNotation(int maxCount)
+		public string GetMovesNotation(int maxCount)
 		{
 			string result = string.Empty;
-			foreach (CHisMove hm in moveList)
+			foreach (CHis hm in this)
 			{
 				if (maxCount-- <= 0)
 					return result;
@@ -121,26 +135,26 @@ namespace RapChessGui
 			return result.Trim();
 		}
 
-		public static string GetPgn()
+		public string GetPgn()
 		{
 			string result = string.Empty;
 			int c = 0;
-			for (int n = 0; n < moveList.Count; n++)
+			for (int n = 0; n < Count; n++)
 			{
 				if ((++c & 1) > 0)
 					result += $" {(c >> 1) + 1}.";
-				CHisMove hm = moveList[n];
+				CHis hm = this[n];
 				result += $" {hm.san}";
 			}
 			return result.Trim();
 		}
 
-		public static string GetPosition()
+		public string GetPosition()
 		{
 			string result = "position ";
 			result += (fen == CChess.defFen) ? "startpos" : "fen " + fen;
-			if (moveList.Count > 0)
-				return result + " moves " + GetUci();
+			if (Count > 0)
+				return result + " moves " + GetMovesUci();
 			else
 				return result;
 		}

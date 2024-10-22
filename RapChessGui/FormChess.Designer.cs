@@ -216,6 +216,7 @@
             this.lastTournamentplayersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lastTrainingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.autoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lastAutodetectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lastErrorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.historyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -246,7 +247,6 @@
             this.labMaterialD = new System.Windows.Forms.Label();
             this.labTakenD = new System.Windows.Forms.Label();
             this.cbGameMode = new System.Windows.Forms.ComboBox();
-            this.chartMain = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.labPromoB = new System.Windows.Forms.Label();
             this.labPromoN = new System.Windows.Forms.Label();
             this.labPromoQ = new System.Windows.Forms.Label();
@@ -279,6 +279,9 @@
             this.labPlayerB = new System.Windows.Forms.Label();
             this.labEngineB = new System.Windows.Forms.Label();
             this.pbHashB = new System.Windows.Forms.ProgressBar();
+            this.chartMain = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.cbEditEngine1 = new System.Windows.Forms.ComboBox();
+            this.cbEditEngine2 = new System.Windows.Forms.ComboBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssMove = new System.Windows.Forms.ToolStripStatusLabel();
             this.tssInfo = new System.Windows.Forms.ToolStripStatusLabel();
@@ -293,9 +296,15 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader30 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader31 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPageGraph = new System.Windows.Forms.TabPage();
             this.labResult = new System.Windows.Forms.Label();
+            this.tabPageAnalysis = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.bEditStart = new System.Windows.Forms.Button();
+            this.bEditStop = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tlpChartD = new System.Windows.Forms.TableLayoutPanel();
             this.tlpChartT = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -323,7 +332,6 @@
             this.pictureBoxB = new System.Windows.Forms.PictureBox();
             this.timerAnimation = new System.Windows.Forms.Timer(this.components);
             this.fileSystemWatcher = new System.IO.FileSystemWatcher();
-            this.autoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPageGame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartGame)).BeginInit();
@@ -400,6 +408,12 @@
             this.splitContainerChart.Panel1.SuspendLayout();
             this.splitContainerChart.Panel2.SuspendLayout();
             this.splitContainerChart.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPageGraph.SuspendLayout();
+            this.tabPageAnalysis.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tlpChartD.SuspendLayout();
             this.tlpChartT.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -2613,6 +2627,13 @@
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(209, 6);
             // 
+            // autoToolStripMenuItem
+            // 
+            this.autoToolStripMenuItem.Name = "autoToolStripMenuItem";
+            this.autoToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.autoToolStripMenuItem.Text = "Autodetection elo";
+            this.autoToolStripMenuItem.Click += new System.EventHandler(this.autoToolStripMenuItem_Click);
+            // 
             // lastAutodetectToolStripMenuItem
             // 
             this.lastAutodetectToolStripMenuItem.Name = "lastAutodetectToolStripMenuItem";
@@ -2988,43 +3009,6 @@
             this.cbGameMode.TabIndex = 11;
             this.toolTip1.SetToolTip(this.cbGameMode, "Select game mode");
             this.cbGameMode.SelectedIndexChanged += new System.EventHandler(this.cbMainMode_SelectedIndexChanged);
-            // 
-            // chartMain
-            // 
-            this.chartMain.BackColor = System.Drawing.Color.WhiteSmoke;
-            chartArea7.AxisX.IsLabelAutoFit = false;
-            chartArea7.AxisX.MajorGrid.Enabled = false;
-            chartArea7.AxisX.MajorTickMark.Enabled = false;
-            chartArea7.AxisY.IsLabelAutoFit = false;
-            chartArea7.AxisY.MajorGrid.Interval = 5D;
-            chartArea7.AxisY.MajorTickMark.Enabled = false;
-            chartArea7.AxisY.Maximum = 5D;
-            chartArea7.AxisY.Minimum = -5D;
-            chartArea7.BackColor = System.Drawing.Color.WhiteSmoke;
-            chartArea7.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea7.Name = "ChartArea1";
-            this.chartMain.ChartAreas.Add(chartArea7);
-            this.chartMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chartMain.Location = new System.Drawing.Point(0, 34);
-            this.chartMain.Name = "chartMain";
-            this.chartMain.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
-            this.chartMain.PaletteCustomColors = new System.Drawing.Color[] {
-        System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0))))),
-        System.Drawing.Color.Olive};
-            series13.ChartArea = "ChartArea1";
-            series13.CustomProperties = "PointWidth=1";
-            series13.IsVisibleInLegend = false;
-            series13.Name = "Series1";
-            series14.ChartArea = "ChartArea1";
-            series14.CustomProperties = "PointWidth=1";
-            series14.Name = "Series2";
-            this.chartMain.Series.Add(series13);
-            this.chartMain.Series.Add(series14);
-            this.chartMain.Size = new System.Drawing.Size(409, 152);
-            this.chartMain.TabIndex = 0;
-            this.chartMain.Text = "chart1";
-            this.toolTip1.SetToolTip(this.chartMain, "Graphic representation of the game scores white player is  represent by light bar" +
-        "s black player is represent by dark bars");
             // 
             // labPromoB
             // 
@@ -3569,6 +3553,67 @@
             this.pbHashB.TabIndex = 27;
             this.toolTip1.SetToolTip(this.pbHashB, "Use of transposition table");
             // 
+            // chartMain
+            // 
+            this.chartMain.BackColor = System.Drawing.Color.WhiteSmoke;
+            chartArea7.AxisX.IsLabelAutoFit = false;
+            chartArea7.AxisX.MajorGrid.Enabled = false;
+            chartArea7.AxisX.MajorTickMark.Enabled = false;
+            chartArea7.AxisY.IsLabelAutoFit = false;
+            chartArea7.AxisY.MajorGrid.Interval = 5D;
+            chartArea7.AxisY.MajorTickMark.Enabled = false;
+            chartArea7.AxisY.Maximum = 5D;
+            chartArea7.AxisY.Minimum = -5D;
+            chartArea7.BackColor = System.Drawing.Color.WhiteSmoke;
+            chartArea7.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chartArea7.Name = "ChartArea1";
+            this.chartMain.ChartAreas.Add(chartArea7);
+            this.chartMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chartMain.Location = new System.Drawing.Point(3, 37);
+            this.chartMain.Name = "chartMain";
+            this.chartMain.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
+            this.chartMain.PaletteCustomColors = new System.Drawing.Color[] {
+        System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0))))),
+        System.Drawing.Color.Olive};
+            series13.ChartArea = "ChartArea1";
+            series13.CustomProperties = "PointWidth=1";
+            series13.IsVisibleInLegend = false;
+            series13.Name = "Series1";
+            series14.ChartArea = "ChartArea1";
+            series14.CustomProperties = "PointWidth=1";
+            series14.Name = "Series2";
+            this.chartMain.Series.Add(series13);
+            this.chartMain.Series.Add(series14);
+            this.chartMain.Size = new System.Drawing.Size(395, 137);
+            this.chartMain.TabIndex = 3;
+            this.chartMain.Text = "chart1";
+            this.toolTip1.SetToolTip(this.chartMain, "Graphic representation of the game scores white player is  represent by light bar" +
+        "s black player is represent by dark bars");
+            // 
+            // cbEditEngine1
+            // 
+            this.cbEditEngine1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbEditEngine1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbEditEngine1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbEditEngine1.Location = new System.Drawing.Point(3, 16);
+            this.cbEditEngine1.Name = "cbEditEngine1";
+            this.cbEditEngine1.Size = new System.Drawing.Size(389, 21);
+            this.cbEditEngine1.Sorted = true;
+            this.cbEditEngine1.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.cbEditEngine1, "Select engine");
+            // 
+            // cbEditEngine2
+            // 
+            this.cbEditEngine2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbEditEngine2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbEditEngine2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbEditEngine2.Location = new System.Drawing.Point(3, 16);
+            this.cbEditEngine2.Name = "cbEditEngine2";
+            this.cbEditEngine2.Size = new System.Drawing.Size(389, 21);
+            this.cbEditEngine2.Sorted = true;
+            this.cbEditEngine2.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.cbEditEngine2, "Select engine");
+            // 
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.Black;
@@ -3732,8 +3777,7 @@
             // 
             // splitContainerChart.Panel2
             // 
-            this.splitContainerChart.Panel2.Controls.Add(this.chartMain);
-            this.splitContainerChart.Panel2.Controls.Add(this.labResult);
+            this.splitContainerChart.Panel2.Controls.Add(this.tabControl2);
             this.splitContainerChart.Size = new System.Drawing.Size(413, 454);
             this.splitContainerChart.SplitterDistance = 260;
             this.splitContainerChart.TabIndex = 27;
@@ -3746,14 +3790,11 @@
             this.lvMoves.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader3,
             this.columnHeader4,
-            this.columnHeader30,
-            this.columnHeader5,
-            this.columnHeader31});
+            this.columnHeader30});
             this.lvMoves.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lvMoves.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lvMoves.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.lvMoves.FullRowSelect = true;
             this.lvMoves.GridLines = true;
-            this.lvMoves.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvMoves.HideSelection = false;
             this.lvMoves.Location = new System.Drawing.Point(0, 0);
             this.lvMoves.MultiSelect = false;
@@ -3763,45 +3804,131 @@
             this.lvMoves.TabIndex = 27;
             this.lvMoves.UseCompatibleStateImageBehavior = false;
             this.lvMoves.View = System.Windows.Forms.View.Details;
-            this.lvMoves.Click += new System.EventHandler(this.lvMoves_Click);
+            this.lvMoves.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvMoves_ItemSelectionChanged);
             this.lvMoves.Resize += new System.EventHandler(this.lvMoves_Resize);
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Move";
-            this.columnHeader3.Width = 50;
+            this.columnHeader3.Width = 80;
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "White";
-            this.columnHeader4.Width = 50;
+            this.columnHeader4.Text = "Score";
+            this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.columnHeader4.Width = 80;
             // 
             // columnHeader30
             // 
-            this.columnHeader30.Text = "Score";
-            this.columnHeader30.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.columnHeader30.Text = "Moves";
             // 
-            // columnHeader5
+            // tabControl2
             // 
-            this.columnHeader5.Text = "Black";
-            this.columnHeader5.Width = 50;
+            this.tabControl2.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+            this.tabControl2.Controls.Add(this.tabPageGraph);
+            this.tabControl2.Controls.Add(this.tabPageAnalysis);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.ItemSize = new System.Drawing.Size(0, 1);
+            this.tabControl2.Location = new System.Drawing.Point(0, 0);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(409, 186);
+            this.tabControl2.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tabControl2.TabIndex = 2;
             // 
-            // columnHeader31
+            // tabPageGraph
             // 
-            this.columnHeader31.Text = "Score";
-            this.columnHeader31.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tabPageGraph.Controls.Add(this.chartMain);
+            this.tabPageGraph.Controls.Add(this.labResult);
+            this.tabPageGraph.Location = new System.Drawing.Point(4, 5);
+            this.tabPageGraph.Name = "tabPageGraph";
+            this.tabPageGraph.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGraph.Size = new System.Drawing.Size(401, 177);
+            this.tabPageGraph.TabIndex = 0;
+            this.tabPageGraph.UseVisualStyleBackColor = true;
             // 
             // labResult
             // 
             this.labResult.BackColor = System.Drawing.Color.Black;
             this.labResult.Dock = System.Windows.Forms.DockStyle.Top;
             this.labResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labResult.Location = new System.Drawing.Point(0, 0);
+            this.labResult.Location = new System.Drawing.Point(3, 3);
             this.labResult.Name = "labResult";
-            this.labResult.Size = new System.Drawing.Size(409, 34);
-            this.labResult.TabIndex = 1;
+            this.labResult.Size = new System.Drawing.Size(395, 34);
+            this.labResult.TabIndex = 2;
             this.labResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labResult.Visible = false;
+            // 
+            // tabPageAnalysis
+            // 
+            this.tabPageAnalysis.Controls.Add(this.tableLayoutPanel2);
+            this.tabPageAnalysis.Controls.Add(this.groupBox5);
+            this.tabPageAnalysis.Controls.Add(this.groupBox1);
+            this.tabPageAnalysis.Location = new System.Drawing.Point(4, 5);
+            this.tabPageAnalysis.Name = "tabPageAnalysis";
+            this.tabPageAnalysis.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAnalysis.Size = new System.Drawing.Size(401, 177);
+            this.tabPageAnalysis.TabIndex = 1;
+            this.tabPageAnalysis.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.bEditStart, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.bEditStop, 1, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 97);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(395, 33);
+            this.tableLayoutPanel2.TabIndex = 22;
+            // 
+            // bEditStart
+            // 
+            this.bEditStart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bEditStart.Location = new System.Drawing.Point(3, 3);
+            this.bEditStart.Name = "bEditStart";
+            this.bEditStart.Size = new System.Drawing.Size(191, 27);
+            this.bEditStart.TabIndex = 0;
+            this.bEditStart.Text = "Start";
+            this.bEditStart.UseVisualStyleBackColor = true;
+            this.bEditStart.Click += new System.EventHandler(this.bEditStart_Click);
+            // 
+            // bEditStop
+            // 
+            this.bEditStop.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bEditStop.Location = new System.Drawing.Point(200, 3);
+            this.bEditStop.Name = "bEditStop";
+            this.bEditStop.Size = new System.Drawing.Size(192, 27);
+            this.bEditStop.TabIndex = 1;
+            this.bEditStop.Text = "Stop";
+            this.bEditStop.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.cbEditEngine2);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox5.Location = new System.Drawing.Point(3, 50);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(395, 47);
+            this.groupBox5.TabIndex = 21;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Engine 2";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cbEditEngine1);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(395, 47);
+            this.groupBox1.TabIndex = 20;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Engine 1";
             // 
             // tlpChartD
             // 
@@ -4134,13 +4261,6 @@
             this.fileSystemWatcher.Deleted += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
             this.fileSystemWatcher.Renamed += new System.IO.RenamedEventHandler(this.fileSystemWatcher1_Renamed);
             // 
-            // autoToolStripMenuItem
-            // 
-            this.autoToolStripMenuItem.Name = "autoToolStripMenuItem";
-            this.autoToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.autoToolStripMenuItem.Text = "Autodetection elo";
-            this.autoToolStripMenuItem.Click += new System.EventHandler(this.autoToolStripMenuItem_Click);
-            // 
             // FormChess
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4241,6 +4361,12 @@
             this.splitContainerChart.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerChart)).EndInit();
             this.splitContainerChart.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tabPageGraph.ResumeLayout(false);
+            this.tabPageAnalysis.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.tlpChartD.ResumeLayout(false);
             this.tlpChartT.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
@@ -4371,8 +4497,6 @@
 		private System.Windows.Forms.ListView lvMoves;
 		private System.Windows.Forms.ColumnHeader columnHeader3;
 		private System.Windows.Forms.ColumnHeader columnHeader4;
-		private System.Windows.Forms.ColumnHeader columnHeader5;
-		private System.Windows.Forms.DataVisualization.Charting.Chart chartMain;
 		private System.Windows.Forms.Label labTimeT;
 		private System.Windows.Forms.TableLayoutPanel tlpChartT;
 		private System.Windows.Forms.Label labMaterialT;
@@ -4426,7 +4550,6 @@
 		private System.Windows.Forms.ToolStripMenuItem programLogToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem lastGameToolStripMenuItem;
-		private System.Windows.Forms.Label labResult;
 		private System.Windows.Forms.Label labError;
 		private System.Windows.Forms.ToolStripMenuItem lastErrorToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem lastMatchToolStripMenuItem;
@@ -4436,7 +4559,6 @@
 		private System.Windows.Forms.DataVisualization.Charting.Chart chartMatch;
 		private System.Windows.Forms.ToolStripMenuItem lastTrainingToolStripMenuItem;
 		private System.Windows.Forms.ColumnHeader columnHeader30;
-		private System.Windows.Forms.ColumnHeader columnHeader31;
 		private System.Windows.Forms.Timer timerAnimation;
 		private System.IO.FileSystemWatcher fileSystemWatcher;
 		private System.Windows.Forms.TabPage tabPageTourB;
@@ -4538,6 +4660,18 @@
 		private System.Windows.Forms.GroupBox groupBox7;
 		private System.Windows.Forms.ComboBox cbApply;
         private System.Windows.Forms.ToolStripMenuItem autoToolStripMenuItem;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPageGraph;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartMain;
+        private System.Windows.Forms.Label labResult;
+        private System.Windows.Forms.TabPage tabPageAnalysis;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Button bEditStart;
+        private System.Windows.Forms.Button bEditStop;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.ComboBox cbEditEngine2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ComboBox cbEditEngine1;
     }
 }
 

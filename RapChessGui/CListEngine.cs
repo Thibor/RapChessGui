@@ -23,9 +23,11 @@ namespace RapChessGui
 		public string folder = Global.none;
 		public string arguments = String.Empty;
 		public CProtocol protocol = CProtocol.auto;
-		public int eloAcc = 0;
-		public DateTime eloAccDT = new DateTime(0);
-		public List<string> options = new List<string>();
+		public double accuracy = 0;
+        public double weight = 0;
+        public DateTime eloAccDT = new DateTime(0);
+        public DateTime DT = DateTime.Now;
+        public List<string> options = new List<string>();
 		public CError eMove = new CError();
 		public CError eTime = new CError();
 
@@ -68,7 +70,9 @@ namespace RapChessGui
 			Protocol = CListEngine.iniFile.Read($"engine>{name}>protocol", Protocol);
 			arguments = CListEngine.iniFile.Read($"engine>{name}>parameters");
 			options = CListEngine.iniFile.ReadListStr($"engine>{name}>options");
-			eloAcc = CListEngine.iniFile.ReadInt($"engine>{name}>eloAcc",eloAcc);
+			accuracy = CListEngine.iniFile.ReadDouble($"engine>{name}>accuracy",accuracy);
+            weight = CListEngine.iniFile.ReadDouble($"engine>{name}>weight", weight);
+            DT = CListEngine.iniFile.ReadDateTime($"engine>{name}>DT", DT);
             eloAccDT = CListEngine.iniFile.ReadDateTime($"engine>{name}>eloAccDT",eloAccDT);
             hisElo.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>history"));
 			eMove.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>eMove"));
@@ -99,7 +103,9 @@ namespace RapChessGui
 			CListEngine.iniFile.Write($"engine>{name}>protocol", Protocol);
 			CListEngine.iniFile.Write($"engine>{name}>parameters", arguments);
 			CListEngine.iniFile.Write($"engine>{name}>options", options);
-			CListEngine.iniFile.Write($"engine>{name}>eloAcc", eloAcc);
+			CListEngine.iniFile.Write($"engine>{name}>accuracy", accuracy);
+            CListEngine.iniFile.Write($"engine>{name}>weight", weight);
+            CListEngine.iniFile.Write($"engine>{name}>DT", DT);
             CListEngine.iniFile.Write($"engine>{name}>eloAccDT", eloAccDT);
             CListEngine.iniFile.Write($"engine>{name}>history", hisElo, " ");
 			CListEngine.iniFile.Write($"engine>{name}>eMove", eMove, " ");

@@ -142,25 +142,47 @@ namespace RapChessGui
             for (int n = 0; n < FormChess.engineList.Count; n++)
             {
                 CEngine e = FormChess.engineList[(n + r) % FormChess.engineList.Count];
-                if ((e.eloAccDT.ToString() != dt.ToString()) && e.modeTime && e.modeFen && ((e.protocol == CProtocol.uci) || (e.protocol == CProtocol.winboard)))
+                DateTime edt = File.GetLastWriteTime(e.GetFileName());
+                bool old = (e.eloAccDT < dt) || (e.eloAccDT < edt) || (e.eloAccDT < e.DT);
+                if (old && e.modeTime && e.modeFen && ((e.protocol == CProtocol.uci) || (e.protocol == CProtocol.winboard)))
                 {
                     log.Add($"Start {e.name}");
-                    await Task.Run(() => EloAccuracyTask(e, dt));
+                    await Task.Run(() => EloAccuracyTask(e));
                     count++;
                 }
             }
             if (count > 0)
             {
                 Console.Beep();
-                log.Add("Finisch");
+                log.Add("Finish");
             }
         }
 
-        void EloAccuracyTask(CEngine e, DateTime dt)
+        public static double WiningChances(int centipawns)
+        {
+            return 50 + 50 * (2 / (1 + Math.Exp(-0.00368208 * centipawns)) - 1);
+        }
+
+        public static double GetAccuracy(double winPercentBefore, double winPercentAfter)
+        {
+            return 103.1668 * Math.Exp(-0.04354 * (winPercentBefore - winPercentAfter)) - 3.1669;
+        }
+
+        public static double GetAccuracy(int scoreBefore, int scoreAfter)
+        {
+            double winPercentBefore = WiningChances(scoreBefore);
+            double winPercentAfter = WiningChances(scoreAfter);
+            return GetAccuracy(winPercentBefore, winPercentAfter);
+        }
+
+        void EloAccuracyTask(CEngine e)
         {
             CChess chess = new CChess();
             CTData td = new CTData();
-            long centyLoss = 0;
+            int totalCount = 0;
+            double totalLoss = 0;
+            double totalAccuracy = 0;
+            double totalWeight = 0;
             SetStudent(e.GetPath(), e.arguments);
             bool fail = false;
             if (e.protocol == CProtocol.uci)
@@ -203,7 +225,18 @@ namespace RapChessGui
                     }
                     td = GetTData();
                     if (td.done)
-                        centyLoss += line.CentyLoss(td.bestMove);
+                    {
+                        int scoreBst = line.First().score;
+                        int scoreCur = line.GetScore(td.bestMove);
+                        double bstWC = WiningChances(scoreBst);
+                        double curWC = WiningChances(scoreCur);
+                        double accuracy = GetAccuracy(bstWC, curWC);
+                        double loss = bstWC - curWC +1;
+                        totalCount++;
+                        totalAccuracy += accuracy;
+                        totalLoss += loss;
+                        totalWeight += accuracy * loss;
+                    }
                 } while (!td.done);
                 if (fail)
                     break;
@@ -212,11 +245,11 @@ namespace RapChessGui
                 log.Add($"{e.name} fail");
             else
             {
-                double accuracy = GetAccuracy(msList.Count, centyLoss);
-                e.eloAcc = GetElo(accuracy);
-                e.eloAccDT = dt;
+                e.accuracy = totalAccuracy/totalCount;
+                e.weight = totalWeight/totalLoss;
+                e.eloAccDT = DateTime.Now;
                 e.SaveToIni();
-                log.Add($"{e.name} test {msList.Count} accuracy {accuracy} elo {e.eloAcc}");
+                log.Add($"{e.name} accuracy {e.accuracy:N2} weight {e.weight:N2}");
             }
             StudentTerminate();
         }
@@ -228,23 +261,6 @@ namespace RapChessGui
                 return;
             DateTime dt = File.GetLastWriteTime(fn);
             EloAccuracy(dt);
-        }
-
-        public int GetElo(double accuracy)
-        {
-            accuracy /= 100.0;
-            accuracy = (accuracy - 0.6) / 0.4;
-            if (accuracy < 0)
-                accuracy = 0;
-            return Convert.ToInt32(accuracy * 3500);
-        }
-
-        public double GetAccuracy(long cc, long cl)
-        {
-            if (cc == 0)
-                return 0;
-            double max = cc * CMSLine.blunder;
-            return ((max - cl) * 100.0) / max;
         }
 
     }

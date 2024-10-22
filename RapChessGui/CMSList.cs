@@ -118,13 +118,6 @@ namespace RapChessGui
 			return Last().score;
 		}
 
-		public int CentyLoss(string move) { 
-			int result = First().score - GetScore(move);
-			if (result < blunder)
-				return result;
-			return blunder;
-		}
-
 		public string SaveToStr()
 		{
 			string moves = GetMoves();

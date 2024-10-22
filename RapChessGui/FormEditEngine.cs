@@ -61,6 +61,7 @@ namespace RapChessGui
             if (e.protocol == CProtocol.auto)
                 formAutodetect.ShowDialog(this);
             EngineToSettings(e);
+            e.DT = DateTime.Now;
             e.SaveToIni();
             UpdateListBox();
             int index = listBoxEngines.FindString(e.name);
@@ -207,7 +208,7 @@ namespace RapChessGui
                         y += 24;
                         TextBox box = new TextBox();
                         box.Name = oName;
-                        box.Text = o.Default;
+                        box.Text = engine.GetOption(o.Name, o.Default);
                         box.Location = new Point(3, y);
                         box.Size = new Size(panOptions.Width - 32, box.Height);
                         panOptions.Controls.Add(box);
@@ -612,7 +613,8 @@ namespace RapChessGui
         {
             if (engine != null)
             {
-                engine.eloAcc = 0;
+                engine.accuracy = 0;
+                engine.weight = 0;
                 engine.eloAccDT = new DateTime(0);
                 engine.SaveToIni();
             }
@@ -622,7 +624,8 @@ namespace RapChessGui
         {
             foreach (CEngine engine in FormChess.engineList)
             {
-                engine.eloAcc = 0;
+                engine.accuracy = 0;
+                engine.weight = 0;
                 engine.eloAccDT = new DateTime(0);
             }
             FormChess.engineList.SaveToIni();
