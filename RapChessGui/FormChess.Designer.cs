@@ -190,6 +190,10 @@
             this.butDefault = new System.Windows.Forms.Button();
             this.butClearBoard = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.clipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -300,9 +304,6 @@
             this.tabPageGraph = new System.Windows.Forms.TabPage();
             this.labResult = new System.Windows.Forms.Label();
             this.tabPageAnalysis = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.bEditStart = new System.Windows.Forms.Button();
-            this.bEditStop = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tlpChartD = new System.Windows.Forms.TableLayoutPanel();
@@ -332,6 +333,9 @@
             this.pictureBoxB = new System.Windows.Forms.PictureBox();
             this.timerAnimation = new System.Windows.Forms.Timer(this.components);
             this.fileSystemWatcher = new System.IO.FileSystemWatcher();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.bAnalysis = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageGame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartGame)).BeginInit();
@@ -411,7 +415,6 @@
             this.tabControl2.SuspendLayout();
             this.tabPageGraph.SuspendLayout();
             this.tabPageAnalysis.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tlpChartD.SuspendLayout();
@@ -2410,6 +2413,7 @@
             this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
             this.clipboardToolStripMenuItem,
             this.manageToolStripMenuItem,
             this.optionsToolStripMenuItem,
@@ -2420,9 +2424,38 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 2);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.ShowItemToolTips = true;
-            this.menuStrip1.Size = new System.Drawing.Size(389, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(426, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadToolStripMenuItem1,
+            this.saveToolStripMenuItem1,
+            this.toolStripMenuItem3});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // loadToolStripMenuItem1
+            // 
+            this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
+            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.loadToolStripMenuItem1.Text = "Load";
+            this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadToolStripMenuItem1_Click);
+            // 
+            // saveToolStripMenuItem1
+            // 
+            this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.saveToolStripMenuItem1.Text = "Save";
+            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(97, 6);
             // 
             // clipboardToolStripMenuItem
             // 
@@ -2756,9 +2789,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labEco.Cursor = System.Windows.Forms.Cursors.Default;
             this.labEco.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labEco.Location = new System.Drawing.Point(408, 4);
+            this.labEco.Location = new System.Drawing.Point(443, 4);
             this.labEco.Name = "labEco";
-            this.labEco.Size = new System.Drawing.Size(635, 22);
+            this.labEco.Size = new System.Drawing.Size(600, 22);
             this.labEco.TabIndex = 3;
             this.labEco.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTip1.SetToolTip(this.labEco, "Names of chess openings variations");
@@ -3861,7 +3894,7 @@
             // 
             // tabPageAnalysis
             // 
-            this.tabPageAnalysis.Controls.Add(this.tableLayoutPanel2);
+            this.tabPageAnalysis.Controls.Add(this.bAnalysis);
             this.tabPageAnalysis.Controls.Add(this.groupBox5);
             this.tabPageAnalysis.Controls.Add(this.groupBox1);
             this.tabPageAnalysis.Location = new System.Drawing.Point(4, 5);
@@ -3870,43 +3903,6 @@
             this.tabPageAnalysis.Size = new System.Drawing.Size(401, 177);
             this.tabPageAnalysis.TabIndex = 1;
             this.tabPageAnalysis.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.bEditStart, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.bEditStop, 1, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 97);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(395, 33);
-            this.tableLayoutPanel2.TabIndex = 22;
-            // 
-            // bEditStart
-            // 
-            this.bEditStart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bEditStart.Location = new System.Drawing.Point(3, 3);
-            this.bEditStart.Name = "bEditStart";
-            this.bEditStart.Size = new System.Drawing.Size(191, 27);
-            this.bEditStart.TabIndex = 0;
-            this.bEditStart.Text = "Start";
-            this.bEditStart.UseVisualStyleBackColor = true;
-            this.bEditStart.Click += new System.EventHandler(this.bEditStart_Click);
-            // 
-            // bEditStop
-            // 
-            this.bEditStop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bEditStop.Location = new System.Drawing.Point(200, 3);
-            this.bEditStop.Name = "bEditStop";
-            this.bEditStop.Size = new System.Drawing.Size(192, 27);
-            this.bEditStop.TabIndex = 1;
-            this.bEditStop.Text = "Stop";
-            this.bEditStop.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -4261,6 +4257,30 @@
             this.fileSystemWatcher.Deleted += new System.IO.FileSystemEventHandler(this.fileSystemWatcher1_Changed);
             this.fileSystemWatcher.Renamed += new System.IO.RenamedEventHandler(this.fileSystemWatcher1_Renamed);
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.DefaultExt = "fen";
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "Fen|*.fen|Pgn|*.pgn|Uci|*.uci";
+            this.openFileDialog1.Title = "Load position";
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.DefaultExt = "fen";
+            this.saveFileDialog1.Filter = "Fen|*.fen|Pgn|*.pgn|Uci|*.uci";
+            this.saveFileDialog1.Title = "Save position";
+            // 
+            // bAnalysis
+            // 
+            this.bAnalysis.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.bAnalysis.Location = new System.Drawing.Point(3, 147);
+            this.bAnalysis.Name = "bAnalysis";
+            this.bAnalysis.Size = new System.Drawing.Size(395, 27);
+            this.bAnalysis.TabIndex = 22;
+            this.bAnalysis.Text = "Analysis";
+            this.bAnalysis.UseVisualStyleBackColor = true;
+            this.bAnalysis.Click += new System.EventHandler(this.bEditStart_Click_1);
+            // 
             // FormChess
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4364,7 +4384,6 @@
             this.tabControl2.ResumeLayout(false);
             this.tabPageGraph.ResumeLayout(false);
             this.tabPageAnalysis.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tlpChartD.ResumeLayout(false);
@@ -4665,13 +4684,17 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chartMain;
         private System.Windows.Forms.Label labResult;
         private System.Windows.Forms.TabPage tabPageAnalysis;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Button bEditStart;
-        private System.Windows.Forms.Button bEditStop;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.ComboBox cbEditEngine2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox cbEditEngine1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Button bAnalysis;
     }
 }
 

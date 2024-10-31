@@ -259,13 +259,15 @@ namespace RapChessGui
 
     public class CBoard
     {
+        public static Color Green = Color.FromArgb(0x90, 0x10, 0xff, 0x10);
+        public static Color Red = Color.FromArgb(0x90, 0xff, 0x10, 0x10);
+        public static Color Blue = Color.FromArgb(0x90, 0x10, 0x10, 0xff);
         public bool animated = false;
         public bool finished = true;
         public bool rotate = false;
         public CField[] arrField = new CField[64];
         public Bitmap boardBmp;
-        public CArrowList arrowCur = new CArrowList(Color.FromArgb(0x90, 0x10, 0xff, 0x10));
-        public CArrowList arrowEco = new CArrowList(Color.FromArgb(0x90, 0xff, 0x10, 0x10));
+        public CArrowList arrows = new CArrowList();
         public CBackground background = new CBackground();
         public static readonly Stopwatch timer = new Stopwatch();
 
@@ -277,8 +279,7 @@ namespace RapChessGui
 
         public void ClearArrows()
         {
-            arrowCur.Clear();
-            arrowEco.Clear();
+            arrows.Clear();
             ClearCircles();
         }
 
@@ -312,7 +313,7 @@ namespace RapChessGui
 
         public void DrawArrows(Graphics g, CArrowList al)
         {
-            foreach (CArrow a in al.list)
+            foreach (CArrow a in arrows)
                 DrawArrow(g, a);
         }
 
@@ -330,7 +331,6 @@ namespace RapChessGui
                 if (f.circle)
                     DrawCircle(g, f.GetRect());
         }
-
 
         public Point GetMiddle(int x, int y)
         {
@@ -366,11 +366,7 @@ namespace RapChessGui
             Graphics gb = Graphics.FromImage(bmp);
             DrawCircles(gb);
             if (FormOptions.showArrow)
-            {
-                DrawArrows(gb, arrowCur);
-                DrawArrows(gb, arrowEco);
-
-            }
+                DrawArrows(gb, arrows);
             g.DrawImage(bmp, background.bmpX, background.bmpY);
         }
 

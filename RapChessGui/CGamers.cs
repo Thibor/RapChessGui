@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using NSChess;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace RapChessGui
 {
@@ -60,7 +61,7 @@ namespace RapChessGui
     }
 
     public class CGamer
-    {      
+    {
         /// <summary>
         /// Engine send score mate
         /// </summary>
@@ -73,6 +74,7 @@ namespace RapChessGui
         /// Count moves maked by engine.
         /// </summary>
         public int countMovesEngine;
+        public CColor color = CColor.none;
         public int depthTotal;
         public int depthCount;
         public int depthMax;
@@ -91,6 +93,7 @@ namespace RapChessGui
         public string pv;
         public string lastMove;
         public double timerStart;
+        public Color arrow = CBoard.Green;
         public Stopwatch timer = new Stopwatch();
         public CProcessBuf curProcess = null;
         public CGamerBook gamerBook = new CGamerBook();
@@ -116,8 +119,9 @@ namespace RapChessGui
             }
         }
 
-        public CGamer()
+        public CGamer(CColor color)
         {
+            this.color = color;
             InitNewGame();
         }
 
@@ -177,40 +181,37 @@ namespace RapChessGui
             return Icon.ExtractAssociatedIcon(path).ToBitmap();
         }
 
-
-
-        public string GetMessage(out bool book, out bool last)
+        public List<string> GetMessages()
         {
-            book = false;
-            last = true;
-            string msg = String.Empty;
-            if (curProcess == gamerEngine)
-            {
-                msg = gamerEngine.GetMessage(out bool stop, out last);
-                if (stop)
-                    timer.Stop();
-                return msg;
-            }
             if (curProcess == gamerBook)
-            {
-                book = true;
-                return gamerBook.GetMessage();
-            }
-            return msg;
+                return gamerBook.GetMessages();
+            List<string> messages = gamerEngine.GetMessages();
+            foreach (string m in messages)
+                if (m.Contains("bestmove"))
+                {
+                    timer.Stop();
+                    break;
+                }
+            return messages;
         }
+
+        public bool IsBookActive() { return curProcess == gamerBook; }
+
+        public bool IsEngineActive() { return curProcess == gamerEngine; }
+
         /// <summary>
         /// Gamer color is white
         /// </summary>
         public bool IsWhite()
         {
-            return this == CGamers.GamerWhite();
+            return this.color == CColor.white;
         }
         /// <summary>
         /// Gamer color is black
         /// </summary>
         public bool IsBlack()
         {
-            return this == CGamers.GamerBlack();
+            return this.color == CColor.black;
         }
 
         public bool IsHuman()
@@ -425,8 +426,8 @@ namespace RapChessGui
             SendMessageToEngine(FormChess.history.GetPosition());
             if (player.levelValue.level == CLevel.standard)
             {
-                CGamer gw = CGamers.GamerWhite();
-                CGamer gb = CGamers.GamerBlack();
+                CGamer gw = FormChess.gamers.GamerWhite();
+                CGamer gb = FormChess.gamers.GamerBlack();
                 SendMessageToEngine($"go wtime {gw.GetRemainingMs()} btime {gb.GetRemainingMs()} winc 0 binc 0");
             }
             else
@@ -444,7 +445,7 @@ namespace RapChessGui
         {
             if (engine.modeStandard)
             {
-                CGamer gs = CGamers.GamerSec();
+                CGamer gs = FormChess.gamers.GamerSec();
                 SendMessageToEngine($"time {GetRemainingMs() / 10}");
                 SendMessageToEngine($"otim {gs.GetRemainingMs() / 10}");
             }
@@ -660,13 +661,12 @@ namespace RapChessGui
 
     }
 
-    class CGamers
+    public class CGamers : List<CGamer>
     {
         /// <summary>
         /// Index of current gammer
         /// </summary>
         static int curIndex = 0;
-        readonly static CGamer[] gamers = new CGamer[2];
 
         public bool WhiteTurn
         {
@@ -676,14 +676,14 @@ namespace RapChessGui
 
         public CGamers()
         {
-            gamers[0] = new CGamer();
-            gamers[1] = new CGamer();
+            Add(new CGamer(CColor.white));
+            Add(new CGamer(CColor.black));
         }
 
         public bool Check(out string msg)
         {
             msg = String.Empty;
-            foreach (CGamer g in gamers)
+            foreach (CGamer g in this)
                 if (!g.player.Check(out msg))
                     return false;
             return true;
@@ -706,43 +706,45 @@ namespace RapChessGui
         public void InitNewGame()
         {
             curIndex = 0;
-            foreach (CGamer g in gamers)
+            foreach (CGamer g in this)
                 g.InitNewGame();
         }
 
         public void Rotate()
         {
-            (gamers[1], gamers[0]) = (gamers[0], gamers[1]);
+            (this[1], this[0]) = (this[0], this[1]);
+            this[0].color = CColor.white;
+            this[1].color = CColor.black;
         }
 
         public int GetMsgPriority()
         {
-            return gamers[0].msgPriority > gamers[1].msgPriority ? gamers[0].msgPriority : gamers[1].msgPriority;
+            return this[0].msgPriority > this[1].msgPriority ? this[0].msgPriority : this[1].msgPriority;
         }
 
-        public static CGamer GamerWhite()
+        public CGamer GamerWhite()
         {
-            return gamers[0];
+            return this[0];
         }
 
-        public static CGamer GamerBlack()
+        public CGamer GamerBlack()
         {
-            return gamers[1];
+            return this[1];
         }
 
         public CGamer GamerWinner()
         {
-            return gamers[(FormChess.chess.halfMove & 1) ^ 1];
+            return this[(FormChess.chess.halfMove & 1) ^ 1];
         }
 
         public CGamer GamerLoser()
         {
-            return gamers[FormChess.chess.halfMove & 1];
+            return this[FormChess.chess.halfMove & 1];
         }
 
         public CGamer GamerHuman()
         {
-            foreach (CGamer g in gamers)
+            foreach (CGamer g in this)
                 if (g.player.IsHuman())
                     return g;
             return null;
@@ -750,41 +752,41 @@ namespace RapChessGui
 
         public CGamer GamerComputer()
         {
-            foreach (CGamer g in gamers)
+            foreach (CGamer g in this)
                 if (g.player.IsComputer())
                     return g;
             return null;
         }
 
-        public static CGamer GamerCur()
+        public CGamer GamerCur()
         {
-            return gamers[curIndex];
+            return this[curIndex];
         }
 
-        public static CGamer GamerSec()
+        public CGamer GamerSec()
         {
-            return gamers[curIndex ^ 1];
+            return this[curIndex ^ 1];
         }
 
         public void Restart()
         {
-            foreach (CGamer g in gamers)
+            foreach (CGamer g in this)
                 g.Restart();
         }
 
         public void Terminate()
         {
-            foreach (CGamer g in gamers)
+            foreach (CGamer g in this)
             {
                 g.timer.Stop();
-                g.gamerEngine.Close(true);
-                g.gamerBook.Close(false);
+                g.gamerEngine.Close();
+                g.gamerBook.Close();
             }
         }
 
         public CPlayer GetHuman()
         {
-            foreach (CGamer g in gamers)
+            foreach (CGamer g in this)
                 if (g.player.IsHuman())
                     return g.player;
             return null;
@@ -794,25 +796,34 @@ namespace RapChessGui
         {
             Terminate();
             InitNewGame();
-            gamers[0].SetPlayer(pw);
-            gamers[1].SetPlayer(pb);
+            this[0].SetPlayer(pw);
+            this[1].SetPlayer(pb);
+            this[0].arrow = CBoard.Green;
+            this[1].arrow = CBoard.Green;
         }
 
-        public void StartAnalysis(CPlayer p1,CPlayer p2)
+        public void StartAnalysis(CPlayer p1, CPlayer p2)
         {
             Terminate();
             InitNewGame();
-            gamers[0].SetPlayer(p1);
-            gamers[1].SetPlayer(p2);
-            foreach (CGamer g in gamers)
-            {
-                g.TryStart();
-                /*g.SendMessageToEngine("uci");
-                g.OptionsToEngine();
-                g.SendMessageToEngine("ucinewgame");
-                g.SendMessageToEngine($"position fen {FormChess.chess.GetFen()}");
-                g.SendMessageToEngine("go infinite");*/
-            }
+            this[0].SetPlayer(p1);
+            this[1].SetPlayer(p2);
+            this[0].arrow = CBoard.Green;
+            this[1].arrow = CBoard.Blue;
+            foreach (CGamer g in this)
+                if (g.player.IsComputer())
+                {
+                    g.SendMessageToEngine("uci");
+                    g.OptionsToEngine();
+                    g.SendMessageToEngine("ucinewgame");
+                    g.SendMessageToEngine($"position fen {FormChess.chess.GetFen()}");
+                    g.SendMessageToEngine("go infinite");
+                }
+        }
+
+        public void Stop()
+        {
+            Terminate();
         }
 
 

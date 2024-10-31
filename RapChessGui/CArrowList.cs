@@ -30,36 +30,31 @@ namespace RapChessGui
 
 	}
 
-	public class CArrowList
-	{
-		readonly Color color;
-		public List<CArrow> list = new List<CArrow>();
+	public class CArrowList: List<CArrow>
+	{ 
 
-		public CArrowList(Color c)
-		{
-			color = c;
-		}
+        public void Clear(Color color)
+        {
+			for(int n=Count-1;n>=0;n--)
+				if (this[n].color==color)
+					RemoveAt(n);
+        }
 
-		public void Clear()
-		{
-			list.Clear();
-		}
-
-		public void Add(string umo)
+        public void Add(string umo,Color color)
 		{
 			CArrow arrow = new CArrow();
 			arrow.color = color;
 			CChess.UmoToSD(umo, out int sou, out int des);
 			arrow.SetAB(sou, des);
-			list.Add(arrow);
+			Add(arrow);
 		}
 
-		public void AddMoves(string moves)
+		public void AddMoves(string moves,Color color)
 		{
-			Clear();
+			Clear(color);
 			string[] arrMoves = moves.Split(' ');
 			foreach (string m in arrMoves)
-				Add(m);
+				Add(m,color);
 		}
 
 	}

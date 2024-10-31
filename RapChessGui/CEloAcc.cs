@@ -21,6 +21,7 @@ namespace RapChessGui
 {
     class CTData
     {
+        public bool started=false;
         public bool done = false;
         public bool uciOk = false;
         public bool readyOk = false;
@@ -28,6 +29,7 @@ namespace RapChessGui
 
         public void Assign(CTData td)
         {
+            started=td.started;
             done = td.done;
             uciOk = td.uciOk;
             readyOk = td.readyOk;
@@ -61,6 +63,12 @@ namespace RapChessGui
             {
                 tData.Assign(td);
             }
+        }
+
+        public bool IsStarted()
+        {
+            CTData td = GetTData();
+            return td.started;
         }
 
         void StudentTerminate()
@@ -192,6 +200,7 @@ namespace RapChessGui
             Thread.Sleep(100);
             foreach (CMSLine line in msList)
             {
+                td.started = true;
                 td.done = false;
                 SetTData(td);
                 if (e.protocol == CProtocol.uci)
@@ -252,15 +261,20 @@ namespace RapChessGui
                 log.Add($"{e.name} accuracy {e.accuracy:N2} weight {e.weight:N2}");
             }
             StudentTerminate();
+            td = new CTData();
+            SetTData(td);
         }
 
-        public void Start()
+        public bool Start()
         {
+            if (IsStarted())
+                return false;
             string fn = @"books\accuracy.epd";
             if (!msList.LoadFromEpd(fn))
-                return;
+                return false;
             DateTime dt = File.GetLastWriteTime(fn);
             EloAccuracy(dt);
+            return true;
         }
 
     }

@@ -72,9 +72,9 @@ namespace RapChessGui
 			This.richTextBox1.SaveFile(fn);
 		}
 
-		public static void SetMessage(CGamer gamer, bool book, string msg)
+		public static void SetMessage(CGamer gamer, string msg)
 		{
-			string b = book ? "book " : String.Empty;
+			string b = gamer.IsBookActive() ? "book " : String.Empty;
 			Color col = gamer.IsWhite() ? Color.DimGray : Color.Black;
 			AppendTimeText($"{b}{gamer.player.name}", col);
 			AppendText($" > {msg}\n", Color.DarkBlue);

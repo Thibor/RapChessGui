@@ -138,7 +138,7 @@ namespace RapChessGui
 
 		public bool IsHuman()
 		{
-			return (engine == null) && (levelValue.level == CLevel.infinite);
+			return engine == null;// && (levelValue.level == CLevel.infinite);
 		}
 
 		public bool IsPlayable()

@@ -136,7 +136,7 @@ namespace RapChessGui
 			for (int n = 0; n < sl.Count; n++)
 			{
 				string s = sl[n];
-				if ((s == "bm") || (s == "ce") || (s == "acd"))
+				if ((s == "bm") || (s == "ce") || (s == "acd")||(s=="loss"))
 				{
 					last = s;
 					continue;
