@@ -105,7 +105,32 @@ namespace RapChessGui
             return $@"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\RapChessGui.lnk";
         }
 
-        public void ValueToNud(decimal value,NumericUpDown nud)
+        public void SettingsToMatch()
+        {
+            CModeMatch.engine1 = cbMatchEngine1.Text;
+            CModeMatch.engine2 = cbMatchEngine2.Text;
+            CModeMatch.modeValue1.SetLevel(cbMatchMode1.Text);
+            CModeMatch.modeValue2.SetLevel(cbMatchMode2.Text);
+            CModeMatch.modeValue1.SetValue((int)nudMatchValue1.Value);
+            CModeMatch.modeValue2.SetValue((int)nudMatchValue2.Value);
+            CModeMatch.SaveToIni();
+        }
+
+        public void MatchToSettings()
+        {
+            cbMatchEngine1.Text = CModeMatch.engine1;
+            cbMatchEngine2.Text = CModeMatch.engine2;
+            cbMatchMode1.Text = CModeMatch.modeValue1.GetLevel();
+            cbMatchMode2.Text = CModeMatch.modeValue2.GetLevel();
+            ValueToNud(CModeMatch.modeValue1.GetValue(), nudMatchValue1);
+            ValueToNud(CModeMatch.modeValue2.GetValue(), nudMatchValue2);
+            if (cbMatchEngine1.SelectedIndex < 0)
+                cbMatchEngine1.SelectedIndex = 0;
+            if (cbMatchEngine2.SelectedIndex < 0)
+                cbMatchEngine2.SelectedIndex = 0;
+        }
+
+        void ValueToNud(decimal value, NumericUpDown nud)
         {
             if (value > nud.Maximum)
                 value = nud.Maximum;

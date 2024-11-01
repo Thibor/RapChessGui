@@ -193,7 +193,6 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.clipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -304,6 +303,7 @@
             this.tabPageGraph = new System.Windows.Forms.TabPage();
             this.labResult = new System.Windows.Forms.Label();
             this.tabPageAnalysis = new System.Windows.Forms.TabPage();
+            this.bAnalysis = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tlpChartD = new System.Windows.Forms.TableLayoutPanel();
@@ -335,7 +335,6 @@
             this.fileSystemWatcher = new System.IO.FileSystemWatcher();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.bAnalysis = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageGame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartGame)).BeginInit();
@@ -2424,7 +2423,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 2);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.ShowItemToolTips = true;
-            this.menuStrip1.Size = new System.Drawing.Size(426, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(546, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -2432,8 +2431,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem1,
-            this.saveToolStripMenuItem1,
-            this.toolStripMenuItem3});
+            this.saveToolStripMenuItem1});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -2441,21 +2439,16 @@
             // loadToolStripMenuItem1
             // 
             this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.loadToolStripMenuItem1.Text = "Load";
             this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadToolStripMenuItem1_Click);
             // 
             // saveToolStripMenuItem1
             // 
             this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem1.Text = "Save";
             this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(97, 6);
             // 
             // clipboardToolStripMenuItem
             // 
@@ -3904,6 +3897,17 @@
             this.tabPageAnalysis.TabIndex = 1;
             this.tabPageAnalysis.UseVisualStyleBackColor = true;
             // 
+            // bAnalysis
+            // 
+            this.bAnalysis.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.bAnalysis.Location = new System.Drawing.Point(3, 147);
+            this.bAnalysis.Name = "bAnalysis";
+            this.bAnalysis.Size = new System.Drawing.Size(395, 27);
+            this.bAnalysis.TabIndex = 22;
+            this.bAnalysis.Text = "Analysis";
+            this.bAnalysis.UseVisualStyleBackColor = true;
+            this.bAnalysis.Click += new System.EventHandler(this.bEditStart_Click_1);
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.cbEditEngine2);
@@ -4269,17 +4273,6 @@
             this.saveFileDialog1.DefaultExt = "fen";
             this.saveFileDialog1.Filter = "Fen|*.fen|Pgn|*.pgn|Uci|*.uci";
             this.saveFileDialog1.Title = "Save position";
-            // 
-            // bAnalysis
-            // 
-            this.bAnalysis.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.bAnalysis.Location = new System.Drawing.Point(3, 147);
-            this.bAnalysis.Name = "bAnalysis";
-            this.bAnalysis.Size = new System.Drawing.Size(395, 27);
-            this.bAnalysis.TabIndex = 22;
-            this.bAnalysis.Text = "Analysis";
-            this.bAnalysis.UseVisualStyleBackColor = true;
-            this.bAnalysis.Click += new System.EventHandler(this.bEditStart_Click_1);
             // 
             // FormChess
             // 
@@ -4691,7 +4684,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Button bAnalysis;

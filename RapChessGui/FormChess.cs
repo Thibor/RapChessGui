@@ -279,7 +279,8 @@ namespace RapChessGui
             fen = fen.Trim();
             if (CData.gameMode == CGameMode.edit)
             {
-                EditSelected = fen;
+                CModeEdit.fen = fen;
+                EditShow();
             }
             else
             {
@@ -409,7 +410,7 @@ namespace RapChessGui
             lvMoves.Items.Clear();
             lvMovesW.Items.Clear();
             lvMovesB.Items.Clear();
-            string fen = (cbGameMode.Text == cbApply.Text)|| (CData.gameMode == CGameMode.edit) ? CModeEdit.fen : CChess.defFen;
+            string fen = (cbGameMode.Text == cbApply.Text) || (CData.gameMode == CGameMode.edit) ? CModeEdit.fen : CChess.defFen;
             PrepareFen(fen);
             gamers.InitNewGame();
             gamers.Terminate();
@@ -797,7 +798,8 @@ namespace RapChessGui
                             if ((g.engine != null) && (g.engine.protocol == CProtocol.winboard))
                                 g.gamerEngine.isPositionXb = false;
                         }
-                        MakeMove(umo);
+                        if (CData.gameMode != CGameMode.edit)
+                            MakeMove(umo);
                     }
                     break;
                 case "log":
@@ -1777,35 +1779,10 @@ namespace RapChessGui
 
         void MatchClear()
         {
-            SettingsToMatch();
+            formOptions.SettingsToMatch();
             CGames.Reset();
             CModeMatch.Reset();
             MatchShow();
-        }
-
-        void SettingsToMatch()
-        {
-            CModeMatch.engine1 = formOptions.cbMatchEngine1.Text;
-            CModeMatch.engine2 = formOptions.cbMatchEngine2.Text;
-            CModeMatch.modeValue1.SetLevel(formOptions.cbMatchMode1.Text);
-            CModeMatch.modeValue2.SetLevel(formOptions.cbMatchMode2.Text);
-            CModeMatch.modeValue1.SetValue((int)formOptions.nudMatchValue1.Value);
-            CModeMatch.modeValue2.SetValue((int)formOptions.nudMatchValue2.Value);
-            CModeMatch.SaveToIni();
-        }
-
-        void MatchToSettings()
-        {
-            formOptions.cbMatchEngine1.Text = CModeMatch.engine1;
-            formOptions.cbMatchEngine2.Text = CModeMatch.engine2;
-            formOptions.cbMatchMode1.Text = CModeMatch.modeValue1.GetLevel();
-            formOptions.cbMatchMode2.Text = CModeMatch.modeValue2.GetLevel();
-            formOptions.ValueToNud(CModeMatch.modeValue1.GetValue(), formOptions.nudMatchValue1);
-            formOptions.ValueToNud(CModeMatch.modeValue2.GetValue(), formOptions.nudMatchValue2);
-            if (formOptions.cbMatchEngine1.SelectedIndex < 0)
-                formOptions.cbMatchEngine1.SelectedIndex = 0;
-            if (formOptions.cbMatchEngine2.SelectedIndex < 0)
-                formOptions.cbMatchEngine2.SelectedIndex = 0;
         }
 
         void MatchUpdate()
@@ -1826,7 +1803,7 @@ namespace RapChessGui
         void MatchShow()
         {
             Text = CGames.Text;
-            MatchToSettings();
+            formOptions.MatchToSettings();
             MatchUpdate();
             CData.HisToPoints(CModeMatch.his, chartMatch.Series[0].Points);
             chartMatch.ChartAreas[0].RecalculateAxesScale();
@@ -1835,7 +1812,7 @@ namespace RapChessGui
         void MatchStart()
         {
             ComClear();
-            SettingsToMatch();
+            formOptions.SettingsToMatch();
             SetMode(CGameMode.match);
             CPlayer p1 = new CPlayer("Player 1");
             p1.EngineName = CModeMatch.engine1;
@@ -3167,7 +3144,7 @@ namespace RapChessGui
 
         private void bStartMatch_Click(object sender, EventArgs e)
         {
-            SettingsToMatch();
+            formOptions.SettingsToMatch();
             MatchStart();
         }
 
