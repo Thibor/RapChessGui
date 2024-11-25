@@ -1,17 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Globalization;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
-using System.Security.Cryptography;
-using System.Management;
-using System.Net;
 
 namespace RapChessGui
 {
@@ -110,7 +98,7 @@ namespace RapChessGui
             int index = 0;
             foreach (CEngine engine in FormChess.engineList)
             {
-                ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, engine.StrElo, engine.eloOpt.ToString(), GetElo(engine.accuracy),GetElo(engine.weight),  engine.Protocol, engine.hisElo.Trend().ToString(), engine.hisElo.Change().ToString(), engine.eMove.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2") });
+                ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, engine.StrElo, engine.eloOpt.ToString(), GetElo(engine.accuracy),GetElo(engine.weight), GetElo(engine.test), engine.Protocol, engine.depth.ToString("N2"), engine.nps.ToString("N0"), engine.eMove.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2") });
                 lvEngines.Items.Add(lvi);
             }
         }

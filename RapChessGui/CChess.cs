@@ -6,6 +6,103 @@ namespace NSChess
 {
 
     public enum CGameState { wait, normal, mate, stalemate, repetition, move50, material, time, error, resignation }
+    public enum Castle { WK = 1, WQ = 2, BK = 4, BQ = 8 };
+
+    public class CastleRights
+    {
+        public int castleRights;
+
+        public CastleRights()
+        {
+            castleRights = 0xf;
+        }
+
+        public void Set(Castle castle)
+        {
+            castleRights |= (int)castle;
+        }
+
+        public void Set(int i)
+        {
+            castleRights |= (1 << i);
+        }
+
+        public bool Get(Castle castle)
+        {
+            return (castleRights & (int)castle) > 0;
+        }
+
+        public bool Get(int i)
+        {
+            return (castleRights & (1 << i)) > 0;
+        }
+
+        public void Del(Castle castle)
+        {
+            castleRights &= ~(int)castle;
+        }
+
+        public void Del(int i)
+        {
+            castleRights &= ~(1 << i);
+        }
+
+        public void Switch(int i, bool b)
+        {
+            if (b)
+                Set(i);
+            else
+                Del(i);
+        }
+
+        public void Clear()
+        {
+            castleRights = 0;
+        }
+
+        public void Full()
+        {
+            castleRights = 0xf;
+        }
+
+        public string ToStr()
+        {
+            if (castleRights == 0)
+                return "-";
+            string cr = string.Empty;
+            if (Get(Castle.WK))
+                cr += 'K';
+            if (Get(Castle.WQ))
+                cr += 'Q';
+            if (Get(Castle.BK))
+                cr += 'k';
+            if (Get(Castle.BQ))
+                cr += 'q';
+            return cr;
+        }
+
+        public void FromStr(string s)
+        {
+            Clear();
+            for (int n = 0; n < s.Length; n++)
+                switch (s[n])
+                {
+                    case 'K':
+                        Set(Castle.WK);
+                        break;
+                    case 'Q':
+                        Set(Castle.WQ);
+                        break;
+                    case 'k':
+                        Set(Castle.BK);
+                        break;
+                    case 'q':
+                        Set(Castle.BQ);
+                        break;
+                }
+        }
+
+    }
 
     struct D2
     {
@@ -32,7 +129,7 @@ namespace NSChess
     public class CChess
     {
         public const string defFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-        public static Random random = new Random();
+        public static Random rnd = new Random();
         public const int piecePawn = 0x01;
         public const int pieceKnight = 0x02;
         public const int pieceBishop = 0x03;
@@ -54,7 +151,7 @@ namespace NSChess
         internal const int maskPromotion = moveflagPromoteQueen | moveflagPromoteRook | moveflagPromoteBishop | moveflagPromoteKnight;
         const int maskCastle = moveflagCastleKing | moveflagCastleQueen;
         const int maskColor = colorBlack | colorWhite;
-        public int castleRights = 0xf;
+        public CastleRights castleRights = new CastleRights();
         ulong hash = 0;
         protected int passing = -1;
         public int move50 = 0;
@@ -218,7 +315,7 @@ namespace NSChess
                 return "O-O";
             if ((emo & moveflagCastleQueen) > 0)
                 return "O-O-O";
-            List<int> moves = GenerateValidMoves(out _);
+            List<int> moves = GenerateLegalMoves(out _);
             bool showRank = false;
             bool showFile = false;
             foreach (int m in moves)
@@ -268,7 +365,7 @@ namespace NSChess
         {
             char[] charsToTrim = { '+', '#' };
             san = san.Trim(charsToTrim).ToLower();
-            List<int> moves = GenerateValidMoves(out _);
+            List<int> moves = GenerateLegalMoves(out _);
             foreach (int emo in moves)
             {
                 string umo = EmoToUmo(emo);
@@ -307,6 +404,16 @@ namespace NSChess
 
         #region fen
 
+        public string PieceToStr(int p)
+        {
+            int w = p & 0x10;
+            string[] arr = { " ", "p", "n", "b", "r", "q", "k", " " };
+            string pt = arr[p & 7];
+            if (w > 0)
+                pt = pt.ToUpper();
+            return pt;
+        }
+
         public int CharToPiece(char c)
         {
             int piece = Char.IsUpper(c) ? colorWhite : colorBlack;
@@ -340,6 +447,7 @@ namespace NSChess
         {
             if (String.IsNullOrEmpty(fen))
                 fen = defFen;
+            fen = fen.Trim();
             string[] chunks = fen.Trim().Split();
             if (chunks.Length < 4)
                 return false;
@@ -375,15 +483,7 @@ namespace NSChess
             if ((s1 != "w") && (s1 != "b"))
                 return false;
             int wt = s1 == "w" ? 0 : 1;
-            castleRights = 0;
-            if (chunks[2].IndexOf('K') != -1)
-                castleRights |= 1;
-            if (chunks[2].IndexOf('Q') != -1)
-                castleRights |= 2;
-            if (chunks[2].IndexOf('k') != -1)
-                castleRights |= 4;
-            if (chunks[2].IndexOf('q') != -1)
-                castleRights |= 8;
+            castleRights.FromStr(chunks[2]);
             Passant = chunks.Length < 4 ? "-" : chunks[3];
             move50 = 0;
             if (chunks.Length > 4)
@@ -393,7 +493,40 @@ namespace NSChess
                 int.TryParse(chunks[5], out mn);
             halfMove = ((mn - 1) << 1) + wt;
             undoIndex = 0;
+            CheckCastle();
             return true;
+        }
+
+        int BoardGetPiece(int i)
+        {
+            return board[i] & 0x1f;
+        }
+
+        int BoardGetPiece(int x, int y)
+        {
+            return BoardGetPiece(y * 8 + x);
+        }
+
+        void CheckCastle()
+        {
+            if (BoardGetPiece(4, 7) != (colorWhite | pieceKing))
+            {
+                castleRights.Del(Castle.WK);
+                castleRights.Del(Castle.WQ);
+            }
+            if (BoardGetPiece(4, 0) != (colorBlack | pieceKing))
+            {
+                castleRights.Del(Castle.BK);
+                castleRights.Del(Castle.BQ);
+            }
+            if (BoardGetPiece(0, 7) != (colorWhite | pieceRook))
+                castleRights.Del(Castle.WQ);
+            if (BoardGetPiece(7, 7) != (colorWhite | pieceRook))
+                castleRights.Del(Castle.WK);
+            if (BoardGetPiece(0, 0) != (colorBlack | pieceRook))
+                castleRights.Del(Castle.BQ);
+            if (BoardGetPiece(7, 0) != (colorBlack | pieceRook))
+                castleRights.Del(Castle.BK);
         }
 
         public string GetFenBase()
@@ -428,24 +561,14 @@ namespace NSChess
             return result;
         }
 
+        public string ColorToStr()
+        {
+            return WhiteTurn ? "w" : "b";
+        }
+
         public string GetEpd()
         {
-            string result = GetFenBase();
-            result += WhiteTurn ? " w " : " b ";
-            if (castleRights == 0)
-                result += "-";
-            else
-            {
-                if ((castleRights & 1) != 0)
-                    result += 'K';
-                if ((castleRights & 2) != 0)
-                    result += 'Q';
-                if ((castleRights & 4) != 0)
-                    result += 'k';
-                if ((castleRights & 8) != 0)
-                    result += 'q';
-            }
-            return $"{result} {Passant}";
+            return $"{GetFenBase()} {ColorToStr()} {castleRights.ToStr()} {Passant}";
         }
 
         public string GetFen()
@@ -465,7 +588,7 @@ namespace NSChess
                 moves.Add(fr | (to << 8) | flag);
         }
 
-        public List<int> GenerateValidMoves(out bool mate, int repetytion = -1)
+        public List<int> GenerateLegalMoves(out bool mate, int repetytion = -1)
         {
             mate = false;
             int count = 0;
@@ -559,13 +682,16 @@ namespace NSChess
                             break;
                         case 6:
                             GenerateUniMoves(moves, onlyAattack, x, y, arrDirQueen, 1);
-                            int cr = wt ? castleRights : castleRights >> 2;
-                            if ((cr & 1) > 0)
-                                if (((board[fr + 1] & colorEmpty) > 0) && ((board[fr + 2] & colorEmpty) > 0))
-                                    GenerateMove(moves, fr, fr + 2, true, moveflagCastleKing);
-                            if ((cr & 2) > 0)
-                                if (((board[fr - 1] & colorEmpty) > 0) && ((board[fr - 2] & colorEmpty) > 0) && ((board[fr - 3] & colorEmpty) > 0))
-                                    GenerateMove(moves, fr, fr - 2, true, moveflagCastleQueen);
+                            if (x == 4)
+                            {
+                                int cr = wt ? castleRights.castleRights : castleRights.castleRights >> 2;
+                                if ((cr & 1) > 0)
+                                    if (((board[fr + 1] & colorEmpty) > 0) && ((board[fr + 2] & colorEmpty) > 0))
+                                        GenerateMove(moves, fr, fr + 2, true, moveflagCastleKing);
+                                if ((cr & 2) > 0)
+                                    if (((board[fr - 1] & colorEmpty) > 0) && ((board[fr - 2] & colorEmpty) > 0) && ((board[fr - 3] & colorEmpty) > 0))
+                                        GenerateMove(moves, fr, fr - 2, true, moveflagCastleQueen);
+                            }
                             break;
                     }
                 }
@@ -627,7 +753,7 @@ namespace NSChess
             int capi = to;
             CUndo undo = undoStack[--undoIndex];
             passing = undo.passing;
-            castleRights = undo.castle;
+            castleRights.castleRights = undo.castle;
             move50 = undo.move50;
             lastCastle = undo.lastCastle;
             hash = undo.hash;
@@ -662,7 +788,7 @@ namespace NSChess
             ref CUndo undo = ref undoStack[undoIndex++];
             undo.hash = hash;
             undo.passing = passing;
-            undo.castle = castleRights;
+            undo.castle = castleRights.castleRights;
             undo.move50 = move50;
             undo.lastCastle = lastCastle;
             int fr = move & 0xff;
@@ -706,11 +832,11 @@ namespace NSChess
             board[fr] = colorEmpty;
             board[to] = newPiece;
             hash ^= hashBoard[to, newPiece & 0xf];
-            castleRights &= boardCastle[fr] & boardCastle[to];
+            castleRights.castleRights &= boardCastle[fr] & boardCastle[to];
             halfMove++;
         }
 
-        public int GetPiece(int emo)
+        public int GetPieceType(int emo)
         {
             return board[emo & 0xff] & 7;
         }
@@ -721,7 +847,7 @@ namespace NSChess
             emo = UmoToEmo(umo);
             if (emo > 0)
             {
-                piece = GetPiece(emo);
+                piece = GetPieceType(emo);
                 MakeMove(emo);
                 return true;
             }
@@ -755,7 +881,7 @@ namespace NSChess
 
         public bool IsValidMove(int emo)
         {
-            List<int> moves = GenerateValidMoves(out _);
+            List<int> moves = GenerateLegalMoves(out _);
             foreach (int m in moves)
                 if (m == emo)
                     return true;
@@ -765,7 +891,7 @@ namespace NSChess
         public bool IsValidMove(string umo, out int emo)
         {
             emo = 0;
-            List<int> moves = GenerateValidMoves(out _);
+            List<int> moves = GenerateLegalMoves(out _);
             foreach (int m in moves)
                 if (EmoToUmo(m) == umo)
                 {
@@ -780,7 +906,7 @@ namespace NSChess
             move = move.ToLower();
             emo = 0;
             umo = String.Empty;
-            List<int> moves = GenerateValidMoves(out _);
+            List<int> moves = GenerateLegalMoves(out _);
             foreach (int m in moves)
             {
                 string u = EmoToUmo(m);
@@ -800,7 +926,7 @@ namespace NSChess
             emo = 0;
             umo = String.Empty;
             san = String.Empty;
-            List<int> moves = GenerateValidMoves(out _);
+            List<int> moves = GenerateLegalMoves(out _);
             foreach (int m in moves)
             {
                 emo = m;
@@ -829,7 +955,7 @@ namespace NSChess
                 return CGameState.repetition;
             if (enInsufficient && myInsufficient)
                 return CGameState.material;
-            List<int> moves = GenerateValidMoves(out _);
+            List<int> moves = GenerateLegalMoves(out _);
             if (moves.Count > 0)
                 return CGameState.normal;
             return check ? CGameState.mate : CGameState.stalemate;
@@ -857,7 +983,7 @@ namespace NSChess
 
         ulong RAND_32()
         {
-            return ((ulong)random.Next() << 32) | ((ulong)random.Next() << 0);
+            return ((ulong)rnd.Next() << 32) | ((ulong)rnd.Next() << 0);
         }
 
         public static void UmoToSD(string umo, out int s, out int d)

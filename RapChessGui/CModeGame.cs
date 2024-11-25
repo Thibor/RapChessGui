@@ -8,7 +8,6 @@ namespace RapChessGui
 		public static bool rotate = false;
 		public static bool finished = true;
 		public static string color = "Auto";
-		public static string computer = "Auto";
 		public static string engine = CListEngine.def;
 		public static string book = CListBook.def;
 		public static CLevelValue modeValue = new CLevelValue();
@@ -24,7 +23,6 @@ namespace RapChessGui
 			ini.Write("mode>game>finished", finished);
 			ini.Write("mode>game>rotate", rotate);
 			ini.Write("mode>game>color", color);
-			ini.Write("mode>game>computer", computer);
 			ini.Write("mode>game>engine", engine);
 			ini.Write("mode>game>book", book);
 			ini.Write("mode>game>mode", modeValue.GetLevel());
@@ -39,7 +37,6 @@ namespace RapChessGui
 			finished = ini.ReadBool("mode>game>finished", finished);
 			rotate = ini.ReadBool("mode>game>rotate");
 			color = ini.Read("mode>game>color", color);
-			computer = ini.Read("mode>game>computer", computer);
 			engine = ini.Read("mode>game>engine", engine);
 			book = ini.Read("mode>game>book", book);
 			modeValue.SetLevel(ini.Read("mode>game>mode", modeValue.GetLevel()));

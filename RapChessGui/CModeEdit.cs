@@ -10,12 +10,14 @@ namespace RapChessGui
 {
     static class CModeEdit
     {
+        public static int multiPV = 1;
         public static string fen = Global.none;
         public static string engine1=Global.none;
         public static string engine2=Global.none;
 
         public static void LoadFromIni(CRapIni ini)
         {
+            multiPV = ini.ReadInt("mode>edit>multiPV",multiPV);
             fen = ini.Read("mode>edit>fen", CChess.defFen);
             engine1 = ini.Read("mode>edit>engine1", Global.none);
             engine2 = ini.Read("mode>edit>engine2", Global.none);
@@ -23,6 +25,7 @@ namespace RapChessGui
 
         public static void SaveToIni(CRapIni ini)
         {
+            ini.Write("mode>edit>multiPV", multiPV);
             ini.Write("mode>edit>fen", fen);
             ini.Write("mode>edit>engine1",engine1);
             ini.Write("mode>edit>engine2", engine2);

@@ -49,7 +49,7 @@ namespace RapChessGui
 
 		public CTourList(string name)
 		{
-			path = $"{AppDomain.CurrentDomain.BaseDirectory}History\\{name}.his";
+			path = $"{AppDomain.CurrentDomain.BaseDirectory}History\\{name}.tour";
 			LoadFromFile();
 		}
 

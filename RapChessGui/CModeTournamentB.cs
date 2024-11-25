@@ -6,7 +6,7 @@ namespace RapChessGui
 
 	public class CModeTournamentB:CModeTournament
 	{
-		public static CTourList tourList = new CTourList("Tour-books");
+		public static CTourList tourList = new CTourList("books");
 		public static CListBook bookList = new CListBook();
 		public static CBook bookWin = null;
 		public static CBook bookLoose = null;

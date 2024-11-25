@@ -134,6 +134,7 @@
     <Compile Include="CRapIni.cs" />
     <Compile Include="CModeTraining.cs" />
     <Compile Include="CListPlayer.cs" />
+    <Compile Include="CTeacher.cs" />
     <Compile Include="CTourList.cs" />
     <Compile Include="CUci.cs" />
     <Compile Include="FormAbout.cs">

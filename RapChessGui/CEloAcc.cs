@@ -21,7 +21,7 @@ namespace RapChessGui
 {
     class CTData
     {
-        public bool started=false;
+        public bool started = false;
         public bool done = false;
         public bool uciOk = false;
         public bool readyOk = false;
@@ -29,7 +29,7 @@ namespace RapChessGui
 
         public void Assign(CTData td)
         {
-            started=td.started;
+            started = td.started;
             done = td.done;
             uciOk = td.uciOk;
             readyOk = td.readyOk;
@@ -146,12 +146,14 @@ namespace RapChessGui
         async void EloAccuracy(DateTime dt)
         {
             int count = 0;
-            int r = rnd.Next(FormChess.engineList.Count);
-            for (int n = 0; n < FormChess.engineList.Count; n++)
+            FormChess.engineList.SortDT();
+            List<CEngine> el = new List<CEngine>();
+            foreach (CEngine e in FormChess.engineList)
+                el.Add(e);
+            foreach (CEngine e in el)
             {
-                CEngine e = FormChess.engineList[(n + r) % FormChess.engineList.Count];
                 DateTime edt = File.GetLastWriteTime(e.GetFileName());
-                bool old = (e.eloAccDT < dt) || (e.eloAccDT < edt) || (e.eloAccDT < e.DT);
+                bool old = (e.DTAccuracy < dt) || (e.DTAccuracy < edt) || (e.DTAccuracy < e.DT);
                 if (old && e.modeTime && e.modeFen && ((e.protocol == CProtocol.uci) || (e.protocol == CProtocol.winboard)))
                 {
                     log.Add($"Start {e.name}");
@@ -166,8 +168,12 @@ namespace RapChessGui
             }
         }
 
-        public static double WiningChances(int centipawns)
+        public static double WiningChances(int centipawns, int mate = 0)
         {
+            if (mate < 0)
+                centipawns = -0xfffd - mate;
+            if (mate > 0)
+                centipawns = 0xfffd - mate;
             return 50 + 50 * (2 / (1 + Math.Exp(-0.00368208 * centipawns)) - 1);
         }
 
@@ -190,6 +196,8 @@ namespace RapChessGui
             int totalCount = 0;
             double totalLoss = 0;
             double totalAccuracy = 0;
+            int testCount = 0;
+            int testWin = 0;
             double totalWeight = 0;
             SetStudent(e.GetPath(), e.arguments);
             bool fail = false;
@@ -199,67 +207,75 @@ namespace RapChessGui
                 StudentWriteLine("xboard");
             Thread.Sleep(100);
             foreach (CMSLine line in msList)
-            {
-                td.started = true;
-                td.done = false;
-                SetTData(td);
-                if (e.protocol == CProtocol.uci)
+                if (line.Count > 1)
                 {
-                    StudentWriteLine("ucinewgame");
-                    Thread.Sleep(100);
-                    StudentWriteLine($"position fen {line.fen}");
-                    StudentWriteLine("go movetime 1000");
-                }
-                else
-                {
-                    chess.SetFen(line.fen);
-                    StudentWriteLine("new");
-                    Thread.Sleep(100);
-                    StudentWriteLine("post");
-                    StudentWriteLine("force");
-                    StudentWriteLine($"board {line.fen}");
-                    StudentWriteLine("st 100");
-                    StudentWriteLine(chess.WhiteTurn ? "white" : "black");
-                    StudentWriteLine("go");
-                }
-                if (fail)
-                    break;
-                Stopwatch sw = Stopwatch.StartNew();
-                do
-                {
-                    if (sw.ElapsedMilliseconds > 3000)
+                    td.started = true;
+                    td.done = false;
+                    SetTData(td);
+                    if (e.protocol == CProtocol.uci)
                     {
-                        fail = true;
+                        StudentWriteLine("ucinewgame");
+                        Thread.Sleep(100);
+                        StudentWriteLine($"position fen {line.fen}");
+                        StudentWriteLine("go movetime 1000");
+                    }
+                    else
+                    {
+                        chess.SetFen(line.fen);
+                        StudentWriteLine("new");
+                        Thread.Sleep(100);
+                        StudentWriteLine("post");
+                        StudentWriteLine("force");
+                        StudentWriteLine($"board {line.fen}");
+                        StudentWriteLine("st 100");
+                        StudentWriteLine(chess.WhiteTurn ? "white" : "black");
+                        StudentWriteLine("go");
+                    }
+                    if (fail)
                         break;
-                    }
-                    td = GetTData();
-                    if (td.done)
+                    Stopwatch sw = Stopwatch.StartNew();
+                    do
                     {
-                        int scoreBst = line.First().score;
-                        int scoreCur = line.GetScore(td.bestMove);
-                        double bstWC = WiningChances(scoreBst);
-                        double curWC = WiningChances(scoreCur);
-                        double accuracy = GetAccuracy(bstWC, curWC);
-                        double loss = bstWC - curWC +1;
-                        totalCount++;
-                        totalAccuracy += accuracy;
-                        totalLoss += loss;
-                        totalWeight += accuracy * loss;
-                    }
-                } while (!td.done);
-                if (fail)
-                    break;
-            }
+                        if (sw.ElapsedMilliseconds > 3000)
+                        {
+                            fail = true;
+                            break;
+                        }
+                        td = GetTData();
+                        if (td.done)
+                        {
+                            int scoreBst = line.First().score;
+                            int scoreCur = line.GetScore(td.bestMove);
+                            double bstWC = WiningChances(scoreBst);
+                            double curWC = WiningChances(scoreCur);
+                            double accuracy = GetAccuracy(bstWC, curWC);
+                            double loss = bstWC - curWC + 1;
+                            if (line.IsTest())
+                            {
+                                testCount++;
+                                if (td.bestMove == line.First().move)
+                                    testWin++;
+                            }
+                            totalCount++;
+                            totalAccuracy += accuracy;
+                            totalLoss += loss;
+                            totalWeight += accuracy * loss;
+                        }
+                    } while (!td.done);
+                    if (fail)
+                        break;
+                }
             if (fail)
                 log.Add($"{e.name} fail");
             else
             {
-                e.accuracy = totalAccuracy/totalCount;
-                e.weight = totalWeight/totalLoss;
-                e.eloAccDT = DateTime.Now;
-                e.SaveToIni();
-                log.Add($"{e.name} accuracy {e.accuracy:N2} weight {e.weight:N2}");
+                e.accuracy = totalAccuracy / totalCount;
+                e.test = testCount == 0 ? 0 : (testWin * 100.0) / testCount;
+                e.weight = totalWeight / totalLoss;
+                log.Add($"{e.name} accuracy {e.accuracy:N2} test {testWin}/{testCount}");
             }
+            e.DTAccuracy = DateTime.Now;
+            e.SaveToIni();
             StudentTerminate();
             td = new CTData();
             SetTData(td);

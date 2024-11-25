@@ -32,6 +32,7 @@ namespace RapChessGui
         public static string tourEMode = "Time";
         public static ProcessPriorityClass priority = ProcessPriorityClass.Normal;
         public static Color color = Color.Yellow;
+        public static FormOptions This;
 
         public static CLevel TourELevel
         {
@@ -84,9 +85,13 @@ namespace RapChessGui
             link.SetDescription("Chess program");
             link.SetPath(Application.ExecutablePath);
             link.SetWorkingDirectory(Path.GetDirectoryName(Application.ExecutablePath));
-            IPersistFile file = (IPersistFile)link;
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            file.Save(Path.Combine(desktopPath, "RapChessGui.lnk"), false);
+            string fn = "RapChessGui.lnk";
+            if (!File.Exists($@"{desktopPath}\{fn}"))
+            {
+                IPersistFile file = (IPersistFile)link;
+                file.Save(Path.Combine(desktopPath, fn), false);
+            }
         }
 
         bool IsLink()
@@ -120,14 +125,12 @@ namespace RapChessGui
         {
             cbMatchEngine1.Text = CModeMatch.engine1;
             cbMatchEngine2.Text = CModeMatch.engine2;
+            cbMatchBook1.Text = CModeMatch.book1;
+            cbMatchBook2.Text = CModeMatch.book2;
             cbMatchMode1.Text = CModeMatch.modeValue1.GetLevel();
             cbMatchMode2.Text = CModeMatch.modeValue2.GetLevel();
             ValueToNud(CModeMatch.modeValue1.GetValue(), nudMatchValue1);
             ValueToNud(CModeMatch.modeValue2.GetValue(), nudMatchValue2);
-            if (cbMatchEngine1.SelectedIndex < 0)
-                cbMatchEngine1.SelectedIndex = 0;
-            if (cbMatchEngine2.SelectedIndex < 0)
-                cbMatchEngine2.SelectedIndex = 0;
         }
 
         void ValueToNud(decimal value, NumericUpDown nud)
@@ -141,21 +144,17 @@ namespace RapChessGui
 
         public void LoadFromIni(bool def = false)
         {
+            cbGameRotate.Checked= FormChess.ini.ReadBool("options>mode>game>rotate", false, def);
             cbGameBook.Text = FormChess.ini.Read("options>mode>game>book", CListBook.def, def);
             cbGameEngine.Text = FormChess.ini.Read("options>mode>game>engine", CListEngine.def, def);
+            cbGameOpponent.Text = FormChess.ini.Read("options>mode>game>opponent", "Auto", def);
+            cbGameTeacher.Text = FormChess.ini.Read("options>mode>game>teacher>name", Global.none, def);
+            nudTeacherDepth.Value = FormChess.ini.ReadDecimal("options>mode>game>teacher>depth", 15, def);
             cbBottomPlayer.SelectedIndex = FormChess.ini.ReadInt("options>mode>game>bottom", 0, def);
             nudBreak.Value = FormChess.ini.ReadDecimal("options>mode>game>break", 8, def);
 
             CModeMatch.LoadFromIni();
-            cbMatchBook1.Text = CModeMatch.book1;
-            cbMatchBook2.Text = CModeMatch.book2;
-            cbMatchEngine1.Text = CModeMatch.engine1;
-            cbMatchEngine2.Text = CModeMatch.engine2;
-            cbMatchEngine1.Text = CModeMatch.engine1;
-            cbMatchMode1.Text = CModeMatch.modeValue1.GetLevel();
-            cbMatchMode2.Text = CModeMatch.modeValue2.GetLevel();
-            ValueToNud(CModeMatch.modeValue1.GetValue(), nudMatchValue1);
-            ValueToNud(CModeMatch.modeValue2.GetValue(), nudMatchValue2);
+            MatchToSettings();
 
             cbTourBSelected.Text = FormChess.ini.Read("options>mode>tourB>selected", Global.none, def);
             cbTourBEngine.Text = FormChess.ini.Read("options>mode>tourB>engine", Global.none, def);
@@ -202,8 +201,12 @@ namespace RapChessGui
 
         public void SaveToIni()
         {
+            FormChess.ini.Write("options>mode>game>rotate", cbGameRotate.Checked);
             FormChess.ini.Write("options>mode>game>book", cbGameBook.Text);
             FormChess.ini.Write("options>mode>game>engine", cbGameEngine.Text);
+            FormChess.ini.Write("options>mode>game>opponent", cbGameOpponent.Text);
+            FormChess.ini.Write("options>mode>game>teacher>name", cbGameTeacher.Text);
+            FormChess.ini.Write("options>mode>game>teacher>depth", nudTeacherDepth.Value);
             FormChess.ini.Write("options>mode>game>bottom", cbBottomPlayer.SelectedIndex);
             FormChess.ini.Write("options>mode>game>break", nudBreak.Value);
 
@@ -256,6 +259,112 @@ namespace RapChessGui
             FormChess.ini.Write("options>game>userElo", nudUserElo.Value);
         }
 
+        public void ResetBooks()
+        {
+            cbGameBook.Items.Clear();
+            cbCustomBook.Items.Clear();
+            cbMatchBook1.Items.Clear();
+            cbMatchBook2.Items.Clear();
+            cbTourBSelected.Items.Clear();
+            cbTourEBookF.Items.Clear();
+            cbTourEBookS.Items.Clear();
+            cbGameBook.Sorted = true;
+            cbCustomBook.Sorted = true;
+            cbMatchBook1.Sorted = true;
+            cbMatchBook2.Sorted = true;
+            cbTourBSelected.Sorted = true;
+            cbTourEBookF.Sorted = true;
+            cbTourEBookS.Sorted = true;
+            foreach (CBook b in FormChess.bookList)
+                if (b.FileExists())
+                {
+                    cbGameBook.Items.Add(b.name);
+                    cbCustomBook.Items.Add(b.name);
+                    cbMatchBook1.Items.Add(b.name);
+                    cbMatchBook2.Items.Add(b.name);
+                    cbTourBSelected.Items.Add(b.name);
+                    cbTourEBookF.Items.Add(b.name);
+                    cbTourEBookS.Items.Add(b.name);
+                }
+            cbGameBook.Sorted = false;
+            cbCustomBook.Sorted = false;
+            cbMatchBook1.Sorted = false;
+            cbMatchBook2.Sorted = false;
+            cbTourBSelected.Sorted = false;
+            cbTourEBookF.Sorted = false;
+            cbTourEBookS.Sorted = false;
+            cbGameBook.Items.Insert(0, Global.none);
+            cbCustomBook.Items.Insert(0, Global.none);
+            cbMatchBook1.Items.Insert(0, Global.none);
+            cbMatchBook2.Items.Insert(0, Global.none);
+            cbTourBSelected.Items.Insert(0, Global.none);
+            cbTourEBookF.Items.Insert(0, Global.none);
+            cbTourEBookS.Items.Insert(0, Global.none);
+            cbMatchBook1.Items.Insert(1, "Random");
+            cbMatchBook2.Items.Insert(1, "Random");
+            cbTourEBookF.Items.Insert(1, "Random");
+            cbTourEBookS.Items.Insert(1, "Random");
+            cbGameBook.Text = Global.none;
+            cbCustomBook.Text = Global.none;
+            cbMatchBook1.Text = Global.none;
+            cbMatchBook2.Text = Global.none;
+            cbTourBSelected.Text = Global.none;
+            cbTourEBookF.Text = Global.none;
+            cbTourEBookS.Text = Global.none;
+        }
+
+        public void ResetEngines()
+        {
+            cbGameEngine.Items.Clear();
+            cbGameTeacher.Items.Clear();
+            cbCustomEngine.Items.Clear();
+            cbMatchEngine1.Items.Clear();
+            cbMatchEngine2.Items.Clear();
+            cbTourBEngine.Items.Clear();
+            cbTourESelected.Items.Clear();
+            cbGameEngine.Sorted = true;
+            cbGameTeacher.Sorted = true;
+            cbCustomEngine.Sorted = true;
+            cbMatchEngine1.Sorted = true;
+            cbMatchEngine2.Sorted = true;
+            cbTourBEngine.Sorted = true;
+            cbTourESelected.Sorted = true;
+            foreach (CEngine e in FormChess.engineList)
+                if (e.FileExists())
+                {
+                    if (e.modeElo)
+                        cbGameEngine.Items.Add(e.name);
+                    if (e.modeDepth && e.modeFen && e.modeSearchmoves && (e.protocol == CProtocol.uci))
+                        cbGameTeacher.Items.Add(e.name);
+                    cbCustomEngine.Items.Add(e.name);
+                    cbMatchEngine1.Items.Add(e.name);
+                    cbMatchEngine2.Items.Add(e.name);
+                    cbTourBEngine.Items.Add(e.name);
+                    cbTourESelected.Items.Add(e.name);
+                }
+            cbGameEngine.Sorted = false;
+            cbGameTeacher.Sorted = false;
+            cbCustomEngine.Sorted = false;
+            cbMatchEngine1.Sorted = false;
+            cbMatchEngine2.Sorted = false;
+            cbTourBEngine.Sorted = false;
+            cbTourESelected.Sorted = false;
+            cbGameEngine.Items.Insert(0, Global.none);
+            cbGameTeacher.Items.Insert(0, Global.none);
+            cbCustomEngine.Items.Insert(0, Global.none);
+            cbMatchEngine1.Items.Insert(0, Global.none);
+            cbMatchEngine2.Items.Insert(0, Global.none);
+            cbTourBEngine.Items.Insert(0, Global.none);
+            cbTourESelected.Items.Insert(0, Global.none);
+            cbGameEngine.Text = Global.none;
+            cbGameTeacher.Text = Global.none;
+            cbCustomEngine.Text = Global.none;
+            cbMatchEngine1.Text = Global.none;
+            cbMatchEngine2.Text = Global.none;
+            cbTourBEngine.Text = Global.none;
+            cbTourESelected.Text = Global.none;
+        }
+
         public void Reset()
         {
             lvBooks.Items.Clear();
@@ -269,63 +378,9 @@ namespace RapChessGui
             foreach (string book in CData.fileBookReader)
                 cbBookReader.Items.Add(book);
             cbBookReader.SelectedIndex = 0;
-            cbGameBook.Items.Clear();
-            cbMatchBook1.Items.Clear();
-            cbMatchBook2.Items.Clear();
-            cbTourBSelected.Items.Clear();
-            cbTourEBookF.Items.Clear();
-            cbTourEBookS.Items.Clear();
-            cbGameBook.Sorted = true;
-            cbMatchBook1.Sorted = true;
-            cbMatchBook2.Sorted = true;
-            cbTourBSelected.Sorted = true;
-            cbTourEBookF.Sorted = true;
-            cbTourEBookS.Sorted = true;
-            foreach (CBook b in FormChess.bookList)
-            {
-                cbGameBook.Items.Add(b.name);
-                cbMatchBook1.Items.Add(b.name);
-                cbMatchBook2.Items.Add(b.name);
-                cbTourBSelected.Items.Add(b.name);
-                cbTourEBookF.Items.Add(b.name);
-                cbTourEBookS.Items.Add(b.name);
-            }
-            cbGameBook.Sorted = false;
-            cbMatchBook1.Sorted = false;
-            cbMatchBook2.Sorted = false;
-            cbTourBSelected.Sorted = false;
-            cbTourEBookF.Sorted = false;
-            cbTourEBookS.Sorted = false;
-            cbGameBook.Items.Insert(0, Global.none);
-            cbMatchBook1.Items.Insert(0, Global.none);
-            cbMatchBook2.Items.Insert(0, Global.none);
-            cbTourBSelected.Items.Insert(0, Global.none);
-            cbTourEBookF.Items.Insert(0, Global.none);
-            cbTourEBookS.Items.Insert(0, Global.none);
-            cbMatchBook1.Items.Insert(1, "Random");
-            cbMatchBook2.Items.Insert(1, "Random");
-            cbTourEBookF.Items.Insert(1, "Random");
-            cbTourEBookS.Items.Insert(1, "Random");
 
-            cbGameEngine.Items.Clear();
-            cbTourBEngine.Items.Clear();
-            cbTourESelected.Items.Clear();
-            cbGameEngine.Sorted = true;
-            cbTourBEngine.Sorted = true;
-            cbTourESelected.Sorted = true;
-            foreach (CEngine e in FormChess.engineList)
-            {
-                cbTourBEngine.Items.Add(e.name);
-                cbTourESelected.Items.Add(e.name);
-                if (e.modeElo)
-                    cbGameEngine.Items.Add(e.name);
-            }
-            cbGameEngine.Sorted = false;
-            cbTourBEngine.Sorted = false;
-            cbTourESelected.Sorted = false;
-            cbGameEngine.Items.Insert(0, Global.none);
-            cbTourBEngine.Items.Insert(0, Global.none);
-            cbTourESelected.Items.Insert(0, Global.none);
+            ResetBooks();
+            ResetEngines();
 
             cbTourPSelected.Items.Clear();
             cbTourPSelected.Sorted = true;

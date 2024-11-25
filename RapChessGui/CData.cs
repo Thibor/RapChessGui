@@ -137,9 +137,9 @@ namespace RapChessGui
             switch (p)
             {
                 case CProtocol.uci:
-                    return "Uci";
+                    return "UCI";
                 case CProtocol.winboard:
-                    return "Winboard";
+                    return "XB";
                 case CProtocol.auto:
                     return "Auto";
                 default:
@@ -168,9 +168,9 @@ namespace RapChessGui
         {
             switch (p)
             {
-                case "Uci":
+                case "UCI":
                     return CProtocol.uci;
-                case "Winboard":
+                case "XB":
                     return CProtocol.winboard;
                 case "Auto":
                     return CProtocol.auto;

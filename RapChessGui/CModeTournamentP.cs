@@ -4,7 +4,7 @@ namespace RapChessGui
 {
 	public class CModeTournamentP:CModeTournament
 	{
-		public static CTourList tourList = new CTourList("Tour-players");
+		public static CTourList tourList = new CTourList("players");
 		public static CListPlayer playerList = new CListPlayer();
 		public static CPlayer plaWin = null;
 		public static CPlayer plaLoose = null;

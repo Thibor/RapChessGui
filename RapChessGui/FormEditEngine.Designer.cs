@@ -38,6 +38,7 @@
             this.bRename = new System.Windows.Forms.Button();
             this.bSave = new System.Windows.Forms.Button();
             this.gbMode = new System.Windows.Forms.GroupBox();
+            this.cbModeSearchmoves = new System.Windows.Forms.CheckBox();
             this.cbModeFen = new System.Windows.Forms.CheckBox();
             this.cbModeElo = new System.Windows.Forms.CheckBox();
             this.cbModeInfinite = new System.Windows.Forms.CheckBox();
@@ -202,6 +203,7 @@
             // gbMode
             // 
             this.gbMode.AutoSize = true;
+            this.gbMode.Controls.Add(this.cbModeSearchmoves);
             this.gbMode.Controls.Add(this.cbModeFen);
             this.gbMode.Controls.Add(this.cbModeElo);
             this.gbMode.Controls.Add(this.cbModeInfinite);
@@ -218,10 +220,20 @@
             this.gbMode.TabStop = false;
             this.gbMode.Text = "Mode";
             // 
+            // cbModeSearchmoves
+            // 
+            this.cbModeSearchmoves.AutoSize = true;
+            this.cbModeSearchmoves.Location = new System.Drawing.Point(191, 62);
+            this.cbModeSearchmoves.Name = "cbModeSearchmoves";
+            this.cbModeSearchmoves.Size = new System.Drawing.Size(91, 17);
+            this.cbModeSearchmoves.TabIndex = 9;
+            this.cbModeSearchmoves.Text = "Searchmoves";
+            this.cbModeSearchmoves.UseVisualStyleBackColor = true;
+            // 
             // cbModeFen
             // 
             this.cbModeFen.AutoSize = true;
-            this.cbModeFen.Location = new System.Drawing.Point(116, 62);
+            this.cbModeFen.Location = new System.Drawing.Point(101, 62);
             this.cbModeFen.Name = "cbModeFen";
             this.cbModeFen.Size = new System.Drawing.Size(44, 17);
             this.cbModeFen.TabIndex = 8;
@@ -241,7 +253,7 @@
             // cbModeInfinite
             // 
             this.cbModeInfinite.AutoSize = true;
-            this.cbModeInfinite.Location = new System.Drawing.Point(216, 39);
+            this.cbModeInfinite.Location = new System.Drawing.Point(101, 39);
             this.cbModeInfinite.Name = "cbModeInfinite";
             this.cbModeInfinite.Size = new System.Drawing.Size(57, 17);
             this.cbModeInfinite.TabIndex = 6;
@@ -261,7 +273,7 @@
             // cbModeTournament
             // 
             this.cbModeTournament.AutoSize = true;
-            this.cbModeTournament.Location = new System.Drawing.Point(116, 39);
+            this.cbModeTournament.Location = new System.Drawing.Point(191, 39);
             this.cbModeTournament.Name = "cbModeTournament";
             this.cbModeTournament.Size = new System.Drawing.Size(83, 17);
             this.cbModeTournament.TabIndex = 4;
@@ -271,7 +283,7 @@
             // cbModeDepth
             // 
             this.cbModeDepth.AutoSize = true;
-            this.cbModeDepth.Location = new System.Drawing.Point(216, 16);
+            this.cbModeDepth.Location = new System.Drawing.Point(191, 16);
             this.cbModeDepth.Name = "cbModeDepth";
             this.cbModeDepth.Size = new System.Drawing.Size(55, 17);
             this.cbModeDepth.TabIndex = 3;
@@ -281,7 +293,7 @@
             // cbModeTime
             // 
             this.cbModeTime.AutoSize = true;
-            this.cbModeTime.Location = new System.Drawing.Point(116, 16);
+            this.cbModeTime.Location = new System.Drawing.Point(101, 16);
             this.cbModeTime.Name = "cbModeTime";
             this.cbModeTime.Size = new System.Drawing.Size(49, 17);
             this.cbModeTime.TabIndex = 2;
@@ -397,9 +409,9 @@
             this.cbProtocol.FormattingEnabled = true;
             this.cbProtocol.Items.AddRange(new object[] {
             "Auto",
-            "Uci",
+            "UCI",
             "Unknown",
-            "Winboard"});
+            "XB"});
             this.cbProtocol.Location = new System.Drawing.Point(3, 16);
             this.cbProtocol.Name = "cbProtocol";
             this.cbProtocol.Size = new System.Drawing.Size(305, 21);
@@ -534,7 +546,7 @@
             this.allToolStripMenuItem,
             this.noneToolStripMenuItem});
             this.tournametToolStripMenuItem.Name = "tournametToolStripMenuItem";
-            this.tournametToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
+            this.tournametToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
             this.tournametToolStripMenuItem.Text = "Tournamet";
             // 
             // allToolStripMenuItem
@@ -729,5 +741,6 @@
         private System.Windows.Forms.ToolStripMenuItem clearEngineEloAccToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem clearAllEloToolStripMenuItem;
+        private System.Windows.Forms.CheckBox cbModeSearchmoves;
     }
 }

@@ -4,7 +4,7 @@ namespace RapChessGui
 {
 	public class CModeTournamentE : CModeTournament
 	{
-		public static CTourList tourList = new CTourList("Tour-engines");
+		public static CTourList tourList = new CTourList("engines");
 		public static CListEngine engineList = new CListEngine();
 		public static CEngine engWin = null;
 		public static CEngine engLoose = null;

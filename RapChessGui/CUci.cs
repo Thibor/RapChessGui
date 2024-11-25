@@ -7,6 +7,11 @@ namespace NSUci
 		public string command = string.Empty;
 		public string[] tokens;
 
+		public string Last()
+		{
+return tokens[tokens.Length - 1];
+		}
+
 		public int GetIndex(string key, int def = -1)
 		{
 			for (int n = 0; n < tokens.Length; n++)

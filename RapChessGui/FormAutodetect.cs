@@ -11,6 +11,7 @@ namespace RapChessGui
 {
     public partial class FormAutodetect : Form
     {
+        const int countTests = 20;
         static int countAuto = 0;
         static int countDone = 0;
         static int tick = 0;
@@ -109,6 +110,10 @@ namespace RapChessGui
                     if (bstOk)
                         testEngine.modeFen ^= true;
                     break;
+                case 19:
+                    if (bst=="g2h1")
+                        testEngine.modeSearchmoves ^= true;
+                    break;
 
             }
         }
@@ -129,16 +134,16 @@ namespace RapChessGui
 
         public static void TestUci(string command)
         {
-            EngineWriteLine("uci",100);
-            EngineWriteLine("ucinewgame",100);
+            EngineWriteLine("uci", 100);
+            EngineWriteLine("ucinewgame", 100);
             EngineWriteLine("position startpos moves b1a3 b8a6");
             EngineWriteLine(command);
         }
 
         void TestXb(string command)
         {
-            EngineWriteLine("xboard",100);
-            EngineWriteLine("new",100);
+            EngineWriteLine("xboard", 100);
+            EngineWriteLine("new", 100);
             EngineWriteLine("post");
             EngineWriteLine("force");
             EngineWriteLine("b1a3");
@@ -204,6 +209,14 @@ namespace RapChessGui
                 ConsoleWriteLine("mode infinite fail");
         }
 
+        void ShowSearchmoves()
+        {
+            if (testEngine.modeSearchmoves)
+                ConsoleWriteLine("mode searchmoves ok");
+            else
+                ConsoleWriteLine("mode searchmoves fail");
+        }
+
         void ShowElo()
         {
             if (testEngine.modeElo)
@@ -228,7 +241,6 @@ namespace RapChessGui
             {
                 EngineWriteLine("uci", 100);
                 EngineWriteLine("ucinewgame", 100);
-                EngineWriteLine("isready");
                 EngineWriteLine($"position fen {fen}");
                 EngineWriteLine($"go movetime 1000");
             }
@@ -245,6 +257,18 @@ namespace RapChessGui
             }
         }
 
+        void TestSearchmoves()
+        {
+            ConsoleWriteLine("start test searchmoves");
+            string fen = "4Rnk1/6pp/rpp2p2/3p4/3P4/2Pq1NP1/r4PKP/Q3R3 w - - 0 27";
+            chess.SetFen(fen);
+            TestRestart();
+            EngineWriteLine("uci", 100);
+            EngineWriteLine("ucinewgame", 100);
+            EngineWriteLine($"position fen {fen}");
+            EngineWriteLine($"go movetime 1000 searchmoves g2h1");
+        }
+
         void TestSummary()
         {
             testProcess?.WriteLine("quit");
@@ -256,6 +280,7 @@ namespace RapChessGui
             ShowTournament();
             ShowNodes();
             ShowInfinite();
+            ShowSearchmoves();
             ShowElo();
             ConsoleWriteLine($"mode fen {OkFail(testEngine.modeFen)}");
             ConsoleWriteLine();
@@ -273,7 +298,7 @@ namespace RapChessGui
             testMode++;
             ConsoleWriteLine("Next phase");
             testWatch.Restart();
-            progressBar.Value = countDone * 19 + testMode;
+            progressBar.Value = countDone * countTests + testMode;
             switch (testMode)
             {
                 case 0:
@@ -459,6 +484,13 @@ namespace RapChessGui
                     TestFen();
                     break;
                 case 19:
+                    testEngine.modeSearchmoves = false;
+                    if (testEngine.protocol == CProtocol.uci)
+                        TestSearchmoves();
+                    else
+                        NextPhase();
+                    break;
+                case 20:
                     TestSummary();
                     break;
             }
@@ -496,7 +528,7 @@ namespace RapChessGui
         {
             countDone = 0;
             countAuto = FormChess.engineList.CountAuto();
-            progressBar.Maximum = countAuto * 19;
+            progressBar.Maximum = countAuto * countTests;
             progressBar.Value = 0;
             tbConsole.Clear();
             report.Clear();
@@ -518,7 +550,7 @@ namespace RapChessGui
             report.Add($"{t} {line}");
         }
 
-        static void EngineWriteLine(string line,int sleep = 0)
+        static void EngineWriteLine(string line, int sleep = 0)
         {
             ConsoleWriteLine($"> {line}");
             testProcess.WriteLine(line, sleep);

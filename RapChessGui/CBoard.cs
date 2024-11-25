@@ -263,7 +263,7 @@ namespace RapChessGui
         public static Color Red = Color.FromArgb(0x90, 0xff, 0x10, 0x10);
         public static Color Blue = Color.FromArgb(0x90, 0x10, 0x10, 0xff);
         public bool animated = false;
-        public bool finished = true;
+        public bool done = true;
         public bool rotate = false;
         public CField[] arrField = new CField[64];
         public Bitmap boardBmp;
@@ -566,7 +566,7 @@ namespace RapChessGui
         public void StartAnimation()
         {
             animated = true;
-            finished = false;
+            done = false;
             timer.Restart();
             Render();
         }

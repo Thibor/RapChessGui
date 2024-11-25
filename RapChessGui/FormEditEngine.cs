@@ -277,6 +277,7 @@ namespace RapChessGui
             cbModeTournament.Checked = engine.modeTournament;
             cbModeNodes.Checked = engine.modeNodes;
             cbModeInfinite.Checked = engine.modeInfinite;
+            cbModeSearchmoves.Checked = engine.modeSearchmoves;
             nudElo.Value = Convert.ToInt32(engine.StrElo);
             nudTournament.Value = engine.tournament;
         }
@@ -352,6 +353,7 @@ namespace RapChessGui
             e.modeTournament = cbModeTournament.Checked;
             e.modeNodes = cbModeNodes.Checked;
             e.modeInfinite = cbModeInfinite.Checked;
+            e.modeSearchmoves = cbModeSearchmoves.Checked;
             e.elo = (int)nudElo.Value;
             e.tournament = (int)nudTournament.Value;
             e.options = GetOptions();
@@ -615,7 +617,7 @@ namespace RapChessGui
             {
                 engine.accuracy = 0;
                 engine.weight = 0;
-                engine.eloAccDT = new DateTime(0);
+                engine.DTAccuracy = new DateTime(0);
                 engine.SaveToIni();
             }
         }
@@ -626,7 +628,7 @@ namespace RapChessGui
             {
                 engine.accuracy = 0;
                 engine.weight = 0;
-                engine.eloAccDT = new DateTime(0);
+                engine.DTAccuracy = new DateTime(0);
             }
             FormChess.engineList.SaveToIni();
         }

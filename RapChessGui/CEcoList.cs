@@ -44,7 +44,7 @@ namespace RapChessGui
 			}
 		}
 
-		public CEco GetEcoFen(string fen)
+		public CEco EpdToEco(string fen)
 		{
 			foreach (CEco e in list)
 				if (e.fen == fen)
@@ -52,7 +52,7 @@ namespace RapChessGui
 			return null;
 		}
 
-		public CEco GetEcoMoves(string moves)
+		public CEco MovesToEco(string moves)
 		{
 			foreach (CEco e in list)
 				if(e.moves.IndexOf(moves) == 0)

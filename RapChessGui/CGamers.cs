@@ -5,6 +5,7 @@ using System.IO;
 using NSChess;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace RapChessGui
 {
@@ -12,6 +13,9 @@ namespace RapChessGui
     public class CGamerBook : CProcessBuf
     {
         public bool optionSended = false;
+        /// <summary>
+        /// Query was send to book
+        /// <summary>
         public bool isBookStarted = false;
         /// <summary>
         /// Is no move int the open book.
@@ -29,10 +33,6 @@ namespace RapChessGui
 
     public class CGamerEngine : CProcessBuf
     {
-        /// <summary>
-        /// Ceation of the protocol header has started.
-        /// </summary>
-        public bool isPrepareStarted = false;
         /// <summary>
         /// The engine is already running.
         /// </summary>
@@ -52,7 +52,6 @@ namespace RapChessGui
 
         public void Reset()
         {
-            isPrepareStarted = false;
             isEngRunning = false;
             isPreparedUci = false;
             isPositionXb = false;
@@ -62,6 +61,12 @@ namespace RapChessGui
 
     public class CGamer
     {
+        public bool uciOk = false;
+        public bool readyOk = false;
+        /// <summary>
+        /// Engine evaluation
+        /// </summary>
+        public int eval = 0;
         /// <summary>
         /// Engine send score mate
         /// </summary>
@@ -74,10 +79,10 @@ namespace RapChessGui
         /// Count moves maked by engine.
         /// </summary>
         public int countMovesEngine;
-        public CColor color = CColor.none;
+        public CColor colorPlayer = CColor.none;
+        public Color colorArrow = CBoard.Green;
         public int depthTotal;
         public int depthCount;
-        public int depthMax;
         public int msgPriority = 0;
         public int scoreI;
         public ulong infMs;
@@ -88,12 +93,12 @@ namespace RapChessGui
         public string strScore;
         public int depth;
         public int seldepth;
+        public int multipv;
         int hash;
         public string ponder;
         public string pv;
         public string lastMove;
         public double timerStart;
-        public Color arrow = CBoard.Green;
         public Stopwatch timer = new Stopwatch();
         public CProcessBuf curProcess = null;
         public CGamerBook gamerBook = new CGamerBook();
@@ -121,7 +126,7 @@ namespace RapChessGui
 
         public CGamer(CColor color)
         {
-            this.color = color;
+            colorPlayer = color;
             InitNewGame();
         }
 
@@ -199,19 +204,21 @@ namespace RapChessGui
 
         public bool IsEngineActive() { return curProcess == gamerEngine; }
 
+        public bool IsBookMove() { return gamerBook.isBookStarted && !gamerBook.isBookFail; }
+
         /// <summary>
         /// Gamer color is white
         /// </summary>
         public bool IsWhite()
         {
-            return this.color == CColor.white;
+            return colorPlayer == CColor.white;
         }
         /// <summary>
         /// Gamer color is black
         /// </summary>
         public bool IsBlack()
         {
-            return this.color == CColor.black;
+            return colorPlayer == CColor.black;
         }
 
         public bool IsHuman()
@@ -247,22 +254,42 @@ namespace RapChessGui
 
         public void NextPhaseUci()
         {
-            switch (++gamerEngine.phaseUci)
+            switch (gamerEngine.phaseUci)
             {
-                case 1:
+                case 0:
+                    gamerEngine.phaseUci++;
                     SendMessageToEngine("uci");
                     break;
+                case 1:
+                    if (uciOk)
+                    {
+                        gamerEngine.phaseUci++;
+                        OptionsToEngine();
+                        SendMessageToEngine("isready");
+                    }
+                    break;
                 case 2:
-                    OptionsToEngine();
-                    SendMessageToEngine("isready");
+                    if (readyOk)
+                    {
+                        readyOk = false;
+                        gamerEngine.phaseUci++;
+                        SendMessageToEngine("ucinewgame");
+                        SendMessageToEngine("isready");
+                    }
                     break;
                 case 3:
-                    SendMessageToEngine("ucinewgame");
-                    SendMessageToEngine("isready");
+                    gamerEngine.isPreparedUci = readyOk;
                     break;
-                case 4:
-                    gamerEngine.isPreparedUci = true;
-                    break;
+            }
+        }
+
+        public void NextPahseXb()
+        {
+            if (!gamerEngine.isPreparedUci)
+            {
+                SendMessageToEngine("xboard");
+                gamerEngine.isPreparedUci = true;
+                XbGo();
             }
         }
 
@@ -303,6 +330,8 @@ namespace RapChessGui
 
         public void InitNextMove()
         {
+            eval = 0;
+            multipv = 1;
             depth = 0;
             msgPriority = 0;
             seldepth = 0;
@@ -323,15 +352,17 @@ namespace RapChessGui
             else
             {
                 countMovesEngine++;
-                if (!mate && (depth > 0))
+                if (!mate && (depth > 0) && (Math.Abs(scoreI)<500))
                 {
                     depthCount++;
                     depthTotal += depth;
+                    engine.depth = (engine.depth * 99.0 + depth) / 100.0;
                 }
                 if (nps > 0)
                 {
                     npsCount++;
                     npsTotal += nps;
+                    engine.nps = (engine.nps * 99.0 + nps) / 100.0;
                     if ((npsTotal > (ulong.MaxValue >> 1)) && ((npsCount & 1) == 0))
                     {
                         npsTotal >>= 1;
@@ -377,7 +408,7 @@ namespace RapChessGui
                     }
                 }
                 else if (engine != null)
-                    if (!gamerEngine.isPrepareStarted)
+                    if (!gamerEngine.isPreparedUci)
                         EngPrepare();
                     else if (gamerEngine.isPreparedUci && !gamerEngine.isEngRunning)
                         EngMakeMove();
@@ -395,16 +426,11 @@ namespace RapChessGui
         /// </summary>
         void EngPrepare()
         {
-            gamerEngine.isPrepareStarted = true;
             lastMove = String.Empty;
             if (engine.protocol == CProtocol.uci)
                 NextPhaseUci();
             else
-            {
-                SendMessageToEngine("xboard");
-                gamerEngine.isPreparedUci = true;
-                XbGo();
-            }
+                NextPahseXb();
         }
 
         public int GetRemainingMs()
@@ -713,8 +739,8 @@ namespace RapChessGui
         public void Rotate()
         {
             (this[1], this[0]) = (this[0], this[1]);
-            this[0].color = CColor.white;
-            this[1].color = CColor.black;
+            this[0].colorPlayer = CColor.white;
+            this[1].colorPlayer = CColor.black;
         }
 
         public int GetMsgPriority()
@@ -798,26 +824,27 @@ namespace RapChessGui
             InitNewGame();
             this[0].SetPlayer(pw);
             this[1].SetPlayer(pb);
-            this[0].arrow = CBoard.Green;
-            this[1].arrow = CBoard.Green;
+            this[0].colorPlayer = CColor.white;
+            this[1].colorPlayer = CColor.black;
+            this[0].colorArrow = CBoard.Green;
+            this[1].colorArrow = CBoard.Green;
+            FormLogEngines.WriteHeader(GamerWhite(), GamerBlack());
         }
 
-        public void StartAnalysis(CPlayer p1, CPlayer p2)
+        public void StartAnalysis(string moves = "")
         {
-            Terminate();
-            InitNewGame();
-            this[0].SetPlayer(p1);
-            this[1].SetPlayer(p2);
-            this[0].arrow = CBoard.Green;
-            this[1].arrow = CBoard.Blue;
+            this[0].colorArrow = CBoard.Green;
+            this[1].colorArrow = CBoard.Blue;
             foreach (CGamer g in this)
                 if (g.player.IsComputer())
                 {
                     g.SendMessageToEngine("uci");
                     g.OptionsToEngine();
+                    if (CModeEdit.multiPV > 1)
+                        g.SendMessageToEngine($"setoption name MultiPV value {CModeEdit.multiPV}");
                     g.SendMessageToEngine("ucinewgame");
-                    g.SendMessageToEngine($"position fen {FormChess.chess.GetFen()}");
-                    g.SendMessageToEngine("go infinite");
+                    g.SendMessageToEngine($"position eval fen {FormChess.chess.GetFen()}");
+                    g.SendMessageToEngine($"go infinite{moves}");
                 }
         }
 
