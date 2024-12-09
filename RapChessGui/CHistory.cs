@@ -3,25 +3,29 @@ using NSChess;
 using System.IO;
 using NSUci;
 using System;
+using System.Drawing;
 
 namespace RapChessGui
 {
     public class CHis
     {
-        public int halfMove;
         public int piece;
         public int emo;
-        public string umo=string.Empty;
-        public string san=string.Empty;
+        public string umo = string.Empty;
+        public string san = string.Empty;
         public string fen = string.Empty;
         public string score = string.Empty;
         public string pv = string.Empty;
         public string pvCur = string.Empty;
-        public string bstMoves = string.Empty;
+        public string pvBst = string.Empty;
 
-        public CHis(string fen, int halfMove, int piece, int emo, string umo, string san, string score, string pv)
+        public CHis(CHis h)
         {
-            this.halfMove = halfMove;
+            Assign(h);
+        }
+
+        public CHis(string fen, int piece, int emo, string umo, string san, string score, string pv)
+        {
             this.piece = piece;
             this.emo = emo;
             this.umo = umo;
@@ -29,6 +33,26 @@ namespace RapChessGui
             this.fen = fen;
             this.score = score;
             this.pv = pv;
+        }
+
+        public void Assign(CHis h)
+        {
+            piece = h.piece;
+            emo = h.emo;
+            umo = h.umo;
+            san = h.san;
+            fen = h.fen;
+            score = h.score;
+            pv = h.pv;
+            pvCur = h.pvCur;
+            pvBst = h.pvBst;
+        }
+
+        public int GetHalfMove()
+        {
+            CChess chess = new CChess();
+            chess.SetFen(fen);
+            return chess.halfMove;
         }
 
         public string GetNotation()
@@ -54,20 +78,24 @@ namespace RapChessGui
 
     public class CHistory : List<CHis>
     {
-        public int moveNumber = 0;
         public string fen = CChess.defFen;
 
-        public CHis GetHis(string fen)
+        public void Assign(CHistory hl, int count)
         {
-            foreach (CHis h in this)
-                if (h.fen == fen)
-                    return h;
-            return null;
+            Clear();
+            fen += hl.fen;
+            int c = 0;
+            foreach (CHis h in hl)
+            {
+                Add(new CHis(h));
+                if (++c >= count)
+                    return;
+            }
         }
 
-        public CHis AddMove(string fen, int halfMove, int piece, int emo, string umo, string san, string score, string pv)
+        public CHis AddMove(string fen, int piece, int emo, string umo, string san, string score, string pv)
         {
-            CHis hm = new CHis(fen, halfMove, piece, emo, umo, san, score, pv);
+            CHis hm = new CHis(fen, piece, emo, umo, san, score, pv);
             Add(hm);
             return hm;
         }
@@ -111,16 +139,10 @@ namespace RapChessGui
             return Last().umo;
         }
 
-        public bool LastWhite()
+        public void SetFen(string f = CChess.defFen)
         {
-            return ((moveNumber + Count) & 1) == 1;
-        }
-
-        public void SetFen(string f = CChess.defFen, int mn = 0)
-        {
-            fen = f;
-            moveNumber = mn;
             Clear();
+            fen = f;
         }
 
         public void SetLength(int l)
@@ -204,10 +226,28 @@ namespace RapChessGui
                 {
                     int pieceType = chess.GetPieceType(emo);
                     chess.MakeMove(umo, out _);
-                    AddMove(chess.GetFen(), chess.halfMove - 1, pieceType, emo, umo, san, words[1], words[2].Trim());
+                    AddMove(chess.GetFen(), pieceType, emo, umo, san, words[1], words[2].Trim());
                 }
             }
 
+        }
+
+        public void AddMoves(string moves,string pv)
+        {
+            CChess chess = new CChess();
+            string[] ml = moves.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+            chess.SetFen(fen);
+            chess.MakeMoves(GetMovesUci());
+            foreach (string san in ml)
+            {
+                if (Char.IsDigit(san, 0))
+                    continue;
+                string umo2 = chess.SanToUmo(san);
+                string san2 = chess.UmoToSan(umo2);
+                if (chess.MakeMove(umo2, out int emo, out int piece))
+                    AddMove(chess.GetFen(), piece, emo, umo2, san2, string.Empty,pv);
+                else break;
+            }
         }
 
     }

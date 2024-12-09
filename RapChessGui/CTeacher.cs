@@ -41,6 +41,7 @@ namespace RapChessGui
         public int cp = 0;
         public int mate = 0;
         public string fen = string.Empty;
+        public string move=string.Empty;
         readonly object locker = new object();
         Process processTeacher = new Process();
         readonly CDataT dataT = new CDataT();
@@ -91,7 +92,7 @@ namespace RapChessGui
                                 int.TryParse(mate, out dt.mate);
                             int index = uci.GetIndex("pv");
                             if (index > 0)
-                                dt.pv = uci.GetValue(index,index+2);
+                                dt.pv = uci.GetValue(index+1,index+2);
                             break;
                     }
                     SetTData(dt);

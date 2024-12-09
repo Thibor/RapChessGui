@@ -43,6 +43,7 @@ namespace RapChessGui
     {
         public static bool dragged = false;
         public static int last = -1;
+        public static int lastSelected = -1;
         public static int lastSou = -1;
         public static int lastDes = -1;
         public static int mouseX = 0;
@@ -64,7 +65,7 @@ namespace RapChessGui
         public static int time = 0;
         public static int error = 0;
 
-        public static void Reset()
+        public static void NewSession()
         {
             played = 0;
             draw = 0;
@@ -348,6 +349,7 @@ namespace RapChessGui
             reps = 0;
             left = 0;
             opponent = String.Empty;
+            CGames.NewSession();
         }
 
     }

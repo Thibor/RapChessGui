@@ -80,7 +80,8 @@ namespace RapChessGui
         /// </summary>
         public int countMovesEngine;
         public CColor colorPlayer = CColor.none;
-        public Color colorArrow = CBoard.Green;
+        public Color arrowColor = CBoard.Green;
+        public int arrowShift = 0;
         public int depthTotal;
         public int depthCount;
         public int msgPriority = 0;
@@ -352,7 +353,7 @@ namespace RapChessGui
             else
             {
                 countMovesEngine++;
-                if (!mate && (depth > 0) && (Math.Abs(scoreI)<500))
+                if (!mate && (depth > 0) && (Math.Abs(scoreI) < 500))
                 {
                     depthCount++;
                     depthTotal += depth;
@@ -537,10 +538,10 @@ namespace RapChessGui
                     SendMessageToEngine("force");
                     foreach (CHis m in FormChess.history)
                         SendMessageToEngine(m.umo);
-                    if (FormChess.history.LastWhite())
-                        SendMessageToEngine("black");
-                    else
+                    if (FormChess.chess.WhiteTurn)
                         SendMessageToEngine("white");
+                    else
+                        SendMessageToEngine("black");
                     SendMessageToEngine("go");
                     gamerEngine.isPositionXb = true;
                 }
@@ -760,12 +761,16 @@ namespace RapChessGui
 
         public CGamer GamerWinner()
         {
-            return this[(FormChess.chess.halfMove & 1) ^ 1];
+            CChess chess = new CChess();
+            chess.SetFen(FormChess.history.Last().fen);
+            return this[(chess.halfMove & 1) ^ 1];
         }
 
         public CGamer GamerLoser()
         {
-            return this[FormChess.chess.halfMove & 1];
+            CChess chess = new CChess();
+            chess.SetFen(FormChess.history.Last().fen);
+            return this[chess.halfMove & 1];
         }
 
         public CGamer GamerHuman()
@@ -826,15 +831,19 @@ namespace RapChessGui
             this[1].SetPlayer(pb);
             this[0].colorPlayer = CColor.white;
             this[1].colorPlayer = CColor.black;
-            this[0].colorArrow = CBoard.Green;
-            this[1].colorArrow = CBoard.Green;
+            this[0].arrowColor = CBoard.Green;
+            this[1].arrowColor = CBoard.Green;
+            this[0].arrowShift = 0;
+            this[1].arrowShift = 0;
             FormLogEngines.WriteHeader(GamerWhite(), GamerBlack());
         }
 
         public void StartAnalysis(string moves = "")
         {
-            this[0].colorArrow = CBoard.Green;
-            this[1].colorArrow = CBoard.Blue;
+            this[0].arrowColor = CBoard.Green;
+            this[1].arrowColor = CBoard.Blue;
+            this[0].arrowShift = -1;
+            this[1].arrowShift = 1;
             foreach (CGamer g in this)
                 if (g.player.IsComputer())
                 {

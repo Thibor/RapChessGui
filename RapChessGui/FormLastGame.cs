@@ -29,7 +29,7 @@ namespace RapChessGui
 			if (Visible == true)
 			{
 				Text = $"Last {lastName}";
-				string path = $"History\\{lastName}.rtf";
+				string path = $@"History\{lastName}.rtf";
 				Text = $"Last {lastName}";
 				if (File.Exists(path))
 					richTextBox1.LoadFile(path);

@@ -252,6 +252,7 @@
       <DependentUpon>FormEditPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="CMSList.cs" />
+    <Compile Include="MistakeList.cs" />
     <Compile Include="Program.cs" />
     <EmbeddedResource Include="FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>

@@ -54,6 +54,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageGame = new System.Windows.Forms.TabPage();
             this.chartGame = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.labAccuracy = new System.Windows.Forms.Label();
             this.butBackward = new System.Windows.Forms.Button();
             this.butForward = new System.Windows.Forms.Button();
             this.butResignation = new System.Windows.Forms.Button();
@@ -190,16 +191,35 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.clipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.clipboardToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.fenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pgnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uciToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.lastToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.matchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tournamentbooksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tournamentenginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tournamentplayersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.trainingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.errorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pgnToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.uciToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fenToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.pgnToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.uciToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.gameToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.matchToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tournamentbooksToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tournamentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tournamentplayersToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.trainingToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.errorToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.clipboardToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.fenToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.pgnToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.uciToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.booksToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.enginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -281,6 +301,8 @@
             this.labEngineB = new System.Windows.Forms.Label();
             this.pbHashB = new System.Windows.Forms.ProgressBar();
             this.chartMain = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.cbEditEngine1 = new System.Windows.Forms.ComboBox();
+            this.cbEditEngine2 = new System.Windows.Forms.ComboBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tssMove = new System.Windows.Forms.ToolStripStatusLabel();
             this.tssInfo = new System.Windows.Forms.ToolStripStatusLabel();
@@ -299,6 +321,19 @@
             this.tabPageGraph = new System.Windows.Forms.TabPage();
             this.labResult = new System.Windows.Forms.Label();
             this.tabPageAnalysis = new System.Windows.Forms.TabPage();
+            this.scAnalysisPgn = new System.Windows.Forms.SplitContainer();
+            this.bAnalysis = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.nudMultiPV = new System.Windows.Forms.NumericUpDown();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.lbGameMoves = new System.Windows.Forms.ListBox();
+            this.lvPgn = new System.Windows.Forms.ListView();
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader31 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader39 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chPgnPv = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tlpChartD = new System.Windows.Forms.TableLayoutPanel();
             this.tlpChartT = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -328,21 +363,6 @@
             this.fileSystemWatcher = new System.IO.FileSystemWatcher();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.scAnalysisPgn = new System.Windows.Forms.SplitContainer();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.lbGameMoves = new System.Windows.Forms.ListBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbEditEngine1 = new System.Windows.Forms.ComboBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.cbEditEngine2 = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.nudMultiPV = new System.Windows.Forms.NumericUpDown();
-            this.bAnalysis = new System.Windows.Forms.Button();
-            this.lvPgn = new System.Windows.Forms.ListView();
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader31 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader39 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chPgnPv = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tabPageGame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartGame)).BeginInit();
@@ -421,6 +441,15 @@
             this.tabControl2.SuspendLayout();
             this.tabPageGraph.SuspendLayout();
             this.tabPageAnalysis.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.scAnalysisPgn)).BeginInit();
+            this.scAnalysisPgn.Panel1.SuspendLayout();
+            this.scAnalysisPgn.Panel2.SuspendLayout();
+            this.scAnalysisPgn.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMultiPV)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.tlpChartD.SuspendLayout();
             this.tlpChartT.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -439,15 +468,6 @@
             this.tlpBlack.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.scAnalysisPgn)).BeginInit();
-            this.scAnalysisPgn.Panel1.SuspendLayout();
-            this.scAnalysisPgn.Panel2.SuspendLayout();
-            this.scAnalysisPgn.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMultiPV)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -472,6 +492,7 @@
             // tabPageGame
             // 
             this.tabPageGame.Controls.Add(this.chartGame);
+            this.tabPageGame.Controls.Add(this.labAccuracy);
             this.tabPageGame.Controls.Add(this.butBackward);
             this.tabPageGame.Controls.Add(this.butForward);
             this.tabPageGame.Controls.Add(this.butResignation);
@@ -509,10 +530,19 @@
             series1.IsVisibleInLegend = false;
             series1.Name = "Series1";
             this.chartGame.Series.Add(series1);
-            this.chartGame.Size = new System.Drawing.Size(331, 341);
+            this.chartGame.Size = new System.Drawing.Size(331, 328);
             this.chartGame.TabIndex = 28;
             this.chartGame.Text = "chart1";
             this.toolTip1.SetToolTip(this.chartGame, "User progress history");
+            // 
+            // labAccuracy
+            // 
+            this.labAccuracy.AutoSize = true;
+            this.labAccuracy.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.labAccuracy.Location = new System.Drawing.Point(3, 446);
+            this.labAccuracy.Name = "labAccuracy";
+            this.labAccuracy.Size = new System.Drawing.Size(0, 13);
+            this.labAccuracy.TabIndex = 29;
             // 
             // butBackward
             // 
@@ -2391,7 +2421,6 @@
             this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.clipboardToolStripMenuItem,
             this.manageToolStripMenuItem,
             this.optionsToolStripMenuItem,
             this.logToolStripMenuItem,
@@ -2401,7 +2430,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 2);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.ShowItemToolTips = true;
-            this.menuStrip1.Size = new System.Drawing.Size(426, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(380, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -2411,93 +2440,242 @@
             this.loadToolStripMenuItem1,
             this.saveToolStripMenuItem1});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.fileToolStripMenuItem.Text = "Position";
             // 
             // loadToolStripMenuItem1
             // 
+            this.loadToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem1,
+            this.clipboardToolStripMenuItem1,
+            this.lastToolStripMenuItem,
+            this.pgnToolStripMenuItem1});
             this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
             this.loadToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
             this.loadToolStripMenuItem1.Text = "Load";
-            this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadToolStripMenuItem1_Click);
             // 
-            // saveToolStripMenuItem1
+            // fileToolStripMenuItem1
             // 
-            this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
-            this.saveToolStripMenuItem1.Text = "Save";
-            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
+            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
+            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(126, 22);
+            this.fileToolStripMenuItem1.Text = "File";
+            this.fileToolStripMenuItem1.Click += new System.EventHandler(this.fileToolStripMenuItem1_Click);
             // 
-            // clipboardToolStripMenuItem
+            // clipboardToolStripMenuItem1
             // 
-            this.clipboardToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadToolStripMenuItem,
-            this.saveToolStripMenuItem});
-            this.clipboardToolStripMenuItem.Name = "clipboardToolStripMenuItem";
-            this.clipboardToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
-            this.clipboardToolStripMenuItem.Text = "Clipboard";
+            this.clipboardToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fenToolStripMenuItem,
+            this.pgnToolStripMenuItem,
+            this.uciToolStripMenuItem2});
+            this.clipboardToolStripMenuItem1.Name = "clipboardToolStripMenuItem1";
+            this.clipboardToolStripMenuItem1.Size = new System.Drawing.Size(126, 22);
+            this.clipboardToolStripMenuItem1.Text = "Clipboard";
             // 
-            // loadToolStripMenuItem
+            // fenToolStripMenuItem
             // 
-            this.loadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fenToolStripMenuItem1,
-            this.pgnToolStripMenuItem1,
-            this.uciToolStripMenuItem});
-            this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.loadToolStripMenuItem.Text = "Load";
+            this.fenToolStripMenuItem.Name = "fenToolStripMenuItem";
+            this.fenToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+            this.fenToolStripMenuItem.Text = "Fen";
+            this.fenToolStripMenuItem.Click += new System.EventHandler(this.fenToolStripMenuItem_Click);
             // 
-            // fenToolStripMenuItem1
+            // pgnToolStripMenuItem
             // 
-            this.fenToolStripMenuItem1.Name = "fenToolStripMenuItem1";
-            this.fenToolStripMenuItem1.Size = new System.Drawing.Size(95, 22);
-            this.fenToolStripMenuItem1.Text = "Fen";
-            this.fenToolStripMenuItem1.Click += new System.EventHandler(this.menuClipboardLoadFen_Click);
+            this.pgnToolStripMenuItem.Name = "pgnToolStripMenuItem";
+            this.pgnToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
+            this.pgnToolStripMenuItem.Text = "Pgn";
+            this.pgnToolStripMenuItem.Click += new System.EventHandler(this.pgnToolStripMenuItem_Click);
+            // 
+            // uciToolStripMenuItem2
+            // 
+            this.uciToolStripMenuItem2.Name = "uciToolStripMenuItem2";
+            this.uciToolStripMenuItem2.Size = new System.Drawing.Size(95, 22);
+            this.uciToolStripMenuItem2.Text = "Uci";
+            this.uciToolStripMenuItem2.Click += new System.EventHandler(this.uciToolStripMenuItem2_Click);
+            // 
+            // lastToolStripMenuItem
+            // 
+            this.lastToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gameToolStripMenuItem,
+            this.matchToolStripMenuItem,
+            this.tournamentbooksToolStripMenuItem,
+            this.tournamentenginesToolStripMenuItem,
+            this.tournamentplayersToolStripMenuItem,
+            this.trainingToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.errorToolStripMenuItem});
+            this.lastToolStripMenuItem.Name = "lastToolStripMenuItem";
+            this.lastToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.lastToolStripMenuItem.Text = "Last";
+            // 
+            // gameToolStripMenuItem
+            // 
+            this.gameToolStripMenuItem.Name = "gameToolStripMenuItem";
+            this.gameToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.gameToolStripMenuItem.Text = "Game";
+            this.gameToolStripMenuItem.Click += new System.EventHandler(this.lastHisLoad_Click);
+            // 
+            // matchToolStripMenuItem
+            // 
+            this.matchToolStripMenuItem.Name = "matchToolStripMenuItem";
+            this.matchToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.matchToolStripMenuItem.Text = "Match";
+            this.matchToolStripMenuItem.Click += new System.EventHandler(this.lastHisLoad_Click);
+            // 
+            // tournamentbooksToolStripMenuItem
+            // 
+            this.tournamentbooksToolStripMenuItem.Name = "tournamentbooksToolStripMenuItem";
+            this.tournamentbooksToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.tournamentbooksToolStripMenuItem.Text = "Tournament-books";
+            this.tournamentbooksToolStripMenuItem.Click += new System.EventHandler(this.lastHisLoad_Click);
+            // 
+            // tournamentenginesToolStripMenuItem
+            // 
+            this.tournamentenginesToolStripMenuItem.Name = "tournamentenginesToolStripMenuItem";
+            this.tournamentenginesToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.tournamentenginesToolStripMenuItem.Text = "Tournament-engines";
+            this.tournamentenginesToolStripMenuItem.Click += new System.EventHandler(this.lastHisLoad_Click);
+            // 
+            // tournamentplayersToolStripMenuItem
+            // 
+            this.tournamentplayersToolStripMenuItem.Name = "tournamentplayersToolStripMenuItem";
+            this.tournamentplayersToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.tournamentplayersToolStripMenuItem.Text = "Tournament-players";
+            this.tournamentplayersToolStripMenuItem.Click += new System.EventHandler(this.lastHisLoad_Click);
+            // 
+            // trainingToolStripMenuItem
+            // 
+            this.trainingToolStripMenuItem.Name = "trainingToolStripMenuItem";
+            this.trainingToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.trainingToolStripMenuItem.Text = "Training";
+            this.trainingToolStripMenuItem.Click += new System.EventHandler(this.lastHisLoad_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(182, 6);
+            // 
+            // errorToolStripMenuItem
+            // 
+            this.errorToolStripMenuItem.Name = "errorToolStripMenuItem";
+            this.errorToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.errorToolStripMenuItem.Text = "Error";
+            this.errorToolStripMenuItem.Click += new System.EventHandler(this.lastHisLoad_Click);
             // 
             // pgnToolStripMenuItem1
             // 
+            this.pgnToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.gameToolStripMenuItem1,
+            this.matchToolStripMenuItem1,
+            this.tournamentbooksToolStripMenuItem1,
+            this.tournamentToolStripMenuItem,
+            this.tournamentplayersToolStripMenuItem1,
+            this.trainingToolStripMenuItem1,
+            this.toolStripMenuItem4,
+            this.errorToolStripMenuItem1});
             this.pgnToolStripMenuItem1.Name = "pgnToolStripMenuItem1";
-            this.pgnToolStripMenuItem1.Size = new System.Drawing.Size(95, 22);
+            this.pgnToolStripMenuItem1.Size = new System.Drawing.Size(126, 22);
             this.pgnToolStripMenuItem1.Text = "Pgn";
-            this.pgnToolStripMenuItem1.Click += new System.EventHandler(this.pgnToolStripMenuItem1_Click);
             // 
-            // uciToolStripMenuItem
+            // gameToolStripMenuItem1
             // 
-            this.uciToolStripMenuItem.Name = "uciToolStripMenuItem";
-            this.uciToolStripMenuItem.Size = new System.Drawing.Size(95, 22);
-            this.uciToolStripMenuItem.Text = "Uci";
-            this.uciToolStripMenuItem.Click += new System.EventHandler(this.uciToolStripMenuItem_Click);
+            this.gameToolStripMenuItem1.Name = "gameToolStripMenuItem1";
+            this.gameToolStripMenuItem1.Size = new System.Drawing.Size(185, 22);
+            this.gameToolStripMenuItem1.Text = "Game";
+            this.gameToolStripMenuItem1.Click += new System.EventHandler(this.gameToolStripMenuItem1_Click);
             // 
-            // saveToolStripMenuItem
+            // matchToolStripMenuItem1
             // 
-            this.saveToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fenToolStripMenuItem2,
-            this.pgnToolStripMenuItem2,
-            this.uciToolStripMenuItem1});
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.saveToolStripMenuItem.Text = "Save";
+            this.matchToolStripMenuItem1.Name = "matchToolStripMenuItem1";
+            this.matchToolStripMenuItem1.Size = new System.Drawing.Size(185, 22);
+            this.matchToolStripMenuItem1.Text = "Match";
+            this.matchToolStripMenuItem1.Click += new System.EventHandler(this.gameToolStripMenuItem1_Click);
             // 
-            // fenToolStripMenuItem2
+            // tournamentbooksToolStripMenuItem1
             // 
-            this.fenToolStripMenuItem2.Name = "fenToolStripMenuItem2";
-            this.fenToolStripMenuItem2.Size = new System.Drawing.Size(95, 22);
-            this.fenToolStripMenuItem2.Text = "Fen";
-            this.fenToolStripMenuItem2.Click += new System.EventHandler(this.fenToolStripMenuItem2_Click);
+            this.tournamentbooksToolStripMenuItem1.Name = "tournamentbooksToolStripMenuItem1";
+            this.tournamentbooksToolStripMenuItem1.Size = new System.Drawing.Size(185, 22);
+            this.tournamentbooksToolStripMenuItem1.Text = "Tournament-books";
+            this.tournamentbooksToolStripMenuItem1.Click += new System.EventHandler(this.gameToolStripMenuItem1_Click);
             // 
-            // pgnToolStripMenuItem2
+            // tournamentToolStripMenuItem
             // 
-            this.pgnToolStripMenuItem2.Name = "pgnToolStripMenuItem2";
-            this.pgnToolStripMenuItem2.Size = new System.Drawing.Size(95, 22);
-            this.pgnToolStripMenuItem2.Text = "Pgn";
-            this.pgnToolStripMenuItem2.Click += new System.EventHandler(this.pgnToolStripMenuItem2_Click);
+            this.tournamentToolStripMenuItem.Name = "tournamentToolStripMenuItem";
+            this.tournamentToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.tournamentToolStripMenuItem.Text = "Tournament-engines";
+            this.tournamentToolStripMenuItem.Click += new System.EventHandler(this.gameToolStripMenuItem1_Click);
             // 
-            // uciToolStripMenuItem1
+            // tournamentplayersToolStripMenuItem1
             // 
-            this.uciToolStripMenuItem1.Name = "uciToolStripMenuItem1";
-            this.uciToolStripMenuItem1.Size = new System.Drawing.Size(95, 22);
-            this.uciToolStripMenuItem1.Text = "Uci";
-            this.uciToolStripMenuItem1.Click += new System.EventHandler(this.uciToolStripMenuItem1_Click);
+            this.tournamentplayersToolStripMenuItem1.Name = "tournamentplayersToolStripMenuItem1";
+            this.tournamentplayersToolStripMenuItem1.Size = new System.Drawing.Size(185, 22);
+            this.tournamentplayersToolStripMenuItem1.Text = "Tournament-players";
+            this.tournamentplayersToolStripMenuItem1.Click += new System.EventHandler(this.gameToolStripMenuItem1_Click);
+            // 
+            // trainingToolStripMenuItem1
+            // 
+            this.trainingToolStripMenuItem1.Name = "trainingToolStripMenuItem1";
+            this.trainingToolStripMenuItem1.Size = new System.Drawing.Size(185, 22);
+            this.trainingToolStripMenuItem1.Text = "Training";
+            this.trainingToolStripMenuItem1.Click += new System.EventHandler(this.gameToolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(182, 6);
+            // 
+            // errorToolStripMenuItem1
+            // 
+            this.errorToolStripMenuItem1.Name = "errorToolStripMenuItem1";
+            this.errorToolStripMenuItem1.Size = new System.Drawing.Size(185, 22);
+            this.errorToolStripMenuItem1.Text = "Error";
+            this.errorToolStripMenuItem1.Click += new System.EventHandler(this.gameToolStripMenuItem1_Click);
+            // 
+            // saveToolStripMenuItem1
+            // 
+            this.saveToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem2,
+            this.clipboardToolStripMenuItem2});
+            this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.saveToolStripMenuItem1.Text = "Save";
+            // 
+            // fileToolStripMenuItem2
+            // 
+            this.fileToolStripMenuItem2.Name = "fileToolStripMenuItem2";
+            this.fileToolStripMenuItem2.Size = new System.Drawing.Size(126, 22);
+            this.fileToolStripMenuItem2.Text = "File";
+            this.fileToolStripMenuItem2.Click += new System.EventHandler(this.fileToolStripMenuItem2_Click);
+            // 
+            // clipboardToolStripMenuItem2
+            // 
+            this.clipboardToolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fenToolStripMenuItem3,
+            this.pgnToolStripMenuItem3,
+            this.uciToolStripMenuItem3});
+            this.clipboardToolStripMenuItem2.Name = "clipboardToolStripMenuItem2";
+            this.clipboardToolStripMenuItem2.Size = new System.Drawing.Size(126, 22);
+            this.clipboardToolStripMenuItem2.Text = "Clipboard";
+            // 
+            // fenToolStripMenuItem3
+            // 
+            this.fenToolStripMenuItem3.Name = "fenToolStripMenuItem3";
+            this.fenToolStripMenuItem3.Size = new System.Drawing.Size(95, 22);
+            this.fenToolStripMenuItem3.Text = "Fen";
+            this.fenToolStripMenuItem3.Click += new System.EventHandler(this.fenToolStripMenuItem3_Click);
+            // 
+            // pgnToolStripMenuItem3
+            // 
+            this.pgnToolStripMenuItem3.Name = "pgnToolStripMenuItem3";
+            this.pgnToolStripMenuItem3.Size = new System.Drawing.Size(95, 22);
+            this.pgnToolStripMenuItem3.Text = "Pgn";
+            this.pgnToolStripMenuItem3.Click += new System.EventHandler(this.pgnToolStripMenuItem3_Click);
+            // 
+            // uciToolStripMenuItem3
+            // 
+            this.uciToolStripMenuItem3.Name = "uciToolStripMenuItem3";
+            this.uciToolStripMenuItem3.Size = new System.Drawing.Size(95, 22);
+            this.uciToolStripMenuItem3.Text = "Uci";
+            this.uciToolStripMenuItem3.Click += new System.EventHandler(this.uciToolStripMenuItem3_Click);
             // 
             // manageToolStripMenuItem
             // 
@@ -3588,11 +3766,35 @@
             series14.Name = "Series2";
             this.chartMain.Series.Add(series13);
             this.chartMain.Series.Add(series14);
-            this.chartMain.Size = new System.Drawing.Size(395, 137);
+            this.chartMain.Size = new System.Drawing.Size(395, 160);
             this.chartMain.TabIndex = 3;
             this.chartMain.Text = "chart1";
             this.toolTip1.SetToolTip(this.chartMain, "Graphic representation of the game scores white player is  represent by light bar" +
         "s black player is represent by dark bars");
+            // 
+            // cbEditEngine1
+            // 
+            this.cbEditEngine1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbEditEngine1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbEditEngine1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbEditEngine1.Location = new System.Drawing.Point(3, 16);
+            this.cbEditEngine1.Name = "cbEditEngine1";
+            this.cbEditEngine1.Size = new System.Drawing.Size(60, 21);
+            this.cbEditEngine1.Sorted = true;
+            this.cbEditEngine1.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.cbEditEngine1, "Select engine");
+            // 
+            // cbEditEngine2
+            // 
+            this.cbEditEngine2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbEditEngine2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbEditEngine2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbEditEngine2.Location = new System.Drawing.Point(3, 16);
+            this.cbEditEngine2.Name = "cbEditEngine2";
+            this.cbEditEngine2.Size = new System.Drawing.Size(60, 21);
+            this.cbEditEngine2.Sorted = true;
+            this.cbEditEngine2.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.cbEditEngine2, "Select engine");
             // 
             // statusStrip1
             // 
@@ -3783,6 +3985,7 @@
             this.lvMoves.UseCompatibleStateImageBehavior = false;
             this.lvMoves.View = System.Windows.Forms.View.Details;
             this.lvMoves.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvMoves_ItemSelectionChanged);
+            this.lvMoves.DoubleClick += new System.EventHandler(this.lvMoves_DoubleClick);
             this.lvMoves.Resize += new System.EventHandler(this.lvMoves_Resize);
             // 
             // columnHeader3
@@ -3820,7 +4023,7 @@
             this.tabPageGraph.Location = new System.Drawing.Point(4, 5);
             this.tabPageGraph.Name = "tabPageGraph";
             this.tabPageGraph.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGraph.Size = new System.Drawing.Size(401, 177);
+            this.tabPageGraph.Size = new System.Drawing.Size(401, 200);
             this.tabPageGraph.TabIndex = 0;
             this.tabPageGraph.UseVisualStyleBackColor = true;
             // 
@@ -3845,6 +4048,158 @@
             this.tabPageAnalysis.Size = new System.Drawing.Size(401, 200);
             this.tabPageAnalysis.TabIndex = 1;
             this.tabPageAnalysis.UseVisualStyleBackColor = true;
+            // 
+            // scAnalysisPgn
+            // 
+            this.scAnalysisPgn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scAnalysisPgn.Location = new System.Drawing.Point(3, 3);
+            this.scAnalysisPgn.Name = "scAnalysisPgn";
+            // 
+            // scAnalysisPgn.Panel1
+            // 
+            this.scAnalysisPgn.Panel1.Controls.Add(this.bAnalysis);
+            this.scAnalysisPgn.Panel1.Controls.Add(this.groupBox2);
+            this.scAnalysisPgn.Panel1.Controls.Add(this.groupBox5);
+            this.scAnalysisPgn.Panel1.Controls.Add(this.groupBox1);
+            this.scAnalysisPgn.Panel1.Controls.Add(this.groupBox6);
+            // 
+            // scAnalysisPgn.Panel2
+            // 
+            this.scAnalysisPgn.Panel2.Controls.Add(this.lvPgn);
+            this.scAnalysisPgn.Size = new System.Drawing.Size(395, 194);
+            this.scAnalysisPgn.SplitterDistance = 138;
+            this.scAnalysisPgn.TabIndex = 25;
+            // 
+            // bAnalysis
+            // 
+            this.bAnalysis.Dock = System.Windows.Forms.DockStyle.Top;
+            this.bAnalysis.Location = new System.Drawing.Point(0, 141);
+            this.bAnalysis.Name = "bAnalysis";
+            this.bAnalysis.Size = new System.Drawing.Size(66, 24);
+            this.bAnalysis.TabIndex = 29;
+            this.bAnalysis.Text = "Analysis";
+            this.bAnalysis.UseVisualStyleBackColor = true;
+            this.bAnalysis.Click += new System.EventHandler(this.bAnalysis_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.nudMultiPV);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Location = new System.Drawing.Point(0, 94);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.groupBox2.Size = new System.Drawing.Size(66, 47);
+            this.groupBox2.TabIndex = 28;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "MultiPV";
+            // 
+            // nudMultiPV
+            // 
+            this.nudMultiPV.Dock = System.Windows.Forms.DockStyle.Top;
+            this.nudMultiPV.Location = new System.Drawing.Point(3, 16);
+            this.nudMultiPV.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudMultiPV.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudMultiPV.Name = "nudMultiPV";
+            this.nudMultiPV.Size = new System.Drawing.Size(60, 20);
+            this.nudMultiPV.TabIndex = 9;
+            this.nudMultiPV.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.cbEditEngine2);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox5.Location = new System.Drawing.Point(0, 47);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(66, 47);
+            this.groupBox5.TabIndex = 27;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Engine 2";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cbEditEngine1);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(66, 47);
+            this.groupBox1.TabIndex = 26;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Engine 1";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.lbGameMoves);
+            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Right;
+            this.groupBox6.Location = new System.Drawing.Point(66, 0);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(72, 194);
+            this.groupBox6.TabIndex = 25;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Moves";
+            // 
+            // lbGameMoves
+            // 
+            this.lbGameMoves.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbGameMoves.FormattingEnabled = true;
+            this.lbGameMoves.Location = new System.Drawing.Point(3, 16);
+            this.lbGameMoves.Name = "lbGameMoves";
+            this.lbGameMoves.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbGameMoves.Size = new System.Drawing.Size(66, 175);
+            this.lbGameMoves.TabIndex = 0;
+            // 
+            // lvPgn
+            // 
+            this.lvPgn.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader5,
+            this.columnHeader31,
+            this.columnHeader39,
+            this.chPgnPv});
+            this.lvPgn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lvPgn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvPgn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lvPgn.FullRowSelect = true;
+            this.lvPgn.GridLines = true;
+            this.lvPgn.HideSelection = false;
+            this.lvPgn.Location = new System.Drawing.Point(0, 0);
+            this.lvPgn.MultiSelect = false;
+            this.lvPgn.Name = "lvPgn";
+            this.lvPgn.ShowGroups = false;
+            this.lvPgn.Size = new System.Drawing.Size(253, 194);
+            this.lvPgn.TabIndex = 28;
+            this.lvPgn.UseCompatibleStateImageBehavior = false;
+            this.lvPgn.View = System.Windows.Forms.View.Details;
+            this.lvPgn.SelectedIndexChanged += new System.EventHandler(this.lvPgn_SelectedIndexChanged);
+            this.lvPgn.SizeChanged += new System.EventHandler(this.listView1_SizeChanged);
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "Number";
+            // 
+            // columnHeader31
+            // 
+            this.columnHeader31.Text = "White";
+            this.columnHeader31.Width = 80;
+            // 
+            // columnHeader39
+            // 
+            this.columnHeader39.Text = "Black";
+            this.columnHeader39.Width = 80;
+            // 
+            // chPgnPv
+            // 
+            this.chPgnPv.Text = "Moves";
             // 
             // tlpChartD
             // 
@@ -3943,6 +4298,7 @@
             this.columnHeader14,
             this.columnHeader15,
             this.columnHeader16});
+            this.lvMovesW.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lvMovesW.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvMovesW.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.lvMovesW.FullRowSelect = true;
@@ -3957,6 +4313,7 @@
             this.lvMovesW.TabIndex = 32;
             this.lvMovesW.UseCompatibleStateImageBehavior = false;
             this.lvMovesW.View = System.Windows.Forms.View.Details;
+            this.lvMovesW.DoubleClick += new System.EventHandler(this.lvMovesW_DoubleClick);
             this.lvMovesW.Resize += new System.EventHandler(this.lvLines_Resize);
             // 
             // columnHeader11
@@ -4057,6 +4414,7 @@
             this.columnHeader20,
             this.columnHeader21,
             this.columnHeader22});
+            this.lvMovesB.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lvMovesB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvMovesB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.lvMovesB.FullRowSelect = true;
@@ -4071,6 +4429,7 @@
             this.lvMovesB.TabIndex = 32;
             this.lvMovesB.UseCompatibleStateImageBehavior = false;
             this.lvMovesB.View = System.Windows.Forms.View.Details;
+            this.lvMovesB.DoubleClick += new System.EventHandler(this.lvMovesW_DoubleClick);
             this.lvMovesB.Resize += new System.EventHandler(this.lvLines_Resize);
             // 
             // columnHeader17
@@ -4190,182 +4549,6 @@
             this.saveFileDialog1.Filter = "Fen|*.fen|Pgn|*.pgn|Uci|*.uci|His|*.his";
             this.saveFileDialog1.Title = "Save position";
             // 
-            // scAnalysisPgn
-            // 
-            this.scAnalysisPgn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scAnalysisPgn.Location = new System.Drawing.Point(3, 3);
-            this.scAnalysisPgn.Name = "scAnalysisPgn";
-            // 
-            // scAnalysisPgn.Panel1
-            // 
-            this.scAnalysisPgn.Panel1.Controls.Add(this.bAnalysis);
-            this.scAnalysisPgn.Panel1.Controls.Add(this.groupBox2);
-            this.scAnalysisPgn.Panel1.Controls.Add(this.groupBox5);
-            this.scAnalysisPgn.Panel1.Controls.Add(this.groupBox1);
-            this.scAnalysisPgn.Panel1.Controls.Add(this.groupBox6);
-            // 
-            // scAnalysisPgn.Panel2
-            // 
-            this.scAnalysisPgn.Panel2.Controls.Add(this.lvPgn);
-            this.scAnalysisPgn.Size = new System.Drawing.Size(395, 194);
-            this.scAnalysisPgn.SplitterDistance = 138;
-            this.scAnalysisPgn.TabIndex = 25;
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.lbGameMoves);
-            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Right;
-            this.groupBox6.Location = new System.Drawing.Point(66, 0);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(72, 194);
-            this.groupBox6.TabIndex = 25;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Moves";
-            // 
-            // lbGameMoves
-            // 
-            this.lbGameMoves.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbGameMoves.FormattingEnabled = true;
-            this.lbGameMoves.Location = new System.Drawing.Point(3, 16);
-            this.lbGameMoves.Name = "lbGameMoves";
-            this.lbGameMoves.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbGameMoves.Size = new System.Drawing.Size(66, 175);
-            this.lbGameMoves.TabIndex = 0;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.cbEditEngine1);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(66, 47);
-            this.groupBox1.TabIndex = 26;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Engine 1";
-            // 
-            // cbEditEngine1
-            // 
-            this.cbEditEngine1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cbEditEngine1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cbEditEngine1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbEditEngine1.Location = new System.Drawing.Point(3, 16);
-            this.cbEditEngine1.Name = "cbEditEngine1";
-            this.cbEditEngine1.Size = new System.Drawing.Size(60, 21);
-            this.cbEditEngine1.Sorted = true;
-            this.cbEditEngine1.TabIndex = 2;
-            this.toolTip1.SetToolTip(this.cbEditEngine1, "Select engine");
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.cbEditEngine2);
-            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Location = new System.Drawing.Point(0, 47);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(66, 47);
-            this.groupBox5.TabIndex = 27;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Engine 2";
-            // 
-            // cbEditEngine2
-            // 
-            this.cbEditEngine2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cbEditEngine2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cbEditEngine2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbEditEngine2.Location = new System.Drawing.Point(3, 16);
-            this.cbEditEngine2.Name = "cbEditEngine2";
-            this.cbEditEngine2.Size = new System.Drawing.Size(60, 21);
-            this.cbEditEngine2.Sorted = true;
-            this.cbEditEngine2.TabIndex = 2;
-            this.toolTip1.SetToolTip(this.cbEditEngine2, "Select engine");
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.nudMultiPV);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(0, 94);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.groupBox2.Size = new System.Drawing.Size(66, 47);
-            this.groupBox2.TabIndex = 28;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "MultiPV";
-            // 
-            // nudMultiPV
-            // 
-            this.nudMultiPV.Dock = System.Windows.Forms.DockStyle.Top;
-            this.nudMultiPV.Location = new System.Drawing.Point(3, 16);
-            this.nudMultiPV.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nudMultiPV.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudMultiPV.Name = "nudMultiPV";
-            this.nudMultiPV.Size = new System.Drawing.Size(60, 20);
-            this.nudMultiPV.TabIndex = 9;
-            this.nudMultiPV.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // bAnalysis
-            // 
-            this.bAnalysis.Dock = System.Windows.Forms.DockStyle.Top;
-            this.bAnalysis.Location = new System.Drawing.Point(0, 141);
-            this.bAnalysis.Name = "bAnalysis";
-            this.bAnalysis.Size = new System.Drawing.Size(66, 24);
-            this.bAnalysis.TabIndex = 29;
-            this.bAnalysis.Text = "Analysis";
-            this.bAnalysis.UseVisualStyleBackColor = true;
-            this.bAnalysis.Click += new System.EventHandler(this.bAnalysis_Click);
-            // 
-            // lvPgn
-            // 
-            this.lvPgn.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader5,
-            this.columnHeader31,
-            this.columnHeader39,
-            this.chPgnPv});
-            this.lvPgn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lvPgn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvPgn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lvPgn.FullRowSelect = true;
-            this.lvPgn.GridLines = true;
-            this.lvPgn.HideSelection = false;
-            this.lvPgn.Location = new System.Drawing.Point(0, 0);
-            this.lvPgn.MultiSelect = false;
-            this.lvPgn.Name = "lvPgn";
-            this.lvPgn.ShowGroups = false;
-            this.lvPgn.Size = new System.Drawing.Size(253, 194);
-            this.lvPgn.TabIndex = 28;
-            this.lvPgn.UseCompatibleStateImageBehavior = false;
-            this.lvPgn.View = System.Windows.Forms.View.Details;
-            this.lvPgn.SelectedIndexChanged += new System.EventHandler(this.lvPgn_SelectedIndexChanged);
-            this.lvPgn.SizeChanged += new System.EventHandler(this.listView1_SizeChanged);
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "Number";
-            // 
-            // columnHeader31
-            // 
-            this.columnHeader31.Text = "White";
-            this.columnHeader31.Width = 80;
-            // 
-            // columnHeader39
-            // 
-            this.columnHeader39.Text = "Black";
-            this.columnHeader39.Width = 80;
-            // 
-            // chPgnPv
-            // 
-            this.chPgnPv.Text = "Moves";
-            // 
             // FormChess
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4385,6 +4568,7 @@
             this.Resize += new System.EventHandler(this.FormChess_Resize);
             this.tabControl1.ResumeLayout(false);
             this.tabPageGame.ResumeLayout(false);
+            this.tabPageGame.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartGame)).EndInit();
             this.tabPageMatch.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartMatch)).EndInit();
@@ -4467,6 +4651,15 @@
             this.tabControl2.ResumeLayout(false);
             this.tabPageGraph.ResumeLayout(false);
             this.tabPageAnalysis.ResumeLayout(false);
+            this.scAnalysisPgn.Panel1.ResumeLayout(false);
+            this.scAnalysisPgn.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.scAnalysisPgn)).EndInit();
+            this.scAnalysisPgn.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.nudMultiPV)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
             this.tlpChartD.ResumeLayout(false);
             this.tlpChartT.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
@@ -4485,15 +4678,6 @@
             this.tlpBlack.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher)).EndInit();
-            this.scAnalysisPgn.Panel1.ResumeLayout(false);
-            this.scAnalysisPgn.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.scAnalysisPgn)).EndInit();
-            this.scAnalysisPgn.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.nudMultiPV)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4684,15 +4868,6 @@
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.ToolStripMenuItem lastTournamentbooksToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem booksToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem clipboardToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem fenToolStripMenuItem1;
-		private System.Windows.Forms.ToolStripMenuItem pgnToolStripMenuItem1;
-		private System.Windows.Forms.ToolStripMenuItem uciToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem fenToolStripMenuItem2;
-		private System.Windows.Forms.ToolStripMenuItem pgnToolStripMenuItem2;
-		private System.Windows.Forms.ToolStripMenuItem uciToolStripMenuItem1;
 		private System.Windows.Forms.GroupBox groupBox12;
 		private System.Windows.Forms.TextBox tbFen;
 		private System.Windows.Forms.Button button2;
@@ -4792,6 +4967,35 @@
         private System.Windows.Forms.ColumnHeader columnHeader31;
         private System.Windows.Forms.ColumnHeader columnHeader39;
         private System.Windows.Forms.ColumnHeader chPgnPv;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem clipboardToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem fenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pgnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uciToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem clipboardToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem fenToolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem pgnToolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem uciToolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem lastToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem matchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tournamentbooksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tournamentenginesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tournamentplayersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem trainingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem errorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pgnToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem gameToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem matchToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem tournamentbooksToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem tournamentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tournamentplayersToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem trainingToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem errorToolStripMenuItem1;
+        private System.Windows.Forms.Label labAccuracy;
     }
 }
 

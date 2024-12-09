@@ -14,6 +14,7 @@ using System.Media;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace RapChessGui
 {
@@ -72,6 +73,7 @@ namespace RapChessGui
         public static CGamers gamers = new CGamers();
         readonly CEloAcc eloAcc = new CEloAcc();
         readonly CTeacher teacher = new CTeacher();
+        readonly MistakeList mistakeList = new MistakeList();
 
         #endregion variable
 
@@ -179,6 +181,8 @@ namespace RapChessGui
             ini.Write("position>height", height);
             ini.Write("position>x", x);
             ini.Write("position>y", y);
+            ini.Write("openDialog", openFileDialog1.FilterIndex);
+            ini.Write("saveDialog", saveFileDialog1.FilterIndex);
             SplitSaveToIni();
             CListBook.iniFile.Save();
             CListEngine.iniFile.Save();
@@ -207,6 +211,8 @@ namespace RapChessGui
             Location = new Point(x, y);
             if (ini.ReadBool("position>maximized", false))
                 WindowState = FormWindowState.Maximized;
+            openFileDialog1.FilterIndex = ini.ReadInt("openDialog", 1);
+            saveFileDialog1.FilterIndex = ini.ReadInt("saveDialog", 1);
             SplitLoadFromIni();
             readerList.LoadFromIni();
             bookList.LoadFromIni();
@@ -298,7 +304,7 @@ namespace RapChessGui
                 string umo2 = chess.SanToUmo(san);
                 string san2 = chess.UmoToSan(umo2);
                 if (chess.MakeMove(umo2, out int emo, out int piece))
-                    history.AddMove(chess.GetFen(), chess.halfMove - 1, piece, emo, umo2, san2, string.Empty, string.Empty);
+                    history.AddMove(chess.GetFen(), piece, emo, umo2, san2, string.Empty, string.Empty);
                 else break;
             }
             CChess.UmoToSD(history.LastUmo(), out CDrag.lastSou, out CDrag.lastDes);
@@ -307,28 +313,16 @@ namespace RapChessGui
             HistoryToLvMovesExt();
         }
 
-        void SetHistory()
-        {
-            cbGameMode.SelectedIndex = (int)CGameMode.edit;
-            HistoryToChess();
-            HistoryToLvMovesExt();
-            board.ClearArrows();
-            board.Fill();
-            board.StartAnimation();
-            RenderBoard(true);
-        }
-
-
         void LoadPgn(string fileName)
         {
             cbGameMode.SelectedIndex = (int)CGameMode.edit;
             int number = 0;
             string[] lines = File.ReadAllLines(fileName);
-            string w="white";
-            string b="black";
-            string pv=string.Empty;
+            string w = "white";
+            string b = "black";
+            string pv = string.Empty;
             lvPgn.Items.Clear();
-            foreach(string line in lines)
+            foreach (string line in lines)
             {
                 string[] words = line.Split();
                 if (words.Length < 2)
@@ -337,14 +331,14 @@ namespace RapChessGui
                 if (word == "[white")
                     w = words[1].Trim(new Char[] { '"', ']' });
                 if (word == "[black")
-                    b = words[1].Trim(new Char[] { '"', ']'});
+                    b = words[1].Trim(new Char[] { '"', ']' });
                 if (word == "1.")
                 {
-                    ListViewItem lvItem = new ListViewItem(new[] { (++number).ToString(), w, b, line});
+                    ListViewItem lvItem = new ListViewItem(new[] { (++number).ToString(), w, b, line });
                     lvPgn.Items.Add(lvItem);
-                     w = "white";
-                     b = "black";
-                    }
+                    w = "white";
+                    b = "black";
+                }
             }
         }
 
@@ -366,12 +360,22 @@ namespace RapChessGui
             }
         }
 
+        void SetHistory()
+        {
+            HistoryToChess();
+            HistoryToLvMovesExt();
+            board.ClearArrows();
+            board.Fill();
+            board.StartAnimation();
+            RenderBoard(true);
+        }
+
         private void LoadHis(string fileName)
         {
+            cbGameMode.SelectedIndex = (int)CGameMode.edit;
             history.LoadFromFile(fileName);
             SetHistory();
         }
-
 
         void ShowFormBook(string bookName = "")
         {
@@ -452,65 +456,81 @@ namespace RapChessGui
                 ShowInfo(gamers.GamerCur());
                 ShowInfo(gamers.GamerSec());
             }
-            if (teacher.IsStarted())
-            {
-                CDataT dt = teacher.GetTData();
-                if (dt.done)
+            if (CData.gameMode == CGameMode.game)
+                if (teacher.IsStarted())
                 {
-                    CHis h = history[teacher.index];
-                    dt.started = false;
-                    teacher.SetTData(dt);
-                    if (teacher.firstPhase)
+                    CDataT dt = teacher.GetTData();
+                    if (dt.done)
                     {
-                        h.bstMoves = dt.pv;
-                        teacher.cp = dt.cp;
-                        teacher.mate = dt.mate;
-                        if (h.umo == dt.move)
-                            h.pv = "perfect";
+                        CHis h = history[teacher.index];
+                        dt.started = false;
+                        teacher.SetTData(dt);
+                        if (teacher.firstPhase)
+                        {
+                            h.pvBst = dt.pv;
+                            teacher.move = dt.move;
+                            teacher.cp = dt.cp;
+                            teacher.mate = dt.mate;
+                            if (h.umo == dt.move)
+                                h.pv = "perfect";
+                            else
+                                teacher.Start(h.umo);
+                        }
                         else
-                            teacher.Start(h.umo);
+                        {
+                            double wc1 = CEloAcc.WiningChances(teacher.cp, teacher.mate);
+                            double wc2 = CEloAcc.WiningChances(dt.cp, dt.mate);
+                            double loss = wc1 - wc2;
+                            if (loss >= 30)
+                            {
+                                h.pv = "blunder";
+                                CModeGame.blunder++;
+                            }
+                            else if (loss >= 20)
+                            {
+                                CModeGame.mistake++;
+                                h.pv = "mistake";
+                            }
+                            else if (loss >= 10)
+                            {
+                                CModeGame.inaccuracy++;
+                                h.pv = "inaccuracy";
+                            }
+                            else if (loss >= 1)
+                                h.pv = "good";
+                            else if (loss > 0)
+                                h.pv = "very good";
+                            else h.pv = "perfect";
+                            h.pvCur = dt.pv;
+                            if (loss >= 20)
+                                mistakeList.AddEpd(teacher.fen, teacher.depth, teacher.move, teacher.cp, teacher.mate);
+                            CModeGame.accuracyC++;
+                            CModeGame.accuracyS += CEloAcc.GetAccuracy(wc1, wc2);
+                            labAccuracy.Text = CModeGame.Info();
+                        }
+                        if (dt.mate > 0)
+                            h.score = $"+{dt.mate}M";
+                        else if (dt.mate < 0)
+                            h.score = $"{dt.mate}M";
+                        else
+                            h.score = dt.cp.ToString();
+                        HistoryToLvMoves();
                     }
-                    else
-                    {
-                        double wc1 = CEloAcc.WiningChances(teacher.cp, teacher.mate);
-                        double wc2 = CEloAcc.WiningChances(dt.cp, dt.mate);
-                        double loss = wc1 - wc2;
-                        if (loss >= 30)
-                            h.pv = "blunder";
-                        else if (loss >= 20)
-                            h.pv = "mistake";
-                        else if (loss >= 10)
-                            h.pv = "inaccuracy";
-                        else if (loss >= 1)
-                            h.pv = "good";
-                        else if (loss > 0)
-                            h.pv = "very good";
-                        else h.pv = "perfect";
-                        h.pvCur = dt.pv;
-                    }
-                    if (dt.mate > 0)
-                        h.score = $"+{dt.mate}M";
-                    else if (dt.mate < 0)
-                        h.score = $"{dt.mate}M";
-                    else
-                        h.score = dt.cp.ToString();
-                    HistoryToLvMoves();
                 }
-            }
-            else
-            {
-                for (int n = 0; n < history.Count; n++)
+                else
                 {
-                    CHis h = history[n];
-                    string fen = n > 0 ? history[n - 1].fen : history.fen;
-                    if (string.IsNullOrEmpty(h.score) && string.IsNullOrEmpty(h.pv))
+                    for (int n = 0; n < history.Count; n++)
                     {
-                        teacher.index = n;
-                        teacher.Start(fen, (int)formOptions.nudTeacherDepth.Value);
-                        break;
+                        CHis h = history[n];
+                        string fen = n > 0 ? history[n - 1].fen : history.fen;
+                        if (string.IsNullOrEmpty(h.score) && string.IsNullOrEmpty(h.pv))
+                        {
+                            teacher.index = n;
+                            teacher.Start(fen, (int)formOptions.nudTeacherDepth.Value);
+                            break;
+                        }
                     }
                 }
-            }
         }
 
         void ComClear()
@@ -527,13 +547,15 @@ namespace RapChessGui
             labResult.Hide();
             chartMain.Series[0].Points.Clear();
             chartMain.Series[1].Points.Clear();
-            lvMoves.Items.Clear();
+            if (CData.gameMode != CGameMode.edit)
+                lvMoves.Items.Clear();
             lvMovesW.Items.Clear();
             lvMovesB.Items.Clear();
             string fen = (cbGameMode.Text == cbApply.Text) || (CData.gameMode == CGameMode.edit) ? CModeEdit.fen : CChess.defFen;
             PrepareFen(fen);
             gamers.InitNewGame();
             gamers.Terminate();
+            AnalysisStop();
         }
 
         void ComShow(bool wait = false)
@@ -621,7 +643,7 @@ namespace RapChessGui
             CDrag.lastSou = -1;
             CDrag.lastDes = -1;
             chess.SetFen(fen);
-            history.SetFen(chess.GetFen(), chess.halfMove);
+            history.SetFen(chess.GetFen());
             board.ClearArrows();
             board.ClearColors();
             board.Fill();
@@ -653,8 +675,8 @@ namespace RapChessGui
             pictureBoxB.Image = bmpB;
             if (CData.gameMode == CGameMode.edit)
             {
-                Color cw = gw.colorArrow;
-                Color cb = gb.colorArrow;
+                Color cw = gw.arrowColor;
+                Color cb = gb.arrowColor;
                 labWhite.BackColor = Color.FromArgb(255, cw.R, cw.G, cw.B);
                 labBlack.BackColor = Color.FromArgb(255, cb.R, cb.G, cb.B);
             }
@@ -866,7 +888,7 @@ namespace RapChessGui
         {
             TimeSpan ts = TimeSpan.FromMilliseconds(g.infMs);
             ListViewItem lvi = new ListViewItem(new[] { ts.ToString(@"mm\:ss\.ff"), g.strScore, $"{g.depth}/{g.seldepth}", g.nodes.ToString("N0"), g.nps.ToString("N0"), g.pv });
-            System.Windows.Forms.ListView lv = g.IsWhite() ? lvMovesW : lvMovesB;
+            ListView lv = g.IsWhite() ? lvMovesW : lvMovesB;
             if ((lv.Items.Count & 1) > 0)
                 lvi.BackColor = Colors.message;
             lv.Items.Insert(0, lvi);
@@ -877,7 +899,7 @@ namespace RapChessGui
             int multi = g.multipv;
             if (multi < 1)
                 multi = 1;
-            System.Windows.Forms.ListView lv = g.IsWhite() ? lvMovesW : lvMovesB;
+            ListView lv = g.IsWhite() ? lvMovesW : lvMovesB;
             if (multi > lv.Items.Count + 1)
                 multi = lv.Items.Count + 1;
             if (multi > lv.Items.Count)
@@ -912,7 +934,7 @@ namespace RapChessGui
                     if ((moves.Count == 0) && (g.multipv < 2))
                     {
                         g.lastMove = umo;
-                        board.arrows.AddMoves(umo, g.colorArrow);
+                        board.arrows.AddMoves(umo, g.arrowColor,g.arrowShift);
                         RenderBoard();
                     }
                     chess.MakeMove(emo);
@@ -1171,8 +1193,6 @@ namespace RapChessGui
 
         void SetMode(CGameMode mode)
         {
-            teacher.TeacherTerminate();
-            AnalysisStop();
             ComClear();
             CData.gameMode = mode;
             tabControl2.SelectedIndex = mode == CGameMode.edit ? 1 : 0;
@@ -1430,7 +1450,7 @@ namespace RapChessGui
             string continuations = ecoOld == null ? String.Empty : ecoOld.continuations;
             board.MakeMove(emo);
             chess.MakeMove(emo);
-            CHis hm = history.AddMove(chess.GetFen(), chess.halfMove - 1, pieceType, emo, umo, san, string.Empty, gc.pv);
+            CHis hm = history.AddMove(chess.GetFen(), pieceType, emo, umo, san, string.Empty, gc.pv);
             CEco eco = ecoList.EpdToEco(chess.GetEpd());
             if (gc.player.IsHuman())
             {
@@ -1448,7 +1468,7 @@ namespace RapChessGui
                     {
                         gc.gamerBook.isBookFail = true;
                         hm.pv = "inaccuracy";
-                        hm.bstMoves = continuations;
+                        hm.pvBst = continuations;
                     }
             }
             else
@@ -1662,7 +1682,7 @@ namespace RapChessGui
 
         void HistoryToLvMoves(CHis hm)
         {
-            MoveToLvMoves(hm.halfMove, hm.GetPiece(), hm.score, hm.pv);
+            MoveToLvMoves(hm.GetHalfMove() - 1, hm.GetPiece(), hm.score, hm.pv);
         }
 
         void HistoryToChess()
@@ -1734,28 +1754,29 @@ namespace RapChessGui
 
         void ShowValid()
         {
+            board.ClearColors();
             List<int> moves = chess.GenerateLegalMoves(out _);
             foreach (int c in moves)
             {
                 int sou = c & 0xff;
-                board.arrField[sou].color = Color.Yellow;
+                board.arrField[sou].color = CBoard.Yellow;
             }
         }
 
         void ShowValid(int index)
         {
+            board.ClearColors();
             List<int> moves = chess.GenerateLegalMoves(out _);
             foreach (int c in moves)
                 if ((c & 0xff) == index)
                 {
                     int des = (c >> 8) & 0xff;
-                    board.arrField[des].color = Color.Yellow;
+                    board.arrField[des].color =  CBoard.Yellow;
                 }
         }
 
         void SetIndex(int i)
         {
-            board.ClearColors();
             if (i == -1)
             {
                 ShowValid();
@@ -1763,10 +1784,13 @@ namespace RapChessGui
             else
             {
                 if (i == CDrag.lastDes)
+                {
                     ShowValid(i);
+                }
             }
             CDrag.lastDes = i;
             CDrag.lastSou = -1;
+            RenderBoard(true);
         }
 
         void LinesResize(System.Windows.Forms.ListView lv)
@@ -1845,6 +1869,8 @@ namespace RapChessGui
 
         void GameStart()
         {
+            CModeGame.NewGame();
+            labAccuracy.Text = CModeGame.Info();
             ComClear();
             SettingsToGameMode();
             GameModeToGamers();
@@ -1897,7 +1923,7 @@ namespace RapChessGui
         void MatchClear()
         {
             formOptions.SettingsToMatch();
-            CGames.Reset();
+            CGames.NewSession();
             CModeMatch.Reset();
             MatchShow();
         }
@@ -2479,7 +2505,7 @@ namespace RapChessGui
         void TrainingClear()
         {
             SettingsToTraining();
-            CGames.Reset();
+            CGames.NewSession();
             CModeTraining.Reset();
             TrainingShow();
         }
@@ -2612,6 +2638,9 @@ namespace RapChessGui
         {
             analysis = true;
             bAnalysis.BackColor = Color.LightGreen;
+            lvMovesW.Items.Clear();
+            lvMovesB.Items.Clear();
+            CModeEdit.fen = chess.GetFen();
             EditStart();
         }
 
@@ -2729,7 +2758,6 @@ namespace RapChessGui
 
         void EditStart()
         {
-            ComClear();
             SelectedToMEdit();
             CPlayer p1 = new CPlayer(CModeEdit.engine1);
             p1.EngineName = CModeEdit.engine1;
@@ -2864,13 +2892,13 @@ namespace RapChessGui
                     formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Match");
                     break;
                 case CGameMode.tourB:
-                    formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Tournament books");
+                    formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Tournament-books");
                     break;
                 case CGameMode.tourE:
-                    formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Tournament engines");
+                    formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Tournament-engines");
                     break;
                 case CGameMode.tourP:
-                    formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Tournament players");
+                    formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Tournament-players");
                     break;
                 case CGameMode.training:
                     formOptions.listBox.SelectedIndex = formOptions.listBox.FindString("Training");
@@ -2881,27 +2909,14 @@ namespace RapChessGui
             }
             formOptions.ShowDialog(this);
             toolTip1.Active = FormOptions.showTips;
-            board.ClearAttack();
             board.animated = true;
             board.arrows.Clear();
+            board.ClearColors();
             ShowAutoElo();
             ShowEco();
             HistoryToLvMovesExt();
             BoardPrepare();
             RenderBoard();
-        }
-
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
-        {
-            CDrag.mouseX = e.X;
-            CDrag.mouseY = e.Y;
-            board.GetFieldXY(e.X, e.Y, out int x, out int y);
-            if (board.rotate)
-            {
-                x = 7 - x;
-                y = 7 - y;
-            }
-            CDrag.mouseIndex = y * 8 + x;
         }
 
         private void butClearBoard_Click(object sender, EventArgs e)
@@ -2978,7 +2993,7 @@ namespace RapChessGui
         private void cbMainMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             mode = cbGameMode.Text;
-            CGames.Reset();
+            CGames.NewSession();
             formLogGames.textBox.Text = String.Empty;
             tabControl1.SelectedIndex = cbGameMode.SelectedIndex;
             SetMode((CGameMode)cbGameMode.SelectedIndex);
@@ -3115,31 +3130,6 @@ namespace RapChessGui
             MakeBoardSquare();
         }
 
-        private void fenToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            Clipboard.SetText(chess.GetFen());
-        }
-
-        private void pgnToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            SetPgn(Clipboard.GetText().Trim());
-        }
-
-        private void pgnToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            Clipboard.SetText(history.GetPgn());
-        }
-
-        private void uciToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetPgn(Clipboard.GetText().Trim());
-        }
-
-        private void uciToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            Clipboard.SetText(history.GetMovesUci());
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             SetFen(tbFen.Text);
@@ -3265,79 +3255,83 @@ namespace RapChessGui
                 return;
             int index = lvMoves.SelectedItems[0].Index;
             CHis his = history[index];
+            tbFen.Text = his.fen;
             if (his.fen != chess.GetFen())
             {
                 CChess.UmoToSD(his.umo, out CDrag.lastSou, out CDrag.lastDes);
                 chess.SetFen(his.fen);
-                board.arrows.AddMoves(his.pvCur, CBoard.Red);
-                board.arrows.AddMoves(his.bstMoves, CBoard.Green);
+                board.ClearArrows();
+                board.arrows.AddMoves(his.pvCur, CBoard.Red, -1);
+                board.arrows.AddMoves(his.pvBst, CBoard.Green, 1);
                 board.Fill();
                 board.StartAnimation();
                 RenderBoard();
             }
+            if (analysis)
+                AnalysisStart();
         }
 
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        private void bPlay_Click(object sender, EventArgs e)
         {
-            if (tlpPromotion.Visible)
-                return;
-            if (CData.gameMode == CGameMode.edit)
-            {
-                int i = CDrag.mouseIndex;
-                if (e.Button == MouseButtons.Left)
-                    chess.board[i] = chess.CharToPiece(EditSelected[0]);
-                else if (chess.board[i] != CChess.colorEmpty)
-                {
-                    EditSelected = chess.PieceToStr(chess.board[i]);
-                    chess.board[i] = CChess.colorEmpty;
-                }
-                board.Fill();
-                RenderBoard(true);
-                EditChessToFen();
-                if (analysis)
-                    AnalysisStart();
-            }
-            if (CData.gameMode == CGameMode.game)
-            {
-                if (e.Button == MouseButtons.Right)
-                {
-                    CField f = board.arrField[CDrag.mouseIndex];
-                    f.circle = !f.circle;
-                    return;
-                }
-                CGamer g = chess.WhiteTurn ? gamers.GamerWhite() : gamers.GamerBlack();
-                if (g.IsComputer())
-                    return;
-                if (IsValid(CDrag.mouseIndex))
-                {
-                    CDrag.last = CDrag.lastDes;
-                    CDrag.dragged = true;
-                    SetIndex(CDrag.mouseIndex);
-                }
-                else
-                    if (!IsValid(CDrag.lastDes))
-                    SetIndex(-1);
-                if (!IsValid(CDrag.lastDes, CDrag.mouseIndex))
-                    SetIndex(-1);
-            }
+            if (cbApply.SelectedIndex < 1)
+                cbApply.SelectedIndex = 1;
+            cbGameMode.SelectedIndex = cbApply.SelectedIndex - 1;
         }
 
-        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        private void clbCastling_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (tlpPromotion.Visible)
-                return;
-            if ((CData.gameMode == CGameMode.game))
-            {
-                if (CDrag.lastDes == CDrag.mouseIndex)
-                    TryMoveHuman(CDrag.last, CDrag.mouseIndex);
-                else
-                    TryMoveHuman(CDrag.lastDes, CDrag.mouseIndex);
-                CDrag.dragged = false;
-            }
-            board.StartAnimation();
+            chess.castleRights.Switch(e.Index, e.CurrentValue != CheckState.Checked);
+            EditChessToFen();
         }
 
-        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void labError_MouseDown(object sender, MouseEventArgs e)
+        {
+            labError.Hide();
+            if (e.Button == MouseButtons.Left)
+                ShowFormLastGame("error");
+        }
+
+        private void bAnalysis_Click(object sender, EventArgs e)
+        {
+            AnalysisSwitch();
+        }
+
+        private void listView1_SizeChanged(object sender, EventArgs e)
+        {
+            chPgnPv.Width = lvPgn.Width - 250;
+        }
+
+        private void lvPgn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lvPgn.SelectedItems.Count < 1)
+                return;
+            SetPgn(lvPgn.SelectedItems[0].SubItems[3].Text);
+        }
+
+        private void fileToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.InitialDirectory = $@"{AppDomain.CurrentDomain.BaseDirectory}Saves";
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                switch (Path.GetExtension(openFileDialog1.FileName).ToLower())
+                {
+                    case ".fen":
+                        LoadFen(openFileDialog1.FileName);
+                        break;
+                    case ".pgn":
+                        LoadPgn(openFileDialog1.FileName);
+                        break;
+                    case ".uci":
+                        LoadUci(openFileDialog1.FileName);
+                        break;
+                    case ".his":
+                        LoadHis(openFileDialog1.FileName);
+                        break;
+                }
+            }
+        }
+
+        private void fileToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             saveFileDialog1.InitialDirectory = $@"{AppDomain.CurrentDomain.BaseDirectory}Saves";
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
@@ -3364,70 +3358,166 @@ namespace RapChessGui
             }
         }
 
-        private void loadToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            openFileDialog1.InitialDirectory = $@"{AppDomain.CurrentDomain.BaseDirectory}Saves";
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                switch (Path.GetExtension(openFileDialog1.FileName).ToLower())
-                {
-                    case ".fen":
-                        LoadFen(openFileDialog1.FileName);
-                        break;
-                    case ".pgn":
-                        LoadPgn(openFileDialog1.FileName);
-                        break;
-                    case ".uci":
-                        LoadUci(openFileDialog1.FileName);
-                        break;
-                    case ".his":
-                        LoadHis(openFileDialog1.FileName);
-                        break;
-                }
-            }
-        }
-
-        private void bPlay_Click(object sender, EventArgs e)
-        {
-            if (cbApply.SelectedIndex < 1)
-                cbApply.SelectedIndex = 1;
-            cbGameMode.SelectedIndex = cbApply.SelectedIndex - 1;
-        }
-
-        private void clbCastling_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            chess.castleRights.Switch(e.Index, e.CurrentValue != CheckState.Checked);
-            EditChessToFen();
-        }
-
-        private void menuClipboardLoadFen_Click(object sender, EventArgs e)
+        private void fenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetFen(Clipboard.GetText());
         }
 
-        private void labError_MouseDown(object sender, MouseEventArgs e)
+        private void pgnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            labError.Hide();
-            if (e.Button == MouseButtons.Left)
-                ShowFormLastGame("error");
+            SetPgn(Clipboard.GetText().Trim());
         }
 
-        private void bAnalysis_Click(object sender, EventArgs e)
+        private void uciToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            AnalysisSwitch();
+            SetPgn(Clipboard.GetText().Trim());
         }
 
-        private void listView1_SizeChanged(object sender, EventArgs e)
+        private void fenToolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            chPgnPv.Width=lvPgn.Width -250;
+            Clipboard.SetText(chess.GetFen());
         }
 
-        private void lvPgn_SelectedIndexChanged(object sender, EventArgs e)
+        private void pgnToolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            if (lvPgn.SelectedItems.Count < 1)
+            Clipboard.SetText(history.GetPgn());
+        }
+
+        private void uciToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(history.GetMovesUci());
+        }
+
+        private void lvMoves_DoubleClick(object sender, EventArgs e)
+        {
+            if (lvMoves.SelectedItems.Count < 1)
                 return;
-            SetPgn(lvPgn.SelectedItems[0].SubItems[3].Text);
+            CHistory hl = new CHistory();
+            int index = lvMoves.SelectedItems[0].Index;
+            hl.Assign(history, index);
+            hl.AddMoves(lvMoves.Items[index].SubItems[2].Text, "pv");
+            cbGameMode.SelectedIndex = (int)CGameMode.edit;
+            history.Assign(hl, hl.Count);
+            SetHistory();
         }
+
+        private void lvMovesW_DoubleClick(object sender, EventArgs e)
+        {
+            ListView lv = (sender as ListView);
+            if ((lv.SelectedItems.Count < 1) || (CData.gameMode != CGameMode.edit))
+                return;
+            CHistory hl = new CHistory();
+            int index;
+            hl.fen = chess.GetFen();
+            if (lvMoves.SelectedItems.Count > 0)
+            {
+                index = lvMoves.SelectedItems[0].Index;
+                hl.Assign(history, index);
+            }
+            index = lv.SelectedItems[0].Index;
+            hl.AddMoves(lv.Items[index].SubItems[5].Text, "pv");
+            history.Assign(hl, hl.Count);
+            SetHistory();
+        }
+
+        private void lastHisLoad_Click(object sender, EventArgs e)
+        {
+            string name = (sender as ToolStripMenuItem).Text;
+            string path = $@"History\{name}.his";
+            if (File.Exists(path))
+                LoadHis(path);
+            else MessageBox.Show($"File {name}.his not exists");
+        }
+
+        private void gameToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            string name = (sender as ToolStripMenuItem).Text;
+            string path = $@"History\{name}.pgn";
+            if (File.Exists(path))
+                LoadPgn(path);
+            else MessageBox.Show($"File {name}.pgn not exists");
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            CDrag.mouseX = e.X;
+            CDrag.mouseY = e.Y;
+            board.GetFieldXY(e.X, e.Y, out int x, out int y);
+            if (board.rotate)
+            {
+                x = 7 - x;
+                y = 7 - y;
+            }
+            CDrag.mouseIndex = y * 8 + x;
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (tlpPromotion.Visible)
+                return;
+            if (CData.gameMode == CGameMode.edit)
+            {
+                int i = CDrag.mouseIndex;
+                if (e.Button == MouseButtons.Left)
+                    chess.board[i] = chess.CharToPiece(EditSelected[0]);
+                else if (chess.board[i] != CChess.colorEmpty)
+                {
+                    EditSelected = chess.PieceToStr(chess.board[i]);
+                    chess.board[i] = CChess.colorEmpty;
+                }
+                board.Fill();
+                RenderBoard(true);
+                EditChessToFen();
+                if (analysis)
+                    AnalysisStart();
+            }
+            if (CData.gameMode == CGameMode.game)
+            {
+                CDrag.last = CDrag.mouseIndex;
+                CGamer g = chess.WhiteTurn ? gamers.GamerWhite() : gamers.GamerBlack();
+                if (g.IsComputer())
+                    return;
+                if (e.Button == MouseButtons.Left)
+                {
+                    if (IsValid(CDrag.mouseIndex))
+                    {
+                        CDrag.lastSelected = CDrag.mouseIndex;
+                        CDrag.dragged = true;
+                        SetIndex(CDrag.mouseIndex);
+                    }
+                    else if (!IsValid(CDrag.lastDes))
+                        SetIndex(-1);
+                    if (!IsValid(CDrag.lastDes, CDrag.mouseIndex))
+                        SetIndex(-1);
+                }
+            }
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (tlpPromotion.Visible)
+                return;
+            if ((CData.gameMode == CGameMode.game))
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    TryMoveHuman(CDrag.lastSelected, CDrag.mouseIndex);
+                }
+                else
+                {
+                    if (CDrag.last == CDrag.mouseIndex)
+                    {
+                        CField f = board.arrField[CDrag.mouseIndex];
+                        f.circle = !f.circle;
+                        board.arrows.Clear();
+                    }
+                    else board.arrows.Add(CDrag.last,CDrag.mouseIndex,CBoard.Blue,0);
+                }
+                CDrag.dragged = false;
+            }
+            board.StartAnimation();
+        }
+
     }
 }
 

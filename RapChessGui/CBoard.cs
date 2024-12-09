@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 using NSChess;
 using NSRapColor;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace RapChessGui
 {
@@ -99,7 +100,6 @@ namespace RapChessGui
 
     public class CField
     {
-        public bool attacked = false;
         public bool circle = false;
         public int x;
         public int y;
@@ -127,6 +127,7 @@ namespace RapChessGui
     public class CBackground
     {
         bool rotate = false;
+        public int arrowSize = 1;
         public int fieldSize = 10;
         public int frameSize = 10;
         public int bmpX = 0;
@@ -146,6 +147,7 @@ namespace RapChessGui
             width = w;
             height = h;
             fieldSize = Math.Min(w, h) / 9;
+            arrowSize = fieldSize / 6;
             frameSize = fieldSize >> 1;
             size = 8 * fieldSize + 2 * frameSize;
             sizem1 = size - 1;
@@ -259,9 +261,11 @@ namespace RapChessGui
 
     public class CBoard
     {
-        public static Color Green = Color.FromArgb(0x90, 0x10, 0xff, 0x10);
-        public static Color Red = Color.FromArgb(0x90, 0xff, 0x10, 0x10);
-        public static Color Blue = Color.FromArgb(0x90, 0x10, 0x10, 0xff);
+        public static Color Green = Color.FromArgb(0xa0, 0x00, 0xff, 0x00);
+        public static Color Red = Color.FromArgb(0xa0, 0xff, 0x00, 0x00);
+        public static Color Blue = Color.FromArgb(0xa0, 0x00, 0x00, 0xff);
+        public static Color Yellow = Color.FromArgb(0xa0, 0xff, 0xff, 0x00);
+        public static Color Orange = Color.FromArgb(0xa0, 0xff, 0x80, 0x00);
         public bool animated = false;
         public bool done = true;
         public bool rotate = false;
@@ -283,12 +287,6 @@ namespace RapChessGui
             ClearCircles();
         }
 
-        public void ClearAttack()
-        {
-            foreach (CField f in arrField)
-                f.attacked = false;
-        }
-
         public void ClearCircles()
         {
             foreach (CField f in arrField)
@@ -303,15 +301,28 @@ namespace RapChessGui
 
         void DrawArrow(Graphics g, CArrow arrow)
         {
-            using (Pen pen = new Pen(arrow.color, 8))
+            int shift = arrow.shift * background.arrowSize;
+            using (Pen pen = new Pen(arrow.color,background.arrowSize))
             {
                 pen.StartCap = LineCap.RoundAnchor;
                 pen.EndCap = LineCap.ArrowAnchor;
-                g.DrawLine(pen, GetMiddle(arrow.a), GetMiddle(arrow.b));
+                Point p1 = GetMiddle(arrow.a);
+                Point p2 = GetMiddle(arrow.b);
+                if (p1.X == p2.X)
+                {
+                    p1.X += shift;
+                    p2.X += shift;
+                }
+                else
+                {
+                    p1.Y+= shift;
+                    p2.Y+= shift;
+                }
+                g.DrawLine(pen,p1,p2);
             }
         }
 
-        public void DrawArrows(Graphics g, CArrowList al)
+        public void DrawArrows(Graphics g)
         {
             foreach (CArrow a in arrows)
                 DrawArrow(g, a);
@@ -319,7 +330,8 @@ namespace RapChessGui
 
         void DrawCircle(Graphics g, Rectangle rec)
         {
-            using (Pen pen = new Pen(Brushes.ForestGreen, 4))
+            using (Brush brushBlue = new SolidBrush(Blue))
+            using (Pen pen = new Pen(brushBlue, background.arrowSize))
             {
                 g.DrawEllipse(pen, rec);
             }
@@ -366,7 +378,7 @@ namespace RapChessGui
             Graphics gb = Graphics.FromImage(bmp);
             DrawCircles(gb);
             if (FormOptions.showArrow)
-                DrawArrows(gb, arrows);
+                DrawArrows(gb);
             g.DrawImage(bmp, background.bmpX, background.bmpY);
         }
 
@@ -404,7 +416,7 @@ namespace RapChessGui
         {
             boardBmp = new Bitmap(background.GetBitmap(rotate));
             using (Graphics g = Graphics.FromImage(boardBmp))
-            using (Brush brushRed = new SolidBrush(Color.FromArgb(0x80, 0xff, 0x00, 0x00)))
+            using (Brush brushRed = new SolidBrush(Red))
             using (Brush brushYellow = new SolidBrush(Color.FromArgb(0xa0, 0xff, 0xff, 0xff)))
             using (Brush brushWhite = new SolidBrush(Color.White))
             using (Brush brushBlack = new SolidBrush(Color.Black))
@@ -432,10 +444,14 @@ namespace RapChessGui
                         rec.Y = y2;
                         rec.Width = background.fieldSize;
                         rec.Height = background.fieldSize;
-                        if ((i == CDrag.lastSou) || (i == CDrag.lastDes) || (arrField[i].color != Color.Empty))
+                        Color c = arrField[i].color;
+                        if ((i == CDrag.lastSou) || (i == CDrag.lastDes))
                             g.FillRectangle(brushYellow, rec);
-                        else if (arrField[i].attacked && (CData.gameMode != CGameMode.edit))
-                            g.FillRectangle(brushRed, rec);
+                        else if ((c != Color.Empty) && (CData.gameMode != CGameMode.edit))
+                            using (Brush b = new SolidBrush(c))
+                            {
+                                g.FillRectangle(b, rec);
+                            }
                         CPiece piece = arrField[i].piece;
                         if (piece == null)
                             continue;
@@ -504,7 +520,6 @@ namespace RapChessGui
             {
                 MakeMove(sou - 4, sou - 1);
             }
-            ClearColors();
         }
 
         public void Animate()
@@ -540,27 +555,29 @@ namespace RapChessGui
             }
         }
 
-        public void ShowAttack(bool show, bool white)
+        public void ShowAttack(bool show, bool white, bool mate)
         {
             List<int> ml = FormChess.chess.GenerateAllMoves(white, false);
             foreach (int m in ml)
             {
                 int d = (m >> 8) & 0xff;
                 int r = FormChess.chess.board[d] & 7;
-                if (r > 0)
-                    if (show || (r == CChess.pieceKing))
-                        arrField[d].attacked = true;
+                if (r == CChess.pieceKing)
+                    arrField[d].color = mate ? Red : Orange;
+                else if (r > 0)
+                    arrField[d].color = show ? Orange : Color.Empty;
             }
         }
 
         public void ShowAttack()
         {
-            bool show = FormOptions.showAttack;
-            ClearAttack();
+            ClearColors();
             if (CData.gameMode == CGameMode.edit)
                 return;
-            ShowAttack(show, FormChess.chess.WhiteTurn);
-            ShowAttack(show, !FormChess.chess.WhiteTurn);
+            bool show = FormOptions.showAttack;
+            bool mate = FormChess.chess.GetGameState() == CGameState.mate;
+            ShowAttack(show, FormChess.chess.WhiteTurn, mate);
+            ShowAttack(show, !FormChess.chess.WhiteTurn, mate);
         }
 
         public void StartAnimation()
