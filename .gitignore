@@ -1,0 +1,18 @@
+﻿################################################################################
+# Ten plik .gitignore został utworzony automatycznie przez Microsoft(R) Visual Studio.
+################################################################################
+obj/
+Debug/
+.vs/
+.git/
+*.pdb
+*.pdb
+*.his
+*.rtf
+*.log
+*.log
+*.pgn
+*.pgn
+*.ini
+*.txt
+*.user

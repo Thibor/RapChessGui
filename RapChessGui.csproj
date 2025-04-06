@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8C7432E0-E304-41E2-931B-E461BC5FEAFE}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RapChessGui</RootNamespace>
+    <AssemblyName>RapChessGui</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <BootstrapperComponentsUrl>D:\Programming\Repo\RapChessGui\Release</BootstrapperComponentsUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>IDE0017,IDE1006</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>IDE1006,IDE0017</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\rapchessgui.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>RapChessGui.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <NoWarn>IDE0017,IDE1006</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>IDE1006,IDE0017</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Management.Instrumentation" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CArrowList.cs" />
+    <Compile Include="CEloAcc.cs" />
+    <Compile Include="ChessExt.cs" />
+    <Compile Include="CListBook.cs" />
+    <Compile Include="CData.cs" />
+    <Compile Include="CChess.cs" />
+    <Compile Include="CModeEdit.cs" />
+    <Compile Include="CReaderList.cs" />
+    <Compile Include="CEcoList.cs" />
+    <Compile Include="CListEngine.cs" />
+    <Compile Include="CExtensions.cs" />
+    <Compile Include="CHisElo.cs" />
+    <Compile Include="CHistory.cs" />
+    <Compile Include="CModeGame.cs" />
+    <Compile Include="CModeTournamentB.cs" />
+    <Compile Include="CModeTournamentE.cs" />
+    <Compile Include="CModeTournamentP.cs" />
+    <Compile Include="COptionList.cs" />
+    <Compile Include="CProcess.cs" />
+    <Compile Include="CRapColor.cs" />
+    <Compile Include="CRapLog.cs" />
+    <Compile Include="CModeMatch.cs" />
+    <Compile Include="CBoard.cs" />
+    <Compile Include="CProcessBuf.cs" />
+    <Compile Include="CGamers.cs" />
+    <Compile Include="CRapIni.cs" />
+    <Compile Include="CModeTraining.cs" />
+    <Compile Include="CListPlayer.cs" />
+    <Compile Include="CTeacher.cs" />
+    <Compile Include="CTourList.cs" />
+    <Compile Include="CUci.cs" />
+    <Compile Include="FenList.cs" />
+    <Compile Include="FormAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAbout.Designer.cs">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAutodetect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAutodetect.Designer.cs">
+      <DependentUpon>FormAutodetect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormChartB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormChartB.Designer.cs">
+      <DependentUpon>FormChartB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormChess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormChess.designer.cs">
+      <DependentUpon>FormChess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEditBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditBook.Designer.cs">
+      <DependentUpon>FormEditBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormChartE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormChartE.designer.cs">
+      <DependentUpon>FormChartE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormChartP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormChartP.Designer.cs">
+      <DependentUpon>FormChartP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFolderE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFolderE.Designer.cs">
+      <DependentUpon>FormFolderE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLastGame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLastGame.Designer.cs">
+      <DependentUpon>FormLastGame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormListB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormListB.Designer.cs">
+      <DependentUpon>FormListB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormListE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormListE.Designer.cs">
+      <DependentUpon>FormListE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormListP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormListP.Designer.cs">
+      <DependentUpon>FormListP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLogBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLogBook.Designer.cs">
+      <DependentUpon>FormLogBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLogEngines.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLogEngines.Designer.cs">
+      <DependentUpon>FormLogEngines.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLog.Designer.cs">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOptions.Designer.cs">
+      <DependentUpon>FormOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEditEngine.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditEngine.Designer.cs">
+      <DependentUpon>FormEditEngine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLogGames.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLogGames.Designer.cs">
+      <DependentUpon>FormLogGames.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEditPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditPlayer.designer.cs">
+      <DependentUpon>FormEditPlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CMSList.cs" />
+    <Compile Include="FormSandbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSandbox.Designer.cs">
+      <DependentUpon>FormSandbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MistakeList.cs" />
+    <Compile Include="ModePuzzle.cs" />
+    <Compile Include="PgnList.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="PuzzleList.cs" />
+    <EmbeddedResource Include="FormAbout.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAutodetect.resx">
+      <DependentUpon>FormAutodetect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormChartB.resx">
+      <DependentUpon>FormChartB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormChess.resx">
+      <DependentUpon>FormChess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditBook.resx">
+      <DependentUpon>FormEditBook.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormChartE.resx">
+      <DependentUpon>FormChartE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormChartP.resx">
+      <DependentUpon>FormChartP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFolderE.resx">
+      <DependentUpon>FormFolderE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLastGame.resx">
+      <DependentUpon>FormLastGame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormListB.resx">
+      <DependentUpon>FormListB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormListE.resx">
+      <DependentUpon>FormListE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormListP.resx">
+      <DependentUpon>FormListP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLogBook.resx">
+      <DependentUpon>FormLogBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLogEngines.resx">
+      <DependentUpon>FormLogEngines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLog.resx">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOptions.resx">
+      <DependentUpon>FormOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditEngine.resx">
+      <DependentUpon>FormEditEngine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLogGames.resx">
+      <DependentUpon>FormLogGames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditPlayer.resx">
+      <DependentUpon>FormEditPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSandbox.resx">
+      <DependentUpon>FormSandbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Resources\ChessPiece.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\rapchessgui.ico" />
+    <Content Include="Resources\Sounds\Capture.wav" />
+    <Content Include="Resources\Sounds\Castling.wav" />
+    <Content Include="Resources\Sounds\Check.wav" />
+    <Content Include="Resources\Sounds\Move.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="RapChessGui.exe.manifest">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>ManifestEntryPoint</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 i x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
