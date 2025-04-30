@@ -1,7 +1,7 @@
 # RapChessGui
 
 <div align="center" style="padding-top: 50px">
-<img src="/RapChessGui/Resources/Clipboard.png" />
+<img src="/Resources/Clipboard.png" />
     <br>
     <br>
     <b><i>C# chess game</i></b>

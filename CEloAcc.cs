@@ -135,7 +135,7 @@ namespace RapChessGui
             return true;
         }
 
-        async void EloAccuracy(DateTime dt)
+        async void EloAccuracy()
         {
             int count = 0;
             FormChess.engineList.SortDT();
@@ -145,7 +145,7 @@ namespace RapChessGui
             foreach (CEngine e in el)
             {
                 DateTime edt = File.GetLastWriteTime(e.GetFileName());
-                bool old = (e.DTAccuracy < dt) || (e.DTAccuracy < edt) || (e.DTAccuracy < e.DT);
+                bool old = (e.DTAccuracy < edt) || (e.DTAccuracy < e.DT);
                 if (old && e.modeTime && e.modeFen && ((e.protocol == CProtocol.uci) || (e.protocol == CProtocol.winboard)))
                 {
                     log.Add($"Start {e.name}");
@@ -286,8 +286,7 @@ namespace RapChessGui
             string fn = @"books\accuracy.epd";
             if (!msList.LoadFromEpd(fn))
                 return false;
-            DateTime dt = File.GetLastWriteTime(fn);
-            EloAccuracy(dt);
+            EloAccuracy();
             return true;
         }
 
