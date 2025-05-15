@@ -2,6 +2,7 @@
 using RapIni;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 
 namespace RapChessGui
@@ -29,7 +30,8 @@ namespace RapChessGui
         public double accuracy = 0;
         public double test = 0;
         public DateTime DTAccuracy = new DateTime(0);
-        public DateTime DT = DateTime.Now;
+        public DateTime DTModification = DateTime.Now;
+        public DateTime DTTournament = new DateTime(0);
         public List<string> options = new List<string>();
         public CError eMove = new CError();
         public CError eTime = new CError();
@@ -78,8 +80,9 @@ namespace RapChessGui
             test = CListEngine.iniFile.ReadDouble($"engine>{name}>test", test);
             depth = CListEngine.iniFile.ReadDouble($"engine>{name}>depth", depth);
             nps = CListEngine.iniFile.ReadDouble($"engine>{name}>nps", nps);
-            DT = CListEngine.iniFile.ReadDateTime($"engine>{name}>DT", DT);
-            DTAccuracy = CListEngine.iniFile.ReadDateTime($"engine>{name}>eloAccDT", DTAccuracy);
+            DTModification = CListEngine.iniFile.ReadDateTime($"engine>{name}>DT>modification", DTModification);
+            DTAccuracy = CListEngine.iniFile.ReadDateTime($"engine>{name}>DT>accuracy", DTAccuracy);
+            DTTournament = CListEngine.iniFile.ReadDateTime($"engine>{name}>DT>tournament", DTTournament);
             history.FromStr(CListEngine.iniFile.Read($"engine>{name}>history"));
             eMove.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>eMove"));
             eTime.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>eTime"));
@@ -110,8 +113,9 @@ namespace RapChessGui
             CListEngine.iniFile.Write($"engine>{name}>test", test);
             CListEngine.iniFile.Write($"engine>{name}>depth", depth);
             CListEngine.iniFile.Write($"engine>{name}>nps", nps);
-            CListEngine.iniFile.Write($"engine>{name}>DT", DT);
-            CListEngine.iniFile.Write($"engine>{name}>eloAccDT", DTAccuracy);
+            CListEngine.iniFile.Write($"engine>{name}>DT>modification", DTModification);
+            CListEngine.iniFile.Write($"engine>{name}>DT>accuracy", DTAccuracy);
+            CListEngine.iniFile.Write($"engine>{name}>Dt>tournament", DTTournament);
             CListEngine.iniFile.Write($"engine>{name}>history", history, " ");
             CListEngine.iniFile.Write($"engine>{name}>eMove", eMove, " ");
             CListEngine.iniFile.Write($"engine>{name}>eTime", eTime, " ");
@@ -128,6 +132,50 @@ namespace RapChessGui
             eMove.AddGame(em);
             eTime.AddGame(et);
             SaveToIni();
+        }
+
+        public Bitmap GetBitmap()
+        {
+            Bitmap bmp = FormChess.This.Icon.ToBitmap();
+            string path = GetFileName();
+            if (!File.Exists(path))
+                return bmp;
+            string dir = Path.GetDirectoryName(path);
+            string name = Path.GetFileNameWithoutExtension(path);
+            string p = $@"{dir}\{name}.bmp";
+            try
+            {
+                if (File.Exists(p))
+                    return new Bitmap(p);
+                string[] an = name.Split();
+                if (an.Length > 0)
+                {
+                    p = $@"{dir}\{an[0]}.bmp";
+                    if (File.Exists(p))
+                        return new Bitmap(p);
+                }
+                string[] filePaths = Directory.GetFiles(dir, "*.bmp");
+                if (filePaths.Length == 1)
+                    return new Bitmap(filePaths[0]);
+                filePaths = Directory.GetFiles(dir);
+                foreach (string fp in filePaths)
+                {
+                    string ext = Path.GetExtension(fp);
+                    if ((ext == ".bmp") || (ext == ".jpg") || (ext == ".jpeg") || (ext == ".png") || (ext == ".gif"))
+                        return new Bitmap(Image.FromFile(fp));
+                }
+            }
+            catch (Exception ex)
+            {
+                FormChess.log.Add(ex.Message);
+            }
+            return Icon.ExtractAssociatedIcon(path).ToBitmap();
+        }
+
+        public DateTime GetFileDate()
+        {
+            string path = GetPath();
+            return File.Exists(path) ? File.GetLastWriteTime(path) : new DateTime(0);
         }
 
         public int GetFileSize() {

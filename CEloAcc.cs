@@ -79,8 +79,8 @@ namespace RapChessGui
 
         void StudentWriteLine(string msg)
         {
-            if (studentProcess.StartInfo.FileName != String.Empty)
-                studentProcess.StandardInput.WriteLine(msg);
+            if (studentProcess?.StartInfo.FileName != String.Empty)
+                studentProcess?.StandardInput.WriteLine(msg);
         }
 
         void StudentDataReceived(object sender, DataReceivedEventArgs e)
@@ -144,10 +144,15 @@ namespace RapChessGui
                 el.Add(e);
             foreach (CEngine e in el)
             {
-                DateTime edt = File.GetLastWriteTime(e.GetFileName());
-                bool old = (e.DTAccuracy < edt) || (e.DTAccuracy < e.DT);
+                DateTime edt = e.GetFileDate();
+                bool old = (e.DTAccuracy < edt) || (e.DTAccuracy < e.DTModification);
                 if (old && e.modeTime && e.modeFen && ((e.protocol == CProtocol.uci) || (e.protocol == CProtocol.winboard)))
                 {
+                    if (edt < e.DTTournament) {
+                        e.DTTournament = DateTime.Now;
+                        e.ClearHistory();
+                        e.SaveToIni();
+                    }
                     log.Add($"Start {e.name}");
                     await Task.Run(() => EloAccuracyTask(e));
                     count++;

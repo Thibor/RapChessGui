@@ -132,55 +132,6 @@ namespace RapChessGui
             return (double)depthTotal / depthCount;
         }
 
-        public Bitmap GetBitmap(int height, out int width)
-        {
-            Bitmap bmp = GetBitmap();
-            double ratio = (double)bmp.Width / bmp.Height;
-            width = Convert.ToInt32(height * ratio);
-            return bmp;
-        }
-
-
-        public Bitmap GetBitmap()
-        {
-            Bitmap bmp = FormChess.This.Icon.ToBitmap();
-            if (engine == null)
-                return bmp;
-            string path = engine.GetFileName();
-            if (!File.Exists(path))
-                return bmp;
-            string dir = Path.GetDirectoryName(path);
-            string name = Path.GetFileNameWithoutExtension(path);
-            string p = $@"{dir}\{name}.bmp";
-            try
-            {
-                if (File.Exists(p))
-                    return new Bitmap(p);
-                string[] an = engine.name.Split();
-                if (an.Length > 0)
-                {
-                    p = $@"{dir}\{an[0]}.bmp";
-                    if (File.Exists(p))
-                        return new Bitmap(p);
-                }
-                string[] filePaths = Directory.GetFiles(dir, "*.bmp");
-                if (filePaths.Length == 1)
-                    return new Bitmap(filePaths[0]);
-                filePaths = Directory.GetFiles(dir);
-                foreach (string fp in filePaths)
-                {
-                    string ext = Path.GetExtension(fp);
-                    if ((ext == ".bmp") || (ext == ".jpg") || (ext == ".jpeg") || (ext == ".png") || (ext == ".gif"))
-                        return new Bitmap(Image.FromFile(fp));
-                }
-            }
-            catch (Exception ex)
-            {
-                FormChess.log.Add(ex.Message);
-            }
-            return Icon.ExtractAssociatedIcon(path).ToBitmap();
-        }
-
         public List<string> GetMessages()
         {
             if (IsBookActive())

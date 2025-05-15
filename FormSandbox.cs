@@ -50,11 +50,6 @@ namespace RapChessGui
         private void FormSandbox_FormClosing(object sender, FormClosingEventArgs e)
         {
             process.Terminate();
-            if (e.CloseReason != CloseReason.FormOwnerClosing)
-            {
-                Hide();
-                e.Cancel = true;
-            }
         }
 
         private void FormSandbox_Shown(object sender, EventArgs e)
@@ -62,6 +57,7 @@ namespace RapChessGui
             cbEngineList.Items.Clear();
             foreach (CEngine eng in FormChess.engineList)
                 cbEngineList.Items.Add(eng.name);
+            cbEngineList.SelectedIndex=cbEngineList.FindStringExact(FormEditEngine.engineName);
         }
 
         private void cbEngineList_SelectedIndexChanged(object sender, EventArgs e)
@@ -111,6 +107,11 @@ namespace RapChessGui
         private void butRestart_Click(object sender, EventArgs e)
         {
             process.Restart();
+        }
+
+        private void richTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            Process.Start(e.LinkText);
         }
     }
 }

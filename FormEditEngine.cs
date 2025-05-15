@@ -18,6 +18,7 @@ namespace RapChessGui
         public static CProcess processOptions = null;
         readonly static COptionList optionList = new COptionList();
         public readonly FormAutodetect formAutodetect = new FormAutodetect();
+        readonly FormSandbox formSandbox = new FormSandbox();
 
         public FormEditEngine()
         {
@@ -61,7 +62,7 @@ namespace RapChessGui
             if (e.protocol == CProtocol.auto)
                 formAutodetect.ShowDialog(this);
             EngineToSettings(e);
-            e.DT = DateTime.Now;
+            e.DTModification = DateTime.Now;
             e.SaveToIni();
             UpdateListBox();
             int index = listBoxEngines.FindString(e.name);
@@ -252,6 +253,12 @@ namespace RapChessGui
             }
         }
 
+        public int GetBitmapWidth(Bitmap bmp, int height)
+        {
+            double ratio = (double)bmp.Width / bmp.Height;
+            return Convert.ToInt32(height * ratio);
+        }
+
         void EngineToSettings(CEngine engine)
         {
             if (engine == null)
@@ -277,6 +284,9 @@ namespace RapChessGui
             cbModeSearchmoves.Checked = engine.modeSearchmoves;
             nudElo.Value = engine.Elo;
             nudTournament.Value = engine.tournament;
+            Bitmap bmp = engine.GetBitmap();
+            pictureBox.Width = GetBitmapWidth(bmp,pictureBox.Height);
+            pictureBox.Image = bmp;
         }
 
 
@@ -632,6 +642,11 @@ namespace RapChessGui
                 engine.DTAccuracy = new DateTime(0);
             }
             FormChess.engineList.SaveToIni();
+        }
+
+        private void sandboxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            formSandbox.ShowDialog(this);
         }
     }
 }

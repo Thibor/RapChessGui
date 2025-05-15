@@ -256,7 +256,6 @@
             this.programLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gamesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enginesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.sandboxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.lastGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lastMatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -3132,7 +3131,6 @@
             this.programLogToolStripMenuItem,
             this.gamesToolStripMenuItem,
             this.enginesToolStripMenuItem1,
-            this.sandboxToolStripMenuItem,
             this.toolStripMenuItem1,
             this.lastGameToolStripMenuItem,
             this.lastMatchToolStripMenuItem,
@@ -3169,13 +3167,6 @@
             this.enginesToolStripMenuItem1.Size = new System.Drawing.Size(212, 22);
             this.enginesToolStripMenuItem1.Text = "Engines";
             this.enginesToolStripMenuItem1.Click += new System.EventHandler(this.enginesToolStripMenuItem1_Click);
-            // 
-            // sandboxToolStripMenuItem
-            // 
-            this.sandboxToolStripMenuItem.Name = "sandboxToolStripMenuItem";
-            this.sandboxToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.sandboxToolStripMenuItem.Text = "Sandbox";
-            this.sandboxToolStripMenuItem.Click += new System.EventHandler(this.sandboxToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -3330,7 +3321,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -4862,7 +4853,6 @@
             this.pictureBoxW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxW.TabIndex = 0;
             this.pictureBoxW.TabStop = false;
-            this.pictureBoxW.Click += new System.EventHandler(this.EngineClick);
             // 
             // lvMovesB
             // 
@@ -4978,7 +4968,6 @@
             this.pictureBoxB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxB.TabIndex = 0;
             this.pictureBoxB.TabStop = false;
-            this.pictureBoxB.Click += new System.EventHandler(this.EngineClick);
             // 
             // timerAnimation
             // 
@@ -5498,7 +5487,6 @@
         private System.Windows.Forms.ColumnHeader chPuzzlePv;
         private System.Windows.Forms.Button butLastDelete;
         private System.Windows.Forms.ToolStripMenuItem lastTimeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sandboxToolStripMenuItem;
     }
 }
 

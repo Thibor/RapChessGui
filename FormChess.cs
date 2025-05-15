@@ -59,7 +59,6 @@ namespace RapChessGui
         readonly FormLogGames formLogGames = new FormLogGames();
         readonly FormLogEngines formLogEngines = new FormLogEngines();
         readonly FormLastGame formLastGame = new FormLastGame();
-        readonly FormSandbox formSandbox = new FormSandbox();
         readonly public static FormOptions formOptions = new FormOptions();
         readonly FormChartB formChartB = new FormChartB();
         readonly FormChartP formChartP = new FormChartP();
@@ -746,6 +745,12 @@ namespace RapChessGui
             board.SetFen();
         }
 
+        public int GetBitmapWidth(Bitmap bmp, int height)
+        {
+            double ratio = (double)bmp.Width / bmp.Height;
+            return Convert.ToInt32(height * ratio);
+        }
+
         void ShowGamers()
         {
             CGamer gw = gamers.GamerWhite();
@@ -764,10 +769,14 @@ namespace RapChessGui
             labMemoryB.Text = gb.gamerEngine.GetMemory();
             splitContainerMoves.Panel1Collapsed = gw.player.IsHuman();
             splitContainerMoves.Panel2Collapsed = gb.player.IsHuman();
-            Bitmap bmpW = gw.GetBitmap(panWhite.Height, out int ww);
-            Bitmap bmpB = gb.GetBitmap(panBlack.Height, out int wb);
-            pictureBoxW.Width = ww;
-            pictureBoxB.Width = wb;
+            Bitmap bmpW = Icon.ToBitmap();
+            Bitmap bmpB = Icon.ToBitmap();
+            if (gw.engine != null)
+                bmpW = gw.engine.GetBitmap();
+            if (gb.engine != null)
+                bmpB = gb.engine.GetBitmap();
+            pictureBoxW.Width = GetBitmapWidth(bmpW, pictureBoxW.Height);
+            pictureBoxB.Width = GetBitmapWidth(bmpB, pictureBoxB.Height);
             pictureBoxW.Image = bmpW;
             pictureBoxB.Image = bmpB;
             if (gameMode == CGameMode.edit)
@@ -2177,7 +2186,7 @@ namespace RapChessGui
             tourB.ListFill();
             foreach (CBook b in CModeTournamentB.bookList)
             {
-               ListViewItem lvi = new ListViewItem(new[] { b.name, b.Elo.ToString(), b.GetDeltaElo().ToString() });
+                ListViewItem lvi = new ListViewItem(new[] { b.name, b.Elo.ToString(), b.GetDeltaElo().ToString() });
                 lvi.BackColor = b.history.GetColor();
                 lvTourBList.Items.Add(lvi);
             }
@@ -2352,7 +2361,7 @@ namespace RapChessGui
             foreach (CEngine e in CModeTournamentE.engineList)
             {
                 int cg = CModeTournamentE.tourList.CountGames(e.name);
-                ListViewItem lvi = new ListViewItem(new[] { e.name, e.Elo.ToString(),cg.ToString() });
+                ListViewItem lvi = new ListViewItem(new[] { e.name, e.Elo.ToString(), cg.ToString() });
                 lvi.BackColor = e.history.GetColor();
                 lvTourEList.Items.Add(lvi);
             }
@@ -2446,7 +2455,7 @@ namespace RapChessGui
             TournamentEUpdate(CModeTournamentE.engLoose);
             SetMode(CGameMode.tourE);
             CEngine e1 = null;
-            if (tourE.clicked != tourE.first && !string.IsNullOrEmpty(tourE.first) && (formOptions.nudTourELimit.Value==0))
+            if (tourE.clicked != tourE.first && !string.IsNullOrEmpty(tourE.first) && (formOptions.nudTourELimit.Value == 0))
                 e1 = engineList.GetEngineByName(tourE.clicked);
             if (e1 == null)
                 e1 = tourE.SelectFirst();
@@ -3974,10 +3983,6 @@ namespace RapChessGui
 
         private void sandboxToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (formSandbox.Visible)
-                formSandbox.Focus();
-            else
-                formSandbox.Show(this);
         }
     }
 }

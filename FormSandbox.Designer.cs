@@ -55,6 +55,7 @@
             this.richTextBox1.Size = new System.Drawing.Size(800, 330);
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
+            this.richTextBox1.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox1_LinkClicked);
             // 
             // panel1
             // 
@@ -182,6 +183,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MinimizeBox = false;
             this.Name = "FormSandbox";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Sandbox";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormSandbox_FormClosing);

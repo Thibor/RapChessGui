@@ -566,6 +566,7 @@ namespace RapChessGui
             int elo = Elo;
             history.Clear();
             Elo = elo;
+            CModeTournamentE.tourList.DeletePlayer(name);
         }
 
         public double EvaluateOpponent(CElement second, double listCount, CTourList tourList)
