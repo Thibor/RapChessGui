@@ -40,6 +40,11 @@ namespace RapChessGui
     {
         readonly string fileName = @"Data\mistakes.csv";
 
+        public MistakeList()
+        {
+            LoadFromFile();
+        }
+
         public void Add(string fen, string moves)
         {
             EMistake em = new EMistake() { fen = fen, moves = moves};
@@ -47,6 +52,9 @@ namespace RapChessGui
             SaveToFile();
         }
 
+        ///<summary>
+        ///deletes the given fens
+        ///</summary>
         public bool Delete(string fen)
         {
             for(int n=Count-1;n>=0 ;n--)

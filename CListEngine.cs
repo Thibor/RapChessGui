@@ -249,7 +249,7 @@ namespace RapChessGui
 
         public bool IsAuto()
         {
-            return folder == "Auto";
+            return folder == Global.none;
         }
 
         public bool Exists()
@@ -282,6 +282,18 @@ namespace RapChessGui
                 return $@"Engines\{file}";
             else
                 return $@"Engines\{folder}\{file}";
+        }
+
+        public string GetFolder()
+        {
+            if (folder == Global.none)
+                return "Engines";
+            return $@"Engines\{folder}";
+        }
+
+        public bool IsFolder()
+        {
+            return Directory.Exists(GetFolder());
         }
 
         public string GetPath()
@@ -324,6 +336,16 @@ namespace RapChessGui
                 this[index] = e;
             else
                 Add(e);
+        }
+
+        public void Check()
+        {
+            for(int n = Count - 1; n >= 0; n--)
+            {
+                CEngine e = this[n];
+                if(!e.IsFolder())
+                    RemoveAt(n);
+            }
         }
 
         public int CountFolder(string folder)
@@ -428,8 +450,7 @@ namespace RapChessGui
 
         public void AutoUpdate()
         {
-            bool reset = Count == 0;
-            List<string> list = CData.ListExe(@"Engines\Auto");
+            List<string> list = CData.ListExe(@"Engines");
             foreach (string file in list)
             {
                 CEngine engine = GetEngineByFile(file);
@@ -438,7 +459,7 @@ namespace RapChessGui
                     engine = new CEngine();
                     Add(engine);
                     engine.file = file;
-                    engine.folder = "Auto";
+                    engine.folder = Global.none;
                     engine.SaveToIni();
                 }
             }
@@ -447,32 +468,6 @@ namespace RapChessGui
                 CEngine e = this[n];
                 if (e.IsAuto() && !e.FileExists())
                     DeleteEngine(e.name);
-            }
-            if (reset)
-            {
-                CEngine e;
-                e = GetEngineByName(CListEngine.def);
-                if (e != null)
-                {
-                    e.protocol = CProtocol.uci;
-                    e.Elo = 2000;
-                    e.SaveToIni();
-                }
-                e = GetEngineByName("RapSimpleCs");
-                if (e != null)
-                {
-                    e.protocol = CProtocol.uci;
-                    e.modeElo = false;
-                    e.SaveToIni();
-                }
-                e = GetEngineByName("RapShortCs");
-                if (e != null)
-                {
-                    e.protocol = CProtocol.uci;
-                    e.Elo = 1000;
-                    e.modeElo = false;
-                    e.SaveToIni();
-                }
             }
         }
 

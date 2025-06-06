@@ -59,6 +59,10 @@ namespace RapChessGui
             modeValue.SetLimit(ini.Read("mode>game>mode", modeValue.GetLimit()));
             modeValue.baseVal = ini.ReadInt("mode>game>value", modeValue.baseVal);
             history.LoadFromIni(ini, "mode>game>history");
+            if (history.Count == 0)
+            {
+                history.AddElo(1000);
+            }
         }
 
     }

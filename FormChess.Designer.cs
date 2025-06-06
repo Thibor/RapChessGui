@@ -1067,7 +1067,7 @@
             // 
             // columnHeader34
             // 
-            this.columnHeader34.Text = "Changes";
+            this.columnHeader34.Text = "Games";
             this.columnHeader34.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // lvTourBSel
@@ -1496,7 +1496,7 @@
             // 
             // columnHeader6
             // 
-            this.columnHeader6.Text = "Changes";
+            this.columnHeader6.Text = "Games";
             this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // lvTourPSel
@@ -2824,7 +2824,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 2);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.ShowItemToolTips = true;
-            this.menuStrip1.Size = new System.Drawing.Size(500, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(380, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -3321,7 +3321,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 

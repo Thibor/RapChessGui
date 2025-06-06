@@ -23,8 +23,6 @@ namespace RapChessGui
         {
             string fn = @"Data\lichess.puz";
             puzzleList.LoadFromFile(fn);
-            //puzzleList.SortElo();
-            //puzzleList.SaveToFile("sort.puz");
             ini.Load();
             LoadFromIni();
         }

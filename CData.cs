@@ -421,12 +421,6 @@ namespace RapChessGui
             }
         }
 
-        /*public static int GetValue(CLevel level, int baseVal)
-        {
-            int inc = GetIncrement(level);
-            return baseVal > 0 ? baseVal * inc : inc;
-        }*/
-
         public void SetLimit(string str)
         {
             limit = StrToLimit(str);
@@ -561,12 +555,12 @@ namespace RapChessGui
             }
         }
 
-        public void ClearHistory()
+        public int ClearHistory()
         {
             int elo = Elo;
             history.Clear();
             Elo = elo;
-            CModeTournamentE.tourList.DeletePlayer(name);
+            return CModeTournamentE.tourList.DeletePlayer(name);
         }
 
         public double EvaluateOpponent(CElement second, double listCount, CTourList tourList)

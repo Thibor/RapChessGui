@@ -428,6 +428,7 @@ namespace RapChessGui
 
         private void FormEngine_Shown(object sender, EventArgs e)
         {
+            FormChess.engineList.Check();
             CData.UpdateFolderEngine();
             cbFolderList.Items.Clear();
             cbFolderList.Sorted = true;
@@ -547,12 +548,12 @@ namespace RapChessGui
         {
             if (engine != null)
             {
-                engine.ClearHistory();
+                
                 engine.eMove.Clear();
                 engine.eTime.Clear();
-                engine.SaveToIni();
-                int count = CModeTournamentE.tourList.DeletePlayer(engine.name);
+                int count = engine.ClearHistory();
                 MessageBox.Show($"{count} records have been deleted");
+                engine.SaveToIni();
             }
         }
 

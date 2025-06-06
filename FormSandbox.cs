@@ -30,7 +30,7 @@ namespace RapChessGui
             {
                 if (!String.IsNullOrEmpty(e.Data))
                 {
-                    Invoke(deleMessage, new object[] { e.Data.Trim() });
+                    Invoke(deleMessage, new object[] { e.Data });
                 }
             }
             catch { }
@@ -57,7 +57,8 @@ namespace RapChessGui
             cbEngineList.Items.Clear();
             foreach (CEngine eng in FormChess.engineList)
                 cbEngineList.Items.Add(eng.name);
-            cbEngineList.SelectedIndex=cbEngineList.FindStringExact(FormEditEngine.engineName);
+            cbEngineList.SelectedIndex=cbEngineList.FindStringExact(FormChess.ini.Read("sandbox>engine"));
+            rtbCommand.Lines = FormChess.ini.ReadArrStr("sandbox>commands");
         }
 
         private void cbEngineList_SelectedIndexChanged(object sender, EventArgs e)
@@ -75,6 +76,8 @@ namespace RapChessGui
             richTextBox1.Clear();
             foreach (string c in rtbCommand.Lines)
                 process.WriteLine(c);
+            FormChess.ini.Write("sandbox>commands",rtbCommand.Lines);
+            FormChess.ini.Write("sandbox>engine", cbEngineList.Text);
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)

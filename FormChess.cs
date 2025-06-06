@@ -116,7 +116,6 @@ namespace RapChessGui
             CreateDir("Books");
             CreateDir("Data");
             CreateDir("Engines");
-            CreateDir(@"Engines\Auto");
             CreateDir("History");
             CreateDir("Ini");
             CreateDir("Log");
@@ -2186,7 +2185,8 @@ namespace RapChessGui
             tourB.ListFill();
             foreach (CBook b in CModeTournamentB.bookList)
             {
-                ListViewItem lvi = new ListViewItem(new[] { b.name, b.Elo.ToString(), b.GetDeltaElo().ToString() });
+                int cg = CModeTournamentB.tourList.CountGames(b.name);
+                ListViewItem lvi = new ListViewItem(new[] { b.name, b.Elo.ToString(),cg.ToString() });
                 lvi.BackColor = b.history.GetColor();
                 lvTourBList.Items.Add(lvi);
             }
@@ -2538,7 +2538,8 @@ namespace RapChessGui
             tourP.ListFill();
             foreach (CPlayer p in CModeTournamentP.playerList)
             {
-                ListViewItem lvi = new ListViewItem(new[] { p.name, p.Elo.ToString(), p.GetDeltaElo().ToString() });
+                int cg = CModeTournamentP.tourList.CountGames(p.name);
+                ListViewItem lvi = new ListViewItem(new[] { p.name, p.Elo.ToString(), cg.ToString() });
                 lvi.BackColor = p.history.GetColor();
                 lvTourPList.Items.Add(lvi);
             }
@@ -3981,9 +3982,6 @@ namespace RapChessGui
             ShowFormLastGame("time");
         }
 
-        private void sandboxToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-        }
     }
 }
 
