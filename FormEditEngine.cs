@@ -285,7 +285,7 @@ namespace RapChessGui
             nudElo.Value = engine.Elo;
             nudTournament.Value = engine.tournament;
             Bitmap bmp = engine.GetBitmap();
-            pictureBox.Width = GetBitmapWidth(bmp,pictureBox.Height);
+            pictureBox.Width = GetBitmapWidth(bmp, pictureBox.Height);
             pictureBox.Image = bmp;
         }
 
@@ -548,7 +548,7 @@ namespace RapChessGui
         {
             if (engine != null)
             {
-                
+
                 engine.eMove.Clear();
                 engine.eTime.Clear();
                 int count = engine.ClearHistory();
@@ -559,7 +559,8 @@ namespace RapChessGui
 
         private void cbFolderList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            List<string> list = CData.ListExe($@"Engines\{cbFolderList.Text}");
+            string dir = cbFolderList.Text == Global.none ? string.Empty : @"\" + cbFolderList.Text;
+            List<string> list = CData.ListExe($@"Engines{dir}");
             CData.FillComboBox(cbFileList, list);
             cbFileList.SelectedIndex = cbFileList.Items.Count - 1;
         }

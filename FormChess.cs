@@ -3743,7 +3743,9 @@ namespace RapChessGui
                 }
             }
         }
-
+        /// <summary>
+        /// Save current puzzle to file.
+        /// </summary>
         private void puzzleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string fn = @"Data\puzzle.puz";
