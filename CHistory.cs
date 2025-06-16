@@ -57,7 +57,7 @@ namespace RapChessGui
 
         public string GetNotation()
         {
-            if (FormOptions.isSan)
+            if (FormChess.formOptions.rbSan.Checked)
                 return san;
             else
                 return umo;

@@ -108,6 +108,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.nudBreak = new System.Windows.Forms.NumericUpDown();
             this.tabPagePuzzle = new System.Windows.Forms.TabPage();
+            this.groupBox22 = new System.Windows.Forms.GroupBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.nudPuzzleRepetition = new System.Windows.Forms.NumericUpDown();
             this.clbPuzzle = new System.Windows.Forms.CheckedListBox();
             this.tabPageTourB = new System.Windows.Forms.TabPage();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
@@ -195,6 +198,8 @@
             this.gbMatch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBreak)).BeginInit();
             this.tabPagePuzzle.SuspendLayout();
+            this.groupBox22.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPuzzleRepetition)).BeginInit();
             this.tabPageTourB.SuspendLayout();
             this.groupBox11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTourB)).BeginInit();
@@ -332,7 +337,6 @@
             0,
             0,
             0});
-            this.nudHistory.ValueChanged += new System.EventHandler(this.nudHistory_ValueChanged);
             // 
             // label18
             // 
@@ -365,7 +369,6 @@
             0,
             0,
             0});
-            this.nudSpeed.ValueChanged += new System.EventHandler(this.nudSpeed_ValueChanged);
             // 
             // cbSound
             // 
@@ -378,7 +381,6 @@
             this.cbSound.TabIndex = 13;
             this.cbSound.Text = "Play sound";
             this.cbSound.UseVisualStyleBackColor = true;
-            this.cbSound.CheckedChanged += new System.EventHandler(this.cbSound_CheckedChanged);
             // 
             // butColor
             // 
@@ -402,7 +404,6 @@
             this.cbTips.TabIndex = 12;
             this.cbTips.Text = "Show tips";
             this.cbTips.UseVisualStyleBackColor = true;
-            this.cbTips.CheckedChanged += new System.EventHandler(this.cbTips_CheckedChanged);
             // 
             // cbArrow
             // 
@@ -415,7 +416,6 @@
             this.cbArrow.TabIndex = 10;
             this.cbArrow.Text = "Show arrow";
             this.cbArrow.UseVisualStyleBackColor = true;
-            this.cbArrow.CheckedChanged += new System.EventHandler(this.cbArrow_CheckedChanged);
             // 
             // cbAttack
             // 
@@ -426,7 +426,6 @@
             this.cbAttack.TabIndex = 7;
             this.cbAttack.Text = "Show attack";
             this.cbAttack.UseVisualStyleBackColor = true;
-            this.cbAttack.CheckedChanged += new System.EventHandler(this.cbAttack_CheckedChanged);
             // 
             // cbLink
             // 
@@ -546,7 +545,6 @@
             this.rbSan.TabStop = true;
             this.rbSan.Text = "San";
             this.rbSan.UseVisualStyleBackColor = true;
-            this.rbSan.CheckedChanged += new System.EventHandler(this.rbSan_CheckedChanged);
             // 
             // gbPriority
             // 
@@ -1311,10 +1309,10 @@
             0,
             0,
             0});
-            this.nudBreak.ValueChanged += new System.EventHandler(this.nudMatch_ValueChanged);
             // 
             // tabPagePuzzle
             // 
+            this.tabPagePuzzle.Controls.Add(this.groupBox22);
             this.tabPagePuzzle.Controls.Add(this.clbPuzzle);
             this.tabPagePuzzle.Location = new System.Drawing.Point(4, 5);
             this.tabPagePuzzle.Name = "tabPagePuzzle";
@@ -1323,6 +1321,42 @@
             this.tabPagePuzzle.TabIndex = 8;
             this.tabPagePuzzle.Text = "tabPage1";
             this.tabPagePuzzle.UseVisualStyleBackColor = true;
+            // 
+            // groupBox22
+            // 
+            this.groupBox22.Controls.Add(this.label20);
+            this.groupBox22.Controls.Add(this.nudPuzzleRepetition);
+            this.groupBox22.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox22.Location = new System.Drawing.Point(3, 52);
+            this.groupBox22.Name = "groupBox22";
+            this.groupBox22.Size = new System.Drawing.Size(359, 48);
+            this.groupBox22.TabIndex = 17;
+            this.groupBox22.TabStop = false;
+            this.groupBox22.Text = "Repetition";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(168, 21);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(107, 13);
+            this.label20.TabIndex = 10;
+            this.label20.Text = "Number of repetitions";
+            // 
+            // nudPuzzleRepetition
+            // 
+            this.nudPuzzleRepetition.Location = new System.Drawing.Point(6, 19);
+            this.nudPuzzleRepetition.Name = "nudPuzzleRepetition";
+            this.nudPuzzleRepetition.Size = new System.Drawing.Size(156, 20);
+            this.nudPuzzleRepetition.TabIndex = 9;
+            this.nudPuzzleRepetition.TabStop = false;
+            this.nudPuzzleRepetition.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nudPuzzleRepetition.ThousandsSeparator = true;
+            this.nudPuzzleRepetition.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
             // 
             // clbPuzzle
             // 
@@ -2107,6 +2141,9 @@
             this.gbMatch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBreak)).EndInit();
             this.tabPagePuzzle.ResumeLayout(false);
+            this.groupBox22.ResumeLayout(false);
+            this.groupBox22.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPuzzleRepetition)).EndInit();
             this.tabPageTourB.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudTourB)).EndInit();
@@ -2277,5 +2314,8 @@
         private System.Windows.Forms.GroupBox groupBox21;
         public System.Windows.Forms.NumericUpDown nudEditLimitV;
         public System.Windows.Forms.ComboBox cbEditLimitT;
+        private System.Windows.Forms.GroupBox groupBox22;
+        private System.Windows.Forms.Label label20;
+        public System.Windows.Forms.NumericUpDown nudPuzzleRepetition;
     }
 }

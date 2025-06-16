@@ -105,5 +105,14 @@ namespace RapChessGui.Properties {
                 return ResourceManager.GetStream("Move", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.IO.UnmanagedMemoryStream podobny do zasobu System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Promote {
+            get {
+                return ResourceManager.GetStream("Promote", resourceCulture);
+            }
+        }
     }
 }

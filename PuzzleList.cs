@@ -76,17 +76,19 @@ namespace RapChessGui
             return false;
         }
 
-        public void SaveToFile(string fileName,int limit=0)
+        public void SetCount(int c) {
+            while (Count > c)
+                RemoveAt(Count - 1);
+        }
+
+        public void SaveToFile(string fileName)
         {
             using (FileStream fs = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
             using (StreamWriter sw = new StreamWriter(fs))
             {
-                int c = 0;
                 foreach (EPuzzle ep in this)
                 {
                     sw.WriteLine(ep.SaveToStr());
-                    if ((limit > 0) && (++c >= limit))
-                        break;
                 }
             }
         }

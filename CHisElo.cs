@@ -74,7 +74,7 @@ namespace RapChessGui
 		public void AddVal(int val)
 		{
             Add(val);
-            int c = Count - FormOptions.historyLength;
+            int c = Count - (int)FormChess.formOptions.nudHistory.Value;
             if (c > 0)
                 RemoveRange(0, c);
         }

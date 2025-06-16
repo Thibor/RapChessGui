@@ -11,16 +11,7 @@ namespace RapChessGui
 {
     public partial class FormOptions : Form
     {
-        public static bool autoElo = true;
-        public static bool isSan = true;
-        public static bool showArrow = true;
-        public static bool showAttack = false;
-        public static bool showTips = true;
-        public static bool soundOn = true;
-        public static int animationSpeed = 200;
         public static int fontSize = 10;
-        public static int gameBreak = 8;
-        public static int historyLength = 100;
         public static int marginStandard = 0;
         public static int marginTime = 5000;
         public static int winLimit = 1;
@@ -31,15 +22,7 @@ namespace RapChessGui
         public static string tourEMode = "Time";
         public static ProcessPriorityClass priority = ProcessPriorityClass.Normal;
         public static Color color = Color.Yellow;
-        public static FormOptions This;
 
-        public static CLimit TourELevel
-        {
-            get
-            {
-                return CLimitValue.StrToLimit(tourEMode);
-            }
-        }
 
         [ComImport]
         [Guid("00021401-0000-0000-C000-000000000046")]
@@ -145,6 +128,7 @@ namespace RapChessGui
         {
             for (int i = 0; i < clbPuzzle.Items.Count;i++)
                 clbPuzzle.SetItemChecked(i, FormChess.ini.ReadBool($"options>mode>puzzle>{i}", true, def));
+            nudPuzzleRepetition.Value = FormChess.ini.ReadDecimal("options>mode>puzzle>repetition", nudPuzzleRepetition.Value, def);
 
             cbEditLimitT.Text = FormChess.ini.Read("options>mode>edit>limit", Global.limit, def);
             nudEditLimitV.Value = FormChess.ini.ReadDecimal("options>mode>edit>value", Global.value, def);
@@ -208,8 +192,9 @@ namespace RapChessGui
         {
             for (int i = 0; i < clbPuzzle.Items.Count; i++)
                 FormChess.ini.Write($"options>mode>puzzle>{i}",clbPuzzle.GetItemChecked(i));
+            FormChess.ini.Write("options>mode>puzzle>repetition", nudPuzzleRepetition.Value);
 
-           FormChess.ini.Write("options>mode>edit>limit", cbEditLimitT.Text);
+            FormChess.ini.Write("options>mode>edit>limit", cbEditLimitT.Text);
            FormChess.ini.Write("options>mode>edit>value", nudEditLimitV.Value);
 
             FormChess.ini.Write("options>mode>game>rotate", cbGameRotate.Checked);
@@ -504,58 +489,9 @@ namespace RapChessGui
             winLimit = (int)nudTraining.Value;
         }
 
-        private void rbSan_CheckedChanged(object sender, EventArgs e)
-        {
-            isSan = rbSan.Checked;
-        }
-
-        private void cbShowPonder_CheckedChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void cbSpam_CheckedChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void cbArrow_CheckedChanged(object sender, EventArgs e)
-        {
-            showArrow = cbArrow.Checked;
-        }
-
-        private void cbSound_CheckedChanged(object sender, EventArgs e)
-        {
-            soundOn = cbSound.Checked;
-        }
-
-        private void cbAttack_CheckedChanged(object sender, EventArgs e)
-        {
-            showAttack = cbAttack.Checked;
-        }
-
-        private void cbTips_CheckedChanged(object sender, EventArgs e)
-        {
-            showTips = cbTips.Checked;
-        }
-
-        private void nudSpeed_ValueChanged(object sender, EventArgs e)
-        {
-            animationSpeed = (int)nudSpeed.Value;
-        }
-
-        private void nudHistory_ValueChanged(object sender, EventArgs e)
-        {
-            historyLength = (int)nudHistory.Value;
-        }
-
         private void cbGameAutoElo_CheckedChanged(object sender, EventArgs e)
         {
-            autoElo = cbGameRanked.Checked;
-            nudUserElo.Enabled = !autoElo;
-        }
-
-        private void nudMatch_ValueChanged(object sender, EventArgs e)
-        {
-            gameBreak = (int)nudBreak.Value;
+            nudUserElo.Enabled = !cbGameRanked.Checked;
         }
 
         private void combModeStandard_SelectedIndexChanged(object sender, EventArgs e)

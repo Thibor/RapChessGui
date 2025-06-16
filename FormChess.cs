@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace RapChessGui
 {
@@ -45,6 +46,7 @@ namespace RapChessGui
         readonly SoundPlayer audioCapture = new SoundPlayer(Properties.Resources.Capture);
         readonly SoundPlayer audioCastling = new SoundPlayer(Properties.Resources.Castling);
         readonly SoundPlayer audioCheck = new SoundPlayer(Properties.Resources.Check);
+        readonly SoundPlayer audioPromote = new SoundPlayer(Properties.Resources.Promote);
         public static CRapLog log = new CRapLog(@"Log\rapchessgui.log");
         public static PrivateFontCollection pfc = new PrivateFontCollection();
         public static CListBook bookList = new CListBook();
@@ -141,7 +143,7 @@ namespace RapChessGui
                 (c as Label).Font = fontChessPromo;
             foreach (Control c in tlpEdit.Controls)
                 (c as Label).Font = fontChess;
-            toolTip1.Active = FormOptions.showTips;
+            toolTip1.Active = formOptions.cbTips.Checked;
             CWinMessage.winHandle = Handle;
             BoardPrepare();
             cbApply.SelectedIndex = 0;
@@ -496,15 +498,17 @@ namespace RapChessGui
             formLog.ShowDialog(form);
         }
 
-        void PlaySound(bool capture, bool castling, bool check)
+        void PlaySound(bool capture, bool castling, bool check, bool promote)
         {
-            if (FormOptions.soundOn)
-                if (capture)
-                    audioCapture.Play();
+            if (formOptions.cbSound.Checked)
+                if (check)
+                    audioCheck.Play();
+                else if (promote)
+                    audioPromote.Play();
                 else if (castling)
                     audioCastling.Play();
-                else if (check)
-                    audioCheck.Play();
+                else if (capture)
+                    audioCapture.Play();
                 else
                     audioMove.Play();
         }
@@ -957,7 +961,7 @@ namespace RapChessGui
                     TournamentPEnd(pw, pl, winColor == CColor.none);
                 if (gameMode == CGameMode.training)
                     TrainingEnd(gw, winColor == CColor.none);
-                Task.Delay(FormOptions.gameBreak * 1000).ContinueWith(t => CWinMessage.Message(WM_GAME_NEXT));
+                Task.Delay((int)formOptions.nudBreak.Value * 1000).ContinueWith(t => CWinMessage.Message(WM_GAME_NEXT));
             }
             CPlayer hu = gamers.GetHuman();
             if ((gameMode == CGameMode.game) && (hu != null) && (CModeGame.ranked))
@@ -1043,7 +1047,7 @@ namespace RapChessGui
                     if ((moves.Count == 0) && (g.multipv < 2))
                     {
                         g.lastMove = umo;
-                        if (FormOptions.showArrow)
+                        if (formOptions.cbArrow.Checked)
                         {
                             board.arrows.AddMoves(umo, g.arrowColor, g.arrowShift);
                             RenderBoard(true);
@@ -1051,7 +1055,7 @@ namespace RapChessGui
                     }
                     chess.MakeMove(emo);
                     moves.Add(emo);
-                    if (FormOptions.isSan)
+                    if (formOptions.rbSan.Checked)
                         pv += $" {san}";
                     else
                         pv += $" {umo}";
@@ -1369,7 +1373,7 @@ namespace RapChessGui
 
         bool IsGameRanked()
         {
-            return (formOptions.cbGameOpponent.Text == "Auto") && FormOptions.autoElo && (gameMode == CGameMode.game);
+            return (formOptions.cbGameOpponent.Text == "Auto") && formOptions.cbGameRanked.Checked && (gameMode == CGameMode.game);
         }
 
         void SetUnranked()
@@ -1572,7 +1576,7 @@ namespace RapChessGui
                 SetGameState(CGameState.error, gc, move);
                 return false;
             }
-            PlaySound(chess.MoveIsCapture(emo), chess.MoveIsCastling(emo), chess.IsCheck(emo));
+            PlaySound(chess.MoveIsCapture(emo), chess.MoveIsCastling(emo), chess.MoveIsCheck(emo),chess.MoveIsPromote(emo));
             gc.MoveDone();
             CChess.UmoToSD(umo, out CDrag.lastSou, out CDrag.lastDes);
             int pieceType = chess.GetPieceType(emo);
@@ -2186,7 +2190,7 @@ namespace RapChessGui
             foreach (CBook b in CModeTournamentB.bookList)
             {
                 int cg = CModeTournamentB.tourList.CountGames(b.name);
-                ListViewItem lvi = new ListViewItem(new[] { b.name, b.Elo.ToString(),cg.ToString() });
+                ListViewItem lvi = new ListViewItem(new[] { b.name, b.Elo.ToString(), cg.ToString() });
                 lvi.BackColor = b.history.GetColor();
                 lvTourBList.Items.Add(lvi);
             }
@@ -2890,9 +2894,11 @@ namespace RapChessGui
                 labPuzzleInfo.BackColor = Color.DarkGreen;
                 PuzzleList pl = new PuzzleList();
                 string fn = @"History\last.puz";
+                int limit = (int)formOptions.nudPuzzleRepetition.Value;
                 pl.LoadFromFile(fn);
                 pl.Insert(0, ep);
-                pl.SaveToFile(fn, 32);
+                pl.SetCount(32);
+                pl.SaveToFile(fn);
             }
             chess.SetFen(puzzle.fen);
             board.SetFen();
@@ -3011,7 +3017,6 @@ namespace RapChessGui
             ChessToForm();
             ChessToMEdit();
             SetBoardRotate();
-            //RenderBoard(true);
             board.StartAnimation();
             if (Analysis)
                 AnalysisStart();
@@ -3233,7 +3238,7 @@ namespace RapChessGui
                     break;
             }
             formOptions.ShowDialog(this);
-            toolTip1.Active = FormOptions.showTips;
+            toolTip1.Active = formOptions.cbTips.Checked;
             board.animated = true;
             board.arrows.Clear();
             board.ClearColors();

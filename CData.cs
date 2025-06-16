@@ -111,7 +111,7 @@ namespace RapChessGui
                 Add(0);
             else if (this[Count - 1] < int.MaxValue)
                 this[Count - 1]++;
-            if (((Sum() % 100) == 0) || (Count > FormOptions.historyLength))
+            if (((Sum() % 100) == 0) || (Count > FormChess.formOptions.nudHistory.Value))
                 RemoveRange(0, 1);
         }
 

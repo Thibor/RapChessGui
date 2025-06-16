@@ -47,7 +47,7 @@ namespace RapChessGui
 
         public void Add(string fen, string moves)
         {
-            EMistake em = new EMistake() { fen = fen, moves = moves};
+            EMistake em = new EMistake() { fen = fen, moves = moves };
             Insert(0, em);
             SaveToFile();
         }
@@ -57,8 +57,8 @@ namespace RapChessGui
         ///</summary>
         public bool Delete(string fen)
         {
-            for(int n=Count-1;n>=0 ;n--)
-                if (this[n].fen==fen)
+            for (int n = Count - 1; n >= 0; n--)
+                if (this[n].fen == fen)
                 {
                     RemoveAt(n);
                     return true;
@@ -72,11 +72,12 @@ namespace RapChessGui
             using (StreamWriter sw = new StreamWriter(fs))
             {
                 int c = 0;
+                int limit = (int)FormChess.formOptions.nudPuzzleRepetition.Value;
                 foreach (EMistake em in this)
                     if (em.rep > 0)
                     {
                         sw.WriteLine(em.SaveToStr());
-                        if (++c >= 16)
+                        if ((limit > 0) && (++c >= limit))
                             break;
                     }
             }
@@ -90,12 +91,15 @@ namespace RapChessGui
             using (FileStream fs = File.Open(fileName, FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read))
             using (StreamReader reader = new StreamReader(fs))
             {
+                int limit = (int)FormChess.formOptions.nudPuzzleRepetition.Value;
                 string line = String.Empty;
                 while ((line = reader.ReadLine()) != null)
                 {
                     EMistake em = new EMistake();
                     if (em.LoadFromStr(line))
                         Add(em);
+                    if ((limit > 0) && (Count >= limit))
+                        break;
                 }
             }
             return Count > 0;
@@ -109,7 +113,7 @@ namespace RapChessGui
             else
                 em.rep--;
             RemoveAt(0);
-                Add(em);
+            Add(em);
             SaveToFile();
         }
 

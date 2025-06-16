@@ -355,6 +355,7 @@
     <Content Include="Resources\Sounds\Castling.wav" />
     <Content Include="Resources\Sounds\Check.wav" />
     <Content Include="Resources\Sounds\Move.wav" />
+    <None Include="Resources\Sounds\Promote.wav" />
   </ItemGroup>
   <ItemGroup>
     <PublishFile Include="RapChessGui.exe.manifest">

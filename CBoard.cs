@@ -57,7 +57,8 @@ namespace RapChessGui
         {
             if ((curXY.X == desXY.X) && (curXY.Y == desXY.Y))
                 return false;
-            double dif = CBoard.timer.Elapsed.TotalMilliseconds / FormOptions.animationSpeed;
+            double speed = Convert.ToDouble(FormChess.formOptions.nudSpeed.Value);
+            double dif = CBoard.timer.Elapsed.TotalMilliseconds / speed;
             if (dif >= 1)
             {
                 curXY.X = desXY.X;
@@ -583,7 +584,7 @@ namespace RapChessGui
             ClearColors();
             if (FormChess.gameMode == CGameMode.edit)
                 return;
-            bool show = FormOptions.showAttack;
+            bool show = FormChess.formOptions.cbAttack.Checked;
             bool mate = FormChess.chess.GetGameState() == CGameState.mate;
             ShowAttack(show, FormChess.chess.WhiteTurn, mate);
             ShowAttack(show, !FormChess.chess.WhiteTurn, mate);

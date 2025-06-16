@@ -252,8 +252,8 @@ namespace NSChess
         public bool MoveWhite(int emo) => (board[MoveFr(emo)] & colorWhite) > 0;
         public bool MoveIsCastling(int emo) => (emo & maskCastle) > 0;
         public bool MoveIsCapture(int emo) => (board[MoveTo(emo)] & 0xf) > 0;
-
-        public bool IsCheck(int emo)
+        public bool MoveIsPromote(int emo) => (emo & maskPromotion) > 0;
+        public bool MoveIsCheck(int emo)
         {
             MakeMove(emo);
             GenerateAllMoves(!WhiteTurn, true);
