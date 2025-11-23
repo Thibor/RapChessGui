@@ -37,7 +37,7 @@
             this.bCreate = new System.Windows.Forms.Button();
             this.bRename = new System.Windows.Forms.Button();
             this.bSave = new System.Windows.Forms.Button();
-            this.gbMode = new System.Windows.Forms.GroupBox();
+            this.gbFeatures = new System.Windows.Forms.GroupBox();
             this.cbModeSearchmoves = new System.Windows.Forms.CheckBox();
             this.cbModeFen = new System.Windows.Forms.CheckBox();
             this.cbModeElo = new System.Windows.Forms.CheckBox();
@@ -66,6 +66,7 @@
             this.timerPhase = new System.Windows.Forms.Timer(this.components);
             this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.consoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sandboxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tournametToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,10 +82,9 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.autodetectAllEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearAllEloToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sandboxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panButtons.SuspendLayout();
-            this.gbMode.SuspendLayout();
+            this.gbFeatures.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTournament)).BeginInit();
             this.gbElo.SuspendLayout();
@@ -102,7 +102,7 @@
             // 
             this.panel1.Controls.Add(this.panOptions);
             this.panel1.Controls.Add(this.panButtons);
-            this.panel1.Controls.Add(this.gbMode);
+            this.panel1.Controls.Add(this.gbFeatures);
             this.panel1.Controls.Add(this.groupBox5);
             this.panel1.Controls.Add(this.gbElo);
             this.panel1.Controls.Add(this.groupBox3);
@@ -200,25 +200,25 @@
             this.bSave.UseVisualStyleBackColor = true;
             this.bSave.Click += new System.EventHandler(this.bSave_Click);
             // 
-            // gbMode
+            // gbFeatures
             // 
-            this.gbMode.AutoSize = true;
-            this.gbMode.Controls.Add(this.cbModeSearchmoves);
-            this.gbMode.Controls.Add(this.cbModeFen);
-            this.gbMode.Controls.Add(this.cbModeElo);
-            this.gbMode.Controls.Add(this.cbModeInfinite);
-            this.gbMode.Controls.Add(this.cbModeNodes);
-            this.gbMode.Controls.Add(this.cbModeTournament);
-            this.gbMode.Controls.Add(this.cbModeDepth);
-            this.gbMode.Controls.Add(this.cbModeTime);
-            this.gbMode.Controls.Add(this.cbModeStandard);
-            this.gbMode.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbMode.Location = new System.Drawing.Point(0, 265);
-            this.gbMode.Name = "gbMode";
-            this.gbMode.Size = new System.Drawing.Size(311, 98);
-            this.gbMode.TabIndex = 31;
-            this.gbMode.TabStop = false;
-            this.gbMode.Text = "Mode";
+            this.gbFeatures.AutoSize = true;
+            this.gbFeatures.Controls.Add(this.cbModeSearchmoves);
+            this.gbFeatures.Controls.Add(this.cbModeFen);
+            this.gbFeatures.Controls.Add(this.cbModeElo);
+            this.gbFeatures.Controls.Add(this.cbModeInfinite);
+            this.gbFeatures.Controls.Add(this.cbModeNodes);
+            this.gbFeatures.Controls.Add(this.cbModeTournament);
+            this.gbFeatures.Controls.Add(this.cbModeDepth);
+            this.gbFeatures.Controls.Add(this.cbModeTime);
+            this.gbFeatures.Controls.Add(this.cbModeStandard);
+            this.gbFeatures.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbFeatures.Location = new System.Drawing.Point(0, 265);
+            this.gbFeatures.Name = "gbFeatures";
+            this.gbFeatures.Size = new System.Drawing.Size(311, 98);
+            this.gbFeatures.TabIndex = 31;
+            this.gbFeatures.TabStop = false;
+            this.gbFeatures.Text = "Features";
             // 
             // cbModeSearchmoves
             // 
@@ -535,6 +535,13 @@
             this.consoleToolStripMenuItem.Text = "Console";
             this.consoleToolStripMenuItem.Click += new System.EventHandler(this.consoleToolStripMenuItem_Click);
             // 
+            // sandboxToolStripMenuItem
+            // 
+            this.sandboxToolStripMenuItem.Name = "sandboxToolStripMenuItem";
+            this.sandboxToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.sandboxToolStripMenuItem.Text = "Sandbox";
+            this.sandboxToolStripMenuItem.Click += new System.EventHandler(this.sandboxToolStripMenuItem_Click);
+            // 
             // logToolStripMenuItem
             // 
             this.logToolStripMenuItem.Name = "logToolStripMenuItem";
@@ -648,13 +655,6 @@
             this.clearAllEloToolStripMenuItem.Text = "Reset all accuracy";
             this.clearAllEloToolStripMenuItem.Click += new System.EventHandler(this.ResetAllAccuracy_Click);
             // 
-            // sandboxToolStripMenuItem
-            // 
-            this.sandboxToolStripMenuItem.Name = "sandboxToolStripMenuItem";
-            this.sandboxToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
-            this.sandboxToolStripMenuItem.Text = "Sandbox";
-            this.sandboxToolStripMenuItem.Click += new System.EventHandler(this.sandboxToolStripMenuItem_Click);
-            // 
             // FormEditEngine
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -676,8 +676,8 @@
             this.panel1.PerformLayout();
             this.panButtons.ResumeLayout(false);
             this.panButtons.PerformLayout();
-            this.gbMode.ResumeLayout(false);
-            this.gbMode.PerformLayout();
+            this.gbFeatures.ResumeLayout(false);
+            this.gbFeatures.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTournament)).EndInit();
@@ -710,7 +710,7 @@
 		private System.Windows.Forms.TextBox tbParameters;
 		private System.Windows.Forms.GroupBox gbElo;
 		private System.Windows.Forms.NumericUpDown nudElo;
-		private System.Windows.Forms.GroupBox gbMode;
+		private System.Windows.Forms.GroupBox gbFeatures;
 		private System.Windows.Forms.CheckBox cbModeStandard;
 		private System.Windows.Forms.GroupBox groupBox5;
 		private System.Windows.Forms.NumericUpDown nudTournament;

@@ -28,67 +28,9 @@ namespace RapChessGui
                 lv.Items[n].SubItems[0].Text = (n + 1).ToString();
         }
 
-        /*int EloOpt(CEngine e1, CEngine e2)
+        int GetEloAccuracy(double v)
         {
-            CModeTournamentE.tourList.CountGames(e1.name, e2.name, out int gw, out int gl, out _);
-            return gw - gl;
-        }
-
-        bool EloOpt(int index)
-        {
-            CEngine e1 = FormChess.engineList[index];
-            CEngine e2;
-            int down = index;
-            int up = index;
-            for (int n = index + 1; n < FormChess.engineList.Count; n++)
-            {
-                e2 = FormChess.engineList[n];
-                int r = EloOpt(e1, e2);
-                if (r == 0)
-                    continue;
-                if (r < 0)
-                    down = n;
-                if (r > 0)
-                    break;
-            }
-            for (int n = index - 1; n >= 0; n--)
-            {
-                e2 = FormChess.engineList[n];
-                int r = EloOpt(e1, e2);
-                if (r == 0)
-                    continue;
-                if (r > 0)
-                    up = n;
-                if (r < 0)
-                    break;
-            }
-            if ((down == up) || ((down != index) && (up != index)))
-                return false;
-            e2 = down == index ? FormChess.engineList[up] : FormChess.engineList[down];
-            (e1.eloOpt, e2.eloOpt) = (e2.eloOpt, e1.eloOpt);
-            return true;
-        }
-
-        void UpdateEloOpt()
-        {
-            for (int n = 0; n < FormChess.engineList.Count; n++)
-                EloOpt(n);
-        }
-
-        void FillEloOpt()
-        {
-            if (FormChess.engineList.Count == 0)
-                return;
-            FormChess.engineList.SortElo();
-            int dis = (CElo.eloMax - CElo.eloMin) / (FormChess.engineList.Count);
-            for (int n = 0; n < FormChess.engineList.Count; n++)
-                FormChess.engineList[n].eloOpt = CElo.eloMin + (FormChess.engineList.Count - n) * dis;
-            UpdateEloOpt();
-        }*/
-
-        string GetElo(double v)
-        {
-            return Convert.ToInt32((v * CElo.eloMax) / 100).ToString();
+            return Convert.ToInt32((v * CElo.eloMax) / 100);
         }
 
         public void FillEloOpt()
@@ -119,7 +61,14 @@ namespace RapChessGui
             {
                 string path = engine.GetPath();
                 DateTime dt = File.GetLastWriteTime(path);
-                ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, engine.Elo.ToString(), engine.eloOpt.ToString(), GetElo(engine.accuracy), GetElo(engine.test), engine.Protocol, engine.depth.ToString("N2"), engine.nps.ToString("N0"), engine.eMove.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2"), dt.ToString("yyyy-MM-dd"), engine.GetFileSize().ToString("N0") });
+                int elo = engine.Elo;
+                int size = engine.GetFileSize();
+                int accuracy = GetEloAccuracy(engine.accuracy);
+                int features = engine.Features();
+                int sizeAccuracy = 0;
+                if (accuracy > 0)
+                    sizeAccuracy = size / accuracy;
+                ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, elo.ToString(), engine.eloOpt.ToString(),accuracy.ToString(), GetEloAccuracy(engine.test).ToString(), engine.Protocol, engine.depth.ToString("N2"), engine.nps.ToString("N0"), engine.eMove.Errors().ToString("N2"), engine.ePv.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2"), dt.ToString("yyyy-MM-dd"), size.ToString("N0"),sizeAccuracy.ToString(),features.ToString() });
                 lvEngines.Items.Add(lvi);
             }
         }

@@ -41,9 +41,12 @@
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader14 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader15 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.foldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.columnHeader14 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader16 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,9 +63,12 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader6,
+            this.columnHeader16,
             this.columnHeader7,
             this.columnHeader13,
-            this.columnHeader14});
+            this.columnHeader14,
+            this.columnHeader11,
+            this.columnHeader15});
             this.lvEngines.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lvEngines.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvEngines.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -73,7 +79,7 @@
             this.lvEngines.MultiSelect = false;
             this.lvEngines.Name = "lvEngines";
             this.lvEngines.ShowGroups = false;
-            this.lvEngines.Size = new System.Drawing.Size(1358, 426);
+            this.lvEngines.Size = new System.Drawing.Size(1505, 426);
             this.lvEngines.TabIndex = 28;
             this.lvEngines.UseCompatibleStateImageBehavior = false;
             this.lvEngines.View = System.Windows.Forms.View.Details;
@@ -105,7 +111,7 @@
             // 
             this.columnHeader9.Text = "Accuracy";
             this.columnHeader9.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader9.Width = 80;
+            this.columnHeader9.Width = 100;
             // 
             // columnHeader12
             // 
@@ -148,13 +154,31 @@
             this.columnHeader13.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.columnHeader13.Width = 100;
             // 
+            // columnHeader14
+            // 
+            this.columnHeader14.Text = "Size";
+            this.columnHeader14.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.columnHeader14.Width = 100;
+            // 
+            // columnHeader11
+            // 
+            this.columnHeader11.Text = "BPA";
+            this.columnHeader11.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.columnHeader11.Width = 100;
+            // 
+            // columnHeader15
+            // 
+            this.columnHeader15.Text = "Features";
+            this.columnHeader15.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.columnHeader15.Width = 100;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.foldersToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1358, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1505, 24);
             this.menuStrip1.TabIndex = 29;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -165,17 +189,17 @@
             this.foldersToolStripMenuItem.Text = "Folders";
             this.foldersToolStripMenuItem.Click += new System.EventHandler(this.foldersToolStripMenuItem_Click);
             // 
-            // columnHeader14
+            // columnHeader16
             // 
-            this.columnHeader14.Text = "Size";
-            this.columnHeader14.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader14.Width = 100;
+            this.columnHeader16.Text = "E Pv %";
+            this.columnHeader16.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.columnHeader16.Width = 100;
             // 
             // FormListE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1358, 450);
+            this.ClientSize = new System.Drawing.Size(1505, 450);
             this.Controls.Add(this.lvEngines);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -211,5 +235,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader12;
         private System.Windows.Forms.ColumnHeader columnHeader13;
         private System.Windows.Forms.ColumnHeader columnHeader14;
+        private System.Windows.Forms.ColumnHeader columnHeader11;
+        private System.Windows.Forms.ColumnHeader columnHeader15;
+        private System.Windows.Forms.ColumnHeader columnHeader16;
     }
 }

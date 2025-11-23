@@ -17,7 +17,7 @@ namespace RapChessGui
 			int index = 0;
 			foreach (CBook book in FormChess.bookList)
 			{
-				ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), book.name, book.Elo.ToString(), book.history.Trend().ToString(), book.history.Change().ToString() });
+				ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), book.name, book.Elo.ToString(), book.depth.ToString("N2"), book.history.Change().ToString() });
 				lvBooks.Items.Add(lvi);
 			}
 		}

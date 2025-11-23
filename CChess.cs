@@ -1,7 +1,5 @@
-﻿using RapChessGui;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NSChess
 {
@@ -909,7 +907,7 @@ namespace NSChess
             return false;
         }
 
-        public bool IsValidMove(string move, out string umo, out int emo)
+        /*public bool IsValidMove(string move, out string umo, out int emo)
         {
             move = move.ToLower();
             emo = 0;
@@ -926,7 +924,7 @@ namespace NSChess
                 }
             }
             return false;
-        }
+        }*/
 
         public bool IsValidMove(string move, out string umo, out string san, out int emo)
         {

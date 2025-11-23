@@ -43,7 +43,7 @@ namespace RapChessGui
 
 		public CPlayer()
 		{
-            levelValue.limit = CLimit.infinite;
+            levelValue.kind = CLimitKind.infinite;
         }
 
 		public CPlayer(string n)
@@ -141,7 +141,7 @@ namespace RapChessGui
 		{
 			if (engine == null)
 				return false;
-			if (!engine.IsPlayable(levelValue.limit))
+			if (!engine.IsPlayable(levelValue.kind))
 				return false;
 			if ((book != null) && !book.IsPlayable())
 				return false;
@@ -157,7 +157,7 @@ namespace RapChessGui
 				EngineName = p.EngineName;
 				BookName = p.BookName;
 				Elo = p.Elo;
-				levelValue.limit = p.levelValue.limit;
+				levelValue.kind = p.levelValue.kind;
 				levelValue.baseVal = p.levelValue.baseVal;
 				history.Assign(p.history);
 			}

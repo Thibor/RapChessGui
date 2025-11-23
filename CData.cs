@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace RapChessGui
 {
     public enum CGameMode { game, match, tourB, tourE, tourP, training, puzzle, edit, none }
-    public enum CProtocol { uci, winboard, auto, unknow }
-    public enum CLimit { standard, time, depth, nodes, infinite }
+    public enum CProtocol { uci, xb, auto, unknow }
+    public enum CLimitKind { standard, time, depth, nodes, infinite }
     public enum CColor { none, white, black }
 
     public static class CWinMessage
@@ -136,7 +137,7 @@ namespace RapChessGui
             {
                 case CProtocol.uci:
                     return "UCI";
-                case CProtocol.winboard:
+                case CProtocol.xb:
                     return "XB";
                 case CProtocol.auto:
                     return "Auto";
@@ -169,7 +170,7 @@ namespace RapChessGui
                 case "UCI":
                     return CProtocol.uci;
                 case "XB":
-                    return CProtocol.winboard;
+                    return CProtocol.xb;
                 case "Auto":
                     return CProtocol.auto;
                 default:
@@ -346,75 +347,57 @@ namespace RapChessGui
 
     public class CLimitValue
     {
-        public static CLimit defLimit = CLimit.standard;
+        public static CLimitKind defKind = CLimitKind.standard;
         public static int defValue = 10;
-        public CLimit limit = defLimit;
+        public CLimitKind kind = defKind;
         public int baseVal = defValue;
         public int baseInc = 0;
 
-        public string ToStr()
+        public static CLimitKind StrToLimit(string kind)
         {
-            return $"{LimitToStr(limit)} {baseVal}";
-        }
-
-        public void FromStr(string s)
-        {
-            string[] arr = s.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            if (arr.Length < 2)
-            {
-                limit = defLimit;
-                baseVal = defValue;
-                return;
-            }
-            limit = StrToLimit(arr[0]);
-            baseVal = Convert.ToInt32(arr[1]);
-        }
-
-        public static CLimit StrToLimit(string str)
-        {
-            switch (str)
+            switch (kind)
             {
                 case "Standard":
-                    return CLimit.standard;
+                    return CLimitKind.standard;
                 case "Time":
-                    return CLimit.time;
+                    return CLimitKind.time;
                 case "Depth":
-                    return CLimit.depth;
+                    return CLimitKind.depth;
                 case "Nodes":
-                    return CLimit.nodes;
+                    return CLimitKind.nodes;
                 default:
-                    return CLimit.infinite;
+                    return CLimitKind.infinite;
             }
         }
 
-        public static string LimitToStr(CLimit level)
+        public static string LimitToStr(CLimitKind kind)
         {
-            switch (level)
+            switch (kind)
             {
-                case CLimit.standard:
+                case CLimitKind.standard:
                     return "Standard";
-                case CLimit.depth:
+                case CLimitKind.depth:
                     return "Depth";
-                case CLimit.nodes:
+                case CLimitKind.nodes:
                     return "Nodes";
-                case CLimit.time:
+                case CLimitKind.time:
                     return "Time";
                 default:
                     return "Infinite";
             }
         }
 
-        public static int GetIncrement(CLimit level)
+        public static int GetIncrement(CLimitKind kind)
         {
-            switch (level)
+            switch (kind)
             {
-                case CLimit.standard:
+                case CLimitKind.standard:
                     return 15;
-                case CLimit.depth:
+                case CLimitKind.depth:
                     return 1;
-                case CLimit.nodes:
+                case CLimitKind.nodes:
                     return 100000;
-                case CLimit.infinite:
+                case CLimitKind.infinite:
                     return 0;
                 default:
                     return 100;
@@ -423,12 +406,12 @@ namespace RapChessGui
 
         public void SetLimit(string str)
         {
-            limit = StrToLimit(str);
+            kind = StrToLimit(str);
         }
 
         public string GetLimit()
         {
-            return LimitToStr(limit);
+            return LimitToStr(kind);
         }
 
         public void SetValue(int v)
@@ -446,33 +429,40 @@ namespace RapChessGui
             return baseVal > 0 ? baseVal * inc : inc;
         }
 
+        public int GetBaseInc()
+        {
+            if (kind == CLimitKind.standard)
+                return baseInc;
+            return 0;
+        }
+
         public int GetUciValue()
         {
             int result = baseVal * GetIncrement();
             if (result < 0)
                 result = 1;
-            if (limit == CLimit.standard)
+            if (kind == CLimitKind.standard)
                 result *= 1000;
             return result;
         }
 
         public int GetIncrement()
         {
-            return GetIncrement(limit);
+            return GetIncrement(kind);
         }
 
         public string GetUci()
         {
             int v = GetValue();
-            switch (limit)
+            switch (kind)
             {
-                case CLimit.standard:
+                case CLimitKind.standard:
                     return $"go wtime {v} btime {v} winc 0 binc 0";
-                case CLimit.depth:
+                case CLimitKind.depth:
                     return $"go depth {v}";
-                case CLimit.nodes:
+                case CLimitKind.nodes:
                     return $"nodes {v}";
-                case CLimit.infinite:
+                case CLimitKind.infinite:
                     return "infinite";
                 default:
                     return $"go movetime {v}";
@@ -481,15 +471,15 @@ namespace RapChessGui
 
         public string GetTip()
         {
-            switch (limit)
+            switch (kind)
             {
-                case CLimit.standard:
+                case CLimitKind.standard:
                     return "Base for whole game in seconds";
-                case CLimit.depth:
+                case CLimitKind.depth:
                     return "Depth in half-moves";
-                case CLimit.nodes:
+                case CLimitKind.nodes:
                     return "Maximum nodes per move";
-                case CLimit.infinite:
+                case CLimitKind.infinite:
                     return "Infinite mode until click stop";
                 default:
                     return "Time per move in miliseconds";
@@ -507,14 +497,21 @@ namespace RapChessGui
 
         public string LongName()
         {
+            int inc = GetIncrement();
+            int bVal = baseVal * inc;
+            int bInc = baseInc;
             string mode = GetLimit();
             if (mode == "Standard")
             {
-                int t = baseVal * 15 + baseInc * 60;
-                int m = baseVal / 4;
-                string min = m > 0 ? m.ToString() : String.Empty;
-                string sec = new string[4] { "", "¼", "½", "¾" }[baseVal % 4];
-                string tim = $"{min}{sec}+{baseInc}";
+                int i1 = bVal / 60;
+                int i2 = (bVal % 60) / 15;
+                int i3 = bInc / 1000;
+                int i4 = (bInc % 1000) / 250;
+
+                string[] q = new string[4] { "", "¼", "½", "¾" };
+                int t = bVal + (bInc * 60) / 1000;
+                int m = bVal / 4;
+                string tim = $"{i1}{q[i2]}+{i3}{q[i4]}";
                 if (t > 21600)
                     return $"Mail {tim}";
                 if (t > 1800)
@@ -555,7 +552,7 @@ namespace RapChessGui
             }
         }
 
-        public int ClearHistory()
+        public virtual int ClearHistory()
         {
             int elo = Elo;
             history.Clear();
@@ -563,12 +560,13 @@ namespace RapChessGui
             return CModeTournamentE.tourList.DeletePlayer(name);
         }
 
-        public double EvaluateOpponent(CElement second, double listCount, CTourList tourList)
+        public double EvaluateOpponent3(CElement second, double listCount, CTourList tourList)
         {
             double sElo = second.Elo;
             double allGames = tourList.CountGames(name);
-            double curGames = tourList.CountGames(second.name, name, out int rw, out int rl, out int rd);
-            double r = curGames == 0 ? 0 : (rw - rl) / curGames;
+            int curGames = tourList.CountGames(second.name, name, out int gw, out int gl, out int gd) + 1;
+            int sPro = (gw * 200 + gd * 100) / curGames - 100;
+            double r = curGames == 0 ? 0 : (gw - gl) / curGames;
             double nElo = sElo + r * Math.Abs(Elo - sElo);
             double ratioElo = (Math.Abs(sElo - nElo) / CElo.eloRange);
             double maxCount = Math.Sqrt(allGames * 2) + 1;
@@ -578,8 +576,22 @@ namespace RapChessGui
             double optCount = maxCount - second.position * delCount + 1;
             double ratioCount = allGames == 0 ? 0 : (optCount - curGames) / maxCount;
             double ratioDistance = (listCount - second.position) / listCount;
-            double ratioOrder = allGames == 0 ? 0 : (rw > rl) == (sElo < Elo) ? 1 : (rw == rl) ? 0.5 : (sElo == Elo) ? 0.2 : 0;
+            double ratioOrder = allGames == 0 ? 0 : (sPro > 0) == (sElo < Elo) ? 1.0 : (sPro == 0) ? 0.8 : (sElo == Elo) ? 0.2 : 0;
             return ratioCount + ratioDistance + ratioElo + ratioOrder * 2;
+        }
+
+        public double EvaluateOpponent(CElement second, double listCount, CTourList tourList)
+        {
+            double sElo = second.Elo;
+            double allGames = tourList.CountGames(name);
+            double curGames = tourList.CountGames(second.name, name, out int gw, out int gl, out int gd);
+            double sPro = curGames == 0 ? 0 : (gw - gl) / curGames;
+            double maxCount = Math.Sqrt(allGames * 2) + 1;
+            double optCount = maxCount * (listCount - second.position) / listCount;
+            double ratioCount = allGames == 0 ? 0 : (optCount - curGames) / maxCount;
+            double ratioOrder = curGames == 0 ? 0 : (sPro > 0) == (Elo > sElo) ? 1.0 : (sPro == 0) ? 0.8 : (sElo == Elo) ? 0.2 : 0;
+            //FormChess.log.Add($"Opponent {second.name} Optimal {optCount:0.00} Count {ratioCount:0.00} Order {ratioOrder:0.00} Total {ratioCount+ ratioOrder:0.00}");
+            return ratioCount + ratioOrder;
         }
 
         public void SetElo(string e)

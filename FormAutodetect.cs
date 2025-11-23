@@ -326,7 +326,7 @@ namespace RapChessGui
                         ConsoleWriteLine($"engine {testEngine.name} ready");
                         FormEditEngine.engineName = testEngine.name;
                         tick = 0;
-                        testEngine.protocol = CProtocol.winboard;
+                        testEngine.protocol = CProtocol.xb;
                         testEngine.modeElo = false;
                         testProcess.SetProgram(testEngine.GetPath(), testEngine.arguments);
                         testTimer.Start();
@@ -341,7 +341,7 @@ namespace RapChessGui
                     break;
                 case 2:
                     ShowProtocol();
-                    if (testEngine.protocol == CProtocol.winboard)
+                    if (testEngine.protocol == CProtocol.xb)
                         testProcess.WriteLine("xboard", 1000);
                     testEngine.modeTime = false;
                     ConsoleWriteLine("start test time 1");

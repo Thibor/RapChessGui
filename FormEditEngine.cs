@@ -547,10 +547,7 @@ namespace RapChessGui
         private void clearTournamentHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (engine != null)
-            {
-
-                engine.eMove.Clear();
-                engine.eTime.Clear();
+            { 
                 int count = engine.ClearHistory();
                 MessageBox.Show($"{count} records have been deleted");
                 engine.SaveToIni();

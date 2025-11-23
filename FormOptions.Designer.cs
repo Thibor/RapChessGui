@@ -84,7 +84,6 @@
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.cbGameEngine = new System.Windows.Forms.ComboBox();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
-            this.cbGameRotate = new System.Windows.Forms.CheckBox();
             this.cbBottomPlayer = new System.Windows.Forms.ComboBox();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.cbGameColor = new System.Windows.Forms.ComboBox();
@@ -130,7 +129,6 @@
             this.nudTourBRec = new System.Windows.Forms.NumericUpDown();
             this.tabPageTourE = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.nudTourE = new System.Windows.Forms.NumericUpDown();
             this.cbTourEMode = new System.Windows.Forms.ComboBox();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.cbTourEBookS = new System.Windows.Forms.ComboBox();
@@ -163,6 +161,9 @@
             this.nudTraining = new System.Windows.Forms.NumericUpDown();
             this.panRight = new System.Windows.Forms.Panel();
             this.labTitle = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.nudTourEInc = new System.Windows.Forms.NumericUpDown();
+            this.nudTourE = new System.Windows.Forms.NumericUpDown();
             this.gbInterface.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFontSize)).BeginInit();
@@ -211,7 +212,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTourBRec)).BeginInit();
             this.tabPageTourE.SuspendLayout();
             this.groupBox8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTourE)).BeginInit();
             this.groupBox13.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -229,6 +229,9 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTraining)).BeginInit();
             this.panRight.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTourEInc)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTourE)).BeginInit();
             this.SuspendLayout();
             // 
             // butDefault
@@ -971,7 +974,6 @@
             // 
             // groupBox18
             // 
-            this.groupBox18.Controls.Add(this.cbGameRotate);
             this.groupBox18.Controls.Add(this.cbBottomPlayer);
             this.groupBox18.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox18.Location = new System.Drawing.Point(0, 87);
@@ -981,27 +983,18 @@
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Bottom player";
             // 
-            // cbGameRotate
-            // 
-            this.cbGameRotate.AutoSize = true;
-            this.cbGameRotate.Location = new System.Drawing.Point(178, 24);
-            this.cbGameRotate.Name = "cbGameRotate";
-            this.cbGameRotate.Size = new System.Drawing.Size(78, 17);
-            this.cbGameRotate.TabIndex = 6;
-            this.cbGameRotate.Text = "Auto rotate";
-            this.cbGameRotate.UseVisualStyleBackColor = true;
-            // 
             // cbBottomPlayer
             // 
             this.cbBottomPlayer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbBottomPlayer.Dock = System.Windows.Forms.DockStyle.Top;
             this.cbBottomPlayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBottomPlayer.Items.AddRange(new object[] {
             "Human",
             "White",
             "Black"});
-            this.cbBottomPlayer.Location = new System.Drawing.Point(3, 19);
+            this.cbBottomPlayer.Location = new System.Drawing.Point(3, 16);
             this.cbBottomPlayer.Name = "cbBottomPlayer";
-            this.cbBottomPlayer.Size = new System.Drawing.Size(166, 21);
+            this.cbBottomPlayer.Size = new System.Drawing.Size(359, 21);
             this.cbBottomPlayer.TabIndex = 2;
             // 
             // groupBox14
@@ -1619,36 +1612,15 @@
             // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.nudTourE);
+            this.groupBox8.Controls.Add(this.panel2);
             this.groupBox8.Controls.Add(this.cbTourEMode);
             this.groupBox8.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox8.Location = new System.Drawing.Point(3, 229);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(359, 61);
+            this.groupBox8.Size = new System.Drawing.Size(359, 69);
             this.groupBox8.TabIndex = 31;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Time control";
-            // 
-            // nudTourE
-            // 
-            this.nudTourE.Dock = System.Windows.Forms.DockStyle.Top;
-            this.nudTourE.Location = new System.Drawing.Point(3, 37);
-            this.nudTourE.Maximum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            0});
-            this.nudTourE.Name = "nudTourE";
-            this.nudTourE.Size = new System.Drawing.Size(353, 20);
-            this.nudTourE.TabIndex = 51;
-            this.nudTourE.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nudTourE.ThousandsSeparator = true;
-            this.nudTourE.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudTourE.ValueChanged += new System.EventHandler(this.nudTourE_ValueChanged);
             // 
             // cbTourEMode
             // 
@@ -2078,6 +2050,56 @@
             this.labTitle.TabIndex = 0;
             this.labTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.nudTourE);
+            this.panel2.Controls.Add(this.nudTourEInc);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(3, 37);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(353, 25);
+            this.panel2.TabIndex = 53;
+            // 
+            // nudTourEInc
+            // 
+            this.nudTourEInc.Dock = System.Windows.Forms.DockStyle.Right;
+            this.nudTourEInc.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.nudTourEInc.Location = new System.Drawing.Point(212, 0);
+            this.nudTourEInc.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.nudTourEInc.Name = "nudTourEInc";
+            this.nudTourEInc.Size = new System.Drawing.Size(141, 20);
+            this.nudTourEInc.TabIndex = 53;
+            this.nudTourEInc.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nudTourEInc.ThousandsSeparator = true;
+            // 
+            // nudTourE
+            // 
+            this.nudTourE.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudTourE.Location = new System.Drawing.Point(0, 0);
+            this.nudTourE.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.nudTourE.Name = "nudTourE";
+            this.nudTourE.Size = new System.Drawing.Size(212, 20);
+            this.nudTourE.TabIndex = 54;
+            this.nudTourE.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nudTourE.ThousandsSeparator = true;
+            this.nudTourE.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // FormOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2126,7 +2148,6 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox12.ResumeLayout(false);
             this.groupBox18.ResumeLayout(false);
-            this.groupBox18.PerformLayout();
             this.groupBox14.ResumeLayout(false);
             this.gbGame.ResumeLayout(false);
             this.gbGame.PerformLayout();
@@ -2156,7 +2177,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTourBRec)).EndInit();
             this.tabPageTourE.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.nudTourE)).EndInit();
             this.groupBox13.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
@@ -2177,6 +2197,9 @@
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTraining)).EndInit();
             this.panRight.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.nudTourEInc)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTourE)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -2242,7 +2265,6 @@
 		private System.Windows.Forms.GroupBox groupBox9;
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.GroupBox groupBox8;
-		private System.Windows.Forms.NumericUpDown nudTourE;
 		private System.Windows.Forms.ComboBox cbTourEMode;
 		private System.Windows.Forms.GroupBox groupBox7;
 		private System.Windows.Forms.GroupBox groupBox6;
@@ -2305,7 +2327,6 @@
         public System.Windows.Forms.NumericUpDown nudTeacherDepth;
         private System.Windows.Forms.GroupBox groupBox20;
         public System.Windows.Forms.ComboBox cbGameOpponent;
-        public System.Windows.Forms.CheckBox cbGameRotate;
         private System.Windows.Forms.TabPage tabPagePuzzle;
         private System.Windows.Forms.Panel panRight;
         private System.Windows.Forms.Label labTitle;
@@ -2317,5 +2338,8 @@
         private System.Windows.Forms.GroupBox groupBox22;
         private System.Windows.Forms.Label label20;
         public System.Windows.Forms.NumericUpDown nudPuzzleRepetition;
+        private System.Windows.Forms.Panel panel2;
+        public System.Windows.Forms.NumericUpDown nudTourE;
+        public System.Windows.Forms.NumericUpDown nudTourEInc;
     }
 }

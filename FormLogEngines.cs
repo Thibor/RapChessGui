@@ -58,7 +58,7 @@ namespace RapChessGui
 			if (g.engine == null)
 				return;
 			AppendTimeText($"Engine: {g.player.EngineName}\n", color);
-			AppendTimeText($"File: {g.engine.file}\n", color);
+			AppendTimeText($"Book: {g.player.BookName}\n", color);
 			string parameters = g.engine.arguments;
 			if (parameters != string.Empty)
 				AppendTimeText($"Parameters: {g.engine.arguments}\n", color);

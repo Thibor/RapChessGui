@@ -98,6 +98,7 @@
             this.columnHeader38 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.labBook = new System.Windows.Forms.Label();
             this.chartTournamentB = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.pbTourB = new System.Windows.Forms.ProgressBar();
             this.button1 = new System.Windows.Forms.Button();
             this.tabPageTourE = new System.Windows.Forms.TabPage();
             this.scTourE = new System.Windows.Forms.SplitContainer();
@@ -113,6 +114,7 @@
             this.columnHeader29 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.labEngine = new System.Windows.Forms.Label();
             this.chartTournamentE = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.pbTourE = new System.Windows.Forms.ProgressBar();
             this.butTourEStart = new System.Windows.Forms.Button();
             this.tabPageTourP = new System.Windows.Forms.TabPage();
             this.scTourP = new System.Windows.Forms.SplitContainer();
@@ -128,6 +130,7 @@
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.labPlayer = new System.Windows.Forms.Label();
             this.chartTournamentP = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.pbTourP = new System.Windows.Forms.ProgressBar();
             this.butStartTournament = new System.Windows.Forms.Button();
             this.tabPageTraining = new System.Windows.Forms.TabPage();
             this.chartTraining = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -1001,6 +1004,7 @@
             // scTourB.Panel2
             // 
             this.scTourB.Panel2.Controls.Add(this.chartTournamentB);
+            this.scTourB.Panel2.Controls.Add(this.pbTourB);
             this.scTourB.Panel2MinSize = 0;
             this.scTourB.Size = new System.Drawing.Size(361, 460);
             this.scTourB.SplitterDistance = 286;
@@ -1168,10 +1172,23 @@
             this.chartTournamentB.Series.Add(series3);
             this.chartTournamentB.Series.Add(series4);
             this.chartTournamentB.Series.Add(series5);
-            this.chartTournamentB.Size = new System.Drawing.Size(357, 166);
+            this.chartTournamentB.Size = new System.Drawing.Size(357, 152);
             this.chartTournamentB.SuppressExceptions = true;
             this.chartTournamentB.TabIndex = 30;
             this.toolTip1.SetToolTip(this.chartTournamentB, "Tournament history");
+            // 
+            // pbTourB
+            // 
+            this.pbTourB.BackColor = System.Drawing.SystemColors.Control;
+            this.pbTourB.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pbTourB.Location = new System.Drawing.Point(0, 152);
+            this.pbTourB.MarqueeAnimationSpeed = 0;
+            this.pbTourB.Maximum = 1000;
+            this.pbTourB.Name = "pbTourB";
+            this.pbTourB.Size = new System.Drawing.Size(357, 14);
+            this.pbTourB.Step = 1;
+            this.pbTourB.TabIndex = 31;
+            this.toolTip1.SetToolTip(this.pbTourB, "Using tournament history");
             // 
             // button1
             // 
@@ -1215,6 +1232,7 @@
             // scTourE.Panel2
             // 
             this.scTourE.Panel2.Controls.Add(this.chartTournamentE);
+            this.scTourE.Panel2.Controls.Add(this.pbTourE);
             this.scTourE.Panel2MinSize = 0;
             this.scTourE.Size = new System.Drawing.Size(361, 460);
             this.scTourE.SplitterDistance = 286;
@@ -1383,10 +1401,23 @@
             this.chartTournamentE.Series.Add(series6);
             this.chartTournamentE.Series.Add(series7);
             this.chartTournamentE.Series.Add(series8);
-            this.chartTournamentE.Size = new System.Drawing.Size(357, 166);
+            this.chartTournamentE.Size = new System.Drawing.Size(357, 152);
             this.chartTournamentE.SuppressExceptions = true;
             this.chartTournamentE.TabIndex = 30;
             this.toolTip1.SetToolTip(this.chartTournamentE, "Tournament history");
+            // 
+            // pbTourE
+            // 
+            this.pbTourE.BackColor = System.Drawing.SystemColors.Control;
+            this.pbTourE.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pbTourE.Location = new System.Drawing.Point(0, 152);
+            this.pbTourE.MarqueeAnimationSpeed = 0;
+            this.pbTourE.Maximum = 1000;
+            this.pbTourE.Name = "pbTourE";
+            this.pbTourE.Size = new System.Drawing.Size(357, 14);
+            this.pbTourE.Step = 1;
+            this.pbTourE.TabIndex = 31;
+            this.toolTip1.SetToolTip(this.pbTourE, "Using tournament history");
             // 
             // butTourEStart
             // 
@@ -1429,6 +1460,7 @@
             // scTourP.Panel2
             // 
             this.scTourP.Panel2.Controls.Add(this.chartTournamentP);
+            this.scTourP.Panel2.Controls.Add(this.pbTourP);
             this.scTourP.Panel2MinSize = 0;
             this.scTourP.Size = new System.Drawing.Size(367, 466);
             this.scTourP.SplitterDistance = 304;
@@ -1597,11 +1629,24 @@
             this.chartTournamentP.Series.Add(series9);
             this.chartTournamentP.Series.Add(series10);
             this.chartTournamentP.Series.Add(series11);
-            this.chartTournamentP.Size = new System.Drawing.Size(363, 154);
+            this.chartTournamentP.Size = new System.Drawing.Size(363, 140);
             this.chartTournamentP.SuppressExceptions = true;
             this.chartTournamentP.TabIndex = 31;
             this.chartTournamentP.Text = "chart1";
             this.toolTip1.SetToolTip(this.chartTournamentP, "Tournament history");
+            // 
+            // pbTourP
+            // 
+            this.pbTourP.BackColor = System.Drawing.SystemColors.Control;
+            this.pbTourP.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pbTourP.Location = new System.Drawing.Point(0, 140);
+            this.pbTourP.MarqueeAnimationSpeed = 0;
+            this.pbTourP.Maximum = 1000;
+            this.pbTourP.Name = "pbTourP";
+            this.pbTourP.Size = new System.Drawing.Size(363, 14);
+            this.pbTourP.Step = 1;
+            this.pbTourP.TabIndex = 32;
+            this.toolTip1.SetToolTip(this.pbTourP, "Using tournament history");
             // 
             // butStartTournament
             // 
@@ -3649,7 +3694,7 @@
             this.pbHashW.Size = new System.Drawing.Size(170, 14);
             this.pbHashW.Step = 1;
             this.pbHashW.TabIndex = 27;
-            this.toolTip1.SetToolTip(this.pbHashW, "Use of transposition table");
+            this.toolTip1.SetToolTip(this.pbHashW, "Using transposition table");
             // 
             // labBookCB
             // 
@@ -3888,7 +3933,7 @@
             this.pbHashB.Size = new System.Drawing.Size(170, 14);
             this.pbHashB.Step = 1;
             this.pbHashB.TabIndex = 27;
-            this.toolTip1.SetToolTip(this.pbHashB, "Use of transposition table");
+            this.toolTip1.SetToolTip(this.pbHashB, "Using transposition table");
             // 
             // chartMain
             // 
@@ -4093,9 +4138,11 @@
             // 
             // labNameH
             // 
+            this.labNameH.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labNameH.BackColor = System.Drawing.Color.LightGray;
             this.labNameH.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labNameH.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labNameH.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labNameH.ForeColor = System.Drawing.Color.Black;
             this.labNameH.Location = new System.Drawing.Point(0, 0);
@@ -4108,9 +4155,11 @@
             // 
             // labTimeH
             // 
+            this.labTimeH.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labTimeH.BackColor = System.Drawing.Color.LightGray;
             this.labTimeH.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labTimeH.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labTimeH.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labTimeH.ForeColor = System.Drawing.Color.Black;
             this.labTimeH.Location = new System.Drawing.Point(174, 0);
@@ -4123,9 +4172,11 @@
             // 
             // labEloH
             // 
+            this.labEloH.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labEloH.BackColor = System.Drawing.Color.LightGray;
             this.labEloH.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labEloH.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labEloH.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labEloH.ForeColor = System.Drawing.Color.Black;
             this.labEloH.Location = new System.Drawing.Point(261, 0);
@@ -4138,9 +4189,11 @@
             // 
             // labNameL
             // 
+            this.labNameL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labNameL.BackColor = System.Drawing.Color.LightGray;
             this.labNameL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labNameL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labNameL.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labNameL.ForeColor = System.Drawing.Color.Black;
             this.labNameL.Location = new System.Drawing.Point(0, 0);
@@ -4153,9 +4206,11 @@
             // 
             // labTimeL
             // 
+            this.labTimeL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labTimeL.BackColor = System.Drawing.Color.LightGray;
             this.labTimeL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labTimeL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labTimeL.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labTimeL.ForeColor = System.Drawing.Color.Black;
             this.labTimeL.Location = new System.Drawing.Point(174, 0);
@@ -4168,9 +4223,11 @@
             // 
             // labEloL
             // 
+            this.labEloL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labEloL.BackColor = System.Drawing.Color.LightGray;
             this.labEloL.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labEloL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labEloL.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labEloL.ForeColor = System.Drawing.Color.Black;
             this.labEloL.Location = new System.Drawing.Point(261, 0);
@@ -4320,8 +4377,8 @@
             this.tlpBoardL.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpBoardL.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlpBoardL.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlpBoardL.Controls.Add(this.labEloL, 2, 0);
             this.tlpBoardL.Controls.Add(this.labTimeL, 1, 0);
+            this.tlpBoardL.Controls.Add(this.labEloL, 2, 0);
             this.tlpBoardL.Controls.Add(this.labNameL, 0, 0);
             this.tlpBoardL.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tlpBoardL.Location = new System.Drawing.Point(0, 26);
@@ -4379,8 +4436,8 @@
             this.tlpBoardH.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpBoardH.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlpBoardH.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlpBoardH.Controls.Add(this.labEloH, 2, 0);
             this.tlpBoardH.Controls.Add(this.labTimeH, 1, 0);
+            this.tlpBoardH.Controls.Add(this.labEloH, 2, 0);
             this.tlpBoardH.Controls.Add(this.labNameH, 0, 0);
             this.tlpBoardH.Dock = System.Windows.Forms.DockStyle.Top;
             this.tlpBoardH.Location = new System.Drawing.Point(0, 0);
@@ -5487,6 +5544,9 @@
         private System.Windows.Forms.ColumnHeader chPuzzlePv;
         private System.Windows.Forms.Button butLastDelete;
         private System.Windows.Forms.ToolStripMenuItem lastTimeToolStripMenuItem;
+        private System.Windows.Forms.ProgressBar pbTourE;
+        private System.Windows.Forms.ProgressBar pbTourB;
+        private System.Windows.Forms.ProgressBar pbTourP;
     }
 }
 

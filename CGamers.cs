@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 
 namespace RapChessGui
 {
@@ -75,6 +74,7 @@ namespace RapChessGui
         public int countMovesEngine;
         public CColor colorPlayer = CColor.none;
         public Color arrowColor = Colors.Green;
+        public int errorPv = 0;
         public int arrowShift = 0;
         public int depthTotal;
         public int depthCount;
@@ -93,6 +93,7 @@ namespace RapChessGui
         int phase;
         public string ponder;
         public string pv;
+        public string pvFirst;
         public string lastMove;
         public double timerStart;
         public Stopwatch timer = new Stopwatch();
@@ -193,8 +194,7 @@ namespace RapChessGui
         {
             foreach (string op in book.options)
                 SendMessageToBook($"book setoption {op}");
-            if (book.options.Count > 0)
-                SendMessageToBook("book optionend");
+            //if (book.options.Count > 0)SendMessageToBook("book optionend");
             gamerBook.optionSended = true;
         }
 
@@ -257,6 +257,7 @@ namespace RapChessGui
         {
             phase=0;
             mate = false;
+            errorPv = 0;
             gamerBook.Reset();
             gamerEngine.Reset();
             hash = 0;
@@ -284,6 +285,7 @@ namespace RapChessGui
             lastMove = String.Empty;
             ponder = String.Empty;
             pv = String.Empty;
+            pvFirst = String.Empty;
             strScore = String.Empty;
             gamerBook.isBookStarted = false;
             gamerBook.isBookFail = false;
@@ -332,8 +334,20 @@ namespace RapChessGui
 
         public string GetEngineName()
         {
-            return engine == null ? Global.none : engine.name;
+            //return engine == null ? Global.none : engine.name;
+            return engine?.name ?? Global.none;
         }
+
+        public string GetBookName()
+        {
+            //return book == null ? Global.none : book.name;
+            return book?.name ?? Global.none;
+        }
+
+        /*public string GetBookName()
+        {
+            return book?.name ?? "Book";
+        }*/
 
         /// <summary>
         /// Start or prepare engine or book.
@@ -395,11 +409,11 @@ namespace RapChessGui
         void UciGo()
         {
             SendMessageToEngine(FormChess.history.GetPosition());
-            if (player.levelValue.limit == CLimit.standard)
+            if (player.levelValue.kind == CLimitKind.standard)
             {
                 CGamer gw = FormChess.gamers.GamerWhite();
                 CGamer gb = FormChess.gamers.GamerBlack();
-                SendMessageToEngine($"go wtime {gw.GetRemainingMs()} btime {gb.GetRemainingMs()} winc 0 binc 0");
+                SendMessageToEngine($"go wtime {gw.GetBaseTimeMs()} btime {gb.GetBaseTimeMs()} winc {gw.player.levelValue.baseInc} binc {gb.player.levelValue.baseInc}");
             }
             else
                 SendMessageToEngine(player.levelValue.GetUci());
@@ -441,15 +455,15 @@ namespace RapChessGui
 
         void XbGo()
         {
-            switch (player.levelValue.limit)
+            switch (player.levelValue.kind)
             {
-                case CLimit.standard:
+                case CLimitKind.standard:
                     XbGoStandard();
                     break;
-                case CLimit.depth:
+                case CLimitKind.depth:
                     XbGoDepth();
                     break;
-                case CLimit.time:
+                case CLimitKind.time:
                     XbGoTime();
                     break;
             }
@@ -512,11 +526,6 @@ namespace RapChessGui
             gamerEngine.WriteLine(msg);
         }
 
-        public string GetBookName()
-        {
-            return book?.name ?? "Book";
-        }
-
         public string GetMode()
         {
             return player?.levelValue.LongName() ?? "Mode";
@@ -544,22 +553,27 @@ namespace RapChessGui
             return Color.FromArgb(200, Convert.ToInt32(dr * 0xff), Convert.ToInt32(dg * 0xff), 0);
         }
 
+        public int GetBaseTimeMs()
+        {
+            int v = Convert.ToInt32(player?.levelValue.GetUciValue());
+            return Convert.ToInt32(v + (countMovesBook + countMovesEngine) * player?.levelValue.baseInc - timer.Elapsed.TotalMilliseconds);
+        }
+
         public string GetTime(out bool low)
         {
             low = false;
             TimeSpan ts = timer.Elapsed;
             double ms = ts.TotalMilliseconds;
-            CLimit level = CLimit.standard;
+            CLimitKind kind = CLimitKind.standard;
             int value = 0;
             if (player != null)
             {
-                level = player.levelValue.limit;
+                kind = player.levelValue.kind;
                 value = player.levelValue.GetUciValue();
             }
-            if (level == CLimit.standard)
+            if (kind == CLimitKind.standard)
             {
-                double v = Convert.ToDouble(value);
-                double t = v - ms;
+                double t = GetBaseTimeMs();
                 ts = TimeSpan.FromMilliseconds(t);
                 if ((FormChess.gameMode != CGameMode.game) && (ts.TotalMilliseconds < -FormOptions.marginStandard) && (FormOptions.marginStandard >= 0) && timer.IsRunning)
                 {
@@ -572,7 +586,7 @@ namespace RapChessGui
                     return $"{ts.TotalSeconds:N2}";
                 }
             }
-            else if (level == CLimit.time)
+            else if (kind == CLimitKind.time)
             {
                 double v = Convert.ToDouble(value);
                 if ((FormChess.gameMode != CGameMode.game) && ((ms - timerStart) > (v + FormOptions.marginTime)) && (FormOptions.marginTime >= 0) && (value > 0) && timer.IsRunning)

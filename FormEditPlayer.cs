@@ -54,7 +54,7 @@ namespace RapChessGui
 			nudTournament.Value = player.tournament;
 			nudElo.Value = player.Elo;
 			nudValue.Value = player.levelValue.GetValue();
-			modeValue.limit = player.levelValue.limit;
+			modeValue.kind = player.levelValue.kind;
 			modeValue.baseVal = player.levelValue.baseVal;
 			combMode.SelectedIndex = combMode.FindStringExact(modeValue.GetLimit());
 		}
@@ -99,7 +99,7 @@ namespace RapChessGui
 			p.BookName = cbBookList.Text;
 			p.SetTournament((int)nudTournament.Value);
 			p.Elo = (int)nudElo.Value;
-			p.levelValue.limit = modeValue.limit;
+			p.levelValue.kind = modeValue.kind;
 			p.levelValue.baseVal = modeValue.baseVal;
 		}
 

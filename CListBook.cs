@@ -14,6 +14,7 @@ namespace RapChessGui
         public int tournament = 1;
         public string fileReader = String.Empty;
         public string arguments = String.Empty;
+        public double depth = 0;
         public List<string> options = new List<string>();
 
         public CBook()
@@ -75,6 +76,7 @@ namespace RapChessGui
             options = CListBook.iniFile.ReadListStr($"book>{name}>options");
             history.FromStr(CListBook.iniFile.Read($"book>{name}>history"));
             tournament = CListBook.iniFile.ReadInt($"book>{name}>tournament", tournament);
+            depth = CListBook.iniFile.ReadDouble($"book>{name}>depth", depth);
         }
 
         public void SaveToIni()
@@ -87,6 +89,7 @@ namespace RapChessGui
             CListBook.iniFile.Write($"book>{name}>options", options);
             CListBook.iniFile.Write($"book>{name}>history", history, " ");
             CListBook.iniFile.Write($"book>{name}>tournament", tournament);
+            CListBook.iniFile.Write($"book>{name}>depth", depth);
         }
 
 

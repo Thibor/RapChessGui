@@ -31,10 +31,35 @@ namespace RapChessGui
         public double test = 0;
         public DateTime DTAccuracy = new DateTime(0);
         public DateTime DTModification = DateTime.Now;
-        public DateTime DTTournament = new DateTime(0);
+        public DateTime DTFile = new DateTime(0);
         public List<string> options = new List<string>();
         public CError eMove = new CError();
         public CError eTime = new CError();
+        public CError ePv = new CError();
+
+        public int Features()
+        {
+            int result = 0;
+            if (modeStandard)
+                result++;
+            if (modeTime)
+                result++;
+            if (modeDepth)
+                result++;
+            if (modeTournament)
+                result++;
+            if (modeNodes)
+                result++;
+            if (modeInfinite)
+                result++;
+            if (modeSearchmoves)
+                result++;
+            if (modeElo)
+                result++;
+            if (modeFen)
+                result++;
+            return result;
+        }
 
         public string Protocol
         {
@@ -82,10 +107,11 @@ namespace RapChessGui
             nps = CListEngine.iniFile.ReadDouble($"engine>{name}>nps", nps);
             DTModification = CListEngine.iniFile.ReadDateTime($"engine>{name}>DT>modification", DTModification);
             DTAccuracy = CListEngine.iniFile.ReadDateTime($"engine>{name}>DT>accuracy", DTAccuracy);
-            DTTournament = CListEngine.iniFile.ReadDateTime($"engine>{name}>DT>tournament", DTTournament);
+            DTFile = CListEngine.iniFile.ReadDateTime($"engine>{name}>DT>file", DTFile);
             history.FromStr(CListEngine.iniFile.Read($"engine>{name}>history"));
             eMove.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>eMove"));
             eTime.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>eTime"));
+            ePv.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>ePv"));
         }
 
         public void SaveToIni()
@@ -115,10 +141,19 @@ namespace RapChessGui
             CListEngine.iniFile.Write($"engine>{name}>nps", nps);
             CListEngine.iniFile.Write($"engine>{name}>DT>modification", DTModification);
             CListEngine.iniFile.Write($"engine>{name}>DT>accuracy", DTAccuracy);
-            CListEngine.iniFile.Write($"engine>{name}>Dt>tournament", DTTournament);
+            CListEngine.iniFile.Write($"engine>{name}>DT>file", DTFile);
             CListEngine.iniFile.Write($"engine>{name}>history", history, " ");
             CListEngine.iniFile.Write($"engine>{name}>eMove", eMove, " ");
             CListEngine.iniFile.Write($"engine>{name}>eTime", eTime, " ");
+            CListEngine.iniFile.Write($"engine>{name}>ePv", ePv, " ");
+        }
+
+        public override int ClearHistory()
+        {
+            eMove.Clear();
+            ePv.Clear();
+            eTime.Clear();
+            return base.ClearHistory();
         }
 
         public void AddElo(int e)
@@ -127,10 +162,11 @@ namespace RapChessGui
             SaveToIni();
         }
 
-        public void AddGame(bool em, bool et)
+        public void AddGame(bool em, bool et,bool ep)
         {
             eMove.AddGame(em);
             eTime.AddGame(et);
+            ePv.AddGame(ep);
             SaveToIni();
         }
 
@@ -183,22 +219,22 @@ namespace RapChessGui
             return File.Exists(path) ? (int)new FileInfo(path).Length : 0; 
         }
 
-        public bool SupportLevel(CLimit l)
+        public bool SupportLevel(CLimitKind l)
         {
-            if ((protocol != CProtocol.uci) && (protocol != CProtocol.winboard))
+            if ((protocol != CProtocol.uci) && (protocol != CProtocol.xb))
                 return false;
             switch (l)
             {
-                case CLimit.standard:
-                    if (protocol == CProtocol.winboard)
+                case CLimitKind.standard:
+                    if (protocol == CProtocol.xb)
                         return modeStandard || modeTournament;
                     else
                         return modeStandard;
-                case CLimit.depth:
+                case CLimitKind.depth:
                     return modeDepth;
                 default:
                     {
-                        if (protocol == CProtocol.winboard)
+                        if (protocol == CProtocol.xb)
                             if (modeTime || modeTournament)
                                 return true;
                         return modeTime;
@@ -213,7 +249,7 @@ namespace RapChessGui
             return IsPlayableProtocol();
         }
 
-        public bool IsPlayable(CLimit l)
+        public bool IsPlayable(CLimitKind l)
         {
             if (!IsPlayable())
                 return false;
@@ -227,7 +263,7 @@ namespace RapChessGui
 
         public bool IsPlayableProtocol()
         {
-            return (protocol == CProtocol.uci) || (protocol == CProtocol.winboard);
+            return (protocol == CProtocol.uci) || (protocol == CProtocol.xb);
         }
 
         public string CreateName()

@@ -16,7 +16,6 @@ namespace RapChessGui
         public static int marginTime = 5000;
         public static int winLimit = 1;
         public static int tourBValue = 100;
-        public static int tourEValue = 100;
         public static int userElo = 1000;
         public static string tourBMode = "Time";
         public static string tourEMode = "Time";
@@ -126,14 +125,13 @@ namespace RapChessGui
 
         public void LoadFromIni(bool def = false)
         {
-            for (int i = 0; i < clbPuzzle.Items.Count;i++)
+            for (int i = 0; i < clbPuzzle.Items.Count; i++)
                 clbPuzzle.SetItemChecked(i, FormChess.ini.ReadBool($"options>mode>puzzle>{i}", true, def));
             nudPuzzleRepetition.Value = FormChess.ini.ReadDecimal("options>mode>puzzle>repetition", nudPuzzleRepetition.Value, def);
 
             cbEditLimitT.Text = FormChess.ini.Read("options>mode>edit>limit", Global.limit, def);
             nudEditLimitV.Value = FormChess.ini.ReadDecimal("options>mode>edit>value", Global.value, def);
 
-            cbGameRotate.Checked= FormChess.ini.ReadBool("options>mode>game>rotate", false, def);
             cbGameBook.Text = FormChess.ini.Read("options>mode>game>book", CListBook.def, def);
             cbGameEngine.Text = FormChess.ini.Read("options>mode>game>engine", CListEngine.def, def);
             cbGameOpponent.Text = FormChess.ini.Read("options>mode>game>opponent", "Auto", def);
@@ -157,7 +155,8 @@ namespace RapChessGui
             cbTourEBookF.Text = FormChess.ini.Read("options>mode>tourE>bookF", Global.none, def);
             cbTourEBookS.Text = FormChess.ini.Read("options>mode>tourE>bookS", Global.none, def);
             cbTourEMode.Text = FormChess.ini.Read("options>mode>tourE>mode", tourEMode, def);
-            nudTourE.Value = FormChess.ini.ReadDecimal("options>mode>tourE>value", tourEValue);
+            nudTourE.Value = FormChess.ini.ReadDecimal("options>mode>tourE>value",100,def);
+            nudTourEInc.Value = FormChess.ini.ReadDecimal("options>mode>tourE>inc", 0, def);
             nudTourERec.Value = FormChess.ini.ReadDecimal("options>mode>tourE>records", 10000, def);
             nudTourEAvg.Value = FormChess.ini.ReadDecimal("options>mode>tourE>avg", 0, def);
             nudTourELimit.Value = FormChess.ini.ReadDecimal("options>mode>tourE>range", 0, def);
@@ -191,13 +190,12 @@ namespace RapChessGui
         public void SaveToIni()
         {
             for (int i = 0; i < clbPuzzle.Items.Count; i++)
-                FormChess.ini.Write($"options>mode>puzzle>{i}",clbPuzzle.GetItemChecked(i));
+                FormChess.ini.Write($"options>mode>puzzle>{i}", clbPuzzle.GetItemChecked(i));
             FormChess.ini.Write("options>mode>puzzle>repetition", nudPuzzleRepetition.Value);
 
             FormChess.ini.Write("options>mode>edit>limit", cbEditLimitT.Text);
-           FormChess.ini.Write("options>mode>edit>value", nudEditLimitV.Value);
+            FormChess.ini.Write("options>mode>edit>value", nudEditLimitV.Value);
 
-            FormChess.ini.Write("options>mode>game>rotate", cbGameRotate.Checked);
             FormChess.ini.Write("options>mode>game>book", cbGameBook.Text);
             FormChess.ini.Write("options>mode>game>engine", cbGameEngine.Text);
             FormChess.ini.Write("options>mode>game>opponent", cbGameOpponent.Text);
@@ -229,6 +227,7 @@ namespace RapChessGui
             FormChess.ini.Write("options>mode>tourE>bookS", cbTourEBookS.Text);
             FormChess.ini.Write("options>mode>tourE>mode", cbTourEMode.Text);
             FormChess.ini.Write("options>mode>tourE>value", nudTourE.Value);
+            FormChess.ini.Write("options>mode>tourE>inc", nudTourEInc.Value);
             FormChess.ini.Write("options>mode>tourE>records", nudTourERec.Value);
             FormChess.ini.Write("options>mode>tourE>avg", nudTourEAvg.Value);
             FormChess.ini.Write("options>mode>tourE>range", nudTourELimit.Value);
@@ -523,10 +522,12 @@ namespace RapChessGui
 
         private void cbTourEMode_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ComboBox cb = sender as ComboBox;
             CLimitValue modeValue = new CLimitValue();
+            nudTourEInc.Visible = cb.SelectedIndex == 2;
             modeValue.SetLimit(tourEMode);
-            modeValue.SetValue(tourEValue);
-            modeValue.SetLimit((sender as System.Windows.Forms.ComboBox).Text);
+            //modeValue.SetValue(tourEValue);
+            modeValue.SetLimit(cb.Text);
             nudTourE.Increment = modeValue.GetIncrement();
             nudTourE.Minimum = nudTourE.Increment;
             nudTourE.Value = Math.Max(modeValue.GetValue(), nudTourE.Minimum);
@@ -540,7 +541,7 @@ namespace RapChessGui
 
         private void nudTourE_ValueChanged(object sender, EventArgs e)
         {
-            tourEValue = (int)nudTourE.Value;
+            //tourEValue = (int)nudTourE.Value;
         }
 
         private void FormOptions_Load(object sender, EventArgs e)

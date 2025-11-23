@@ -109,8 +109,8 @@ namespace RapChessGui
     public class CField
     {
         public bool circle = false;
-        public int x =0;
-        public int y =0;
+        public int x = 0;
+        public int y = 0;
         public Color color = Color.Empty;
         public CPiece piece = null;
 
@@ -334,11 +334,7 @@ namespace RapChessGui
                     p2.Y += shift;
                 }
                 path.AddLine(p1, p2);
-                //path.StartFigure();
                 path.Widen(pen);
-                //path.CloseFigure();
-                //g.DrawPath(penBlack, path);
-                //g.FillPath(brush, path);
                 g.DrawLine(pen, p1, p2);
             }
         }
@@ -420,13 +416,13 @@ namespace RapChessGui
             }
         }
 
-        public void SetFen(bool clearMarks=true)
+        public void SetFen(bool clearMarks = true)
         {
             background.SetRotate(rotated);
             for (int n = 0; n < 64; n++)
                 UpdateField(n);
-            if(clearMarks)
-            ClearMarks();
+            if (clearMarks)
+                ClearMarks();
             SetPositionSta();
             ShowAttack();
             Render();
@@ -457,7 +453,7 @@ namespace RapChessGui
             using (GraphicsPath gpW = new GraphicsPath())
             using (GraphicsPath gpB = new GraphicsPath())
             using (StringFormat sf = new StringFormat())
-            { 
+            {
                 sf.Alignment = StringAlignment.Center;
                 sf.LineAlignment = StringAlignment.Center;
                 g.SmoothingMode = SmoothingMode.HighQuality;
@@ -466,7 +462,7 @@ namespace RapChessGui
                     {
                         int i = y * 8 + x;
                         CField field = arrField[i];
-                        Rectangle rec = background.GetRect(x,y);
+                        Rectangle rec = background.GetRect(x, y);
                         Color c = arrField[i].color;
                         if ((i == CDrag.lastSou) || (i == CDrag.lastDes))
                             g.FillRectangle(brushLast, rec);

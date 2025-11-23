@@ -144,16 +144,14 @@ namespace RapChessGui
                 el.Add(e);
             foreach (CEngine e in el)
             {
-                DateTime edt = e.GetFileDate();
-                bool old = (e.DTAccuracy < edt) || (e.DTAccuracy < e.DTModification);
-                if (old && e.modeTime && e.modeFen && ((e.protocol == CProtocol.uci) || (e.protocol == CProtocol.winboard)))
+                DateTime dtf = e.GetFileDate();
+                bool bFile = e.DTFile.ToString() != dtf.ToString();
+                bool bMod = e.DTAccuracy < e.DTModification;
+                if ((bFile || bMod) && e.modeTime && e.modeFen && ((e.protocol == CProtocol.uci) || (e.protocol == CProtocol.xb)))
                 {
-                    if (edt < e.DTTournament) {
-                        e.DTTournament = DateTime.Now;
-                        e.ClearHistory();
-                        e.SaveToIni();
-                    }
-                    log.Add($"Start {e.name}");
+                    string line = $"Start {e.name}";
+                    log.Add(line);
+                    e.ClearHistory();
                     await Task.Run(() => EloAccuracyTask(e));
                     count++;
                 }
@@ -184,23 +182,16 @@ namespace RapChessGui
             return a;
         }
 
-        public static double GetAccuracy(int scoreBefore, int scoreAfter)
-        {
-            double wcBefore = WiningChances(scoreBefore);
-            double wcAfter = WiningChances(scoreAfter);
-            return GetAccuracy(wcBefore, wcAfter);
-        }
-
         void EloAccuracyTask(CEngine e)
         {
+            Stopwatch timer = new Stopwatch();
             CChess chess = new CChess();
             CTData td = new CTData();
+            timer.Restart();
             int totalCount = 0;
-            double totalLoss = 0;
             double totalAccuracy = 0;
             int testCount = 0;
             int testWin = 0;
-            double totalWeight = 0;
             SetStudent(e.GetPath(), e.arguments);
             bool fail = false;
             string lastFen = string.Empty;
@@ -219,7 +210,7 @@ namespace RapChessGui
                     if (e.protocol == CProtocol.uci)
                     {
                         StudentWriteLine("ucinewgame");
-                        Thread.Sleep(100);
+                        //Thread.Sleep(100);
                         StudentWriteLine($"position fen {lastFen}");
                         StudentWriteLine("go movetime 1000");
                     }
@@ -227,7 +218,7 @@ namespace RapChessGui
                     {
                         chess.SetFen(line.fen);
                         StudentWriteLine("new");
-                        Thread.Sleep(100);
+                        //Thread.Sleep(100);
                         StudentWriteLine("post");
                         StudentWriteLine("force");
                         StudentWriteLine($"board {lastFen}");
@@ -250,10 +241,9 @@ namespace RapChessGui
                         {
                             int scoreBst = line.First().score;
                             int scoreCur = line.GetScore(td.bestMove);
-                            double bstWC = WiningChances(scoreBst);
-                            double curWC = WiningChances(scoreCur);
-                            double accuracy = GetAccuracy(bstWC, curWC);
-                            double loss = bstWC - curWC + 1;
+                            double wcBest = WiningChances(scoreBst);
+                            double wcCurrent = WiningChances(scoreCur);
+                            double curAccuracy = GetAccuracy(wcBest, wcCurrent);
                             if (line.IsTest())
                             {
                                 testCount++;
@@ -261,9 +251,7 @@ namespace RapChessGui
                                     testWin++;
                             }
                             totalCount++;
-                            totalAccuracy += accuracy;
-                            totalLoss += loss;
-                            totalWeight += accuracy * loss;
+                            totalAccuracy += curAccuracy;
                         }
                     } while (!td.done);
                     if (fail)
@@ -275,8 +263,11 @@ namespace RapChessGui
             {
                 e.accuracy = totalAccuracy / totalCount;
                 e.test = testCount == 0 ? 0 : (testWin * 100.0) / testCount;
-                log.Add($"{e.name} accuracy {e.accuracy:N2} test {testWin}/{testCount}");
+                log.Add($"{e.name} accuracy {e.accuracy:N2} test {testWin}/{testCount} move {timer.ElapsedMilliseconds/(totalCount*1000.0):N2} sec");
             }
+            DateTime dtf = e.GetFileDate();
+            //if (e.DTFile.ToString() != dtf.ToString())e.ClearHistory();
+            e.DTFile = dtf;
             e.DTAccuracy = DateTime.Now;
             e.SaveToIni();
             StudentTerminate();
@@ -284,7 +275,7 @@ namespace RapChessGui
             SetTData(td);
         }
 
-        public bool Start()
+        public bool TryStart()
         {
             if (IsStarted())
                 return false;

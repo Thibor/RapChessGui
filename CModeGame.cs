@@ -33,7 +33,7 @@ namespace RapChessGui
             int accuracy = 100;
             if (accuracyS > 0)
                 accuracy = Convert.ToInt32(accuracyC / accuracyS);
-            return $"accuracy {accuracy}% blunder {blunder} mistake {mistake} inaccuracy {inaccuracy}";
+            return $"accuracy {accuracy}% blunder {blunder} mistake {mistake} inaccuracy {inaccuracy} avg {FormChess.game.history.EloAvg()}";
         }
 
         public void SaveToIni(CRapIni ini)
