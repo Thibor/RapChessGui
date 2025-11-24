@@ -2306,7 +2306,7 @@ namespace RapChessGui
                 return;
             }
             pbTourB.Maximum = (int)formOptions.nudTourBRec.Value;
-            pbTourB.Value = CModeTournamentB.tourList.Count;
+            pbTourB.Value = Math.Min(CModeTournamentB.tourList.Count, pbTourB.Maximum);
             NewGame();
             TournamentBUpdate(CModeTournamentB.bookWin);
             TournamentBUpdate(CModeTournamentB.bookLoose);
@@ -2479,7 +2479,7 @@ namespace RapChessGui
                 return;
             }
             pbTourE.Maximum = (int)formOptions.nudTourERec.Value;
-            pbTourE.Value = CModeTournamentE.tourList.Count;
+            pbTourE.Value = Math.Min(CModeTournamentE.tourList.Count,pbTourE.Maximum);
             NewGame();
             TournamentEUpdate(CModeTournamentE.engWin);
             TournamentEUpdate(CModeTournamentE.engLoose);
@@ -2666,7 +2666,7 @@ namespace RapChessGui
                 return;
             }
             pbTourP.Maximum = (int)formOptions.nudTourPRec.Value;
-            pbTourP.Value = CModeTournamentP.tourList.Count;
+            pbTourP.Value = Math.Min(CModeTournamentP.tourList.Count,pbTourP.Maximum);
             NewGame();
             TournamentPUpdate(CModeTournamentP.plaWin);
             TournamentPUpdate(CModeTournamentP.plaLoose);
