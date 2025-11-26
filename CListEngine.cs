@@ -442,6 +442,27 @@ namespace RapChessGui
             return null;
         }
 
+        public CEngine GetEngineByElo(int elo,bool modeElo=true)
+        {
+            CEngine eng = null;
+            int bstDel = 10000;
+            foreach (CEngine e in this)
+            {
+                if (modeElo && !e.modeElo)
+                    continue;
+                int curE = e.Elo;
+                int curDel = Math.Abs(elo - curE);
+                if (bstDel > curDel)
+                {
+                    eng = e;
+                    bstDel = curDel;
+                }
+            }
+            if (modeElo && eng == null)
+                return GetEngineByElo(elo, false);
+            return eng;
+        }
+
         public CEngine GetEngineByFile(string file)
         {
             foreach (CEngine e in this)

@@ -2058,10 +2058,19 @@ namespace RapChessGui
             }
             else
             {
-                pc = playerList.GetPlayerByElo(game.history.Last());
-                if (formOptions.cbGameBook.Text != Global.none)
-                    pc.BookName = formOptions.cbGameBook.Text;
+                CEngine e = engineList.GetEngineByElo(game.history.Last());
+                if (e != null)
+                {
+                    pc.EngineName = e.name;
+                    pc.BookName = formOptions.cbCustomBook.Text;
+                    pc.levelValue.kind = CLimitKind.time;
+                    pc.levelValue.baseVal = 10;
+                    pc.Elo = game.history.Last();
+                    pc.humanElo = e.modeElo;
+                }
             }
+            if (pc.EngineName == Global.none)
+                pc = ph;
             gamers.SetPlayers(ph, pc);
             if (CModeGame.rotate)
                 gamers.Rotate();
@@ -2079,7 +2088,6 @@ namespace RapChessGui
                 MessageBox.Show(msg);
                 return;
             }
-            //SetBoardRotate();
             board.StartAnimation();
             RenderBoard(true);
             ShowAutoElo();
