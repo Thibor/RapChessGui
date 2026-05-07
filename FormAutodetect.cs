@@ -60,10 +60,10 @@ namespace RapChessGui
         {
             if (string.IsNullOrEmpty(msg))
                 return;
+            WriteLineFromEngine(msg);
             uci.SetMsg(msg);
             string bst = testEngine.protocol == CProtocol.uci ? uci.GetStr("bestmove") : uci.GetStr("move");
             bool bstOk = chess.IsValidMove(bst, out _, out _, out _);
-            WriteLineFromEngine(msg);
             switch (testMode)
             {
                 case 1:

@@ -39,14 +39,16 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader16 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader17 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader14 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader15 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.foldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.columnHeader16 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader18 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,10 +67,12 @@
             this.columnHeader6,
             this.columnHeader16,
             this.columnHeader7,
+            this.columnHeader17,
             this.columnHeader13,
             this.columnHeader14,
             this.columnHeader11,
-            this.columnHeader15});
+            this.columnHeader15,
+            this.columnHeader18});
             this.lvEngines.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lvEngines.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvEngines.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -142,11 +146,23 @@
             this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeader6.Width = 100;
             // 
+            // columnHeader16
+            // 
+            this.columnHeader16.Text = "E Pv %";
+            this.columnHeader16.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.columnHeader16.Width = 100;
+            // 
             // columnHeader7
             // 
             this.columnHeader7.Text = "E Tme %";
             this.columnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeader7.Width = 100;
+            // 
+            // columnHeader17
+            // 
+            this.columnHeader17.Text = "E Draw";
+            this.columnHeader17.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.columnHeader17.Width = 100;
             // 
             // columnHeader13
             // 
@@ -162,7 +178,7 @@
             // 
             // columnHeader11
             // 
-            this.columnHeader11.Text = "BPA";
+            this.columnHeader11.Text = "APS";
             this.columnHeader11.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeader11.Width = 100;
             // 
@@ -189,11 +205,10 @@
             this.foldersToolStripMenuItem.Text = "Folders";
             this.foldersToolStripMenuItem.Click += new System.EventHandler(this.foldersToolStripMenuItem_Click);
             // 
-            // columnHeader16
+            // columnHeader18
             // 
-            this.columnHeader16.Text = "E Pv %";
-            this.columnHeader16.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader16.Width = 100;
+            this.columnHeader18.Text = "Comment";
+            this.columnHeader18.Width = 100;
             // 
             // FormListE
             // 
@@ -238,5 +253,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader11;
         private System.Windows.Forms.ColumnHeader columnHeader15;
         private System.Windows.Forms.ColumnHeader columnHeader16;
+        private System.Windows.Forms.ColumnHeader columnHeader17;
+        private System.Windows.Forms.ColumnHeader columnHeader18;
     }
 }

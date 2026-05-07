@@ -37,7 +37,7 @@ namespace RapChessGui
             else
                 FormChess.engineList.SortEloDistance(elo);
 
-            CLimitKind level = CLimitValue.StrToLimit(FormOptions.tourEMode);
+            CLimitType level = CLimitValue.StrToLimitType(FormOptions.tourEMode);
             engineList.Clear();
             foreach (CEngine e in FormChess.engineList)
                 if (e.IsPlayable(level) && (e.tournament > 0))

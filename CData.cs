@@ -10,7 +10,7 @@ namespace RapChessGui
 {
     public enum CGameMode { game, match, tourB, tourE, tourP, training, puzzle, edit, none }
     public enum CProtocol { uci, xb, auto, unknow }
-    public enum CLimitKind { standard, time, depth, nodes, infinite }
+    public enum CLimitType { standard, time, depth, nodes, infinite }
     public enum CColor { none, white, black }
 
     public static class CWinMessage
@@ -347,69 +347,69 @@ namespace RapChessGui
 
     public class CLimitValue
     {
-        public static CLimitKind defKind = CLimitKind.standard;
+        public static CLimitType defKind = CLimitType.standard;
         public static int defValue = 10;
-        public CLimitKind kind = defKind;
+        public CLimitType kind = defKind;
         public int baseVal = defValue;
         public int baseInc = 0;
 
-        public static CLimitKind StrToLimit(string kind)
+        public static CLimitType StrToLimitType(string kind)
         {
             switch (kind)
             {
                 case "Standard":
-                    return CLimitKind.standard;
+                    return CLimitType.standard;
                 case "Time":
-                    return CLimitKind.time;
+                    return CLimitType.time;
                 case "Depth":
-                    return CLimitKind.depth;
+                    return CLimitType.depth;
                 case "Nodes":
-                    return CLimitKind.nodes;
+                    return CLimitType.nodes;
                 default:
-                    return CLimitKind.infinite;
+                    return CLimitType.infinite;
             }
         }
 
-        public static string LimitToStr(CLimitKind kind)
+        public static string LimitToStr(CLimitType kind)
         {
             switch (kind)
             {
-                case CLimitKind.standard:
+                case CLimitType.standard:
                     return "Standard";
-                case CLimitKind.depth:
+                case CLimitType.depth:
                     return "Depth";
-                case CLimitKind.nodes:
+                case CLimitType.nodes:
                     return "Nodes";
-                case CLimitKind.time:
+                case CLimitType.time:
                     return "Time";
                 default:
                     return "Infinite";
             }
         }
 
-        public static int GetIncrement(CLimitKind kind)
+        public static int GetIncrement(CLimitType kind)
         {
             switch (kind)
             {
-                case CLimitKind.standard:
+                case CLimitType.standard:
                     return 15;
-                case CLimitKind.depth:
+                case CLimitType.depth:
                     return 1;
-                case CLimitKind.nodes:
+                case CLimitType.nodes:
                     return 100000;
-                case CLimitKind.infinite:
+                case CLimitType.infinite:
                     return 0;
                 default:
                     return 100;
             }
         }
 
-        public void SetLimit(string str)
+        public void SetLimitType(string str)
         {
-            kind = StrToLimit(str);
+            kind = StrToLimitType(str);
         }
 
-        public string GetLimit()
+        public string GetLimitType()
         {
             return LimitToStr(kind);
         }
@@ -431,7 +431,7 @@ namespace RapChessGui
 
         public int GetBaseInc()
         {
-            if (kind == CLimitKind.standard)
+            if (kind == CLimitType.standard)
                 return baseInc;
             return 0;
         }
@@ -441,7 +441,7 @@ namespace RapChessGui
             int result = baseVal * GetIncrement();
             if (result < 0)
                 result = 1;
-            if (kind == CLimitKind.standard)
+            if (kind == CLimitType.standard)
                 result *= 1000;
             return result;
         }
@@ -456,13 +456,13 @@ namespace RapChessGui
             int v = GetValue();
             switch (kind)
             {
-                case CLimitKind.standard:
+                case CLimitType.standard:
                     return $"go wtime {v} btime {v} winc 0 binc 0";
-                case CLimitKind.depth:
+                case CLimitType.depth:
                     return $"go depth {v}";
-                case CLimitKind.nodes:
+                case CLimitType.nodes:
                     return $"nodes {v}";
-                case CLimitKind.infinite:
+                case CLimitType.infinite:
                     return "infinite";
                 default:
                     return $"go movetime {v}";
@@ -473,13 +473,13 @@ namespace RapChessGui
         {
             switch (kind)
             {
-                case CLimitKind.standard:
+                case CLimitType.standard:
                     return "Base for whole game in seconds";
-                case CLimitKind.depth:
+                case CLimitType.depth:
                     return "Depth in half-moves";
-                case CLimitKind.nodes:
+                case CLimitType.nodes:
                     return "Maximum nodes per move";
-                case CLimitKind.infinite:
+                case CLimitType.infinite:
                     return "Infinite mode until click stop";
                 default:
                     return "Time per move in miliseconds";
@@ -488,7 +488,7 @@ namespace RapChessGui
 
         public string ShortName()
         {
-            string mode = GetLimit();
+            string mode = GetLimitType();
             string result = mode[0].ToString();
             if (mode != "Infinite")
                 result = $"{result}{baseVal}";
@@ -500,7 +500,7 @@ namespace RapChessGui
             int inc = GetIncrement();
             int bVal = baseVal * inc;
             int bInc = baseInc;
-            string mode = GetLimit();
+            string mode = GetLimitType();
             if (mode == "Standard")
             {
                 int i1 = bVal / 60;

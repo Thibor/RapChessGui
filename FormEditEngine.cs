@@ -61,7 +61,7 @@ namespace RapChessGui
             FormChess.engineList.AddEngine(e);
             if (e.protocol == CProtocol.auto)
                 formAutodetect.ShowDialog(this);
-            EngineToSettings(e);
+            EngineToForm(e);
             e.DTModification = DateTime.Now;
             e.SaveToIni();
             UpdateListBox();
@@ -76,14 +76,14 @@ namespace RapChessGui
             foreach (CEngine engine in FormChess.engineList)
                 engine.protocol = CProtocol.auto;
             formAutodetect.ShowDialog(this);
-            EngineToSettings(engine);
+            EngineToForm(engine);
         }
 
         void ClickClear()
         {
             listBoxEngines.SelectedIndex = -1;
             engine = new CEngine();
-            EngineToSettings(engine);
+            EngineToForm(engine);
             optionList.Clear();
             panOptions.Controls.Clear();
         }
@@ -136,7 +136,7 @@ namespace RapChessGui
             }
             formAutodetect.ShowDialog(this);
             UpdateListBox();
-            EngineToSettings(engine);
+            EngineToForm(engine);
         }
 
         void ClickSave()
@@ -259,17 +259,18 @@ namespace RapChessGui
             return Convert.ToInt32(height * ratio);
         }
 
-        void EngineToSettings(CEngine engine)
+        void EngineToForm(CEngine engine)
         {
             if (engine == null)
             {
-                EngineToSettings(new CEngine());
+                EngineToForm(new CEngine());
                 return;
             }
             cbFolderList.SelectedIndex = 0;
             cbFileList.SelectedIndex = 0;
             tbEngineName.Text = engine.name;
             tbParameters.Text = engine.arguments;
+            tbComment.Text = engine.comment;
             cbFolderList.Text = engine.folder;
             cbFileList.Text = engine.file;
             cbProtocol.Text = CData.ProtocolToStr(engine.protocol);
@@ -301,7 +302,7 @@ namespace RapChessGui
         {
             if (e == null)
             {
-                EngineToSettings(new CEngine());
+                EngineToForm(new CEngine());
                 return;
             }
             engine = e;
@@ -313,7 +314,7 @@ namespace RapChessGui
         {
             optionList.Clear();
             OptionFinish();
-            EngineToSettings(engine);
+            EngineToForm(engine);
             StartTestOptions();
         }
 
@@ -352,6 +353,7 @@ namespace RapChessGui
             e.file = cbFileList.Text;
             e.protocol = CData.StrToProtocol(cbProtocol.Text);
             e.arguments = tbParameters.Text;
+            e.comment = tbComment.Text;
             e.modeElo = cbModeElo.Checked;
             e.modeFen = cbModeFen.Checked;
             e.modeStandard = cbModeStandard.Checked;
@@ -428,7 +430,6 @@ namespace RapChessGui
 
         private void FormEngine_Shown(object sender, EventArgs e)
         {
-            FormChess.engineList.Check();
             CData.UpdateFolderEngine();
             cbFolderList.Items.Clear();
             cbFolderList.Sorted = true;
@@ -441,8 +442,6 @@ namespace RapChessGui
                 formAutodetect.ShowDialog(this);
             UpdateListBox();
             listBoxEngines.SelectedIndex = listBoxEngines.FindString(engineName);
-            if ((listBoxEngines.SelectedIndex < 0) && (listBoxEngines.Items.Count > 0))
-                listBoxEngines.SelectedIndex = 0;
         }
 
         private void listBox1_DrawItem(object sender, DrawItemEventArgs e)
@@ -554,19 +553,11 @@ namespace RapChessGui
             }
         }
 
-        private void cbFolderList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string dir = cbFolderList.Text == Global.none ? string.Empty : @"\" + cbFolderList.Text;
-            List<string> list = CData.ListExe($@"Engines{dir}");
-            CData.FillComboBox(cbFileList, list);
-            cbFileList.SelectedIndex = cbFileList.Items.Count - 1;
-        }
-
         private void autodetectEngineProtocolToolStripMenuItem_Click(object sender, EventArgs e)
         {
             engine.protocol = CProtocol.auto;
             formAutodetect.ShowDialog(this);
-            EngineToSettings(engine);
+            EngineToForm(engine);
         }
 
         private void autodetectAllEnginesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -647,5 +638,14 @@ namespace RapChessGui
         {
             formSandbox.ShowDialog(this);
         }
+
+        private void cbFolderList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string dir = cbFolderList.Text == Global.none ? string.Empty : @"\" + cbFolderList.Text;
+            List<string> list = CData.ListExe($@"Engines{dir}");
+            CData.FillComboBox(cbFileList, list);
+            cbFileList.SelectedIndex = cbFileList.Items.Count - 1;
+        }
+
     }
 }

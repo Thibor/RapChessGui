@@ -79,14 +79,6 @@
             this.label19 = new System.Windows.Forms.Label();
             this.nudTeacherDepth = new System.Windows.Forms.NumericUpDown();
             this.cbGameTeacher = new System.Windows.Forms.ComboBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.cbGameBook = new System.Windows.Forms.ComboBox();
-            this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.cbGameEngine = new System.Windows.Forms.ComboBox();
-            this.groupBox18 = new System.Windows.Forms.GroupBox();
-            this.cbBottomPlayer = new System.Windows.Forms.ComboBox();
-            this.groupBox14 = new System.Windows.Forms.GroupBox();
-            this.cbGameColor = new System.Windows.Forms.ComboBox();
             this.gbGame = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.nudUserElo = new System.Windows.Forms.NumericUpDown();
@@ -129,6 +121,9 @@
             this.nudTourBRec = new System.Windows.Forms.NumericUpDown();
             this.tabPageTourE = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.nudTourE = new System.Windows.Forms.NumericUpDown();
+            this.nudTourEInc = new System.Windows.Forms.NumericUpDown();
             this.cbTourEMode = new System.Windows.Forms.ComboBox();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.cbTourEBookS = new System.Windows.Forms.ComboBox();
@@ -161,9 +156,16 @@
             this.nudTraining = new System.Windows.Forms.NumericUpDown();
             this.panRight = new System.Windows.Forms.Panel();
             this.labTitle = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.nudTourEInc = new System.Windows.Forms.NumericUpDown();
-            this.nudTourE = new System.Windows.Forms.NumericUpDown();
+            this.cbPonder = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.cbBottomPlayer = new System.Windows.Forms.ComboBox();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.cbGameColor = new System.Windows.Forms.ComboBox();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.cbGameEngine = new System.Windows.Forms.ComboBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.cbGameBook = new System.Windows.Forms.ComboBox();
             this.gbInterface.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFontSize)).BeginInit();
@@ -184,10 +186,6 @@
             this.groupBox20.SuspendLayout();
             this.groupBox19.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTeacherDepth)).BeginInit();
-            this.groupBox5.SuspendLayout();
-            this.groupBox12.SuspendLayout();
-            this.groupBox18.SuspendLayout();
-            this.groupBox14.SuspendLayout();
             this.gbGame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudUserElo)).BeginInit();
             this.tabPageInterface.SuspendLayout();
@@ -212,6 +210,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTourBRec)).BeginInit();
             this.tabPageTourE.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTourE)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTourEInc)).BeginInit();
             this.groupBox13.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -229,15 +230,17 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTraining)).BeginInit();
             this.panRight.SuspendLayout();
-            this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTourEInc)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTourE)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.groupBox18.SuspendLayout();
+            this.groupBox14.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // butDefault
             // 
             this.butDefault.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.butDefault.Location = new System.Drawing.Point(0, 470);
+            this.butDefault.Location = new System.Drawing.Point(0, 447);
             this.butDefault.Name = "butDefault";
             this.butDefault.Size = new System.Drawing.Size(491, 24);
             this.butDefault.TabIndex = 2;
@@ -603,7 +606,7 @@
             "Training"});
             this.listBox.Location = new System.Drawing.Point(0, 0);
             this.listBox.Name = "listBox";
-            this.listBox.Size = new System.Drawing.Size(118, 470);
+            this.listBox.Size = new System.Drawing.Size(118, 447);
             this.listBox.Sorted = true;
             this.listBox.TabIndex = 13;
             this.listBox.SelectedValueChanged += new System.EventHandler(this.listBox1_SelectedValueChanged);
@@ -625,7 +628,7 @@
             this.tabControl1.Location = new System.Drawing.Point(118, 34);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(373, 436);
+            this.tabControl1.Size = new System.Drawing.Size(373, 413);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 14;
             // 
@@ -752,14 +755,11 @@
             this.tabPageGame.Controls.Add(this.groupBox15);
             this.tabPageGame.Controls.Add(this.groupBox20);
             this.tabPageGame.Controls.Add(this.groupBox19);
-            this.tabPageGame.Controls.Add(this.groupBox5);
-            this.tabPageGame.Controls.Add(this.groupBox12);
-            this.tabPageGame.Controls.Add(this.groupBox18);
-            this.tabPageGame.Controls.Add(this.groupBox14);
             this.tabPageGame.Controls.Add(this.gbGame);
+            this.tabPageGame.Controls.Add(this.tableLayoutPanel1);
             this.tabPageGame.Location = new System.Drawing.Point(4, 5);
             this.tabPageGame.Name = "tabPageGame";
-            this.tabPageGame.Size = new System.Drawing.Size(365, 427);
+            this.tabPageGame.Size = new System.Drawing.Size(365, 404);
             this.tabPageGame.TabIndex = 3;
             this.tabPageGame.Text = "Game";
             this.tabPageGame.UseVisualStyleBackColor = true;
@@ -773,7 +773,7 @@
             this.groupBox15.Controls.Add(this.cbCustomBook);
             this.groupBox15.Controls.Add(this.cbCustomEngine);
             this.groupBox15.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox15.Location = new System.Drawing.Point(0, 320);
+            this.groupBox15.Location = new System.Drawing.Point(0, 237);
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.Size = new System.Drawing.Size(365, 102);
             this.groupBox15.TabIndex = 35;
@@ -849,7 +849,7 @@
             this.groupBox20.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox20.Controls.Add(this.cbGameOpponent);
             this.groupBox20.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox20.Location = new System.Drawing.Point(0, 280);
+            this.groupBox20.Location = new System.Drawing.Point(0, 197);
             this.groupBox20.Name = "groupBox20";
             this.groupBox20.Size = new System.Drawing.Size(365, 40);
             this.groupBox20.TabIndex = 38;
@@ -879,7 +879,7 @@
             this.groupBox19.Controls.Add(this.nudTeacherDepth);
             this.groupBox19.Controls.Add(this.cbGameTeacher);
             this.groupBox19.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox19.Location = new System.Drawing.Point(0, 232);
+            this.groupBox19.Location = new System.Drawing.Point(0, 149);
             this.groupBox19.Name = "groupBox19";
             this.groupBox19.Size = new System.Drawing.Size(365, 48);
             this.groupBox19.TabIndex = 37;
@@ -928,109 +928,16 @@
             this.cbGameTeacher.Size = new System.Drawing.Size(163, 21);
             this.cbGameTeacher.TabIndex = 51;
             // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.cbGameBook);
-            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Location = new System.Drawing.Point(0, 188);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(365, 44);
-            this.groupBox5.TabIndex = 32;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Book";
-            // 
-            // cbGameBook
-            // 
-            this.cbGameBook.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cbGameBook.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cbGameBook.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbGameBook.FormattingEnabled = true;
-            this.cbGameBook.Location = new System.Drawing.Point(3, 16);
-            this.cbGameBook.Name = "cbGameBook";
-            this.cbGameBook.Size = new System.Drawing.Size(359, 21);
-            this.cbGameBook.TabIndex = 51;
-            // 
-            // groupBox12
-            // 
-            this.groupBox12.Controls.Add(this.cbGameEngine);
-            this.groupBox12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox12.Location = new System.Drawing.Point(0, 134);
-            this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(365, 54);
-            this.groupBox12.TabIndex = 33;
-            this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "Engine";
-            // 
-            // cbGameEngine
-            // 
-            this.cbGameEngine.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cbGameEngine.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cbGameEngine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbGameEngine.FormattingEnabled = true;
-            this.cbGameEngine.Location = new System.Drawing.Point(3, 16);
-            this.cbGameEngine.Name = "cbGameEngine";
-            this.cbGameEngine.Size = new System.Drawing.Size(359, 21);
-            this.cbGameEngine.TabIndex = 51;
-            // 
-            // groupBox18
-            // 
-            this.groupBox18.Controls.Add(this.cbBottomPlayer);
-            this.groupBox18.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox18.Location = new System.Drawing.Point(0, 87);
-            this.groupBox18.Name = "groupBox18";
-            this.groupBox18.Size = new System.Drawing.Size(365, 47);
-            this.groupBox18.TabIndex = 36;
-            this.groupBox18.TabStop = false;
-            this.groupBox18.Text = "Bottom player";
-            // 
-            // cbBottomPlayer
-            // 
-            this.cbBottomPlayer.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cbBottomPlayer.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cbBottomPlayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBottomPlayer.Items.AddRange(new object[] {
-            "Human",
-            "White",
-            "Black"});
-            this.cbBottomPlayer.Location = new System.Drawing.Point(3, 16);
-            this.cbBottomPlayer.Name = "cbBottomPlayer";
-            this.cbBottomPlayer.Size = new System.Drawing.Size(359, 21);
-            this.cbBottomPlayer.TabIndex = 2;
-            // 
-            // groupBox14
-            // 
-            this.groupBox14.Controls.Add(this.cbGameColor);
-            this.groupBox14.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox14.Location = new System.Drawing.Point(0, 40);
-            this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(365, 47);
-            this.groupBox14.TabIndex = 34;
-            this.groupBox14.TabStop = false;
-            this.groupBox14.Text = "Human color";
-            // 
-            // cbGameColor
-            // 
-            this.cbGameColor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cbGameColor.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cbGameColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbGameColor.Items.AddRange(new object[] {
-            "Auto",
-            "White",
-            "Black"});
-            this.cbGameColor.Location = new System.Drawing.Point(3, 16);
-            this.cbGameColor.Name = "cbGameColor";
-            this.cbGameColor.Size = new System.Drawing.Size(359, 21);
-            this.cbGameColor.TabIndex = 2;
-            // 
             // gbGame
             // 
             this.gbGame.Controls.Add(this.label1);
             this.gbGame.Controls.Add(this.nudUserElo);
+            this.gbGame.Controls.Add(this.cbPonder);
             this.gbGame.Controls.Add(this.cbGameRanked);
             this.gbGame.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbGame.Location = new System.Drawing.Point(0, 0);
+            this.gbGame.Location = new System.Drawing.Point(0, 94);
             this.gbGame.Name = "gbGame";
-            this.gbGame.Size = new System.Drawing.Size(365, 40);
+            this.gbGame.Size = new System.Drawing.Size(365, 55);
             this.gbGame.TabIndex = 7;
             this.gbGame.TabStop = false;
             this.gbGame.Text = "Game";
@@ -1038,7 +945,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(262, 17);
+            this.label1.Location = new System.Drawing.Point(301, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 13);
             this.label1.TabIndex = 9;
@@ -1052,7 +959,7 @@
             0,
             0,
             0});
-            this.nudUserElo.Location = new System.Drawing.Point(136, 13);
+            this.nudUserElo.Location = new System.Drawing.Point(175, 19);
             this.nudUserElo.Maximum = new decimal(new int[] {
             3000,
             0,
@@ -1622,6 +1529,56 @@
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Time control";
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.nudTourE);
+            this.panel2.Controls.Add(this.nudTourEInc);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(3, 37);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(353, 25);
+            this.panel2.TabIndex = 53;
+            // 
+            // nudTourE
+            // 
+            this.nudTourE.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudTourE.Location = new System.Drawing.Point(0, 0);
+            this.nudTourE.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.nudTourE.Name = "nudTourE";
+            this.nudTourE.Size = new System.Drawing.Size(212, 20);
+            this.nudTourE.TabIndex = 54;
+            this.nudTourE.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nudTourE.ThousandsSeparator = true;
+            this.nudTourE.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // nudTourEInc
+            // 
+            this.nudTourEInc.Dock = System.Windows.Forms.DockStyle.Right;
+            this.nudTourEInc.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.nudTourEInc.Location = new System.Drawing.Point(212, 0);
+            this.nudTourEInc.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
+            this.nudTourEInc.Name = "nudTourEInc";
+            this.nudTourEInc.Size = new System.Drawing.Size(141, 20);
+            this.nudTourEInc.TabIndex = 53;
+            this.nudTourEInc.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.nudTourEInc.ThousandsSeparator = true;
+            // 
             // cbTourEMode
             // 
             this.cbTourEMode.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -2050,61 +2007,134 @@
             this.labTitle.TabIndex = 0;
             this.labTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // panel2
+            // cbPonder
             // 
-            this.panel2.Controls.Add(this.nudTourE);
-            this.panel2.Controls.Add(this.nudTourEInc);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(3, 37);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(353, 25);
-            this.panel2.TabIndex = 53;
+            this.cbPonder.AutoSize = true;
+            this.cbPonder.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbPonder.Location = new System.Drawing.Point(3, 33);
+            this.cbPonder.Name = "cbPonder";
+            this.cbPonder.Size = new System.Drawing.Size(359, 17);
+            this.cbPonder.TabIndex = 10;
+            this.cbPonder.Text = "Ponder";
+            this.cbPonder.UseVisualStyleBackColor = true;
             // 
-            // nudTourEInc
+            // tableLayoutPanel1
             // 
-            this.nudTourEInc.Dock = System.Windows.Forms.DockStyle.Right;
-            this.nudTourEInc.Increment = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.nudTourEInc.Location = new System.Drawing.Point(212, 0);
-            this.nudTourEInc.Maximum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            0});
-            this.nudTourEInc.Name = "nudTourEInc";
-            this.nudTourEInc.Size = new System.Drawing.Size(141, 20);
-            this.nudTourEInc.TabIndex = 53;
-            this.nudTourEInc.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nudTourEInc.ThousandsSeparator = true;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.groupBox5, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox12, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox18, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox14, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(365, 94);
+            this.tableLayoutPanel1.TabIndex = 40;
             // 
-            // nudTourE
+            // groupBox18
             // 
-            this.nudTourE.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nudTourE.Location = new System.Drawing.Point(0, 0);
-            this.nudTourE.Maximum = new decimal(new int[] {
-            1000000000,
-            0,
-            0,
-            0});
-            this.nudTourE.Name = "nudTourE";
-            this.nudTourE.Size = new System.Drawing.Size(212, 20);
-            this.nudTourE.TabIndex = 54;
-            this.nudTourE.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.nudTourE.ThousandsSeparator = true;
-            this.nudTourE.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.groupBox18.Controls.Add(this.cbBottomPlayer);
+            this.groupBox18.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox18.Location = new System.Drawing.Point(185, 3);
+            this.groupBox18.Name = "groupBox18";
+            this.groupBox18.Size = new System.Drawing.Size(177, 39);
+            this.groupBox18.TabIndex = 37;
+            this.groupBox18.TabStop = false;
+            this.groupBox18.Text = "Bottom player";
+            // 
+            // cbBottomPlayer
+            // 
+            this.cbBottomPlayer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbBottomPlayer.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbBottomPlayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBottomPlayer.Items.AddRange(new object[] {
+            "Human",
+            "White",
+            "Black"});
+            this.cbBottomPlayer.Location = new System.Drawing.Point(3, 16);
+            this.cbBottomPlayer.Name = "cbBottomPlayer";
+            this.cbBottomPlayer.Size = new System.Drawing.Size(171, 21);
+            this.cbBottomPlayer.TabIndex = 2;
+            // 
+            // groupBox14
+            // 
+            this.groupBox14.Controls.Add(this.cbGameColor);
+            this.groupBox14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox14.Location = new System.Drawing.Point(3, 3);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(176, 39);
+            this.groupBox14.TabIndex = 35;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "Human color";
+            // 
+            // cbGameColor
+            // 
+            this.cbGameColor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbGameColor.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbGameColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGameColor.Items.AddRange(new object[] {
+            "Auto",
+            "White",
+            "Black"});
+            this.cbGameColor.Location = new System.Drawing.Point(3, 16);
+            this.cbGameColor.Name = "cbGameColor";
+            this.cbGameColor.Size = new System.Drawing.Size(170, 21);
+            this.cbGameColor.TabIndex = 2;
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.cbGameEngine);
+            this.groupBox12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox12.Location = new System.Drawing.Point(3, 48);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(176, 43);
+            this.groupBox12.TabIndex = 38;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Engine";
+            // 
+            // cbGameEngine
+            // 
+            this.cbGameEngine.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbGameEngine.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbGameEngine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGameEngine.FormattingEnabled = true;
+            this.cbGameEngine.Location = new System.Drawing.Point(3, 16);
+            this.cbGameEngine.Name = "cbGameEngine";
+            this.cbGameEngine.Size = new System.Drawing.Size(170, 21);
+            this.cbGameEngine.TabIndex = 51;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.cbGameBook);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox5.Location = new System.Drawing.Point(185, 48);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(177, 43);
+            this.groupBox5.TabIndex = 39;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Book";
+            // 
+            // cbGameBook
+            // 
+            this.cbGameBook.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbGameBook.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbGameBook.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGameBook.FormattingEnabled = true;
+            this.cbGameBook.Location = new System.Drawing.Point(3, 16);
+            this.cbGameBook.Name = "cbGameBook";
+            this.cbGameBook.Size = new System.Drawing.Size(171, 21);
+            this.cbGameBook.TabIndex = 51;
             // 
             // FormOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(491, 494);
+            this.ClientSize = new System.Drawing.Size(491, 471);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panRight);
             this.Controls.Add(this.listBox);
@@ -2145,10 +2175,6 @@
             this.groupBox19.ResumeLayout(false);
             this.groupBox19.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTeacherDepth)).EndInit();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox12.ResumeLayout(false);
-            this.groupBox18.ResumeLayout(false);
-            this.groupBox14.ResumeLayout(false);
             this.gbGame.ResumeLayout(false);
             this.gbGame.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudUserElo)).EndInit();
@@ -2177,6 +2203,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTourBRec)).EndInit();
             this.tabPageTourE.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.nudTourE)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTourEInc)).EndInit();
             this.groupBox13.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
@@ -2197,9 +2226,11 @@
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTraining)).EndInit();
             this.panRight.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.nudTourEInc)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTourE)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.groupBox18.ResumeLayout(false);
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -2290,9 +2321,6 @@
 		public System.Windows.Forms.NumericUpDown nudTraining;
 		public System.Windows.Forms.ListBox listBox;
 		private System.Windows.Forms.GroupBox groupBox13;
-		private System.Windows.Forms.GroupBox groupBox12;
-		private System.Windows.Forms.GroupBox groupBox5;
-		private System.Windows.Forms.NumericUpDown nudUserElo;
 		private System.Windows.Forms.Label label1;
 		public System.Windows.Forms.ComboBox cbTourPSelected;
 		public System.Windows.Forms.ComboBox cbTourBSelected;
@@ -2300,8 +2328,6 @@
 		public System.Windows.Forms.ComboBox cbTourEBookF;
 		public System.Windows.Forms.ComboBox cbTourEBookS;
 		public System.Windows.Forms.ComboBox cbTourBEngine;
-		public System.Windows.Forms.ComboBox cbGameEngine;
-		public System.Windows.Forms.ComboBox cbGameBook;
         private System.Windows.Forms.GroupBox groupBox16;
         private System.Windows.Forms.GroupBox groupBox17;
         public System.Windows.Forms.ComboBox cbMatchBook1;
@@ -2312,15 +2338,11 @@
         public System.Windows.Forms.NumericUpDown nudMatchValue2;
         public System.Windows.Forms.ComboBox cbMatchMode1;
         public System.Windows.Forms.ComboBox cbMatchMode2;
-        private System.Windows.Forms.GroupBox groupBox14;
-        public System.Windows.Forms.ComboBox cbGameColor;
         private System.Windows.Forms.GroupBox groupBox15;
         public System.Windows.Forms.ComboBox cbCustomEngine;
         public System.Windows.Forms.ComboBox cbCustomBook;
         public System.Windows.Forms.NumericUpDown nudCustomValue;
         public System.Windows.Forms.ComboBox cbCustomMode;
-        private System.Windows.Forms.GroupBox groupBox18;
-        public System.Windows.Forms.ComboBox cbBottomPlayer;
         private System.Windows.Forms.GroupBox groupBox19;
         public System.Windows.Forms.ComboBox cbGameTeacher;
         private System.Windows.Forms.Label label19;
@@ -2341,5 +2363,16 @@
         private System.Windows.Forms.Panel panel2;
         public System.Windows.Forms.NumericUpDown nudTourE;
         public System.Windows.Forms.NumericUpDown nudTourEInc;
+        public System.Windows.Forms.NumericUpDown nudUserElo;
+        public System.Windows.Forms.CheckBox cbPonder;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.GroupBox groupBox18;
+        public System.Windows.Forms.ComboBox cbBottomPlayer;
+        private System.Windows.Forms.GroupBox groupBox14;
+        public System.Windows.Forms.ComboBox cbGameColor;
+        private System.Windows.Forms.GroupBox groupBox5;
+        public System.Windows.Forms.ComboBox cbGameBook;
+        private System.Windows.Forms.GroupBox groupBox12;
+        public System.Windows.Forms.ComboBox cbGameEngine;
     }
 }

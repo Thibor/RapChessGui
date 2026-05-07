@@ -26,6 +26,7 @@ namespace RapChessGui
         public string file = Global.none;
         public string folder = Global.none;
         public string arguments = String.Empty;
+        public string comment = String.Empty;
         public CProtocol protocol = CProtocol.auto;
         public double accuracy = 0;
         public double test = 0;
@@ -36,6 +37,7 @@ namespace RapChessGui
         public CError eMove = new CError();
         public CError eTime = new CError();
         public CError ePv = new CError();
+        public CError eDraw = new CError();
 
         public int Features()
         {
@@ -100,6 +102,7 @@ namespace RapChessGui
             folder = CListEngine.iniFile.Read($"engine>{name}>folder", folder);
             Protocol = CListEngine.iniFile.Read($"engine>{name}>protocol", Protocol);
             arguments = CListEngine.iniFile.Read($"engine>{name}>parameters");
+            comment = CListEngine.iniFile.Read($"engine>{name}>comment", comment);
             options = CListEngine.iniFile.ReadListStr($"engine>{name}>options");
             accuracy = CListEngine.iniFile.ReadDouble($"engine>{name}>accuracy", accuracy);
             test = CListEngine.iniFile.ReadDouble($"engine>{name}>test", test);
@@ -112,6 +115,7 @@ namespace RapChessGui
             eMove.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>eMove"));
             eTime.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>eTime"));
             ePv.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>ePv"));
+            eDraw.LoadFromStr(CListEngine.iniFile.Read($"engine>{name}>eDraw"));
         }
 
         public void SaveToIni()
@@ -134,6 +138,7 @@ namespace RapChessGui
             CListEngine.iniFile.Write($"engine>{name}>folder", folder);
             CListEngine.iniFile.Write($"engine>{name}>protocol", Protocol);
             CListEngine.iniFile.Write($"engine>{name}>parameters", arguments);
+            CListEngine.iniFile.Write($"engine>{name}>comment", comment);
             CListEngine.iniFile.Write($"engine>{name}>options", options);
             CListEngine.iniFile.Write($"engine>{name}>accuracy", accuracy);
             CListEngine.iniFile.Write($"engine>{name}>test", test);
@@ -146,6 +151,7 @@ namespace RapChessGui
             CListEngine.iniFile.Write($"engine>{name}>eMove", eMove, " ");
             CListEngine.iniFile.Write($"engine>{name}>eTime", eTime, " ");
             CListEngine.iniFile.Write($"engine>{name}>ePv", ePv, " ");
+            CListEngine.iniFile.Write($"engine>{name}>eDraw", eDraw, " ");
         }
 
         public override int ClearHistory()
@@ -153,6 +159,7 @@ namespace RapChessGui
             eMove.Clear();
             ePv.Clear();
             eTime.Clear();
+            eDraw.Clear();
             return base.ClearHistory();
         }
 
@@ -162,11 +169,12 @@ namespace RapChessGui
             SaveToIni();
         }
 
-        public void AddGame(bool em, bool et,bool ep)
+        public void AddGame(bool eMove, bool eTime,bool ePV,bool eDraw)
         {
-            eMove.AddGame(em);
-            eTime.AddGame(et);
-            ePv.AddGame(ep);
+            this.eMove.AddGame(eMove);
+            this.eTime.AddGame(eTime);
+            ePv.AddGame(ePV);
+            this.eDraw.AddGame(eDraw);
             SaveToIni();
         }
 
@@ -219,18 +227,18 @@ namespace RapChessGui
             return File.Exists(path) ? (int)new FileInfo(path).Length : 0; 
         }
 
-        public bool SupportLevel(CLimitKind l)
+        public bool SupportLevel(CLimitType l)
         {
             if ((protocol != CProtocol.uci) && (protocol != CProtocol.xb))
                 return false;
             switch (l)
             {
-                case CLimitKind.standard:
+                case CLimitType.standard:
                     if (protocol == CProtocol.xb)
                         return modeStandard || modeTournament;
                     else
                         return modeStandard;
-                case CLimitKind.depth:
+                case CLimitType.depth:
                     return modeDepth;
                 default:
                     {
@@ -249,7 +257,7 @@ namespace RapChessGui
             return IsPlayableProtocol();
         }
 
-        public bool IsPlayable(CLimitKind l)
+        public bool IsPlayable(CLimitType l)
         {
             if (!IsPlayable())
                 return false;
@@ -327,7 +335,7 @@ namespace RapChessGui
             return $@"Engines\{folder}";
         }
 
-        public bool IsFolder()
+        public bool FolderExists()
         {
             return Directory.Exists(GetFolder());
         }
@@ -372,16 +380,6 @@ namespace RapChessGui
                 this[index] = e;
             else
                 Add(e);
-        }
-
-        public void Check()
-        {
-            for(int n = Count - 1; n >= 0; n--)
-            {
-                CEngine e = this[n];
-                if(!e.IsFolder())
-                    RemoveAt(n);
-            }
         }
 
         public int CountFolder(string folder)
@@ -507,12 +505,14 @@ namespace RapChessGui
 
         public void AutoUpdate()
         {
+            bool mod = false;
             List<string> list = CData.ListExe(@"Engines");
             foreach (string file in list)
             {
                 CEngine engine = GetEngineByFile(file);
                 if (engine == null)
                 {
+                    mod= true;
                     engine = new CEngine();
                     Add(engine);
                     engine.file = file;
@@ -523,8 +523,16 @@ namespace RapChessGui
             for (int n = Count - 1; n >= 0; n--)
             {
                 CEngine e = this[n];
-                if (e.IsAuto() && !e.FileExists())
-                    DeleteEngine(e.name);
+                if ((e.IsAuto() && !e.FileExists()) || !e.FolderExists())
+                {
+                    mod = true;
+                    RemoveAt(n);
+                }
+            }
+            if (mod)
+            {
+                SaveToIni();
+                FormChess.log.Add($"modified {Count} engines");
             }
         }
 

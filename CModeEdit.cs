@@ -29,7 +29,7 @@ namespace RapChessGui
 
         public static string GetGo(string limit,decimal value)
         {
-            modeValue.SetLimit(limit);
+            modeValue.SetLimitType(limit);
             modeValue.SetValue((int)value);
             return modeValue.GetUci();
         }

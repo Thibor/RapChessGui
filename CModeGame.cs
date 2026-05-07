@@ -14,8 +14,8 @@ namespace RapChessGui
         public static int accuracyC = 0;
         public static double accuracyS = 0;
         public static string color = "Auto";
-        public static string engine = CListEngine.def;
-        public static string book = CListBook.def;
+        public static string customEngine = CListEngine.def;
+        public static string customBook = CListBook.def;
         public CHisElo history=new CHisElo();
         public static CLimitValue modeValue = new CLimitValue();
 
@@ -41,9 +41,9 @@ namespace RapChessGui
             ini.Write("mode>game>finished", finished);
             ini.Write("mode>game>rotate", rotate);
             ini.Write("mode>game>color", color);
-            ini.Write("mode>game>engine", engine);
-            ini.Write("mode>game>book", book);
-            ini.Write("mode>game>mode", modeValue.GetLimit());
+            ini.Write("mode>game>engine", customEngine);
+            ini.Write("mode>game>book", customBook);
+            ini.Write("mode>game>mode", modeValue.GetLimitType());
             ini.Write("mode>game>value", modeValue.baseVal);
             history.SaveToIni(ini, "mode>game>history");
             ini.Save();
@@ -54,9 +54,9 @@ namespace RapChessGui
             finished = ini.ReadBool("mode>game>finished", finished);
             rotate = ini.ReadBool("mode>game>rotate");
             color = ini.Read("mode>game>color", color);
-            engine = ini.Read("mode>game>engine", engine);
-            book = ini.Read("mode>game>book", book);
-            modeValue.SetLimit(ini.Read("mode>game>mode", modeValue.GetLimit()));
+            customEngine = ini.Read("mode>game>engine", customEngine);
+            customBook = ini.Read("mode>game>book", customBook);
+            modeValue.SetLimitType(ini.Read("mode>game>mode", modeValue.GetLimitType()));
             modeValue.baseVal = ini.ReadInt("mode>game>value", modeValue.baseVal);
             history.LoadFromIni(ini, "mode>game>history");
             if (history.Count == 0)

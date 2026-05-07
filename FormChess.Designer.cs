@@ -233,6 +233,7 @@
             this.trainingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.errorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pgnToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.gameToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.matchToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -400,6 +401,7 @@
             this.fileSystemWatcher = new System.IO.FileSystemWatcher();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.lastDrawToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPageGame.SuspendLayout();
             this.panChartGame.SuspendLayout();
@@ -2869,7 +2871,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 2);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.ShowItemToolTips = true;
-            this.menuStrip1.Size = new System.Drawing.Size(380, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(500, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -2942,7 +2944,8 @@
             this.tournamentplayersToolStripMenuItem,
             this.trainingToolStripMenuItem,
             this.toolStripMenuItem3,
-            this.errorToolStripMenuItem});
+            this.errorToolStripMenuItem,
+            this.timeToolStripMenuItem});
             this.lastToolStripMenuItem.Name = "lastToolStripMenuItem";
             this.lastToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.lastToolStripMenuItem.Text = "Last";
@@ -3000,6 +3003,13 @@
             this.errorToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.errorToolStripMenuItem.Text = "Error";
             this.errorToolStripMenuItem.Click += new System.EventHandler(this.lastHisLoad_Click);
+            // 
+            // timeToolStripMenuItem
+            // 
+            this.timeToolStripMenuItem.Name = "timeToolStripMenuItem";
+            this.timeToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.timeToolStripMenuItem.Text = "Time";
+            this.timeToolStripMenuItem.Click += new System.EventHandler(this.lastHisLoad_Click);
             // 
             // pgnToolStripMenuItem1
             // 
@@ -3185,6 +3195,7 @@
             this.lastTrainingToolStripMenuItem,
             this.lastErrorToolStripMenuItem,
             this.lastTimeToolStripMenuItem,
+            this.lastDrawToolStripMenuItem,
             this.toolStripMenuItem2,
             this.autoToolStripMenuItem,
             this.lastAutodetectToolStripMenuItem});
@@ -5054,6 +5065,13 @@
             this.saveFileDialog1.Filter = "Fen|*.fen|Pgn|*.pgn|Uci|*.uci|His|*.his";
             this.saveFileDialog1.Title = "Save position";
             // 
+            // lastDrawToolStripMenuItem
+            // 
+            this.lastDrawToolStripMenuItem.Name = "lastDrawToolStripMenuItem";
+            this.lastDrawToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.lastDrawToolStripMenuItem.Text = "Last draw";
+            this.lastDrawToolStripMenuItem.Click += new System.EventHandler(this.lastDrawToolStripMenuItem_Click);
+            // 
             // FormChess
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5547,6 +5565,8 @@
         private System.Windows.Forms.ProgressBar pbTourE;
         private System.Windows.Forms.ProgressBar pbTourB;
         private System.Windows.Forms.ProgressBar pbTourP;
+        private System.Windows.Forms.ToolStripMenuItem timeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lastDrawToolStripMenuItem;
     }
 }
 

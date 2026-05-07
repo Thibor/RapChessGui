@@ -51,12 +51,6 @@
             this.nudTournament = new System.Windows.Forms.NumericUpDown();
             this.gbElo = new System.Windows.Forms.GroupBox();
             this.nudElo = new System.Windows.Forms.NumericUpDown();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.tbParameters = new System.Windows.Forms.TextBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.cbFileList = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cbFolderList = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbProtocol = new System.Windows.Forms.ComboBox();
             this.tbEngineName = new System.Windows.Forms.TextBox();
@@ -82,6 +76,15 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.autodetectAllEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearAllEloToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbFolderList = new System.Windows.Forms.ComboBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cbFileList = new System.Windows.Forms.ComboBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tbParameters = new System.Windows.Forms.TextBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.tbComment = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panButtons.SuspendLayout();
             this.gbFeatures.SuspendLayout();
@@ -89,25 +92,25 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTournament)).BeginInit();
             this.gbElo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudElo)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.gbEngines.SuspendLayout();
             this.menuStrip2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.tableLayoutPanel1);
             this.panel1.Controls.Add(this.panOptions);
             this.panel1.Controls.Add(this.panButtons);
             this.panel1.Controls.Add(this.gbFeatures);
             this.panel1.Controls.Add(this.groupBox5);
             this.panel1.Controls.Add(this.gbElo);
-            this.panel1.Controls.Add(this.groupBox3);
-            this.panel1.Controls.Add(this.groupBox4);
-            this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(489, 24);
@@ -121,9 +124,9 @@
             this.panOptions.AutoSize = true;
             this.panOptions.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panOptions.Location = new System.Drawing.Point(0, 483);
+            this.panOptions.Location = new System.Drawing.Point(0, 364);
             this.panOptions.Name = "panOptions";
-            this.panOptions.Size = new System.Drawing.Size(311, 297);
+            this.panOptions.Size = new System.Drawing.Size(311, 416);
             this.panOptions.TabIndex = 36;
             // 
             // panButtons
@@ -135,7 +138,7 @@
             this.panButtons.Controls.Add(this.bRename);
             this.panButtons.Controls.Add(this.bSave);
             this.panButtons.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panButtons.Location = new System.Drawing.Point(0, 363);
+            this.panButtons.Location = new System.Drawing.Point(0, 244);
             this.panButtons.Name = "panButtons";
             this.panButtons.Size = new System.Drawing.Size(311, 120);
             this.panButtons.TabIndex = 39;
@@ -213,7 +216,7 @@
             this.gbFeatures.Controls.Add(this.cbModeTime);
             this.gbFeatures.Controls.Add(this.cbModeStandard);
             this.gbFeatures.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbFeatures.Location = new System.Drawing.Point(0, 265);
+            this.gbFeatures.Location = new System.Drawing.Point(0, 146);
             this.gbFeatures.Name = "gbFeatures";
             this.gbFeatures.Size = new System.Drawing.Size(311, 98);
             this.gbFeatures.TabIndex = 31;
@@ -315,7 +318,7 @@
             this.groupBox5.AutoSize = true;
             this.groupBox5.Controls.Add(this.nudTournament);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Location = new System.Drawing.Point(0, 226);
+            this.groupBox5.Location = new System.Drawing.Point(0, 107);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(311, 39);
             this.groupBox5.TabIndex = 33;
@@ -343,7 +346,7 @@
             this.gbElo.AutoSize = true;
             this.gbElo.Controls.Add(this.nudElo);
             this.gbElo.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbElo.Location = new System.Drawing.Point(0, 187);
+            this.gbElo.Location = new System.Drawing.Point(0, 68);
             this.gbElo.Name = "gbElo";
             this.gbElo.Size = new System.Drawing.Size(311, 39);
             this.gbElo.TabIndex = 30;
@@ -369,71 +372,6 @@
             0,
             0,
             0});
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.AutoSize = true;
-            this.groupBox3.Controls.Add(this.tbParameters);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Location = new System.Drawing.Point(0, 148);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(311, 39);
-            this.groupBox3.TabIndex = 15;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Parameters";
-            // 
-            // tbParameters
-            // 
-            this.tbParameters.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tbParameters.Location = new System.Drawing.Point(3, 16);
-            this.tbParameters.Name = "tbParameters";
-            this.tbParameters.Size = new System.Drawing.Size(305, 20);
-            this.tbParameters.TabIndex = 0;
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.AutoSize = true;
-            this.groupBox4.Controls.Add(this.cbFileList);
-            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox4.Location = new System.Drawing.Point(0, 108);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(311, 40);
-            this.groupBox4.TabIndex = 11;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Engine file";
-            // 
-            // cbFileList
-            // 
-            this.cbFileList.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cbFileList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFileList.FormattingEnabled = true;
-            this.cbFileList.Location = new System.Drawing.Point(3, 16);
-            this.cbFileList.Name = "cbFileList";
-            this.cbFileList.Size = new System.Drawing.Size(305, 21);
-            this.cbFileList.TabIndex = 2;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.AutoSize = true;
-            this.groupBox2.Controls.Add(this.cbFolderList);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(0, 68);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(311, 40);
-            this.groupBox2.TabIndex = 40;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Engine folder";
-            // 
-            // cbFolderList
-            // 
-            this.cbFolderList.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cbFolderList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFolderList.FormattingEnabled = true;
-            this.cbFolderList.Location = new System.Drawing.Point(3, 16);
-            this.cbFolderList.Name = "cbFolderList";
-            this.cbFolderList.Size = new System.Drawing.Size(305, 21);
-            this.cbFolderList.TabIndex = 2;
-            this.cbFolderList.SelectedIndexChanged += new System.EventHandler(this.cbFolderList_SelectedIndexChanged);
             // 
             // groupBox1
             // 
@@ -655,6 +593,109 @@
             this.clearAllEloToolStripMenuItem.Text = "Reset all accuracy";
             this.clearAllEloToolStripMenuItem.Click += new System.EventHandler(this.ResetAllAccuracy_Click);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.groupBox6, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox4, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 364);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(311, 100);
+            this.tableLayoutPanel1.TabIndex = 41;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.AutoSize = true;
+            this.groupBox2.Controls.Add(this.cbFolderList);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(149, 40);
+            this.groupBox2.TabIndex = 41;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Engine folder";
+            // 
+            // cbFolderList
+            // 
+            this.cbFolderList.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbFolderList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFolderList.FormattingEnabled = true;
+            this.cbFolderList.Location = new System.Drawing.Point(3, 16);
+            this.cbFolderList.Name = "cbFolderList";
+            this.cbFolderList.Size = new System.Drawing.Size(143, 21);
+            this.cbFolderList.TabIndex = 2;
+            this.cbFolderList.SelectedIndexChanged += new System.EventHandler(this.cbFolderList_SelectedIndexChanged);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.AutoSize = true;
+            this.groupBox4.Controls.Add(this.cbFileList);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox4.Location = new System.Drawing.Point(158, 3);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(150, 40);
+            this.groupBox4.TabIndex = 42;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Engine file";
+            // 
+            // cbFileList
+            // 
+            this.cbFileList.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbFileList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFileList.FormattingEnabled = true;
+            this.cbFileList.Location = new System.Drawing.Point(3, 16);
+            this.cbFileList.Name = "cbFileList";
+            this.cbFileList.Size = new System.Drawing.Size(144, 21);
+            this.cbFileList.TabIndex = 2;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.AutoSize = true;
+            this.groupBox3.Controls.Add(this.tbParameters);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox3.Location = new System.Drawing.Point(3, 53);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(149, 39);
+            this.groupBox3.TabIndex = 43;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Parameters";
+            // 
+            // tbParameters
+            // 
+            this.tbParameters.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tbParameters.Location = new System.Drawing.Point(3, 16);
+            this.tbParameters.Name = "tbParameters";
+            this.tbParameters.Size = new System.Drawing.Size(143, 20);
+            this.tbParameters.TabIndex = 0;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.AutoSize = true;
+            this.groupBox6.Controls.Add(this.tbComment);
+            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox6.Location = new System.Drawing.Point(158, 53);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(150, 39);
+            this.groupBox6.TabIndex = 44;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Comment";
+            // 
+            // tbComment
+            // 
+            this.tbComment.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tbComment.Location = new System.Drawing.Point(3, 16);
+            this.tbComment.Name = "tbComment";
+            this.tbComment.Size = new System.Drawing.Size(144, 20);
+            this.tbComment.TabIndex = 0;
+            // 
             // FormEditEngine
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -683,16 +724,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTournament)).EndInit();
             this.gbElo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudElo)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.gbEngines.ResumeLayout(false);
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -704,10 +749,6 @@
 		private System.Windows.Forms.TextBox tbEngineName;
 		private System.Windows.Forms.GroupBox gbEngines;
 		public System.Windows.Forms.ListBox listBoxEngines;
-		private System.Windows.Forms.GroupBox groupBox4;
-		private System.Windows.Forms.ComboBox cbFileList;
-		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.TextBox tbParameters;
 		private System.Windows.Forms.GroupBox gbElo;
 		private System.Windows.Forms.NumericUpDown nudElo;
 		private System.Windows.Forms.GroupBox gbFeatures;
@@ -732,8 +773,6 @@
 		private System.Windows.Forms.ToolStripMenuItem resetEngineOptionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem clearTournamentHistoryToolStripMenuItem;
 		private System.Windows.Forms.CheckBox cbModeInfinite;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.ComboBox cbFolderList;
 		private System.Windows.Forms.CheckBox cbModeElo;
 		private System.Windows.Forms.ToolStripMenuItem autodetectAllEnginesToolStripMenuItem;
 		private System.Windows.Forms.Button bClear;
@@ -752,5 +791,14 @@
         private System.Windows.Forms.PictureBox pictureBox;
         public System.Windows.Forms.ComboBox cbProtocol;
         private System.Windows.Forms.ToolStripMenuItem sandboxToolStripMenuItem;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.TextBox tbComment;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox tbParameters;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.ComboBox cbFileList;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ComboBox cbFolderList;
     }
 }

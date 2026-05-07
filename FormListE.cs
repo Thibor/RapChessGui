@@ -30,20 +30,31 @@ namespace RapChessGui
 
         int GetEloAccuracy(double v)
         {
-            return Convert.ToInt32((v * CElo.eloMax) / 100);
+            double del = 70.0;
+            v -= del;
+            if (v < 0)
+                v = 0;
+            v *= 100.0 / (100.0 - del);
+            return Convert.ToInt32((v * CElo.eloMax) / 100.0);
+        }
+
+        int GetEloTest(double v)
+        {
+            return Convert.ToInt32((v * CElo.eloMax) / 100.0);
         }
 
         public void FillEloOpt()
         {
             CTourList tourList = new CTourList("engines");
-            foreach (CEngine ef in FormChess.engineList) {
+            foreach (CEngine ef in FormChess.engineList)
+            {
                 double sumElo = 0;
                 double sumGames = 0;
                 foreach (CEngine es in FormChess.engineList)
                     if (ef != es)
                     {
                         tourList.CountGames(ef.name, es.name, out int gw, out int gl, out int gd);
-                        int games= gw + gl + gd;
+                        int games = gw + gl + gd;
                         sumGames += games;
                         sumElo += CElo.EloOpt(ef.Elo, es.Elo, gw, gl, gd) * games;
                     }
@@ -54,6 +65,7 @@ namespace RapChessGui
         private void FormListE_Shown(object sender, EventArgs e)
         {
             FillEloOpt();
+            lvEngines.ListViewItemSorter = null;
             lvEngines.Items.Clear();
             FormChess.engineList.SortElo();
             int index = 0;
@@ -63,12 +75,13 @@ namespace RapChessGui
                 DateTime dt = File.GetLastWriteTime(path);
                 int elo = engine.Elo;
                 int size = engine.GetFileSize();
-                int accuracy = GetEloAccuracy(engine.accuracy);
+                Int64 accuracy = GetEloAccuracy(engine.accuracy);
+                int test = GetEloTest(engine.test);
                 int features = engine.Features();
-                int sizeAccuracy = 0;
-                if (accuracy > 0)
-                    sizeAccuracy = size / accuracy;
-                ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, elo.ToString(), engine.eloOpt.ToString(),accuracy.ToString(), GetEloAccuracy(engine.test).ToString(), engine.Protocol, engine.depth.ToString("N2"), engine.nps.ToString("N0"), engine.eMove.Errors().ToString("N2"), engine.ePv.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2"), dt.ToString("yyyy-MM-dd"), size.ToString("N0"),sizeAccuracy.ToString(),features.ToString() });
+                Int64 sizeAccuracy = 0;
+                if (size > 0)
+                    sizeAccuracy = (accuracy*100000)/size;
+                ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, elo.ToString(), engine.eloOpt.ToString(), accuracy.ToString(), test.ToString(), engine.Protocol, engine.depth.ToString("N2"), engine.nps.ToString("N0"), engine.eMove.Errors().ToString("N2"), engine.ePv.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2"), engine.eDraw.Errors().ToString("N2"), dt.ToString("yyyy-MM-dd"), size.ToString("N0"), sizeAccuracy.ToString(), features.ToString(),engine.comment });
                 lvEngines.Items.Add(lvi);
             }
         }

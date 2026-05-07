@@ -21,7 +21,7 @@ namespace RapChessGui
 
 		void ClickSave()
 		{
-			modeValue.SetLimit(combMode.Text);
+			modeValue.SetLimitType(combMode.Text);
 			modeValue.SetValue((int)nudValue.Value);
 			if (player == null)
 				return;
@@ -56,7 +56,7 @@ namespace RapChessGui
 			nudValue.Value = player.levelValue.GetValue();
 			modeValue.kind = player.levelValue.kind;
 			modeValue.baseVal = player.levelValue.baseVal;
-			combMode.SelectedIndex = combMode.FindStringExact(modeValue.GetLimit());
+			combMode.SelectedIndex = combMode.FindStringExact(modeValue.GetLimitType());
 		}
 
 		void SelectPlayers(int first, int last, bool t)
@@ -126,7 +126,7 @@ namespace RapChessGui
 				MessageBox.Show("This name already exists");
 				return;
 			}
-			modeValue.SetLimit(combMode.Text);
+			modeValue.SetLimitType(combMode.Text);
 			modeValue.SetValue((int)nudValue.Value);
 			CPlayer player = new CPlayer(name);
 			FormChess.playerList.Add(player);
@@ -169,7 +169,7 @@ namespace RapChessGui
 
 		private void combMode_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			modeValue.SetLimit(combMode.Text);
+			modeValue.SetLimitType(combMode.Text);
 			nudValue.Increment = modeValue.GetIncrement();
 			nudValue.Value = modeValue.GetValue();
 			toolTip1.SetToolTip(nudValue, modeValue.GetTip());

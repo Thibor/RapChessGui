@@ -43,7 +43,7 @@ namespace RapChessGui
 
 		public CPlayer()
 		{
-            levelValue.kind = CLimitKind.infinite;
+            levelValue.kind = CLimitType.infinite;
         }
 
 		public CPlayer(string n)
@@ -167,7 +167,7 @@ namespace RapChessGui
 		{
 			tournament = CListPlayer.iniFile.ReadInt($"player>{name}>tournament", tournament);
 			EngineName = CListPlayer.iniFile.Read($"player>{name}>engine", Global.none);
-			levelValue.SetLimit(CListPlayer.iniFile.Read($"player>{name}>mode", levelValue.GetLimit()));
+			levelValue.SetLimitType(CListPlayer.iniFile.Read($"player>{name}>mode", levelValue.GetLimitType()));
 			levelValue.baseVal = CListPlayer.iniFile.ReadInt($"player>{name}>value", levelValue.baseVal);
 			BookName = CListPlayer.iniFile.Read($"player>{name}>book", Global.none);
 			history.FromStr(CListPlayer.iniFile.Read($"player>{name}>history"));
@@ -180,7 +180,7 @@ namespace RapChessGui
 			name = GetName();
 			CListPlayer.iniFile.Write($"player>{name}>tournament", tournament);
 			CListPlayer.iniFile.Write($"player>{name}>engine", EngineName);
-			CListPlayer.iniFile.Write($"player>{name}>mode", levelValue.GetLimit());
+			CListPlayer.iniFile.Write($"player>{name}>mode", levelValue.GetLimitType());
 			CListPlayer.iniFile.Write($"player>{name}>value", levelValue.baseVal);
 			CListPlayer.iniFile.Write($"player>{name}>book", BookName);
 			CListPlayer.iniFile.Write($"player>{name}>history", history, " ");

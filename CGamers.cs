@@ -79,18 +79,19 @@ namespace RapChessGui
         public int depthTotal;
         public int depthCount;
         public int msgPriority = 0;
-        public int scoreI;
+        public int scoreInt;
         public ulong infMs;
         public ulong nodes;
         public ulong nps;
         public ulong npsTotal;
         public ulong npsCount;
-        public string strScore;
+        public string scoreTxt;
         public int depth;
         public int seldepth;
         public int multipv;
         int hash;
         int phase;
+        public string bestMove;
         public string ponder;
         public string pv;
         public string pvFirst;
@@ -183,7 +184,7 @@ namespace RapChessGui
             if (player.humanElo)
             {
                 SendMessageToEngine("setoption name UCI_LimitStrength value true");
-                SendMessageToEngine($"setoption name UCI_Elo value {FormChess.game.history.Last()}");
+                SendMessageToEngine($"setoption name UCI_Elo value {player.Elo}");
             }
             else
                 foreach (string op in engine.options)
@@ -194,7 +195,6 @@ namespace RapChessGui
         {
             foreach (string op in book.options)
                 SendMessageToBook($"book setoption {op}");
-            //if (book.options.Count > 0)SendMessageToBook("book optionend");
             gamerBook.optionSended = true;
         }
 
@@ -281,12 +281,13 @@ namespace RapChessGui
             depth = 0;
             msgPriority = 0;
             seldepth = 0;
-            scoreI = 0;
+            scoreInt = 0;
             lastMove = String.Empty;
+            bestMove = String.Empty;
             ponder = String.Empty;
             pv = String.Empty;
             pvFirst = String.Empty;
-            strScore = String.Empty;
+            scoreTxt = String.Empty;
             gamerBook.isBookStarted = false;
             gamerBook.isBookFail = false;
             gamerEngine.isEngRunning = false;
@@ -299,11 +300,11 @@ namespace RapChessGui
             else
             {
                 countMovesEngine++;
-                if (!mate && (depth > 0) && (Math.Abs(scoreI) < 500))
+                if (!mate && (depth > 0) && (Math.Abs(scoreInt) < 500))
                 {
                     depthCount++;
                     depthTotal += depth;
-                    engine.depth = (engine.depth * 99.0 + depth) / 100.0;
+                    engine.depth = (engine.depth * 127 + depth) / 128;
                 }
                 if (nps > 0)
                 {
@@ -409,7 +410,7 @@ namespace RapChessGui
         void UciGo()
         {
             SendMessageToEngine(FormChess.history.GetPosition());
-            if (player.levelValue.kind == CLimitKind.standard)
+            if (player.levelValue.kind == CLimitType.standard)
             {
                 CGamer gw = FormChess.gamers.GamerWhite();
                 CGamer gb = FormChess.gamers.GamerBlack();
@@ -457,13 +458,13 @@ namespace RapChessGui
         {
             switch (player.levelValue.kind)
             {
-                case CLimitKind.standard:
+                case CLimitType.standard:
                     XbGoStandard();
                     break;
-                case CLimitKind.depth:
+                case CLimitType.depth:
                     XbGoDepth();
                     break;
-                case CLimitKind.time:
+                case CLimitType.time:
                     XbGoTime();
                     break;
             }
@@ -542,10 +543,10 @@ namespace RapChessGui
         {
             double dr = 1.0;
             double dg = 1.0;
-            if (scoreI > 0)
-                dr = 1.0 - scoreI / 500.0;
-            if (scoreI < 0)
-                dg = 1.0 + scoreI / 500.0;
+            if (scoreInt > 0)
+                dr = 1.0 - scoreInt / 500.0;
+            if (scoreInt < 0)
+                dg = 1.0 + scoreInt / 500.0;
             if (dr < 0)
                 dr = 0;
             if (dg < 0)
@@ -564,14 +565,14 @@ namespace RapChessGui
             low = false;
             TimeSpan ts = timer.Elapsed;
             double ms = ts.TotalMilliseconds;
-            CLimitKind kind = CLimitKind.standard;
+            CLimitType kind = CLimitType.standard;
             int value = 0;
             if (player != null)
             {
                 kind = player.levelValue.kind;
                 value = player.levelValue.GetUciValue();
             }
-            if (kind == CLimitKind.standard)
+            if (kind == CLimitType.standard)
             {
                 double t = GetBaseTimeMs();
                 ts = TimeSpan.FromMilliseconds(t);
@@ -586,7 +587,7 @@ namespace RapChessGui
                     return $"{ts.TotalSeconds:N2}";
                 }
             }
-            else if (kind == CLimitKind.time)
+            else if (kind == CLimitType.time)
             {
                 double v = Convert.ToDouble(value);
                 if ((FormChess.gameMode != CGameMode.game) && ((ms - timerStart) > (v + FormOptions.marginTime)) && (FormOptions.marginTime >= 0) && (value > 0) && timer.IsRunning)
@@ -793,8 +794,8 @@ namespace RapChessGui
 
         public void StartAnalysis(string go,string moves)
         {
-            this[0].arrowColor = Colors.Green;
-            this[1].arrowColor = Colors.Yellow;
+            this[0].arrowColor = Colors.editW;
+            this[1].arrowColor = Colors.editB;
             this[0].arrowShift = -1;
             this[1].arrowShift = 1;
             foreach (CGamer g in this)

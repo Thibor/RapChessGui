@@ -11,6 +11,8 @@ namespace RapChessGui
 
     static class Colors
     {
+        public static Color editW = Color.FromArgb(0xa0, 0xff, 0xff, 0xff);
+        public static Color editB = Color.FromArgb(0xa0, 0x00, 0x00, 0x00);
         public static Color last = Color.FromArgb(0x40, 0xff, 0xff, 0x00);
         public static Color Green = Color.FromArgb(0xa0, 0x00, 0xff, 0x00);
         public static Color Red = Color.FromArgb(0xa0, 0xff, 0x00, 0x00);

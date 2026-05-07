@@ -149,18 +149,13 @@ namespace RapChessGui
                 bool bMod = e.DTAccuracy < e.DTModification;
                 if ((bFile || bMod) && e.modeTime && e.modeFen && ((e.protocol == CProtocol.uci) || (e.protocol == CProtocol.xb)))
                 {
-                    string line = $"Start {e.name}";
-                    log.Add(line);
                     e.ClearHistory();
                     await Task.Run(() => EloAccuracyTask(e));
                     count++;
                 }
             }
             if (count > 0)
-            {
                 Console.Beep();
-                log.Add("Finish");
-            }
         }
 
         public static double WiningChances(int centipawns, int mate = 0)
@@ -210,7 +205,6 @@ namespace RapChessGui
                     if (e.protocol == CProtocol.uci)
                     {
                         StudentWriteLine("ucinewgame");
-                        //Thread.Sleep(100);
                         StudentWriteLine($"position fen {lastFen}");
                         StudentWriteLine("go movetime 1000");
                     }
@@ -218,7 +212,6 @@ namespace RapChessGui
                     {
                         chess.SetFen(line.fen);
                         StudentWriteLine("new");
-                        //Thread.Sleep(100);
                         StudentWriteLine("post");
                         StudentWriteLine("force");
                         StudentWriteLine($"board {lastFen}");
@@ -261,12 +254,12 @@ namespace RapChessGui
                 log.Add($"{e.name} fail ({lastFen})");
             else
             {
+                double oldAccuracy = e.accuracy;
                 e.accuracy = totalAccuracy / totalCount;
                 e.test = testCount == 0 ? 0 : (testWin * 100.0) / testCount;
-                log.Add($"{e.name} accuracy {e.accuracy:N2} test {testWin}/{testCount} move {timer.ElapsedMilliseconds/(totalCount*1000.0):N2} sec");
+                log.Add($"{e.name} accuracy {oldAccuracy:N2} => {e.accuracy:N2} test {testWin}/{testCount} move {timer.ElapsedMilliseconds/(totalCount*1000.0):N2} sec");
             }
             DateTime dtf = e.GetFileDate();
-            //if (e.DTFile.ToString() != dtf.ToString())e.ClearHistory();
             e.DTFile = dtf;
             e.DTAccuracy = DateTime.Now;
             e.SaveToIni();

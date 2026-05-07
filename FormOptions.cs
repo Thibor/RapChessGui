@@ -95,8 +95,8 @@ namespace RapChessGui
         {
             CModeMatch.engine1 = cbMatchEngine1.Text;
             CModeMatch.engine2 = cbMatchEngine2.Text;
-            CModeMatch.modeValue1.SetLimit(cbMatchMode1.Text);
-            CModeMatch.modeValue2.SetLimit(cbMatchMode2.Text);
+            CModeMatch.modeValue1.SetLimitType(cbMatchMode1.Text);
+            CModeMatch.modeValue2.SetLimitType(cbMatchMode2.Text);
             CModeMatch.modeValue1.SetValue((int)nudMatchValue1.Value);
             CModeMatch.modeValue2.SetValue((int)nudMatchValue2.Value);
             CModeMatch.SaveToIni();
@@ -108,8 +108,8 @@ namespace RapChessGui
             cbMatchEngine2.Text = CModeMatch.engine2;
             cbMatchBook1.Text = CModeMatch.book1;
             cbMatchBook2.Text = CModeMatch.book2;
-            cbMatchMode1.Text = CModeMatch.modeValue1.GetLimit();
-            cbMatchMode2.Text = CModeMatch.modeValue2.GetLimit();
+            cbMatchMode1.Text = CModeMatch.modeValue1.GetLimitType();
+            cbMatchMode2.Text = CModeMatch.modeValue2.GetLimitType();
             ValueToNud(CModeMatch.modeValue1.GetValue(), nudMatchValue1);
             ValueToNud(CModeMatch.modeValue2.GetValue(), nudMatchValue2);
         }
@@ -136,6 +136,10 @@ namespace RapChessGui
             cbGameEngine.Text = FormChess.ini.Read("options>mode>game>engine", CListEngine.def, def);
             cbGameOpponent.Text = FormChess.ini.Read("options>mode>game>opponent", "Auto", def);
             cbGameTeacher.Text = FormChess.ini.Read("options>mode>game>teacher>name", Global.none, def);
+            cbCustomEngine.Text = FormChess.ini.Read("options>mode>custom>engine", CListEngine.def, def);
+            cbCustomBook.Text = FormChess.ini.Read("options>mode>custom>book", CListBook.def, def);
+            cbCustomMode.Text = FormChess.ini.Read("options>mode>custom>mode","Time", def);
+            nudCustomValue.Value = FormChess.ini.ReadDecimal("options>mode>custom>value", 1000, def);
             nudTeacherDepth.Value = FormChess.ini.ReadDecimal("options>mode>game>teacher>depth", 15, def);
             cbBottomPlayer.SelectedIndex = FormChess.ini.ReadInt("options>mode>game>bottom", 0, def);
             nudBreak.Value = FormChess.ini.ReadDecimal("options>mode>game>break", 8, def);
@@ -200,6 +204,10 @@ namespace RapChessGui
             FormChess.ini.Write("options>mode>game>engine", cbGameEngine.Text);
             FormChess.ini.Write("options>mode>game>opponent", cbGameOpponent.Text);
             FormChess.ini.Write("options>mode>game>teacher>name", cbGameTeacher.Text);
+            FormChess.ini.Write("options>mode>custom>engine", cbCustomEngine.Text);
+            FormChess.ini.Write("options>mode>custom>book", cbCustomBook.Text);
+            FormChess.ini.Write("options>mode>custom>mode", cbCustomMode.Text);
+            FormChess.ini.Write("options>mode>custom>value", nudCustomValue.Value);
             FormChess.ini.Write("options>mode>game>teacher>depth", nudTeacherDepth.Value);
             FormChess.ini.Write("options>mode>game>bottom", cbBottomPlayer.SelectedIndex);
             FormChess.ini.Write("options>mode>game>break", nudBreak.Value);
@@ -208,8 +216,8 @@ namespace RapChessGui
             CModeMatch.book2 = cbMatchBook2.Text;
             CModeMatch.engine1 = cbMatchEngine1.Text;
             CModeMatch.engine2 = cbMatchEngine2.Text;
-            CModeMatch.modeValue1.SetLimit(cbMatchMode1.Text);
-            CModeMatch.modeValue2.SetLimit(cbMatchMode2.Text);
+            CModeMatch.modeValue1.SetLimitType(cbMatchMode1.Text);
+            CModeMatch.modeValue2.SetLimitType(cbMatchMode2.Text);
             CModeMatch.modeValue1.SetValue((int)nudMatchValue1.Value);
             CModeMatch.modeValue2.SetValue((int)nudMatchValue2.Value);
             CModeMatch.SaveToIni();
@@ -511,9 +519,9 @@ namespace RapChessGui
         private void cbTourBMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             CLimitValue modeValue = new CLimitValue();
-            modeValue.SetLimit(tourBMode);
+            modeValue.SetLimitType(tourBMode);
             modeValue.SetValue(tourBValue);
-            modeValue.SetLimit((sender as System.Windows.Forms.ComboBox).Text);
+            modeValue.SetLimitType((sender as System.Windows.Forms.ComboBox).Text);
             nudTourB.Increment = modeValue.GetIncrement();
             nudTourB.Minimum = nudTourB.Increment;
             nudTourB.Value = Math.Max(modeValue.GetValue(), nudTourB.Minimum);
@@ -525,9 +533,9 @@ namespace RapChessGui
             ComboBox cb = sender as ComboBox;
             CLimitValue modeValue = new CLimitValue();
             nudTourEInc.Visible = cb.SelectedIndex == 2;
-            modeValue.SetLimit(tourEMode);
+            modeValue.SetLimitType(tourEMode);
             //modeValue.SetValue(tourEValue);
-            modeValue.SetLimit(cb.Text);
+            modeValue.SetLimitType(cb.Text);
             nudTourE.Increment = modeValue.GetIncrement();
             nudTourE.Minimum = nudTourE.Increment;
             nudTourE.Value = Math.Max(modeValue.GetValue(), nudTourE.Minimum);
@@ -575,7 +583,7 @@ namespace RapChessGui
 
         private void cbMatchMode1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CModeMatch.modeValue1.SetLimit(cbMatchMode1.Text);
+            CModeMatch.modeValue1.SetLimitType(cbMatchMode1.Text);
             nudMatchValue1.Increment = CModeMatch.modeValue1.GetIncrement();
             nudMatchValue1.Minimum = nudMatchValue1.Increment;
             nudMatchValue1.Value = CModeMatch.modeValue1.GetValue();
@@ -583,7 +591,7 @@ namespace RapChessGui
 
         private void cbMatchMode2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CModeMatch.modeValue2.SetLimit(cbMatchMode2.Text);
+            CModeMatch.modeValue2.SetLimitType(cbMatchMode2.Text);
             nudMatchValue2.Increment = CModeMatch.modeValue1.GetIncrement();
             nudMatchValue2.Minimum = nudMatchValue2.Increment;
             nudMatchValue2.Value = CModeMatch.modeValue1.GetValue();
@@ -591,7 +599,7 @@ namespace RapChessGui
 
         private void cbCustomMode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CModeGame.modeValue.SetLimit(cbCustomMode.Text);
+            CModeGame.modeValue.SetLimitType(cbCustomMode.Text);
             nudCustomValue.Increment = CModeGame.modeValue.GetIncrement();
             nudCustomValue.Minimum = nudCustomValue.Increment;
             nudCustomValue.Value = CModeGame.modeValue.GetValue();
@@ -599,7 +607,7 @@ namespace RapChessGui
 
         private void cbEditLimitT_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CModeEdit.modeValue.SetLimit(cbEditLimitT.Text);
+            CModeEdit.modeValue.SetLimitType(cbEditLimitT.Text);
             nudEditLimitV.Increment = CModeEdit.modeValue.GetIncrement();
             nudEditLimitV.Minimum = nudEditLimitV.Increment;
             nudEditLimitV.Value = CModeEdit.modeValue.GetValue();

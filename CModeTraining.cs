@@ -57,8 +57,8 @@ namespace RapChessGui
 			FormChess.ini.Write("mode>training>trainedBook", trainedBook);
 			FormChess.ini.Write("mode>training>trainerValue", modeValueTrainer.baseVal);
 			FormChess.ini.Write("mode>training>trainedValue", modeValueTrained.baseVal);
-			FormChess.ini.Write("mode>training>trainerMode", modeValueTrainer.GetLimit());
-			FormChess.ini.Write("mode>training>trainedMode", modeValueTrained.GetLimit());
+			FormChess.ini.Write("mode>training>trainerMode", modeValueTrainer.GetLimitType());
+			FormChess.ini.Write("mode>training>trainedMode", modeValueTrained.GetLimitType());
 			FormChess.ini.Write("mode>training>his", his," ");
 		}
 
@@ -73,8 +73,8 @@ namespace RapChessGui
 			trainedBook = FormChess.ini.Read("mode>training>trainedBook", trainedBook);
 			modeValueTrainer.baseVal = FormChess.ini.ReadInt("mode>training>trainerValue", modeValueTrainer.baseVal);
 			modeValueTrained.baseVal = FormChess.ini.ReadInt("mode>training>trainedValue", modeValueTrained.baseVal);
-			modeValueTrainer.SetLimit(FormChess.ini.Read("mode>training>trainerMode", modeValueTrainer.GetLimit()));
-			modeValueTrained.SetLimit(FormChess.ini.Read("mode>training>trainedMode", modeValueTrained.GetLimit()));
+			modeValueTrainer.SetLimitType(FormChess.ini.Read("mode>training>trainerMode", modeValueTrainer.GetLimitType()));
+			modeValueTrained.SetLimitType(FormChess.ini.Read("mode>training>trainedMode", modeValueTrained.GetLimitType()));
 			his.FromStr(FormChess.ini.Read("mode>training>his", string.Empty));
 		}
 
