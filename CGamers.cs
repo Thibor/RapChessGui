@@ -229,7 +229,7 @@ namespace RapChessGui
             }
         }
 
-        public void NextPahseXb()
+        public void NextPhaseXb()
         {
             if (!gamerEngine.isPreparedUci)
             {
@@ -255,7 +255,7 @@ namespace RapChessGui
 
         public void InitNewGame()
         {
-            phase=0;
+            phase = 0;
             mate = false;
             errorPv = 0;
             gamerBook.Reset();
@@ -304,7 +304,8 @@ namespace RapChessGui
                 {
                     depthCount++;
                     depthTotal += depth;
-                    engine.depth = (engine.depth * 127 + depth) / 128;
+                    if (depthCount < 0x1f)
+                        engine.avgDepth = (engine.avgDepth * 0xfe + depth) / 0xff;
                 }
                 if (nps > 0)
                 {
@@ -390,7 +391,7 @@ namespace RapChessGui
             if (engine.protocol == CProtocol.uci)
                 NextPhaseUci();
             else
-                NextPahseXb();
+                NextPhaseXb();
         }
 
         public int GetRemainingMs()
@@ -604,7 +605,7 @@ namespace RapChessGui
 
         public string GetElo()
         {
-                return $"Elo {player.Elo}";
+            return $"Elo {player.Elo}";
         }
 
         public string GetPlayerName()
@@ -700,7 +701,7 @@ namespace RapChessGui
 
         public int GetMsgPriority()
         {
-            return Math.Max(this[0].msgPriority,this[1].msgPriority);
+            return Math.Max(this[0].msgPriority, this[1].msgPriority);
         }
 
         public CGamer GamerWhite()
@@ -792,7 +793,7 @@ namespace RapChessGui
             FormLogEngines.WriteHeader(GamerWhite(), GamerBlack());
         }
 
-        public void StartAnalysis(string go,string moves)
+        public void StartAnalysis(string go, string moves)
         {
             this[0].arrowColor = Colors.editW;
             this[1].arrowColor = Colors.editB;

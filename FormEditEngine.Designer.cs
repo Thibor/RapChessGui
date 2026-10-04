@@ -30,6 +30,15 @@
 		{
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.tbComment = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tbParameters = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cbFileList = new System.Windows.Forms.ComboBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbFolderList = new System.Windows.Forms.ComboBox();
             this.panOptions = new System.Windows.Forms.Panel();
             this.panButtons = new System.Windows.Forms.Panel();
             this.bDelete = new System.Windows.Forms.Button();
@@ -76,16 +85,12 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.autodetectAllEnginesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearAllEloToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cbFolderList = new System.Windows.Forms.ComboBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.cbFileList = new System.Windows.Forms.ComboBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.tbParameters = new System.Windows.Forms.TextBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.tbComment = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.panButtons.SuspendLayout();
             this.gbFeatures.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -96,17 +101,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.gbEngines.SuspendLayout();
             this.menuStrip2.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.tableLayoutPanel1);
             this.panel1.Controls.Add(this.panOptions);
+            this.panel1.Controls.Add(this.tableLayoutPanel1);
             this.panel1.Controls.Add(this.panButtons);
             this.panel1.Controls.Add(this.gbFeatures);
             this.panel1.Controls.Add(this.groupBox5);
@@ -118,15 +118,118 @@
             this.panel1.Size = new System.Drawing.Size(311, 780);
             this.panel1.TabIndex = 0;
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.groupBox6, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox4, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 364);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(311, 100);
+            this.tableLayoutPanel1.TabIndex = 41;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.AutoSize = true;
+            this.groupBox6.Controls.Add(this.tbComment);
+            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox6.Location = new System.Drawing.Point(158, 53);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(150, 39);
+            this.groupBox6.TabIndex = 44;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Comment";
+            // 
+            // tbComment
+            // 
+            this.tbComment.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tbComment.Location = new System.Drawing.Point(3, 16);
+            this.tbComment.Name = "tbComment";
+            this.tbComment.Size = new System.Drawing.Size(144, 20);
+            this.tbComment.TabIndex = 0;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.AutoSize = true;
+            this.groupBox3.Controls.Add(this.tbParameters);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox3.Location = new System.Drawing.Point(3, 53);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(149, 39);
+            this.groupBox3.TabIndex = 43;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Parameters";
+            // 
+            // tbParameters
+            // 
+            this.tbParameters.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tbParameters.Location = new System.Drawing.Point(3, 16);
+            this.tbParameters.Name = "tbParameters";
+            this.tbParameters.Size = new System.Drawing.Size(143, 20);
+            this.tbParameters.TabIndex = 0;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.AutoSize = true;
+            this.groupBox4.Controls.Add(this.cbFileList);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox4.Location = new System.Drawing.Point(158, 3);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(150, 40);
+            this.groupBox4.TabIndex = 42;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Engine file";
+            // 
+            // cbFileList
+            // 
+            this.cbFileList.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbFileList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFileList.FormattingEnabled = true;
+            this.cbFileList.Location = new System.Drawing.Point(3, 16);
+            this.cbFileList.Name = "cbFileList";
+            this.cbFileList.Size = new System.Drawing.Size(144, 21);
+            this.cbFileList.TabIndex = 2;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.AutoSize = true;
+            this.groupBox2.Controls.Add(this.cbFolderList);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(149, 40);
+            this.groupBox2.TabIndex = 41;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Engine folder";
+            // 
+            // cbFolderList
+            // 
+            this.cbFolderList.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cbFolderList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFolderList.FormattingEnabled = true;
+            this.cbFolderList.Location = new System.Drawing.Point(3, 16);
+            this.cbFolderList.Name = "cbFolderList";
+            this.cbFolderList.Size = new System.Drawing.Size(143, 21);
+            this.cbFolderList.TabIndex = 2;
+            this.cbFolderList.SelectedIndexChanged += new System.EventHandler(this.cbFolderList_SelectedIndexChanged);
+            // 
             // panOptions
             // 
             this.panOptions.AutoScroll = true;
             this.panOptions.AutoSize = true;
             this.panOptions.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panOptions.Location = new System.Drawing.Point(0, 364);
+            this.panOptions.Location = new System.Drawing.Point(0, 464);
             this.panOptions.Name = "panOptions";
-            this.panOptions.Size = new System.Drawing.Size(311, 416);
+            this.panOptions.Size = new System.Drawing.Size(311, 316);
             this.panOptions.TabIndex = 36;
             // 
             // panButtons
@@ -593,109 +696,6 @@
             this.clearAllEloToolStripMenuItem.Text = "Reset all accuracy";
             this.clearAllEloToolStripMenuItem.Click += new System.EventHandler(this.ResetAllAccuracy_Click);
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.groupBox6, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox3, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox4, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 364);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(311, 100);
-            this.tableLayoutPanel1.TabIndex = 41;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.AutoSize = true;
-            this.groupBox2.Controls.Add(this.cbFolderList);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(3, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(149, 40);
-            this.groupBox2.TabIndex = 41;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Engine folder";
-            // 
-            // cbFolderList
-            // 
-            this.cbFolderList.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cbFolderList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFolderList.FormattingEnabled = true;
-            this.cbFolderList.Location = new System.Drawing.Point(3, 16);
-            this.cbFolderList.Name = "cbFolderList";
-            this.cbFolderList.Size = new System.Drawing.Size(143, 21);
-            this.cbFolderList.TabIndex = 2;
-            this.cbFolderList.SelectedIndexChanged += new System.EventHandler(this.cbFolderList_SelectedIndexChanged);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.AutoSize = true;
-            this.groupBox4.Controls.Add(this.cbFileList);
-            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox4.Location = new System.Drawing.Point(158, 3);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(150, 40);
-            this.groupBox4.TabIndex = 42;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Engine file";
-            // 
-            // cbFileList
-            // 
-            this.cbFileList.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cbFileList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFileList.FormattingEnabled = true;
-            this.cbFileList.Location = new System.Drawing.Point(3, 16);
-            this.cbFileList.Name = "cbFileList";
-            this.cbFileList.Size = new System.Drawing.Size(144, 21);
-            this.cbFileList.TabIndex = 2;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.AutoSize = true;
-            this.groupBox3.Controls.Add(this.tbParameters);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Location = new System.Drawing.Point(3, 53);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(149, 39);
-            this.groupBox3.TabIndex = 43;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Parameters";
-            // 
-            // tbParameters
-            // 
-            this.tbParameters.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tbParameters.Location = new System.Drawing.Point(3, 16);
-            this.tbParameters.Name = "tbParameters";
-            this.tbParameters.Size = new System.Drawing.Size(143, 20);
-            this.tbParameters.TabIndex = 0;
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.AutoSize = true;
-            this.groupBox6.Controls.Add(this.tbComment);
-            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox6.Location = new System.Drawing.Point(158, 53);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(150, 39);
-            this.groupBox6.TabIndex = 44;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Comment";
-            // 
-            // tbComment
-            // 
-            this.tbComment.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tbComment.Location = new System.Drawing.Point(3, 16);
-            this.tbComment.Name = "tbComment";
-            this.tbComment.Size = new System.Drawing.Size(144, 20);
-            this.tbComment.TabIndex = 0;
-            // 
             // FormEditEngine
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -715,6 +715,14 @@
             this.Shown += new System.EventHandler(this.FormEngine_Shown);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.panButtons.ResumeLayout(false);
             this.panButtons.PerformLayout();
             this.gbFeatures.ResumeLayout(false);
@@ -730,14 +738,6 @@
             this.gbEngines.ResumeLayout(false);
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

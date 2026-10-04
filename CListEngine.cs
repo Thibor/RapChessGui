@@ -21,7 +21,7 @@ namespace RapChessGui
         public int tournament = 1;
         public int eloMax = 0;
         public int eloOpt = 0;
-        public double depth = 0;
+        public double avgDepth = 0;
         public double nps = 0;
         public string file = Global.none;
         public string folder = Global.none;
@@ -106,7 +106,7 @@ namespace RapChessGui
             options = CListEngine.iniFile.ReadListStr($"engine>{name}>options");
             accuracy = CListEngine.iniFile.ReadDouble($"engine>{name}>accuracy", accuracy);
             test = CListEngine.iniFile.ReadDouble($"engine>{name}>test", test);
-            depth = CListEngine.iniFile.ReadDouble($"engine>{name}>depth", depth);
+            avgDepth = CListEngine.iniFile.ReadDouble($"engine>{name}>depth", avgDepth);
             nps = CListEngine.iniFile.ReadDouble($"engine>{name}>nps", nps);
             DTModification = CListEngine.iniFile.ReadDateTime($"engine>{name}>DT>modification", DTModification);
             DTAccuracy = CListEngine.iniFile.ReadDateTime($"engine>{name}>DT>accuracy", DTAccuracy);
@@ -142,7 +142,7 @@ namespace RapChessGui
             CListEngine.iniFile.Write($"engine>{name}>options", options);
             CListEngine.iniFile.Write($"engine>{name}>accuracy", accuracy);
             CListEngine.iniFile.Write($"engine>{name}>test", test);
-            CListEngine.iniFile.Write($"engine>{name}>depth", depth);
+            CListEngine.iniFile.Write($"engine>{name}>depth", avgDepth);
             CListEngine.iniFile.Write($"engine>{name}>nps", nps);
             CListEngine.iniFile.Write($"engine>{name}>DT>modification", DTModification);
             CListEngine.iniFile.Write($"engine>{name}>DT>accuracy", DTAccuracy);
@@ -169,12 +169,12 @@ namespace RapChessGui
             SaveToIni();
         }
 
-        public void AddGame(bool eMove, bool eTime,bool ePV,bool eDraw)
+        public void AddGame(bool errMove, bool errTime,bool errPV,bool errDraw)
         {
-            this.eMove.AddGame(eMove);
-            this.eTime.AddGame(eTime);
-            ePv.AddGame(ePV);
-            this.eDraw.AddGame(eDraw);
+            eMove.AddGame(errMove);
+            eTime.AddGame(errTime);
+            ePv.AddGame(errPV);
+            eDraw.AddGame(errDraw);
             SaveToIni();
         }
 

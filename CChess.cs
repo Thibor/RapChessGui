@@ -642,6 +642,8 @@ namespace NSChess
                     {
                         case 1:
                             pieceM++;
+                            if (fr < 8 || fr > 55)
+                                break;
                             int del = wt ? -1 : 1;
                             int to = fr + del * 8;
                             if (((board[to] & colorEmpty) > 0) && !onlyAattack)

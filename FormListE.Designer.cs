@@ -46,9 +46,9 @@
             this.columnHeader14 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader15 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader18 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.foldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.columnHeader18 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,7 +83,7 @@
             this.lvEngines.MultiSelect = false;
             this.lvEngines.Name = "lvEngines";
             this.lvEngines.ShowGroups = false;
-            this.lvEngines.Size = new System.Drawing.Size(1505, 426);
+            this.lvEngines.Size = new System.Drawing.Size(1513, 426);
             this.lvEngines.TabIndex = 28;
             this.lvEngines.UseCompatibleStateImageBehavior = false;
             this.lvEngines.View = System.Windows.Forms.View.Details;
@@ -125,7 +125,8 @@
             // 
             // columnHeader8
             // 
-            this.columnHeader8.Text = "Protocol";
+            this.columnHeader8.Text = "Games";
+            this.columnHeader8.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeader8.Width = 80;
             // 
             // columnHeader1
@@ -188,13 +189,18 @@
             this.columnHeader15.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeader15.Width = 100;
             // 
+            // columnHeader18
+            // 
+            this.columnHeader18.Text = "Comment";
+            this.columnHeader18.Width = 100;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.foldersToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1505, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1513, 24);
             this.menuStrip1.TabIndex = 29;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -205,16 +211,11 @@
             this.foldersToolStripMenuItem.Text = "Folders";
             this.foldersToolStripMenuItem.Click += new System.EventHandler(this.foldersToolStripMenuItem_Click);
             // 
-            // columnHeader18
-            // 
-            this.columnHeader18.Text = "Comment";
-            this.columnHeader18.Width = 100;
-            // 
             // FormListE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1505, 450);
+            this.ClientSize = new System.Drawing.Size(1513, 450);
             this.Controls.Add(this.lvEngines);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;

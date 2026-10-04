@@ -81,15 +81,16 @@ namespace RapChessGui
                 Int64 sizeAccuracy = 0;
                 if (size > 0)
                     sizeAccuracy = (accuracy*100000)/size;
-                ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, elo.ToString(), engine.eloOpt.ToString(), accuracy.ToString(), test.ToString(), engine.Protocol, engine.depth.ToString("N2"), engine.nps.ToString("N0"), engine.eMove.Errors().ToString("N2"), engine.ePv.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2"), engine.eDraw.Errors().ToString("N2"), dt.ToString("yyyy-MM-dd"), size.ToString("N0"), sizeAccuracy.ToString(), features.ToString(),engine.comment });
+                int cg = CModeTournamentE.tourList.CountGames(engine.name);
+                ListViewItem lvi = new ListViewItem(new[] { (++index).ToString(), engine.name, elo.ToString(), engine.eloOpt.ToString(), accuracy.ToString(), test.ToString(),cg.ToString(), engine.avgDepth.ToString("N2"), engine.nps.ToString("N0"), engine.eMove.Errors().ToString("N2"), engine.ePv.Errors().ToString("N2"), engine.eTime.Errors().ToString("N2"), engine.eDraw.Errors().ToString("N2"), dt.ToString("yyyy-MM-dd"), size.ToString("N0"), sizeAccuracy.ToString(), features.ToString(),engine.comment });
                 lvEngines.Items.Add(lvi);
             }
+            lvEngines.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void foldersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             formFolderE.ShowDialog(this);
         }
-
     }
 }

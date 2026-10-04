@@ -142,6 +142,7 @@ namespace RapChessGui
             nudCustomValue.Value = FormChess.ini.ReadDecimal("options>mode>custom>value", 1000, def);
             nudTeacherDepth.Value = FormChess.ini.ReadDecimal("options>mode>game>teacher>depth", 15, def);
             cbBottomPlayer.SelectedIndex = FormChess.ini.ReadInt("options>mode>game>bottom", 0, def);
+            cbLevel.SelectedIndex = FormChess.ini.ReadInt("options>mode>game>level", 0, def);
             nudBreak.Value = FormChess.ini.ReadDecimal("options>mode>game>break", 8, def);
 
             CModeMatch.LoadFromIni();
@@ -210,6 +211,7 @@ namespace RapChessGui
             FormChess.ini.Write("options>mode>custom>value", nudCustomValue.Value);
             FormChess.ini.Write("options>mode>game>teacher>depth", nudTeacherDepth.Value);
             FormChess.ini.Write("options>mode>game>bottom", cbBottomPlayer.SelectedIndex);
+            FormChess.ini.Write("options>mode>game>level", cbLevel.SelectedIndex);
             FormChess.ini.Write("options>mode>game>break", nudBreak.Value);
 
             CModeMatch.book1 = cbMatchBook1.Text;
@@ -260,6 +262,10 @@ namespace RapChessGui
             FormChess.ini.Write("options>margin>time", combModeTime.SelectedIndex);
             FormChess.ini.Write("options>priority", combPriority.SelectedIndex);
             FormChess.ini.Write("options>game>userElo", nudUserElo.Value);
+        }
+
+        public int LostValue() {
+            return CHisElo.delta * (3 - cbLevel.SelectedIndex);
         }
 
         public void ResetBooks()

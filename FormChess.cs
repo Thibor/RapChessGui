@@ -950,11 +950,9 @@ namespace RapChessGui
             if (winColor == CColor.none)
                 CGames.draw++;
             CGames.played++;
-            CreateRtf(cbGameMode.Text);
-            CreatePgn();
-            CreateHis();
+            CreateRtf(cbGameMode.Text, true);
             if (gameMode == CGameMode.game)
-                GameEnd(pw, pl, winColor == CColor.none);
+                GameEnd(pw, winColor == CColor.none);
             else
             {
                 if (gameMode == CGameMode.match)
@@ -997,24 +995,24 @@ namespace RapChessGui
             {
                 ePv = gw.errorPv > 0;
                 eDraw = errorDraw && gw.scoreInt != 0;
-                gw.player.engine.AddGame(false, false,ePv, eDraw );
+                gw.player.engine.AddGame(false, false, ePv, eDraw);
             }
             if (gl.IsComputer())
             {
-                eMove= gameState == CGameState.error;
+                eMove = gameState == CGameState.error;
                 eTime = gameState == CGameState.time;
                 ePv = gl.errorPv > 0;
                 eDraw = errorDraw && gl.scoreInt != 0;
                 gl.player.engine.AddGame(eMove, eTime, ePv, eDraw);
             }
-            if(eMove)
-                CreateRtf("error");
+            if (eMove)
+                CreateRtf("error", false);
             if (eTime)
-                CreateRtf("time");
+                CreateRtf("time", false);
             if (ePv)
-                CreateRtf("pv");
+                CreateRtf("pv", false);
             if (eDraw)
-                CreateRtf("draw");
+                CreateRtf("draw", false);
             Text = CGames.Text;
             if (gw.player.BookName != gl.player.BookName)
             {
@@ -1294,30 +1292,31 @@ namespace RapChessGui
             }
         }
 
-        void CreateRtf(string fn)
+        void CreateRtf(string fn, bool addPgn)
         {
             FormLogEngines.Save($"History\\{fn}.rtf");
-        }
-
-        void CreateHis()
-        {
-            if (gameState == CGameState.error)
-                history.SaveToFile(@"History\error.his");
-            else if (gameState == CGameState.time)
-                history.SaveToFile(@"History\time.his");
-            else
-                history.SaveToFile($@"History\{cbGameMode.Text}.his");
+            history.SaveToFile($@"History\{fn}.his");
+            CreatePgn(cbGameMode.Text, addPgn);
         }
 
         void CreatePgn(string fn, List<string> sl = null)
         {
-            if (sl == null)
-                File.WriteAllText($@"History\{fn}.pgn", formLogGames.textBox.Text);
-            else
-                File.WriteAllLines($@"History\{fn}.pgn", sl);
+            File.WriteAllLines($@"History\{fn}.pgn", sl);
         }
 
-        void CreatePgn()
+        void AddPgn(List<string> list)
+        {
+            EPgn ep = new EPgn();
+            foreach (string line in list)
+                ep.AddLine(line);
+            PgnList pgn = new PgnList();
+            string fn = @"History\last.pgn";
+            pgn.LoadFromFile(fn);
+            pgn.Insert(0, ep);
+            pgn.SaveToFile(fn, 32);
+        }
+
+        void CreatePgn(string name, bool addPgn)
         {
             if (history.fen != CChess.defFen)
                 return;
@@ -1343,20 +1342,9 @@ namespace RapChessGui
             foreach (String s in list)
                 formLogGames.textBox.Text += $"{s}\r\n";
             formLogGames.textBox.Select(0, 0);
-            if (gameState == CGameState.error)
-                CreatePgn("error", list);
-            else if (gameState == CGameState.time)
-                CreatePgn("time", list);
-            else
-                CreatePgn(cbGameMode.Text);
-            EPgn ep = new EPgn();
-            foreach (string line in list)
-                ep.AddLine(line);
-            PgnList pgn = new PgnList();
-            string fn = @"History\last.pgn";
-            pgn.LoadFromFile(fn);
-            pgn.Insert(0, ep);
-            pgn.SaveToFile(fn, 32);
+            CreatePgn(name, list);
+            if (addPgn)
+                AddPgn(list);
         }
 
         void SetMode(CGameMode mode)
@@ -1410,7 +1398,7 @@ namespace RapChessGui
 
         bool IsGameRanked()
         {
-            return (formOptions.cbGameRanked.Checked && formOptions.cbGameOpponent.Text == "Auto") &&  (gameMode == CGameMode.game);
+            return (formOptions.cbGameRanked.Checked && formOptions.cbGameOpponent.Text == "Auto") && (gameMode == CGameMode.game);
         }
 
         void SetUnranked()
@@ -1470,7 +1458,7 @@ namespace RapChessGui
             if (CModeGame.finished)
                 return false;
             CHisElo history = game.history;
-            history.Lost();
+            history.Lost(formOptions.LostValue());
             int oe = history.Penultimate();
             int ne = history.Last();
             ShowInfo($"Yours new elo is {ne} ({ne - oe})", Color.Red);
@@ -2109,32 +2097,16 @@ namespace RapChessGui
             GameStart();
         }
 
-        void GameEnd(CPlayer pw, CPlayer pl, bool isDraw)
+        void GameEnd(CPlayer pw, bool isDraw)
         {
             if (!IsGameRanked())
                 return;
-            if(isDraw)
+            if (isDraw)
                 game.history.Draw();
-            else if(pw.IsHuman())
+            else if (pw.IsHuman())
                 game.history.Win();
             else
-                game.history.Lost();
-            /*if (pw.IsHuman())
-            {
-                if (isDraw)
-                    pw.history.Draw();
-                else
-                    pw.history.Win();
-                //pw.Elo = pw.history.Last();
-            }
-            if (pl.IsHuman())
-            {
-                if (isDraw)
-                    pl.history.Draw();
-                else
-                    pl.history.Lost();
-                //pl.Elo = pl.history.Last();
-            }*/
+                game.history.Lost(formOptions.LostValue());
             CModeGame.finished = true;
             CModeGame.rotate = !CModeGame.rotate;
             game.SaveToIni(ini);
@@ -2498,7 +2470,7 @@ namespace RapChessGui
                 return;
             }
             pbTourE.Maximum = (int)formOptions.nudTourERec.Value;
-            pbTourE.Value = Math.Min(CModeTournamentE.tourList.Count,pbTourE.Maximum);
+            pbTourE.Value = Math.Min(CModeTournamentE.tourList.Count, pbTourE.Maximum);
             NewGame();
             TournamentEUpdate(CModeTournamentE.engWin);
             TournamentEUpdate(CModeTournamentE.engLoose);
@@ -2656,7 +2628,7 @@ namespace RapChessGui
         void TournamentPSelect()
         {
             ListViewItem lv = lvTourPList.TopItem;
-            if(lv == null)
+            if (lv == null)
                 return;
             int del = lv.Bounds.Top;
             foreach (ListViewItem lvi in lvTourPList.Items)
@@ -2688,7 +2660,7 @@ namespace RapChessGui
                 return;
             }
             pbTourP.Maximum = (int)formOptions.nudTourPRec.Value;
-            pbTourP.Value = Math.Min(CModeTournamentP.tourList.Count,pbTourP.Maximum);
+            pbTourP.Value = Math.Min(CModeTournamentP.tourList.Count, pbTourP.Maximum);
             NewGame();
             TournamentPUpdate(CModeTournamentP.plaWin);
             TournamentPUpdate(CModeTournamentP.plaLoose);
@@ -3011,6 +2983,8 @@ namespace RapChessGui
             bAnalysis.BackColor = Color.LightGreen;
             lvMovesW.Items.Clear();
             lvMovesB.Items.Clear();
+            board.ClearMarks();
+            chess.SetFen(CModeEdit.fen);
             CModeEdit.fen = chess.GetFen();
             EditStart();
             TryAddFen(CModeEdit.fen);
